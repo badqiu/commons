@@ -1,0 +1,183 @@
+ ------
+ Introduction
+ ------
+邱百超
+ ------
+ 2012-10-31
+ ------
+ 
+Profiler
+ 
+* Target
+
+  	打印系统的性能分析日志，用于分析系统性能
+
+* 一.maven依赖
+ 
++---+
+<dependency>
+	<groupId>com.duowan.common</groupId>
+	<artifactId>duowan-common-log</artifactId>
+	<version>1.0.5</version>
+</dependency>
+<dependency>
+	<groupId>com.duowan.common</groupId>
+	<artifactId>duowan-common-util</artifactId>
+	<version>1.0.8</version>
+</dependency>
++---+
+
+* 二.配置 
+
+** 1.web.xml filter配置 
+
+  	拦截需要性能分析的URL,被拦截的方法启动子任务分析:start(requestURI),release()
+  	
++---+
+	<!-- Profiler性能分析Filter -->
+	<filter>
+		<filter-name>ProfilerLoggerFilter</filter-name>
+		<filter-class>com.duowan.common.log.filter.ProfilerLoggerFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ProfilerLoggerFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
++---+
+
+*** 2.spring方法拦截器配置 
+拦截需要性能分析的方法及类,被拦截的方法启动子任务分析:enter(),release()
++---+
+	<bean id="profiledAnnotationPointcutAdvisor" class="com.duowan.common.log.aop.ProfiledAnnotationPointcutAdvisor"/>
+	
+	<!-- 拦截有@Profiled标注的类或者方法 -->
+ 	<bean id="bean" class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+ 		<property name="proxyTargetClass" value="true"/>
+ 		<property name="interceptorNames">
+ 			<value>profiledAnnotationPointcutAdvisor</value>
+ 		</property>
+ 		<property name="beanNames">
+ 			<list>
+ 				<value>userGameServerDao</value>
+ 				<value>userGameServerService</value>
+ 			</list>
+ 		</property>
+ 	</bean>
++---+
+
+
+** 三.日志打印结果 
+*** 1. 日志打印位置 
++---+
+# DWPROJECTNO是环境变量中的配置，profilerLogDir整个配置可以通过System.properties覆盖
+profilerLogDir=/data2/log/${DWPROJECTNO}/
++---+
+
+*** 2. digest-profiler.log 
++---+
+#动作时间，耗时(单位毫秒)，动作ID，成功标志(Y为成功，其它为错误)，循环执行次数(loopCount),方法执行结果(resultSize),clientIp
+2012-10-16 00:06:20.586,0,UserGameServerBatchCallback|userDataBatchUpdater.init|saveUserGameServerList,Y,1,0,
+2012-10-16 00:06:20.591,0,UserGameServerBatchCallback|userDataBatchUpdater.init|saveUserGameServerList,Y,1,0,
+2012-10-16 00:06:20.613,0,UserGameServerBatchCallback|userDataBatchUpdater.init|saveUserGameServerList,Y,10,0,
+2012-10-16 00:06:20.63,1,UserGameServerBatchCallback|userDataBatchUpdater.init|saveUserGameServerList,Y,13,0,
+2012-10-16 00:06:20.642,0,UserGameServerBatchCallback|userDataBatchUpdater.init|saveUserGameServerList,Y,2,0,
+2012-10-16 00:06:20.659,1,UserGameServerBatchCallback|userDataBatchUpdater.init|saveUserGameServerList,Y,16,0,
+2012-10-16 00:06:20.696,0,UserGameServerBatchCallback|userDataBatchUpdater.init|saveUserGameServerList,Y,1,0,
++---+
+
+
+*** 3. dump-profiler.log 
++---+
+[totalCost:25,555ms (selfCost:25,543ms), all:100% start:0ms ] - UserBatchCallback
++---[totalCost:7ms, parent:0%, all:0%, loopCount:10,000, TPS:1,428,571 start:25,543ms ] - userDataBatchUpdater.init
++---[totalCost:4ms, parent:0%, all:0%, loopCount:10,000, TPS:2,500,000 start:25,550ms ] - UserBatchCallback.loopProcessVisitable
+`---[totalCost:1ms, parent:0%, all:0%, loopCount:7,691, TPS:7,691,000 start:25,554ms ] - UserBatchCallback.flush
++---+
+
+''' 字段含义'''
++---+
+ * totalCost: 	当前任务总耗时
+ * selfCost: 	当前耗时,将子任务耗时拿开
+ * parent: 		在父任务中所占的耗时比重
+ * all: 		在整个任务中所占的耗时比重
+ * start: 		任务开始至现在的开始时间
+ * loopCount:   循环变量,用于计算TPS(每秒事务处理量Transaction Per Second)
+ * TPS: 		每秒事务处理量Transaction Per Second
+ * resultSize:  方法执行的结果集大小
++---+
+
+* 四. API使用
+
+** 1.最简使用 
+
++---+
+import com.duowan.common.util.Profiler;
+
+@Test
+public void test_simple_loop() {
+	int loopCount = 1000000000;
+	Profiler.start("test_simple_loop",loopCount); //开始计时
+	for(int i = 0; i < loopCount; i++) {
+		int a = i * 100;
+	}
+	Profiler.release(); //结束计时
+	
+	Profiler.printDump(); //打印日志至控制台
+}
++---+
+
+'''Profiler.printDump();打印结果'''
++---+
+[totalCost:1,750ms, all:100%, loopCount:1,000,000,000, TPS:571,428,571 start:0ms ] - test_simple_loop
++---+
+
+* 2. 子任务的性能分析 
+
++---+
+
+@Test
+public void test_loop() {
+	int loopCount = 1000000000;
+	Profiler.start("test_loop_a*100",loopCount); //开始计时
+	for(int i = 0; i < loopCount; i++) {
+		int a = i * 100;
+	}
+	
+	testThrowException();	//调用子任务	
+	
+	Profiler.release(); //结束计时
+	
+	Profiler.printDump(); //打印日志至控制台
+	
+}
+
+private void testThrowException() {
+	int loopCount = 1000000;
+	Profiler.enter("test_throw_exception",loopCount);  //进入:子任务计时,如果没有Profiler.start() 该方法将不执行计时操作，不会耗费性能
+	for(int i = 0; i < loopCount; i++) {
+		try {
+			throw new RuntimeException();
+		}catch(Exception e){
+		}
+	}
+	Profiler.release(); //结束:子任务计时
+}
+	
++---+
+
+'''Profiler.printDump();打印结果'''
+
++---+
+[totalCost:4,079ms (selfCost:1,422ms), all:100%, loopCount:1,000,000,000, TPS:703,234,880 start:0ms ] - test_loop_a*100
+`---[totalCost:2,657ms, parent:65.1%, all:65.1%, loopCount:1,000,000, TPS:376,364 start:1,422ms ] - test_throw_exception
++---+
+
+* 日志打印API 
+'''ProfilerLogger.infoDigestLogAndDump();打印结果'''
+通过这个打印可以打印在日志文件中: digest-profiler.log, dump-profiler.log
+
++---+
+2012-10-16 00:06:20.586,4079,test_loop_a*100,Y,0,0,
+2012-10-16 00:06:20.591,2657,test_loop_a*100|test_throw_exception,Y,0,0,
++---+
+

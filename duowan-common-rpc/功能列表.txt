@@ -1,0 +1,55 @@
+
+1.协议设计,协议参考: json-rpc
+	请求: 
+		顺序参数调用: /rpc/BlogService/userInfoMethod?__id=123&__params=1,2,3,4,5
+		命名参数调用: /rpc/BlogService/userInfoMethod?__id=123&username=123&password=456
+		
+	请求参数含义:
+		__id : 请求ID，用于异步调用使用，跟response对应起来
+		__params : 无序的命名参数调用
+		__format : xml,json
+	
+	json格式数据 :
+		{
+			errno : "errno",
+			error : "error",
+			params : ""
+			requestId : "请求ID，用于在服务器端查询日志使用,or traceId"
+			result : "resultObject",
+		}
+
+	xml格式数据:
+		<ret>
+			<errno>1</errno>
+			<error>错误信息</error>
+			<params>请求参数</params>
+			<result>
+			    <page></page>
+			    <user></user>
+			</result>
+		</ret>
+
+2.特性设计
+	支持压缩传输
+	支持在列表页面查看所有暴露的方法
+	支持生成Java,C++,C#等的方法调用
+	支持方法访问权限控制(http username,password; 基于签名的摘要)
+	# 支持MDC
+	支持原始异常传递至客户端(谭导要求特性)
+	# IE下载时不要弹出下载筐
+	# 提供方法得到request,response
+	通过 heartbeat 实现 fastfail
+	
+
+修复:
+#1. 同一个service只能暴露同一个方法名称一次
+#2. 参数必须转义,
+3. 日期参数的格式可以由客户端指定,如 timestamp,yyyyMMddHHmmssSSS
+#4. 如果errorNo是数字，则修改HTTP 错误码，如果是字符串，则返回500
+#5. 逗号与分号互换
+6. IP,密码，签名参数验证限制,OAuth,提供接口以便外部系统提供密钥
+#7. 使用JSON传递参数,如增加一个协议格式, __protocol=json (RPC通过严格的格式以传递参数,如使用json)
+8. MethodInvoker应该使用 serviceInterface的方式发布方法调用
+#9. 增加timeout设置			
+# 增加网络异常重试,通过属性retryIntervals=1,3,10,30,60
+		

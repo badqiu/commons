@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appender name="YY" class="com.duowan.common.log.logback.YYGroupAppender">
+		<encoder>UTF-8</encoder>
+		<!-- 群号,找匡冬杰申请 -->
+		<groupId>18847324</groupId>
+		<!-- 小组号,如果没有,不用设置 -->
+		<folderId>24612498</folderId>
+		<!-- yy message server -->
+		<yyMsgServerHost>101.226.185.11</yyMsgServerHost>
+		<yyMsgServerPort>54321</yyMsgServerPort>
+		
+		<!-- YY群中发信息人的昵称 -->
+		<nickName>YY群信息告警</nickName>
+		
+		<!-- 发送日志最低级别,如果不配置或者配置错误,则为DEBUG级别 -->
+		<threshold>WARN</threshold>
+		<!-- 触发环境 -->
+		<activeByEnvExpr>DWENV:dev</activeByEnvExpr>
+		<!-- 上班时用YY群信息,多个用英文分号隔开 -->
+		<crons>0 */20 9-18 * * 1-5</crons>
+		<!-- 最小发送间隔,单位秒,优先crons -->
+		<intervalSeconds>1200</intervalSeconds>
+	</appender>
+	
+	<appender name="SMS" class="com.duowan.common.log.logback.SmsAppender">
+		<encoder>UTF-8</encoder>
+		<!-- 多个手机号码用英文逗号分开 -->
+		<phones>15919178983</phones>
+		
+		<threshold>WARN</threshold>
+		<activeByEnvExpr>DWENV:dev</activeByEnvExpr>
+		<crons>0 */20 19-23 * * 1-5</crons>
+		<intervalSeconds>1200</intervalSeconds>
+	</appender>
+	
+	<appender name="SMTP" class="com.duowan.common.log.logback.SMTPAppender">
+		<encoder>UTF-8</encoder>
+		<subject>XX系统告警邮件</subject>
+		<!-- 多个邮箱地址用英文逗号分开 -->
+		<emails>chenming@yy.com</emails>
+		
+		<threshold>WARN</threshold>
+		<activeByEnvExpr>DWENV:dev</activeByEnvExpr>
+		<!-- 邮件周一至周五,晚上收;周未,全天收 -->
+		<crons>0 */20 0-8 * * 1-5;* */20 * * * 6-7</crons>
+		<intervalSeconds>1200</intervalSeconds>
+	</appender>
+	
+	<root level="INFO">
+		<appender-ref ref="YY" />
+		<appender-ref ref="SMS" /> 
+		<appender-ref ref="SMTP" />
+	</root>
+</configuration>

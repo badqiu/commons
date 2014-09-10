@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="${project.name}">
+	<bannerLeft>
+		<name>${project.artifactId}(${project.name})</name>
+		<href>index.html</href>
+	</bannerLeft>
+	<body>
+		<breadcrumbs>
+			<item name="向上" href="../index.html" />
+		</breadcrumbs>
+		<menu name="概述">
+            <item name="Introduction" href="/index.html" />
+        </menu>
+		${reports}
+	</body>
+</project>
+

@@ -1,0 +1,69 @@
+This project is focused on building a comprehensive benchmark for comparing the time and space efficiency of open source compression codecs on the JVM platform. Codecs to include need to be accessible from Java (and thereby from any JVM language) via either pure Java interface or JNI; and need to support either basic block mode (byte array in, byte array out), or streaming code (InputStream in, OutputStream out).
+
+Benchmark suite is based on Japex framework.
+
+In addition to the benchmark itself, we also provide access to a set of benchmark results, which can be used for an overview of the general performance patterns for standard test suites. It is recommended, however, to run the tests yourself since the results vary depending on the platform. In addition, to get a more accurate understanding of how results apply to your use case(s), the best thing to do is to collect a specific set of test data that reflects your usage, and run the tests using that data.
+
+Codecs included
+Currently the following codecs are included in the distribution:
+
+LZF (block and streaming modes) - 0.8.4
+QuickLZ (block mode)
+Gzip: JDK, JCraft (streaming mode)
+Bzip2 from commons-compression (streaming mode)
+Snappy:
+Snappy-Java (Java JNI wrapper over native Snappy) (block mode tested, streaming available)
+Snappy by Iq80 (Pure Java implementation) (block and streaming modes)
+LZMA:
+LZMA by 7zip by 7zip (block mode)
+note: due to API impedance, full buffering is done; so implementation is bit sub-optimal. However, since this is a slow algorithm/codec (relatively speaking), its effects should not be drastic.
+LZMA-java (streaming)
+LZO-java (streaming, may add block)
+note: not the 'original' codec by Oberhumer, as it only has Java decompressor
+Since there are two basic compression modes (block mode, streaming mode), there are either one or two tests per codec.
+
+In addition to the codecs included, we are aware of other JVM codecs that we can not yet support (due to API or licensing); as well as codecs for which a JVM-accessible version may be forthcoming. These include
+
+FastLZ: no Java version
+To access the source, just clone project: https://github.com/ning/jvm-compressor-benchmark
+
+To participate in discussions of benchmark suite, results, and other things related to compression performance, please join our discussion group
+
+Test data sets
+
+Test data used
+We have tried to make use of existing de-facto standard test suites, including:
+
+Calgary corpus: 18 test files from
+Canterbury corpus: 11 test files
+Maximum Compression: 10 test files
+QuickLZ: 5 test files ("NotTheMusic.mp4" was left out as pathological case which skews decompress speed; and is already covered by samples in other data sets)
+Results
+
+Here are some example results we have collected, to give an idea of what kind of performance to expect. Tests were run as single-threaded test on 2.5 GHz mini-Mac.
+
+Beyond data sets (implied by name), there are 3 sets of results:
+
+Compress tests compression speed
+Uncompress tests uncompression speed
+Rountrip tests compress-then-uncompress ("roundtrip") performance
+so that you can choose kind of testing that is closest to your operation (since some systems only compress or uncompress data; whereas others do both)
+
+NOTE: although the measurements have "TPS" in them, the actual unit for second bar is "MB/sec"; this is an annoying Japex issue. "Size %" is correct, and indicates that the other measurement is for relative size of compressed result compared to original file size.
+
+Calgary corpus: (updated: 2011-11-24)
+Compress
+Uncompress
+Roundtrip
+Canterbury corpus: (updated: 2011-11-24)
+Compress
+Uncompress
+Roundtrip
+Maximum compress: (updated: 2011-11-24)
+Compress
+Uncompress
+Roundtrip
+QuickLZ: (updated: 2011-11-24)
+Compress
+Uncompress
+Roundtrip

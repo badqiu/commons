@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
+	   default-autowire="byName" default-lazy-init="false">
+	   
+	<bean id="profiledAnnotationPointcutAdvisor" class="com.duowan.common.log.aop.ProfiledAnnotationPointcutAdvisor"/>
+	
+ 	<bean id="bean" class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+ 		<property name="proxyTargetClass" value="true"/>
+ 		<property name="interceptorNames">
+ 			<value>profiledAnnotationPointcutAdvisor</value>
+ 		</property>
+ 		<property name="beanNames">
+ 			<list>
+ 				<value>*Server</value>
+ 				<value>*Dao</value>
+ 				<value>*Service</value>
+ 			</list>
+ 		</property>
+ 	</bean>
+ 	
+ 	<bean id="blogServer" class="com.duowan.common.log.aop.BlogServer"></bean>
+ 	<bean id="annotaionClassBlogServer" class="com.duowan.common.log.aop.AnnotaionClassBlogServer"></bean>
+ 	
+</beans>

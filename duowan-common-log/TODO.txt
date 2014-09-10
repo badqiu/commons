@@ -1,0 +1,17 @@
+
+
+# 1. 支持自定义摘要日志数据（附加数据）
+# 2. 支持得到客户端IP
+# 3. 支持Logger MDC
+4. 通过参数控制dwenv=perf控制是否要打印日志
+5. 摘要日志如果循环执行的是同一个message,进行使用操作
+6. 提供exceptionCount
+7. 发生exception时，loopCount,resultSize应该为0 
+# 8. 提供拦截器使用示例
+# 9. @Profiled
+	# a) 只拦截标注的Class,Method
+	# b) @Profiled使用于Class标识要拦截所有方法
+	# c) message可以采用String.format
+# 10. 自定义ErrorCode打印
+11. 增加traceId打印
+# 12. 自定义Filter的requestURI
