@@ -17,6 +17,8 @@
 		<module>duowan-common-test</module>
 		<module>duowan-common-util</module>
 		<module>duowan-common-rpc</module>
+		<module>duowan-common-log</module>
+		<module>duowan-common-redis</module>
 	</modules>
 		
 
