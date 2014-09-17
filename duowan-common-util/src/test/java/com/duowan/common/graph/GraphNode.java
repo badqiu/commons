@@ -1,6 +1,8 @@
 package com.duowan.common.graph;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -22,11 +24,11 @@ public class GraphNode <T>{
 	/**
 	 * 根据depends,计算得到,当前Node所有的孩子
 	 */
-	private Set<T> childs = new HashSet<T>();
+	private List<T> childs = new ArrayList<T>();
 	/**
 	 * 根据depends,计算得到,当前Node所有的父亲
 	 */
-	private Set<T> parents = new HashSet<T>();
+	private List<T> parents = new ArrayList<T>();
 
 	public GraphNode() {
 	}
@@ -58,28 +60,30 @@ public class GraphNode <T>{
 		this.graphNodeId = id;
 	}
 
-	public Set<T> getChilds() {
+	public List<T> getChilds() {
 		return childs;
 	}
 
-	public void setChilds(Set<T> childs) {
+	public void setChilds(List<T> childs) {
 		this.childs = childs;
 	}
 
-	public Set<T> getParents() {
+	public List<T> getParents() {
 		return parents;
 	}
 
-	public void setParents(Set<T> parents) {
+	public void setParents(List<T> parents) {
 		this.parents = parents;
 	}
 
 	public void addChild(T child) {
-		childs.add(child);
+		if(!childs.contains(child))
+			childs.add(child);
 	}
 
 	public void addParent(T parent) {
-		parents.add(parent);
+		if(!parents.contains(parent))
+			parents.add(parent);
 	}
 
 	@Override
