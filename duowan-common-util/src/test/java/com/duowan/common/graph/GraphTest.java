@@ -3,6 +3,7 @@ package com.duowan.common.graph;
 import java.util.Collection;
 
 import org.junit.Test;
+import org.springframework.util.Assert;
 
 public class GraphTest {
 
@@ -14,6 +15,8 @@ public class GraphTest {
 			graph.addNode(new GraphNode("demo_"+i,"start"));
 		}
 		graph.init();
+		
+		Assert.notEmpty(graph.getEdges());
 		
 		printNodes(graph.getNoDependNodes(),"");
 		for(GraphNode n : graph.getNoDependNodes()) {

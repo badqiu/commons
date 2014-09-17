@@ -101,5 +101,7 @@ public class Graph <T extends GraphNode>{
 		GraphNode endNode = getRequiredNode(edge.getEnd());
 		beginNode.addChild(endNode);
 		endNode.addParent(beginNode);
+		
+		edges.add(edge);
 	}
 }
