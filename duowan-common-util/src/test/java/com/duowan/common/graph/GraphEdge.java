@@ -1,20 +1,21 @@
 package com.duowan.common.graph;
 
-
 /**
  * 代表图的边,有方向
  * 
  * @author badqiu
- *
+ * 
  */
 public class GraphEdge {
 
 	private String begin;
 	private String end;
 
-	public GraphEdge(){
-	}
+//	private int value;
 	
+	public GraphEdge() {
+	}
+
 	public GraphEdge(String begin, String end) {
 		super();
 		this.begin = begin;

@@ -51,7 +51,7 @@ public class JVMUtil {
 			FileOutputStream output = new FileOutputStream(file);
 			FileLock fileLock = output.getChannel().tryLock();
 			if(fileLock == null) {
-				logger.warn("文件:'"+file+"'已经被lock,进程已经启动,系统将退出");
+				logger.info("文件:'"+file+"'已经被lock,进程已经启动,系统将退出");
 				System.exit(1);
 			}
 			

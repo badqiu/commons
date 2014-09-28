@@ -67,7 +67,8 @@ public class Graph <T extends GraphNode>{
 	}
 	
 	public void addNode(T n) {
-		nodes.add(n);
+		if(!nodes.contains(n)) 
+			nodes.add(n);
 	}
 	
 	/**
@@ -84,6 +85,11 @@ public class Graph <T extends GraphNode>{
 		return result;
 	}
 	
+	/**
+	 * 增加依赖
+	 * @param id
+	 * @param depends
+	 */
 	private void addDepends(String id,String depends) {
 		if(StringUtils.isBlank(depends)) {
 			return;
@@ -96,12 +102,20 @@ public class Graph <T extends GraphNode>{
 		}
 	}
 	
-	private void addEdge(GraphEdge edge) {
+	/**
+	 * 增加图的边
+	 * @param id
+	 * @param depends
+	 */
+	public void addEdge(GraphEdge edge) {
+		if(edges.contains(edge)) {
+			return;
+		}
+		
 		GraphNode beginNode = getRequiredNode(edge.getBegin());
 		GraphNode endNode = getRequiredNode(edge.getEnd());
 		beginNode.addChild(endNode);
 		endNode.addParent(beginNode);
-		
 		edges.add(edge);
 	}
 }

@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.FastDateFormat;
 /**
  * @author badqiu
  */
@@ -35,7 +36,7 @@ public class DateConvertUtils {
 	public static String format(java.util.Date date,String dateFormat) {
 		 if(date == null)
 			 return null;
-		 return new SimpleDateFormat(dateFormat).format(date);
+		 return FastDateFormat.getInstance(dateFormat).format(date);
 	}
 	
 	/**
