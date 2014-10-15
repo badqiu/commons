@@ -5,7 +5,7 @@
 	<artifactId>duowan-common-rpc</artifactId>
 	<name>duowan-common-rpc</name>
 	<packaging>jar</packaging>
-	<version>1.1.6</version>	
+	<version>1.1.7</version>	
 
 	<description>duowan-common-rpc core libs</description>
 	
@@ -318,6 +318,13 @@
 			     <artifactId>fastjson</artifactId>
 			     <version>1.1.31</version>
 			     <scope>test</scope>
+			</dependency>
+			
+			<dependency>
+			    <groupId>com.caucho</groupId>
+			    <artifactId>hessian</artifactId>
+			    <version>4.0.38</version>
+			    <scope>test</scope>
 			</dependency>
 			
 			<!-- kryo ser/dser -->

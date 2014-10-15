@@ -30,8 +30,9 @@ public class HttpRPCClientInterceptor extends RemoteAccessor implements MethodIn
 
 	private HttpInvokerRequestExecutor httpInvokerRequestExecutor;
 
-	private int[] retryIntervalSeconds = null;
+//	private int[] retryIntervalSeconds = null;
 
+	private int[] retryIntervalMills = null;
 	/**
 	 * Set the HttpInvokerRequestExecutor implementation to use for executing
 	 * remote invocations.
@@ -46,9 +47,17 @@ public class HttpRPCClientInterceptor extends RemoteAccessor implements MethodIn
 	}
 	
 	public void setRetryIntervalSeconds(int[] retryIntervalSeconds) {
-		this.retryIntervalSeconds = retryIntervalSeconds;
+		int[] mills = new int[retryIntervalSeconds.length];
+		for(int i = 0; i < retryIntervalSeconds.length; i++) {
+			mills[i] = retryIntervalSeconds[i] * 1000;
+		}
+		setRetryIntervalMills(mills);
 	}
 
+	public void setRetryIntervalMills(int[] retryIntervalMills) {
+		this.retryIntervalMills = retryIntervalMills;
+	}
+	
 	private static boolean isHttpClientAvaiable = false;
 	static {
 		try {
@@ -82,7 +91,7 @@ public class HttpRPCClientInterceptor extends RemoteAccessor implements MethodIn
 	public void afterPropertiesSet() {
 		// Eagerly initialize the default HttpInvokerRequestExecutor, if needed.
 		getHttpInvokerRequestExecutor();
-		logger.info("remote webservice serviceUrl:"+getServiceUrl()+" retryIntervalSeconds:"+Arrays.toString(retryIntervalSeconds));
+		logger.info("remote webservice serviceUrl:"+getServiceUrl()+" retryIntervalMills:"+Arrays.toString(retryIntervalMills));
 	}
 
 	public Object invoke(final MethodInvocation methodInvocation) throws Throwable {
@@ -165,16 +174,16 @@ public class HttpRPCClientInterceptor extends RemoteAccessor implements MethodIn
 
 	protected InputStream retryIfErrorOnExecuteRequest(
 			RPCRequest invocation, MethodInvocation originalInvocation) throws Exception {
-		if(retryIntervalSeconds  == null) {
+		if(retryIntervalMills  == null) {
 			return executeRequest(invocation, originalInvocation);
 		}else {
 			IOException lastException = null;
-			for(int i = 0; i < retryIntervalSeconds .length; i++) {
+			for(int i = 0; i < retryIntervalMills .length; i++) {
 				try {
 					return executeRequest(invocation, originalInvocation);
 				}catch(IOException e) {
-					logger.error("sleep "+retryIntervalSeconds[i]+" second,retry times:"+i+"occer exception when invode remote webservice call:"+getServiceUrl()+"/"+originalInvocation.getMethod().getName(),e);
-					Thread.sleep(retryIntervalSeconds[i] * 1000);
+					logger.warn("sleep "+retryIntervalMills[i]+" mills,retry times:"+i+"occer exception when invode remote webservice call:"+getServiceUrl()+"/"+originalInvocation.getMethod().getName(),e);
+					Thread.sleep(retryIntervalMills[i]);
 					lastException = e;
 				}
 			}

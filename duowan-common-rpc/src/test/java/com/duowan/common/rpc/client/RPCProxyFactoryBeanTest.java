@@ -170,7 +170,7 @@ public class RPCProxyFactoryBeanTest extends BaseClientTestCase{
 	@Test
 	public void test_performance() throws InvocationTargetException, NoSuchMethodException, Exception {
 		long start = System.currentTimeMillis();
-		float count = 100;
+		float count = 1000;
 		for(int i = 0; i < count; i++) {
 //			test_ListMapResult();
 			blogInfoService.findBlogList("key");

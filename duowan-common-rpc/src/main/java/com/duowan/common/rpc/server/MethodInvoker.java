@@ -1,5 +1,6 @@
 package com.duowan.common.rpc.server;
 
+import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
@@ -33,6 +34,7 @@ import org.codehaus.jackson.map.DeserializationConfig.Feature;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.type.TypeFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.core.ParameterNameDiscoverer;
@@ -333,7 +335,7 @@ public class MethodInvoker {
 				map = params;
 			}
 			
-			FastBeanUtil.copyProperties(result,map); //TODO 性能需要提升
+			FastBeanUtil.copyProperties(deserializationMap(map,parameterType),result); //TODO 性能需要提升
 			return result;
 		}
 		
@@ -342,6 +344,19 @@ public class MethodInvoker {
 		}
 		
 		throw new IllegalArgumentException("cannot convert value:"+value+" to targetType:"+parameterType);
+	}
+
+	private Map deserializationMap(Map map, Class<?> targetType) throws InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchMethodException {
+		Map result = new HashMap();
+		PropertyDescriptor[] targetPds = BeanUtils.getPropertyDescriptors(targetType);
+		for(PropertyDescriptor pd : targetPds) {
+			if (pd.getWriteMethod() != null) {
+				String stringValue = (String)map.get(pd.getName());
+				Object value = deserializeParameterValue(pd.getPropertyType(), stringValue, map);
+				result.put(pd.getName(), value);
+			}
+		}
+		return result;
 	}
 
 	/**

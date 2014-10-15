@@ -143,7 +143,7 @@ public class MethodInvokerTest extends Assert{
 		params.put("charValue", "1");
 		
 		String string = (String)invoker.invoke("userWebService", "singleBlog", params);
-		assertEquals(string,"Blog [id=null, charValue=1, character=null, byteValue=0, byteObject=0, shortValue=0, shortObject=null, intValue=0, integer=null, longValue=0, longObject=null, doubleValue=0.0, doubleObject=null, floatValue=0.0, floatObject=null, bigDecimal=null, bigInteger=null, date=Thu Jan 01 23:59:59 CST 1998, sqlDate=2000-01-01, sqlTime=23:59:59, timestamp=1999-01-01 23:59:59.888]");
+		assertEquals(string,"Blog [id=null, charValue=1, character=null, byteValue=0, byteObject=null, shortValue=0, shortObject=null, intValue=0, integer=null, longValue=0, longObject=null, doubleValue=0.0, doubleObject=null, floatValue=0.0, floatObject=null, bigDecimal=null, bigInteger=null, date=Thu Jan 01 23:59:59 CST 1998, sqlDate=2000-01-01, sqlTime=23:59:59, timestamp=1999-01-01 23:59:59.888]");
 	}
 	
 	@Test

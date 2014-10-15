@@ -4,14 +4,14 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-public class Blog implements Serializable{
+public class Blog implements Serializable,Cloneable{
 	private String id;
 	
 	private char charValue;
 	private Character character;
 
 	private byte byteValue;
-	private byte byteObject;
+	private Byte byteObject;
 
 	private short shortValue;
 	private Short shortObject;
@@ -76,11 +76,11 @@ public class Blog implements Serializable{
 		this.byteValue = byteValue;
 	}
 
-	public byte getByteObject() {
+	public Byte getByteObject() {
 		return byteObject;
 	}
 
-	public void setByteObject(byte byteObject) {
+	public void setByteObject(Byte byteObject) {
 		this.byteObject = byteObject;
 	}
 
@@ -243,7 +243,13 @@ public class Blog implements Serializable{
 				+ ", timestamp=" + timestamp + "]";
 	}
 	
-	
+	public Blog clone() {
+		try {
+			return (Blog)super.clone();
+		} catch (CloneNotSupportedException e) {
+			throw new RuntimeException(e);
+		}
+	}
 	
 
 }
