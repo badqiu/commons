@@ -1,4 +1,4 @@
-package com.duowan.common.rpc.json;
+package com.duowan.common.rpc.serde;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,6 +31,10 @@ public class JavaSerDeImpl implements SerDe{
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public String getContentType() {
+		return "application/java";
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.duowan.common.rpc.json;
+package com.duowan.common.rpc.serde;
 
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import com.duowan.common.rpc.serde.JsonpSerDeImpl;
 
 
 public class JsonpSerDeImplTest extends Assert{

@@ -1,16 +1,17 @@
 package com.duowan.common.rpc.client;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.util.Assert;
 
 import com.duowan.common.rpc.RPCRequest;
+import com.duowan.common.rpc.SerDe;
+import com.duowan.common.rpc.SerDeMapping;
+import com.duowan.common.rpc.server.MethodInvoker;
 
 public abstract class AbstractHttpInvokerRequestExecutor
 		implements HttpInvokerRequestExecutor, BeanClassLoaderAware {
@@ -19,7 +20,8 @@ public abstract class AbstractHttpInvokerRequestExecutor
 	 * Default content type: "application/x-java-serialized-object"
 	 */
 	public static final String CONTENT_TYPE_WWW_FORM_URLENCODED = "application/x-www-form-urlencoded";
-//	public static final String CONTENT_TYPE_SERIALIZED_OBJECT = "application/x-java-serialized-object";
+	public static final String CONTENT_TYPE_JSON = "application/json";
+	public static final String CONTENT_TYPE_JAVA = "application/java";
 
 	/**
 	 * Default timeout value if no HttpClient is explicitly provided.
@@ -43,7 +45,7 @@ public abstract class AbstractHttpInvokerRequestExecutor
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-	private String contentType = CONTENT_TYPE_WWW_FORM_URLENCODED;
+	private String contentType = CONTENT_TYPE_JSON;
 
 	private boolean acceptGzipEncoding = true;
 
@@ -120,23 +122,27 @@ public abstract class AbstractHttpInvokerRequestExecutor
 		return this.beanClassLoader;
 	}
 
-
-	public final InputStream executeRequest(
+	public final HttpResponse executeRequest(
 			String serviceUrl, RPCRequest invocation) throws Exception {
 
 		
 		String method = invocation.getMethod();
-		String url = serviceUrl +"/"+method;
-		StringWriter output = new StringWriter(300);
-		new ObjectMapper().writeValue(output, invocation.getArguments()); // TODO: 修正，需要提升性能
-		String parameters = output.toString();
+		SerDe serDe = SerDeMapping.DEFAULT_MAPPING.getSerDeByContentType(getContentType());
+		if(serDe == null) {
+			throw new RuntimeException("not found http request serialize SerDe by contentType:"+getContentType());
+		}
+		invocation.setFormat(SerDeMapping.extractFormat(serDe.getContentType()));
+		String url = serviceUrl +"/"+method + "?" + MethodInvoker.KEY_PROTOCOL+"="+invocation.getFormat()+"&"+MethodInvoker.KEY_FORMAT+"="+invocation.getFormat();
+		
+		ByteArrayOutputStream output = new ByteArrayOutputStream(300);
+		serDe.serialize((Object)invocation.getArguments(), output, null);
+		byte[] parameters = output.toByteArray();
 		if (logger.isDebugEnabled()) {
 			logger.debug("Sending HTTP invoker request for service at [" + url +
 					"], with parameters: " + parameters);
 		}
-		return doExecuteRequest(serviceUrl, url,parameters);
+		return doExecuteRequest(url,parameters);
 	}
-
 
 	/**
 	 * Execute a request to send the given serialized remote invocation.
@@ -152,8 +158,7 @@ public abstract class AbstractHttpInvokerRequestExecutor
 	 * @throws Exception in case of general errors
 	 * @see #readRemoteInvocationResult(java.io.InputStream, String)
 	 */
-	protected abstract InputStream doExecuteRequest(
-			String serviceUrl, String url,String parameters)
+	protected abstract HttpResponse doExecuteRequest(String url,byte[] parameters)
 			throws Exception;
 
 

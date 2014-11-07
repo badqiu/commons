@@ -1,22 +1,33 @@
 package com.duowan.common.rpc;
 
-import java.util.Map;
+import java.io.Serializable;
 
-public class RPCRequest {
-	
+
+public class RPCRequest implements Serializable{
+	/**
+	 * 要调用的方法
+	 */
 	private String method;
 	
+	/**
+	 * 方法参数
+	 */
+	private Object[] arguments;
+	
+	/**
+	 * 方法返回值类型: json,java...
+	 */
 	private String format;
 	
-	private Map<String,Object> argumentsMap;
-	
-	private Object[] arguments;
 
 	public String getMethod() {
 		return method;
 	}
 
 	public void setMethod(String method) {
+		if(method == null || method.isEmpty()) {
+			throw new IllegalArgumentException("method must be not empty");
+		}
 		this.method = method;
 	}
 
@@ -25,15 +36,10 @@ public class RPCRequest {
 	}
 
 	public void setFormat(String format) {
+		if(format == null || format.isEmpty()) {
+			throw new IllegalArgumentException("format must be not empty");
+		}
 		this.format = format;
-	}
-
-	public Map<String, Object> getArgumentsMap() {
-		return argumentsMap;
-	}
-
-	public void setArgumentsMap(Map<String, Object> argumentsMap) {
-		this.argumentsMap = argumentsMap;
 	}
 
 	public Object[] getArguments() {
@@ -45,7 +51,6 @@ public class RPCRequest {
 	}
 	
 //	private Class[] argumentTypes;
-	
 	
 	
 }

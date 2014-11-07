@@ -6,6 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.FactoryBean;
 
+import com.duowan.common.rpc.serde.SimpleSerDeImpl;
 import com.duowan.common.rpc.server.MethodInvoker;
 import com.duowan.common.rpc.util.SampleValueUtil;
 
@@ -25,7 +26,7 @@ public class RPCProxyFactoryBean extends HttpRPCClientInterceptor implements Fac
 		
 		for(Method method : getServiceInterface().getDeclaredMethods()) {
 			Class<?>[] parameterTypes = method.getParameterTypes();
-			String sampleParameters = MethodInvoker.KEY_PARAMETERS+"="+StringUtils.join(SampleValueUtil.getSampleValue(parameterTypes),MethodInvoker.PARAMETERS_SEPERATOR);
+			String sampleParameters = MethodInvoker.KEY_PARAMETERS+"="+StringUtils.join(SampleValueUtil.getSampleValue(parameterTypes),SimpleSerDeImpl.PARAMETERS_SEPERATOR);
 			String methodInvokeUrl = getServiceUrl() + "/" + method.getName() + (parameterTypes.length > 0 ? "?" + sampleParameters : "");
 			logger.info("method invoke url:"+methodInvokeUrl);
 		}

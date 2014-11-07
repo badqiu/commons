@@ -1,6 +1,5 @@
-package com.duowan.common.rpc.json;
+package com.duowan.common.rpc.serde;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -19,7 +18,7 @@ import com.duowan.common.rpc.SerializeException;
  * @author badqiu
  * 
  */
-public class JsonpSerDeImpl implements SerDe {
+public class JsonpSerDeImpl extends JsonSerDeImpl implements SerDe {
 	static String JSONCALLBACK_KEY = "__jsoncallback";
 
 	ObjectMapper objectMapper = new ObjectMapper();
@@ -40,12 +39,12 @@ public class JsonpSerDeImpl implements SerDe {
 			output.write(objectMapper.writeValueAsBytes(object));
 			output.write(")".getBytes());
 		}catch(IOException e) {
-			throw new SerializeException();
+			throw new SerializeException(e);
 		}
 	}
 
-	public Object deserialize(InputStream input, Type returnType,Map<String,Object> params) throws SerializeException {
-		throw new UnsupportedOperationException();
+	@Override
+	public String getContentType() {
+		return "application/javascript";
 	}
-
 }

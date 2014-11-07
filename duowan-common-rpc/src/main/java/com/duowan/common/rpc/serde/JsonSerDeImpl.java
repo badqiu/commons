@@ -1,4 +1,4 @@
-package com.duowan.common.rpc.json;
+package com.duowan.common.rpc.serde;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,6 +28,11 @@ public class JsonSerDeImpl implements SerDe {
 
 	private static final Logger logger = LoggerFactory.getLogger(JsonSerDeImpl.class);
 
+	ObjectMapper objectMapper = new ObjectMapper();
+	{
+		objectMapper.getDeserializationConfig().set(Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+	}
+	
 	public void serialize(Object object, OutputStream output,Map<String,Object> params) throws SerializeException {
 		try {
 			objectMapper.writeValue(output, object);
@@ -40,10 +45,9 @@ public class JsonSerDeImpl implements SerDe {
 		}
 	}
 
-	ObjectMapper objectMapper = new ObjectMapper();
+	
 	public Object deserialize(InputStream input, Type returnType,Map<String,Object> params) throws SerializeException {
 		try {
-			objectMapper.getDeserializationConfig().set(Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 			return objectMapper.readValue(input, TypeFactory.type(returnType));
 		} catch (JsonParseException e) {
 			throw new SerializeException(e);
@@ -52,6 +56,10 @@ public class JsonSerDeImpl implements SerDe {
 		} catch (IOException e) {
 			throw new SerializeException(e);
 		}
+	}
+	
+	public String getContentType() {
+		return "application/json";
 	}
 
 }

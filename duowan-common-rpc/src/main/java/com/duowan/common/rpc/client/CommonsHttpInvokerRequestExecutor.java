@@ -20,8 +20,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintStream;
-import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
 import org.apache.commons.httpclient.Header;
@@ -35,9 +35,6 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.context.i18n.LocaleContext;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.util.StringUtils;
-
-import com.duowan.common.rpc.server.MethodInvoker;
-import com.duowan.common.rpc.server.RPCServiceExporter;
 
 /**
  * {@link HttpInvokerRequestExecutor} implementation that uses
@@ -138,18 +135,10 @@ public class CommonsHttpInvokerRequestExecutor extends AbstractHttpInvokerReques
 	 * @see org.apache.commons.httpclient.methods.PostMethod#setRequestEntity
 	 * @see org.apache.commons.httpclient.methods.InputStreamRequestEntity
 	 */
-	protected void setRequestBody(PostMethod postMethod,String parameters)
+	protected void setRequestBody(PostMethod postMethod,byte[] parameters)
 			throws IOException {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		PrintStream print = new PrintStream(outputStream);
-		print.append(MethodInvoker.KEY_PARAMETERS);
-		print.append("=");
-		print.append(URLEncoder.encode(parameters,RPCServiceExporter.ENCODING));
-		print.append("&");
-		print.append(MethodInvoker.KEY_PROTOCOL);
-		print.append("=");
-		print.append(MethodInvoker.PROTOCOL_JSON);
-		print.flush();
+		outputStream.write(parameters);
 		outputStream.close();
 		postMethod.setRequestEntity(new ByteArrayRequestEntity(outputStream.toByteArray(), getContentType()));
 	}
@@ -206,7 +195,6 @@ public class CommonsHttpInvokerRequestExecutor extends AbstractHttpInvokerReques
 	 */
 	protected InputStream getResponseBody(PostMethod postMethod)
 			throws IOException {
-
 		if (isGzipResponse(postMethod)) {
 			return new GZIPInputStream(postMethod.getResponseBodyAsStream());
 		}
@@ -229,21 +217,31 @@ public class CommonsHttpInvokerRequestExecutor extends AbstractHttpInvokerReques
 	}
 
 	@Override
-	protected InputStream doExecuteRequest(String serviceUrl, String url,
-			String parameters) throws Exception {
+	protected HttpResponse doExecuteRequest(String url,byte[] parameters) throws Exception {
 		PostMethod postMethod = createPostMethod(url);
 		try {
 			setRequestBody(postMethod,parameters);
 			executePostMethod(getHttpClient(), postMethod);
 			validateResponse(postMethod);
 			InputStream responseBody = getResponseBody(postMethod);
-			ByteArrayInputStream result = new ByteArrayInputStream(IOUtils.toByteArray(responseBody));
-			return result;
+			ByteArrayInputStream responseBodyInput = new ByteArrayInputStream(IOUtils.toByteArray(responseBody));
+			HttpResponse response = new HttpResponse();
+			response.setBody(responseBodyInput);
+			response.setHeaders(toHashMap(postMethod.getResponseHeaders()));
+			return response;
 		}
 		finally {
 			// Need to explicitly release because it might be pooled.
 			postMethod.releaseConnection();
 		}
+	}
+
+	private Map<String, String> toHashMap(Header[] responseHeaders) {
+		Map<String, String> r = new HashMap<String, String>(responseHeaders.length * 2);
+		for(Header h : responseHeaders) {
+			r.put(h.getName(), h.getValue());
+		}
+		return r;
 	}
 
 }

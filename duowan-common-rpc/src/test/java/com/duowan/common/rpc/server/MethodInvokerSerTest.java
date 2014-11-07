@@ -24,7 +24,7 @@ import com.duowan.common.rpc.fortestinvoker.UserInfo;
 import com.duowan.common.rpc.fortestinvoker.UserTypeEnum;
 import com.duowan.common.rpc.fortestinvoker.UserWebService;
 import com.duowan.common.rpc.fortestinvoker.UserWebServiceImpl;
-import com.duowan.common.rpc.server.MethodInvoker;
+import com.duowan.common.rpc.serde.SimpleSerDeImpl;
 
 public class MethodInvokerSerTest extends Assert{
 	
@@ -46,7 +46,7 @@ public class MethodInvokerSerTest extends Assert{
 		proxy.setInterfaces(new Class[]{UserWebService.class});
 		proxy.addAdvice(new MethodInterceptor() {
 			public Object invoke(MethodInvocation invocation) throws Throwable {
-				Map<String,Object> parameters = invoker.serializeForParametersMap(invocation.getArguments());
+				Map<String,Object> parameters = new SimpleSerDeImpl().serializeForParametersMap(invocation.getArguments());
 				String serviceId = StringUtils.uncapitalize(invocation.getMethod().getDeclaringClass().getSimpleName());
 				return invoker.invoke(serviceId, invocation.getMethod().getName(), parameters);
 			};

@@ -3,6 +3,7 @@ package com.duowan.common.rpc.fortest.api;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -41,7 +42,7 @@ public class BlogInfoServiceImpl implements BlogInfoService {
 		Blog r = new Blog(id);
 		r.setByteObject((byte)100);
 		r.setByteValue((byte)100);
-		r.setBigDecimal(new BigDecimal("100"));
+//		r.setBigDecimal(new BigDecimal("100"));
 		r.setBigInteger(new BigInteger("100"));
 		r.setLongValue(100L);
 		r.setLongObject(100L);
@@ -49,6 +50,8 @@ public class BlogInfoServiceImpl implements BlogInfoService {
 		r.setFloatObject((float)100.1);
 		r.setCharValue('A');
 		r.setCharacter(new Character('a'));
+		r.setDoubleObject((double)100);
+		r.setDoubleValue((double)100);
 		
 		try {
 			Date date = DateUtils.parseDate("2011-10-10", new String[]{"yyyy-MM-dd"});
@@ -84,6 +87,14 @@ public class BlogInfoServiceImpl implements BlogInfoService {
 	public List<Blog> findBlogList(String key) {
 		LinkedList<Blog> list = new LinkedList<Blog>();
 		list.add(createBlog());
+		return list;
+	}
+	
+	public List<Blog> genBlogList(int size) {
+		List<Blog> list = new ArrayList<Blog>();
+		for(int i = 0; i < size; i++) {
+			list.add(createWithBlog(i+""));
+		}
 		return list;
 	}
 

@@ -1,5 +1,6 @@
 package com.duowan.common.rpc.fortest.api.model;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -8,11 +9,12 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 import com.duowan.common.rpc.fortestinvoker.UserInfo;
 import com.duowan.common.rpc.fortestinvoker.UserTypeEnum;
 
-public class ComplexObject {
+public class ComplexObject implements Serializable {
 
 	private List<UserInfo> userInfoList;
 	
@@ -108,6 +110,10 @@ public class ComplexObject {
 	
 	public boolean equals(Object other) {
 		return EqualsBuilder.reflectionEquals(this, other);
+	}
+	
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
 	}
 	
 }

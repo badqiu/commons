@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * 序列化/反序列化接口，用于序列化，反序列化对象. 需要支持Collection,Map,Array,Date,Enum对象等的序列化
  * 
- * 序列化实现可以有: json,xml,protobuf,thrift,hessian
+ * 序列化实现可以有: json,xml,protobuf,thrift
  * 
  * @author badqiu
  * 
@@ -38,5 +38,8 @@ public interface SerDe {
 	 * @return
 	 */
 	public Object deserialize(InputStream input, Type returnType,Map<String,Object> serializeParams) throws SerializeException;
+	
+	
+	public String getContentType();
 
 }

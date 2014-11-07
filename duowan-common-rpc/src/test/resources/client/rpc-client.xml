@@ -19,6 +19,7 @@
 		<property name="readTimeout" value="1000"></property>
 		<!-- 远程服务连接超时配置，单位毫秒,默认3秒 -->
 		<property name="connectionTimeout" value="1000"></property>
+		<property name="contentType" value="application/json"></property>
 	</bean>
 	
 	<bean name="userWebService" class="com.duowan.common.rpc.client.RPCProxyFactoryBean">

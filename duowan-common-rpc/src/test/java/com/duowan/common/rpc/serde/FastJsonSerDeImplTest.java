@@ -1,4 +1,4 @@
-package com.duowan.common.rpc.json;
+package com.duowan.common.rpc.serde;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -9,11 +9,13 @@ import java.util.List;
 
 import org.apache.commons.io.output.NullOutputStream;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 import com.duowan.common.rpc.SerDe;
 import com.duowan.common.rpc.fortest.api.BlogInfoServiceImpl;
 import com.duowan.common.rpc.fortest.api.model.Blog;
+import com.duowan.common.rpc.serde.HessianSerDeImpl;
+import com.duowan.common.rpc.serde.JavaSerDeImpl;
+import com.duowan.common.rpc.serde.JsonSerDeImpl;
 
 
 public class FastJsonSerDeImplTest {

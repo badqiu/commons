@@ -1,4 +1,4 @@
-package com.duowan.common.rpc.json;
+package com.duowan.common.rpc.serde;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -10,6 +10,7 @@ import org.junit.Test;
 import com.duowan.common.rpc.SerializeException;
 import com.duowan.common.rpc.fortest.api.BlogInfoServiceImpl;
 import com.duowan.common.rpc.fortest.api.model.Blog;
+import com.duowan.common.rpc.serde.JsonSerDeImpl;
 
 
 public class JsonSerDeImplTest extends Assert{

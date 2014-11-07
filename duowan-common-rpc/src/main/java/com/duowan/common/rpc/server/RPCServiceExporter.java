@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -30,8 +31,9 @@ import org.springframework.web.servlet.handler.AbstractUrlHandlerMapping;
 import com.duowan.common.rpc.RPCResponse;
 import com.duowan.common.rpc.SerDe;
 import com.duowan.common.rpc.WebServiceException;
-import com.duowan.common.rpc.json.JsonSerDeImpl;
-import com.duowan.common.rpc.json.JsonpSerDeImpl;
+import com.duowan.common.rpc.serde.JavaSerDeImpl;
+import com.duowan.common.rpc.serde.JsonSerDeImpl;
+import com.duowan.common.rpc.serde.JsonpSerDeImpl;
 import com.duowan.common.rpc.util.RequestParameterUtil;
 import com.duowan.common.rpc.util.StringUtil;
 
@@ -107,14 +109,13 @@ public class RPCServiceExporter extends RemoteExporter implements HttpRequestHan
 	}
 
 	private void serializeResult(Object result,HttpServletRequest request, HttpServletResponse response,Map<String, Object> parameters) throws IOException {
-//		response.setContentType("text/html"); // TODO 修正返回值类型，如 application/xml,application/json
 		String format =  StringUtils.defaultIfEmpty(request.getParameter(MethodInvoker.KEY_FORMAT),defaultFormat);
 		SerDe serDe = lookupSerDe(format);
 		
-//		sendHttpErrorIfIsNumber(result, response);
-		
+		response.setContentType(serDe.getContentType()); // TODO 修正返回值类型，如 text/xml,application/json
 		serDe.serialize(result, response.getOutputStream(),parameters);
 	}
+	
 
 	private SerDe lookupSerDe(String format) {
 		SerDe serDe = serDeMapping.get(format);
@@ -128,8 +129,8 @@ public class RPCServiceExporter extends RemoteExporter implements HttpRequestHan
 		try {
 			String serviceId = resloveServiceId(request);
 			String method = resloveMethod(request);
-			
-			return invoker.invoke(serviceId, method, parameters);
+			byte[] body = request.getInputStream() == null ? null : IOUtils.toByteArray(request.getInputStream());
+			return invoker.invoke(serviceId, method, parameters,body);
 		} catch (WebServiceException e) {
 			throw e;
 		} catch(Exception e) {
@@ -176,6 +177,8 @@ public class RPCServiceExporter extends RemoteExporter implements HttpRequestHan
 			Map<String,SerDe> defaultSerdeMapping = new HashMap<String,SerDe>();
 			defaultSerdeMapping.put("json", new JsonSerDeImpl());
 			defaultSerdeMapping.put("jsonp", new JsonpSerDeImpl());
+//			defaultSerdeMapping.put("hessian", new HessianSerDeImpl());
+			defaultSerdeMapping.put("java", new JavaSerDeImpl());
 			serDeMapping = defaultSerdeMapping;
 		}
 		Assert.notEmpty(serDeMapping,"'serDeMapping' must be not empty");

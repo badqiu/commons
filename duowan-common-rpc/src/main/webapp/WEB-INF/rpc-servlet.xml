@@ -24,10 +24,10 @@
 		<property name="serDeMapping">
 			<map>
 				<entry key="json">
-					<bean class="com.duowan.common.rpc.json.JsonSerDeImpl"/>
+					<bean class="com.duowan.common.rpc.serde.JsonSerDeImpl"/>
 				</entry>
 				<entry key="jsonp">
-					<bean class="com.duowan.common.rpc.json.JsonpSerDeImpl"/>
+					<bean class="com.duowan.common.rpc.serde.JsonpSerDeImpl"/>
 				</entry>
 			</map>
 		</property>

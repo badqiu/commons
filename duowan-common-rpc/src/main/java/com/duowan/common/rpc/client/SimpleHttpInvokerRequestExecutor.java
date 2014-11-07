@@ -7,16 +7,15 @@ import java.io.PrintStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
 import org.springframework.context.i18n.LocaleContext;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.remoting.httpinvoker.CommonsHttpInvokerRequestExecutor;
 import org.springframework.util.StringUtils;
-
-import com.duowan.common.rpc.server.MethodInvoker;
-import com.duowan.common.rpc.server.RPCServiceExporter;
 
 /**
  * HttpInvokerRequestExecutor implementation that uses standard J2SE facilities
@@ -44,31 +43,37 @@ public class SimpleHttpInvokerRequestExecutor extends AbstractHttpInvokerRequest
 	 * @see #validateResponse
 	 * @see #readResponseBody
 	 */
-	protected InputStream doExecuteRequest(
-			String serviceUrl, String url,String parameters)
+	protected HttpResponse doExecuteRequest(String url,byte[] parameters)
 			throws IOException, ClassNotFoundException {
 
 		HttpURLConnection con = openConnection(url);
-		prepareConnection(con, parameters.length() + MethodInvoker.KEY_PARAMETERS.length() + 1 );
+		prepareConnection(con,parameters.length );
 		writeRequestBody(con, parameters);
 		validateResponse(con);
 		InputStream responseBody = readResponseBody(con);
+		HttpResponse r = new HttpResponse();
+		r.setBody(responseBody);
+		r.setHeaders(toHttpHeadersMap(con.getHeaderFields()));
+		return r;
+	}
 
-		return responseBody;
+	private Map<String, String> toHttpHeadersMap(Map<String, List<String>> headerFields) {
+		Map m = new HashMap(headerFields.size() * 2);
+		for(Map.Entry<String, List<String>> entry : headerFields.entrySet()) {
+			List<String> value = entry.getValue();
+			if(value != null && !value.isEmpty()) {
+				m.put(entry.getKey(), value.get(0));
+			}
+		}
+		return m;
 	}
 
 	private void writeRequestBody(
-			HttpURLConnection con, String parameters) throws IOException {
+			HttpURLConnection con, byte[] parameters) throws IOException {
 		OutputStream outputStream = con.getOutputStream();
 		PrintStream print = new PrintStream(outputStream);
+		print.write(parameters);
 		try {
-			print.append(MethodInvoker.KEY_PARAMETERS);
-			print.append("=");
-			print.append(URLEncoder.encode(parameters,RPCServiceExporter.ENCODING));
-			print.append("&");
-			print.append(MethodInvoker.KEY_PROTOCOL);
-			print.append("=");
-			print.append(MethodInvoker.PROTOCOL_JSON);
 			print.flush();
 		}finally {
 			outputStream.close();

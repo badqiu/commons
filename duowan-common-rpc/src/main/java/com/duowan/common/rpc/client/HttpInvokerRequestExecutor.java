@@ -37,7 +37,7 @@ public interface HttpInvokerRequestExecutor {
 	 * @throws ClassNotFoundException if thrown during deserialization
 	 * @throws Exception in case of general errors
 	 */
-	InputStream executeRequest(String serviceUrl, RPCRequest invocation)
+	HttpResponse executeRequest(String serviceUrl, RPCRequest invocation)
 			throws Exception;
 
 }

@@ -1,6 +1,8 @@
 package com.duowan.common.rpc.fortestinvoker;
 
-public class UserInfo {
+import java.io.Serializable;
+
+public class UserInfo implements Serializable{
 
 	private String name;
 	private int age;

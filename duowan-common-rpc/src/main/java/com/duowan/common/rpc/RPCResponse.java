@@ -1,6 +1,8 @@
 package com.duowan.common.rpc;
 
-public class RPCResponse <T>{
+import java.io.Serializable;
+
+public class RPCResponse <T> implements Serializable{
 	
 	/**
 	 * 返回结果

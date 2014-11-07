@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeSet;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.httpclient.HttpClient;
@@ -34,6 +35,7 @@ public class RPCProxyFactoryBeanTest extends BaseClientTestCase{
 		factory.setServiceInterface(UserWebService.class);
 		factory.setHttpInvokerRequestExecutor(new CommonsHttpInvokerRequestExecutor());
 		factory.setServiceUrl("http://localhost:26060/services/userWebService");
+		factory.setRetryIntervalMills(new int[]{100,200});
 		factory.afterPropertiesSet();
 		userWebService = (UserWebService)factory.getObject();
 		
@@ -112,6 +114,7 @@ public class RPCProxyFactoryBeanTest extends BaseClientTestCase{
 	}
 	
 	String specialChars = "!@####$%%^&*(\", age)(*&))(*&^$#@!%~`[{]}'\\\"";
+	String genComprexChars = genComprexChars();
 	@Test
 	public void test_local_equals_remote() throws Exception, InvocationTargetException, NoSuchMethodException {
 		assertEquals(localBlogInfoService.emptyParam(),blogInfoService.emptyParam());
@@ -121,9 +124,11 @@ public class RPCProxyFactoryBeanTest extends BaseClientTestCase{
 		assertEquals(localBlogInfoService.findBlogCollection("key"),blogInfoService.findBlogCollection("key"));
 		assertEquals(localBlogInfoService.findBlogList("key"),blogInfoService.findBlogList("key"));
 		assertEquals(localBlogInfoService.findBlogLinkedList(null),blogInfoService.findBlogLinkedList(null));
+		assertEquals(localBlogInfoService.genBlogList(100),blogInfoService.genBlogList(100));
 		assertEquals(localBlogInfoService.findBlogListMap(null),blogInfoService.findBlogListMap(null));
 		
 		assertEquals(localBlogInfoService.return_input_2_arg(specialChars,specialChars),blogInfoService.return_input_2_arg(specialChars,specialChars));
+		assertEquals(localBlogInfoService.return_input_2_arg(genComprexChars,genComprexChars),blogInfoService.return_input_2_arg(genComprexChars,genComprexChars));
 		
 		assertEquals(localBlogInfoService.findBlogMap("key"),blogInfoService.findBlogMap("key"));
 		assertArrayEquals(localBlogInfoService.findBlogArray("key"),blogInfoService.findBlogArray("key"));
@@ -143,9 +148,8 @@ public class RPCProxyFactoryBeanTest extends BaseClientTestCase{
 		assertEquals(localBlogInfoService.linked_hash_map_but_return_map("123").toString(),blogInfoService.linked_hash_map_but_return_map("123").toString());
 		
 		assertEquals(localBlogInfoService.tree_set("123").toString(),blogInfoService.tree_set("123").toString());
-		assertFalse(localBlogInfoService.tree_set_but_return_set("123").toString().equals(blogInfoService.tree_set_but_return_set("123").toString()));
+		assertTrue(localBlogInfoService.tree_set_but_return_set("123").toString().equals(new TreeSet(blogInfoService.tree_set_but_return_set("123")).toString()));
 		assertEquals(localBlogInfoService.linked_hash_set("123").toString(),blogInfoService.linked_hash_set("123").toString());
-		assertFalse(localBlogInfoService.linked_hash_set_but_return_set("123").toString().equals(blogInfoService.linked_hash_set_but_return_set("123").toString()));
 		
 		assertEquals(localBlogInfoService.AComplex__methodDDDD123Name(),httpCommonBlogInfoService.AComplex__methodDDDD123Name());
 		
@@ -157,9 +161,18 @@ public class RPCProxyFactoryBeanTest extends BaseClientTestCase{
 		
 		blogInfoService.void_method();
 		assertNull(blogInfoService.null_return());
-		//assertEquals(localBlogInfoService.findComplexObject("key"),blogInfoService.findComplexObject("key"));
+//		assertEquals(localBlogInfoService.findComplexObject("key"),blogInfoService.findComplexObject("key"));
+		assertFalse(localBlogInfoService.linked_hash_set_but_return_set("123").toString().equals(blogInfoService.linked_hash_set_but_return_set("123").toString()));
 	}
 	
+	private String genComprexChars() {
+		StringBuilder sb = new StringBuilder(65538);
+		System.out.println("Character.MIN_VALUE:"+(int)Character.MIN_VALUE+" Character.MAX_VALUE:"+(int)Character.MAX_VALUE);
+		for(int i = Character.MIN_VALUE; i <= Character.MAX_VALUE;i++) {
+			sb.append((char)i);
+		}
+		return sb.toString();
+	}
 	
 	@Test
 	public void test_big_data() {
@@ -169,15 +182,15 @@ public class RPCProxyFactoryBeanTest extends BaseClientTestCase{
 	
 	@Test
 	public void test_performance() throws InvocationTargetException, NoSuchMethodException, Exception {
+		blogInfoService.findBlogList("key");
 		long start = System.currentTimeMillis();
-		float count = 1000;
+		float count = 3000;
 		for(int i = 0; i < count; i++) {
 //			test_ListMapResult();
 			blogInfoService.findBlogList("key");
 		}
 		long cost = System.currentTimeMillis() - start;
-		int methodInvokes = 18;
-		System.out.println("tps:"+ (count / cost * 1000 * methodInvokes));
+		System.out.println("cost:"+cost+" tps:"+ (count / cost * 1000));
 	}
 	
 	@Test
@@ -207,5 +220,17 @@ public class RPCProxyFactoryBeanTest extends BaseClientTestCase{
 			assertEquals(e.getErrorNo(),"java.lang.RuntimeException");
 			assertEquals(e.getMessage(),"voidThrowException");
 		}
+	}
+	
+	@Test(expected=WebServiceException.class)
+	public void test_retry() throws Exception, InvocationTargetException, NoSuchMethodException {
+		RPCProxyFactoryBean factory = new RPCProxyFactoryBean();
+		factory.setServiceInterface(UserWebService.class);
+		factory.setHttpInvokerRequestExecutor(new CommonsHttpInvokerRequestExecutor());
+		factory.setServiceUrl("http://localhost:26111/services/userWebService");
+		factory.setRetryIntervalMills(new int[]{100,200});
+		factory.afterPropertiesSet();
+		userWebService = (UserWebService)factory.getObject();
+		userWebService.hello(new String[]{"name"}, null, null);
 	}
 }

@@ -17,8 +17,8 @@ import org.springframework.mock.web.MockHttpServletResponse;
 
 import com.duowan.common.rpc.SerDe;
 import com.duowan.common.rpc.fortestinvoker.UserWebServiceImpl;
-import com.duowan.common.rpc.json.JsonSerDeImpl;
-import com.duowan.common.rpc.json.JsonpSerDeImpl;
+import com.duowan.common.rpc.serde.JsonSerDeImpl;
+import com.duowan.common.rpc.serde.JsonpSerDeImpl;
 
 
 public class RPCServiceExporterTest extends Assert{

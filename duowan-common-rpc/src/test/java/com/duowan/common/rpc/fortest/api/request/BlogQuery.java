@@ -1,6 +1,8 @@
 package com.duowan.common.rpc.fortest.api.request;
 
-public class BlogQuery {
+import java.io.Serializable;
+
+public class BlogQuery implements Serializable{
 	private String username;
 	private String password;
 	private int age;

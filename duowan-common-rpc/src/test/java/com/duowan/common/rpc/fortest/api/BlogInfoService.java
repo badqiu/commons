@@ -29,6 +29,8 @@ public interface BlogInfoService {
 	
 	List<Blog> findBlogList(String key);
 	
+	List<Blog> genBlogList(int size);
+	
 	List<Map<String,Blog>> findBlogListMap(String key); //存在无限递归的可能
 	
 	Collection<Blog> findBlogCollection(String key);

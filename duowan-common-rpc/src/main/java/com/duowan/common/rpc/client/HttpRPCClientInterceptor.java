@@ -19,8 +19,10 @@ import org.springframework.remoting.support.RemoteAccessor;
 
 import com.duowan.common.rpc.RPCRequest;
 import com.duowan.common.rpc.RPCResponse;
+import com.duowan.common.rpc.SerDe;
+import com.duowan.common.rpc.SerDeMapping;
 import com.duowan.common.rpc.WebServiceException;
-import com.duowan.common.rpc.json.JsonSerDeImpl;
+import com.duowan.common.rpc.serde.JsonSerDeImpl;
 import com.duowan.common.rpc.util.CustomParameterizedType;
 
 public class HttpRPCClientInterceptor extends RemoteAccessor implements MethodInterceptor,InitializingBean {
@@ -29,8 +31,6 @@ public class HttpRPCClientInterceptor extends RemoteAccessor implements MethodIn
 	private String serviceUrl;
 
 	private HttpInvokerRequestExecutor httpInvokerRequestExecutor;
-
-//	private int[] retryIntervalSeconds = null;
 
 	private int[] retryIntervalMills = null;
 	/**
@@ -57,6 +57,7 @@ public class HttpRPCClientInterceptor extends RemoteAccessor implements MethodIn
 	public void setRetryIntervalMills(int[] retryIntervalMills) {
 		this.retryIntervalMills = retryIntervalMills;
 	}
+	
 	
 	private static boolean isHttpClientAvaiable = false;
 	static {
@@ -103,13 +104,14 @@ public class HttpRPCClientInterceptor extends RemoteAccessor implements MethodIn
 		try {
 			return invoke0(methodInvocation);
 		}finally {
-			long cost = System.currentTimeMillis() - start;
 			if(logger.isDebugEnabled()) {
+				long cost = System.currentTimeMillis() - start;
 				logger.debug("client invoke rpc:"+getServiceUrl()+"/"+methodInvocation.getMethod().getName()+" cost time:"+(cost/1000f));
 			}
 		}
 	}
 
+	
 	private Object invoke0(final MethodInvocation methodInvocation) {
 		if (AopUtils.isToStringMethod(methodInvocation.getMethod())) {
 			return "HTTP invoker proxy for service URL [" + getServiceUrl() + "]";
@@ -118,15 +120,14 @@ public class HttpRPCClientInterceptor extends RemoteAccessor implements MethodIn
 		RPCRequest invocation = createRemoteInvocation(methodInvocation);
 		RPCResponse result = null;
 		try {
-			InputStream input = executeRequest(invocation, methodInvocation);
+			HttpResponse response = retryIfErrorOnExecuteRequest(invocation, methodInvocation);
 			ParameterizedType returnType;
 			if(methodInvocation.getMethod().getGenericReturnType().equals(void.class)) {
 				returnType = new CustomParameterizedType(RPCResponse.class,null,new Type[]{Object.class});
 			}else {
 				returnType = new CustomParameterizedType(RPCResponse.class,null,new Type[]{methodInvocation.getMethod().getGenericReturnType()});
 			}
-			
-			result = (RPCResponse)new JsonSerDeImpl().deserialize(input, returnType,null); // TODO 需要根据客户端的返回值类型 确定采用什么序列化
+			result = deserializeByContentType(response.getHeaders().get("Content-Type"),response.getBody(),returnType);
 		}
 		catch (Throwable ex) {
 			throw convertHttpInvokerAccessException(ex,methodInvocation);
@@ -145,7 +146,14 @@ public class HttpRPCClientInterceptor extends RemoteAccessor implements MethodIn
 					"] failed in HTTP invoker remote service at [" + getServiceUrl() + "]",getServiceUrl(),methodInvocation.getMethod().getName(), ex);
 		}
 	}
-
+	
+	private SerDe defaultSerDe = new JsonSerDeImpl();
+	private RPCResponse deserializeByContentType(String contentType, InputStream body,ParameterizedType returnType) {
+		SerDe serDe = SerDeMapping.DEFAULT_MAPPING.getSerDeByContentType(contentType,defaultSerDe);
+		RPCResponse result = (RPCResponse)serDe.deserialize(body, returnType,null); 
+		return result;
+	}
+	
 	private Object recreateRemoteInvocationResult(RPCResponse result) {
 		return result.getResult();
 	}
@@ -154,7 +162,6 @@ public class HttpRPCClientInterceptor extends RemoteAccessor implements MethodIn
 		RPCRequest request = new RPCRequest();
 		request.setArguments(methodInvocation.getArguments());
 		request.setMethod(methodInvocation.getMethod().getName());
-		request.setFormat("json"); //TODO config format for json:xml
 		return request;
 	}
 
@@ -167,12 +174,12 @@ public class HttpRPCClientInterceptor extends RemoteAccessor implements MethodIn
 	 * @return the RemoteInvocationResult object
 	 * @throws Exception in case of errors
 	 */
-	protected InputStream executeRequest(
+	protected HttpResponse executeRequest(
 			RPCRequest invocation, MethodInvocation originalInvocation) throws Exception {
 		return executeRequest(invocation);
 	}
 
-	protected InputStream retryIfErrorOnExecuteRequest(
+	protected HttpResponse retryIfErrorOnExecuteRequest(
 			RPCRequest invocation, MethodInvocation originalInvocation) throws Exception {
 		if(retryIntervalMills  == null) {
 			return executeRequest(invocation, originalInvocation);
@@ -204,7 +211,7 @@ public class HttpRPCClientInterceptor extends RemoteAccessor implements MethodIn
 	 * @throws Exception in case of general errors
 	 * @see #getHttpInvokerRequestExecutor
 	 */
-	protected InputStream executeRequest(RPCRequest invocation) throws Exception {
+	protected HttpResponse executeRequest(RPCRequest invocation) throws Exception {
 		return getHttpInvokerRequestExecutor().executeRequest(getServiceUrl(), invocation);
 	}
 
@@ -217,16 +224,16 @@ public class HttpRPCClientInterceptor extends RemoteAccessor implements MethodIn
 	protected WebServiceException convertHttpInvokerAccessException(Throwable ex,MethodInvocation methodInvocation) {
 		if (ex instanceof ConnectException) {
 			throw new WebServiceException(
-					WebServiceException.UNKNOW_ERROR,"Could not connect to HTTP invoker remote service at [" + getServiceUrl() + "]",getServiceUrl(),methodInvocation.getMethod().getName(), ex);
+					ex.getClass().getSimpleName(),"Could not connect to HTTP invoker remote service at [" + getServiceUrl() + "]",getServiceUrl(),methodInvocation.getMethod().getName(), ex);
 		}
 		else if (ex instanceof ClassNotFoundException || ex instanceof NoClassDefFoundError ||
 				ex instanceof InvalidClassException) {
 			throw new WebServiceException(
-					WebServiceException.UNKNOW_ERROR,"Could not deserialize result from HTTP invoker remote service [" + getServiceUrl() + "]",getServiceUrl(),methodInvocation.getMethod().getName(), ex);
+					ex.getClass().getSimpleName(),"Could not deserialize result from HTTP invoker remote service [" + getServiceUrl() + "]",getServiceUrl(),methodInvocation.getMethod().getName(), ex);
 		}
 		else {
 			throw new WebServiceException(
-					WebServiceException.UNKNOW_ERROR,"Could not access HTTP invoker remote service at [" + getServiceUrl() + "]",getServiceUrl(),methodInvocation.getMethod().getName(), ex);
+					ex.getClass().getSimpleName(),"Could not access HTTP invoker remote service at [" + getServiceUrl() + "]",getServiceUrl(),methodInvocation.getMethod().getName(), ex);
 		}
 	}
 
