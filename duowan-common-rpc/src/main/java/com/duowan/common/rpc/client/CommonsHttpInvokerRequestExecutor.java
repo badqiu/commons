@@ -65,7 +65,7 @@ public class CommonsHttpInvokerRequestExecutor extends AbstractHttpInvokerReques
 	public CommonsHttpInvokerRequestExecutor() {
 		MultiThreadedHttpConnectionManager httpConnectionManager = new MultiThreadedHttpConnectionManager();
 		HttpConnectionManagerParams params = new HttpConnectionManagerParams();
-		params.setDefaultMaxConnectionsPerHost(50);
+		params.setDefaultMaxConnectionsPerHost(300);
 		params.setMaxTotalConnections(500);
 		httpConnectionManager.setParams(params);
 		
