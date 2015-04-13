@@ -2,6 +2,7 @@ package com.duowan.common.redis;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -11,23 +12,29 @@ import org.springframework.util.Assert;
 
 import redis.clients.jedis.BinaryClient.LIST_POSITION;
 import redis.clients.jedis.BinaryJedisPubSub;
+import redis.clients.jedis.BitOP;
+import redis.clients.jedis.BitPosParams;
 import redis.clients.jedis.Client;
 import redis.clients.jedis.DebugParams;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisCluster.Reset;
 import redis.clients.jedis.JedisMonitor;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
 import redis.clients.jedis.Pipeline;
 import redis.clients.jedis.PipelineBlock;
+import redis.clients.jedis.ScanParams;
+import redis.clients.jedis.ScanResult;
 import redis.clients.jedis.SortingParams;
 import redis.clients.jedis.Transaction;
 import redis.clients.jedis.TransactionBlock;
 import redis.clients.jedis.Tuple;
 import redis.clients.jedis.ZParams;
+import redis.clients.util.Pool;
 import redis.clients.util.Slowlog;
 
 /**
- * Redis模板类,用于单条操作
+ * Redis妯℃澘绫�,鐢ㄤ簬鍗曟潯鎿嶄綔
  * @author badqiu
  *
  */
@@ -407,7 +414,7 @@ public class RedisTemplate implements InitializingBean {
 		return proxy.getbit(key, offset);
 	}
 
-	public String getrange(byte[] key, long startOffset, long endOffset) {
+	public byte[] getrange(byte[] key, long startOffset, long endOffset) {
 		return proxy.getrange(key, startOffset, endOffset);
 	}
 
@@ -757,7 +764,7 @@ public class RedisTemplate implements InitializingBean {
 		return proxy.zadd(key, score, member);
 	}
 
-	public Long zadd(String key, Map<Double, String> scoreMembers) {
+	public Long zadd(String key, Map<String,Double> scoreMembers) {
 		return proxy.zadd(key, scoreMembers);
 	}
 
@@ -769,7 +776,7 @@ public class RedisTemplate implements InitializingBean {
 		return proxy.zrem(key, members);
 	}
 
-	public Long zadd(byte[] key, Map<Double, byte[]> scoreMembers) {
+	public Long zadd(byte[] key, Map<byte[],Double> scoreMembers) {
 		return proxy.zadd(key, scoreMembers);
 	}
 
@@ -1275,7 +1282,7 @@ public class RedisTemplate implements InitializingBean {
 		proxy.psubscribe(jedisPubSub, patterns);
 	}
 
-	public byte[] scriptFlush() {
+	public String scriptFlush() {
 		return proxy.scriptFlush();
 	}
 
@@ -1287,11 +1294,11 @@ public class RedisTemplate implements InitializingBean {
 		return proxy.scriptLoad(script);
 	}
 
-	public byte[] scriptKill() {
+	public String scriptKill() {
 		return proxy.scriptKill();
 	}
 
-	public byte[] slowlogReset() {
+	public String slowlogReset() {
 		return proxy.slowlogReset();
 	}
 
@@ -1317,6 +1324,617 @@ public class RedisTemplate implements InitializingBean {
 
 	public Long objectIdletime(byte[] key) {
 		return proxy.objectIdletime(key);
+	}
+	
+	
+
+	public String asking() {
+		return proxy.asking();
+	}
+
+	public Long bitcount(byte[] key, long start, long end) {
+		return proxy.bitcount(key, start, end);
+	}
+
+	public Long bitcount(byte[] key) {
+		return proxy.bitcount(key);
+	}
+
+	public Long bitcount(String key, long start, long end) {
+		return proxy.bitcount(key, start, end);
+	}
+
+	public Long bitcount(String key) {
+		return proxy.bitcount(key);
+	}
+
+	public Long bitop(BitOP op, byte[] destKey, byte[]... srcKeys) {
+		return proxy.bitop(op, destKey, srcKeys);
+	}
+
+	public Long bitop(BitOP op, String destKey, String... srcKeys) {
+		return proxy.bitop(op, destKey, srcKeys);
+	}
+
+	public Long bitpos(byte[] key, boolean value, BitPosParams params) {
+		return proxy.bitpos(key, value, params);
+	}
+
+	public Long bitpos(byte[] key, boolean value) {
+		return proxy.bitpos(key, value);
+	}
+
+	public Long bitpos(String key, boolean value, BitPosParams params) {
+		return proxy.bitpos(key, value, params);
+	}
+
+	public Long bitpos(String key, boolean value) {
+		return proxy.bitpos(key, value);
+	}
+
+	public List<byte[]> blpop(byte[]... args) {
+		return proxy.blpop(args);
+	}
+
+	public List<String> blpop(int timeout, String key) {
+		return proxy.blpop(timeout, key);
+	}
+
+	public List<String> blpop(String... args) {
+		return proxy.blpop(args);
+	}
+
+	public List<byte[]> brpop(byte[]... args) {
+		return proxy.brpop(args);
+	}
+
+	public List<String> brpop(int timeout, String key) {
+		return proxy.brpop(timeout, key);
+	}
+
+	public List<String> brpop(String... args) {
+		return proxy.brpop(args);
+	}
+
+	public String clientGetname() {
+		return proxy.clientGetname();
+	}
+
+	public String clientKill(byte[] client) {
+		return proxy.clientKill(client);
+	}
+
+	public String clientKill(String client) {
+		return proxy.clientKill(client);
+	}
+
+	public String clientList() {
+		return proxy.clientList();
+	}
+
+	public String clientSetname(byte[] name) {
+		return proxy.clientSetname(name);
+	}
+
+	public String clientSetname(String name) {
+		return proxy.clientSetname(name);
+	}
+
+	public void close() {
+		proxy.close();
+	}
+
+	public String clusterAddSlots(int... slots) {
+		return proxy.clusterAddSlots(slots);
+	}
+
+	public Long clusterCountKeysInSlot(int slot) {
+		return proxy.clusterCountKeysInSlot(slot);
+	}
+
+	public String clusterDelSlots(int... slots) {
+		return proxy.clusterDelSlots(slots);
+	}
+
+	public String clusterFailover() {
+		return proxy.clusterFailover();
+	}
+
+	public String clusterFlushSlots() {
+		return proxy.clusterFlushSlots();
+	}
+
+	public String clusterForget(String nodeId) {
+		return proxy.clusterForget(nodeId);
+	}
+
+	public List<String> clusterGetKeysInSlot(int slot, int count) {
+		return proxy.clusterGetKeysInSlot(slot, count);
+	}
+
+	public String clusterInfo() {
+		return proxy.clusterInfo();
+	}
+
+	public Long clusterKeySlot(String key) {
+		return proxy.clusterKeySlot(key);
+	}
+
+	public String clusterMeet(String ip, int port) {
+		return proxy.clusterMeet(ip, port);
+	}
+
+	public String clusterNodes() {
+		return proxy.clusterNodes();
+	}
+
+	public String clusterReplicate(String nodeId) {
+		return proxy.clusterReplicate(nodeId);
+	}
+
+	public String clusterReset(Reset resetType) {
+		return proxy.clusterReset(resetType);
+	}
+
+	public String clusterSaveConfig() {
+		return proxy.clusterSaveConfig();
+	}
+
+	public String clusterSetSlotImporting(int slot, String nodeId) {
+		return proxy.clusterSetSlotImporting(slot, nodeId);
+	}
+
+	public String clusterSetSlotMigrating(int slot, String nodeId) {
+		return proxy.clusterSetSlotMigrating(slot, nodeId);
+	}
+
+	public String clusterSetSlotNode(int slot, String nodeId) {
+		return proxy.clusterSetSlotNode(slot, nodeId);
+	}
+
+	public String clusterSetSlotStable(int slot) {
+		return proxy.clusterSetSlotStable(slot);
+	}
+
+	public List<String> clusterSlaves(String nodeId) {
+		return proxy.clusterSlaves(nodeId);
+	}
+
+	public List<Object> clusterSlots() {
+		return proxy.clusterSlots();
+	}
+
+	public Long del(byte[] key) {
+		return proxy.del(key);
+	}
+
+	public Long del(String key) {
+		return proxy.del(key);
+	}
+
+	public byte[] dump(byte[] key) {
+		return proxy.dump(key);
+	}
+
+	public byte[] dump(String key) {
+		return proxy.dump(key);
+	}
+
+	public Object eval(byte[] script, int keyCount, byte[]... params) {
+		return proxy.eval(script, keyCount, params);
+	}
+
+	public Object eval(byte[] script) {
+		return proxy.eval(script);
+	}
+
+	public Object evalsha(byte[] sha1, int keyCount, byte[]... params) {
+		return proxy.evalsha(sha1, keyCount, params);
+	}
+
+	public Object evalsha(byte[] sha1, List<byte[]> keys, List<byte[]> args) {
+		return proxy.evalsha(sha1, keys, args);
+	}
+
+	public Object evalsha(byte[] sha1) {
+		return proxy.evalsha(sha1);
+	}
+
+	public Double hincrByFloat(byte[] key, byte[] field, double value) {
+		return proxy.hincrByFloat(key, field, value);
+	}
+
+	public Double hincrByFloat(String key, String field, double value) {
+		return proxy.hincrByFloat(key, field, value);
+	}
+
+	public ScanResult<Entry<byte[], byte[]>> hscan(byte[] key, byte[] cursor,
+			ScanParams params) {
+		return proxy.hscan(key, cursor, params);
+	}
+
+	public ScanResult<Entry<byte[], byte[]>> hscan(byte[] key, byte[] cursor) {
+		return proxy.hscan(key, cursor);
+	}
+
+	public ScanResult<Entry<String, String>> hscan(String key, String cursor,
+			ScanParams params) {
+		return proxy.hscan(key, cursor, params);
+	}
+
+	public ScanResult<Entry<String, String>> hscan(String key, String cursor) {
+		return proxy.hscan(key, cursor);
+	}
+
+	public Double incrByFloat(byte[] key, double integer) {
+		return proxy.incrByFloat(key, integer);
+	}
+
+	public Double incrByFloat(String key, double value) {
+		return proxy.incrByFloat(key, value);
+	}
+
+	public String info(String section) {
+		return proxy.info(section);
+	}
+
+	public byte[] lindex(byte[] key, long index) {
+		return proxy.lindex(key, index);
+	}
+
+	public Long lpushx(byte[] key, byte[]... string) {
+		return proxy.lpushx(key, string);
+	}
+
+	public Long lpushx(String key, String... string) {
+		return proxy.lpushx(key, string);
+	}
+
+	public List<byte[]> lrange(byte[] key, long start, long end) {
+		return proxy.lrange(key, start, end);
+	}
+
+	public Long lrem(byte[] key, long count, byte[] value) {
+		return proxy.lrem(key, count, value);
+	}
+
+	public String lset(byte[] key, long index, byte[] value) {
+		return proxy.lset(key, index, value);
+	}
+
+	public String ltrim(byte[] key, long start, long end) {
+		return proxy.ltrim(key, start, end);
+	}
+
+	public String migrate(byte[] host, int port, byte[] key, int destinationDb,
+			int timeout) {
+		return proxy.migrate(host, port, key, destinationDb, timeout);
+	}
+
+	public String migrate(String host, int port, String key, int destinationDb,
+			int timeout) {
+		return proxy.migrate(host, port, key, destinationDb, timeout);
+	}
+
+	public Long pexpire(byte[] key, long milliseconds) {
+		return proxy.pexpire(key, milliseconds);
+	}
+
+	public Long pexpire(String key, long milliseconds) {
+		return proxy.pexpire(key, milliseconds);
+	}
+
+	public Long pexpireAt(byte[] key, long millisecondsTimestamp) {
+		return proxy.pexpireAt(key, millisecondsTimestamp);
+	}
+
+	public Long pexpireAt(String key, long millisecondsTimestamp) {
+		return proxy.pexpireAt(key, millisecondsTimestamp);
+	}
+
+	public Long pfadd(byte[] key, byte[]... elements) {
+		return proxy.pfadd(key, elements);
+	}
+
+	public Long pfadd(String key, String... elements) {
+		return proxy.pfadd(key, elements);
+	}
+
+	public Long pfcount(byte[]... keys) {
+		return proxy.pfcount(keys);
+	}
+
+	public long pfcount(byte[] key) {
+		return proxy.pfcount(key);
+	}
+
+	public long pfcount(String... keys) {
+		return proxy.pfcount(keys);
+	}
+
+	public long pfcount(String key) {
+		return proxy.pfcount(key);
+	}
+
+	public String pfmerge(byte[] destkey, byte[]... sourcekeys) {
+		return proxy.pfmerge(destkey, sourcekeys);
+	}
+
+	public String pfmerge(String destkey, String... sourcekeys) {
+		return proxy.pfmerge(destkey, sourcekeys);
+	}
+
+	public String psetex(byte[] key, long milliseconds, byte[] value) {
+		return proxy.psetex(key, milliseconds, value);
+	}
+
+	public String psetex(String key, long milliseconds, String value) {
+		return proxy.psetex(key, milliseconds, value);
+	}
+
+	public Long pttl(byte[] key) {
+		return proxy.pttl(key);
+	}
+
+	public Long pttl(String key) {
+		return proxy.pttl(key);
+	}
+
+	public List<String> pubsubChannels(String pattern) {
+		return proxy.pubsubChannels(pattern);
+	}
+
+	public Long pubsubNumPat() {
+		return proxy.pubsubNumPat();
+	}
+
+	public Map<String, String> pubsubNumSub(String... channels) {
+		return proxy.pubsubNumSub(channels);
+	}
+
+	public void resetState() {
+		proxy.resetState();
+	}
+
+	public String restore(byte[] key, int ttl, byte[] serializedValue) {
+		return proxy.restore(key, ttl, serializedValue);
+	}
+
+	public String restore(String key, int ttl, byte[] serializedValue) {
+		return proxy.restore(key, ttl, serializedValue);
+	}
+
+	public Long rpushx(byte[] key, byte[]... string) {
+		return proxy.rpushx(key, string);
+	}
+
+	public Long rpushx(String key, String... string) {
+		return proxy.rpushx(key, string);
+	}
+
+	public ScanResult<byte[]> scan(byte[] cursor, ScanParams params) {
+		return proxy.scan(cursor, params);
+	}
+
+	public ScanResult<byte[]> scan(byte[] cursor) {
+		return proxy.scan(cursor);
+	}
+
+	public ScanResult<String> scan(String arg0, ScanParams arg1) {
+		return proxy.scan(arg0, arg1);
+	}
+
+	public ScanResult<String> scan(String cursor) {
+		return proxy.scan(cursor);
+	}
+
+	public String sentinelFailover(String masterName) {
+		return proxy.sentinelFailover(masterName);
+	}
+
+	public List<String> sentinelGetMasterAddrByName(String masterName) {
+		return proxy.sentinelGetMasterAddrByName(masterName);
+	}
+
+	public List<Map<String, String>> sentinelMasters() {
+		return proxy.sentinelMasters();
+	}
+
+	public String sentinelMonitor(String masterName, String ip, int port,
+			int quorum) {
+		return proxy.sentinelMonitor(masterName, ip, port, quorum);
+	}
+
+	public String sentinelRemove(String masterName) {
+		return proxy.sentinelRemove(masterName);
+	}
+
+	public Long sentinelReset(String pattern) {
+		return proxy.sentinelReset(pattern);
+	}
+
+	public String sentinelSet(String arg0, Map<String, String> arg1) {
+		return proxy.sentinelSet(arg0, arg1);
+	}
+
+	public List<Map<String, String>> sentinelSlaves(String arg0) {
+		return proxy.sentinelSlaves(arg0);
+	}
+
+	public String set(byte[] key, byte[] value, byte[] nxxx, byte[] expx,
+			int time) {
+		return proxy.set(key, value, nxxx, expx, time);
+	}
+
+	public String set(byte[] key, byte[] value, byte[] nxxx, byte[] expx,
+			long time) {
+		return proxy.set(key, value, nxxx, expx, time);
+	}
+
+	public String set(byte[] key, byte[] value, byte[] nxxx) {
+		return proxy.set(key, value, nxxx);
+	}
+
+	public String set(String key, String value, String nxxx, String expx,
+			int time) {
+		return proxy.set(key, value, nxxx, expx, time);
+	}
+
+	public String set(String key, String value, String nxxx, String expx,
+			long time) {
+		return proxy.set(key, value, nxxx, expx, time);
+	}
+
+	public String set(String key, String value, String nxxx) {
+		return proxy.set(key, value, nxxx);
+	}
+
+	public void setDataSource(Pool<Jedis> jedisPool) {
+		proxy.setDataSource(jedisPool);
+	}
+
+	public Boolean setbit(byte[] key, long offset, boolean value) {
+		return proxy.setbit(key, offset, value);
+	}
+
+	public Boolean setbit(String key, long offset, String value) {
+		return proxy.setbit(key, offset, value);
+	}
+
+	public Set<byte[]> spop(byte[] key, long count) {
+		return proxy.spop(key, count);
+	}
+
+	public Set<String> spop(String key, long count) {
+		return proxy.spop(key, count);
+	}
+
+	public List<byte[]> srandmember(byte[] key, int count) {
+		return proxy.srandmember(key, count);
+	}
+
+	public List<String> srandmember(String key, int count) {
+		return proxy.srandmember(key, count);
+	}
+
+	public ScanResult<byte[]> sscan(byte[] key, byte[] cursor, ScanParams params) {
+		return proxy.sscan(key, cursor, params);
+	}
+
+	public ScanResult<byte[]> sscan(byte[] key, byte[] cursor) {
+		return proxy.sscan(key, cursor);
+	}
+
+	public ScanResult<String> sscan(String arg0, String arg1, ScanParams arg2) {
+		return proxy.sscan(arg0, arg1, arg2);
+	}
+
+	public ScanResult<String> sscan(String key, String cursor) {
+		return proxy.sscan(key, cursor);
+	}
+
+	public List<String> time() {
+		return proxy.time();
+	}
+
+	public Long waitReplicas(int replicas, long timeout) {
+		return proxy.waitReplicas(replicas, timeout);
+	}
+
+	public Long zlexcount(byte[] key, byte[] min, byte[] max) {
+		return proxy.zlexcount(key, min, max);
+	}
+
+	public Long zlexcount(String key, String min, String max) {
+		return proxy.zlexcount(key, min, max);
+	}
+
+	public Set<byte[]> zrange(byte[] key, long start, long end) {
+		return proxy.zrange(key, start, end);
+	}
+
+	public Set<byte[]> zrangeByLex(byte[] key, byte[] min, byte[] max,
+			int offset, int count) {
+		return proxy.zrangeByLex(key, min, max, offset, count);
+	}
+
+	public Set<byte[]> zrangeByLex(byte[] key, byte[] min, byte[] max) {
+		return proxy.zrangeByLex(key, min, max);
+	}
+
+	public Set<String> zrangeByLex(String key, String min, String max,
+			int offset, int count) {
+		return proxy.zrangeByLex(key, min, max, offset, count);
+	}
+
+	public Set<String> zrangeByLex(String key, String min, String max) {
+		return proxy.zrangeByLex(key, min, max);
+	}
+
+	public Set<Tuple> zrangeWithScores(byte[] key, long start, long end) {
+		return proxy.zrangeWithScores(key, start, end);
+	}
+
+	public Long zremrangeByLex(byte[] key, byte[] min, byte[] max) {
+		return proxy.zremrangeByLex(key, min, max);
+	}
+
+	public Long zremrangeByLex(String key, String min, String max) {
+		return proxy.zremrangeByLex(key, min, max);
+	}
+
+	public Long zremrangeByRank(byte[] key, long start, long end) {
+		return proxy.zremrangeByRank(key, start, end);
+	}
+
+	public Set<byte[]> zrevrange(byte[] key, long start, long end) {
+		return proxy.zrevrange(key, start, end);
+	}
+
+	public Set<byte[]> zrevrangeByLex(byte[] key, byte[] max, byte[] min,
+			int offset, int count) {
+		return proxy.zrevrangeByLex(key, max, min, offset, count);
+	}
+
+	public Set<byte[]> zrevrangeByLex(byte[] key, byte[] max, byte[] min) {
+		return proxy.zrevrangeByLex(key, max, min);
+	}
+
+	public Set<String> zrevrangeByLex(String key, String max, String min,
+			int offset, int count) {
+		return proxy.zrevrangeByLex(key, max, min, offset, count);
+	}
+
+	public Set<String> zrevrangeByLex(String key, String max, String min) {
+		return proxy.zrevrangeByLex(key, max, min);
+	}
+
+	public Set<Tuple> zrevrangeWithScores(byte[] key, long start, long end) {
+		return proxy.zrevrangeWithScores(key, start, end);
+	}
+
+	public ScanResult<Tuple> zscan(byte[] key, byte[] cursor, ScanParams params) {
+		return proxy.zscan(key, cursor, params);
+	}
+
+	public ScanResult<Tuple> zscan(byte[] key, byte[] cursor) {
+		return proxy.zscan(key, cursor);
+	}
+
+	public ScanResult<Tuple> zscan(String key, int cursor, ScanParams params) {
+		return proxy.zscan(key, cursor, params);
+	}
+
+	public ScanResult<Tuple> zscan(String key, int cursor) {
+		return proxy.zscan(key, cursor);
+	}
+
+	public ScanResult<Tuple> zscan(String key, String cursor, ScanParams params) {
+		return proxy.zscan(key, cursor, params);
+	}
+
+	public ScanResult<Tuple> zscan(String key, String cursor) {
+		return proxy.zscan(key, cursor);
 	}
 
 	public void afterPropertiesSet() throws Exception {

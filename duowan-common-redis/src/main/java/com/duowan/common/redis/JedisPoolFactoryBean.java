@@ -81,48 +81,106 @@ public class JedisPoolFactoryBean implements FactoryBean<JedisPool>, Initializin
 		poolConfig.setMinIdle(minIdle);
 	}
 
-	public int getMaxActive() {
-		return poolConfig.getMaxActive();
-	}
-
-	public void setMaxActive(int maxActive) {
-		poolConfig.setMaxActive(maxActive);
-	}
-
-	public long getMaxWait() {
-		return poolConfig.getMaxWait();
-	}
-
-	public void setMaxWait(long maxWait) {
-		poolConfig.setMaxWait(maxWait);
-	}
-
-	public byte getWhenExhaustedAction() {
-		return poolConfig.getWhenExhaustedAction();
-	}
-
-	public void setWhenExhaustedAction(byte whenExhaustedAction) {
-		poolConfig.setWhenExhaustedAction(whenExhaustedAction);
-	}
-
-	public boolean isTestOnBorrow() {
-		return poolConfig.isTestOnBorrow();
-	}
-
 	public void setTestOnBorrow(boolean testOnBorrow) {
 		poolConfig.setTestOnBorrow(testOnBorrow);
-	}
-
-	public boolean isTestOnReturn() {
-		return poolConfig.isTestOnReturn();
 	}
 
 	public void setTestOnReturn(boolean testOnReturn) {
 		poolConfig.setTestOnReturn(testOnReturn);
 	}
+	
+	
 
-	public boolean isTestWhileIdle() {
-		return poolConfig.isTestWhileIdle();
+	public boolean getBlockWhenExhausted() {
+		return poolConfig.getBlockWhenExhausted();
+	}
+
+	public String getEvictionPolicyClassName() {
+		return poolConfig.getEvictionPolicyClassName();
+	}
+
+	public boolean getFairness() {
+		return poolConfig.getFairness();
+	}
+
+	public boolean getJmxEnabled() {
+		return poolConfig.getJmxEnabled();
+	}
+
+	public String getJmxNameBase() {
+		return poolConfig.getJmxNameBase();
+	}
+
+	public String getJmxNamePrefix() {
+		return poolConfig.getJmxNamePrefix();
+	}
+
+	public boolean getLifo() {
+		return poolConfig.getLifo();
+	}
+
+	public int getMaxTotal() {
+		return poolConfig.getMaxTotal();
+	}
+
+	public long getMaxWaitMillis() {
+		return poolConfig.getMaxWaitMillis();
+	}
+
+	public boolean getTestOnBorrow() {
+		return poolConfig.getTestOnBorrow();
+	}
+
+	public boolean getTestOnCreate() {
+		return poolConfig.getTestOnCreate();
+	}
+
+	public boolean getTestOnReturn() {
+		return poolConfig.getTestOnReturn();
+	}
+
+	public boolean getTestWhileIdle() {
+		return poolConfig.getTestWhileIdle();
+	}
+
+	public void setBlockWhenExhausted(boolean blockWhenExhausted) {
+		poolConfig.setBlockWhenExhausted(blockWhenExhausted);
+	}
+
+	public void setEvictionPolicyClassName(String evictionPolicyClassName) {
+		poolConfig.setEvictionPolicyClassName(evictionPolicyClassName);
+	}
+
+	public void setFairness(boolean fairness) {
+		poolConfig.setFairness(fairness);
+	}
+
+	public void setJmxEnabled(boolean jmxEnabled) {
+		poolConfig.setJmxEnabled(jmxEnabled);
+	}
+
+	public void setJmxNameBase(String jmxNameBase) {
+		poolConfig.setJmxNameBase(jmxNameBase);
+	}
+
+	public void setJmxNamePrefix(String jmxNamePrefix) {
+		poolConfig.setJmxNamePrefix(jmxNamePrefix);
+	}
+
+	public void setLifo(boolean lifo) {
+		poolConfig.setLifo(lifo);
+	}
+
+	public void setMaxTotal(int maxTotal) {
+		poolConfig.setMaxTotal(maxTotal);
+	}
+
+	public void setMaxWaitMillis(long maxWaitMillis) {
+		poolConfig.setMaxWaitMillis(maxWaitMillis);
+	}
+
+	public void setTestOnCreate(boolean testOnCreate) {
+		poolConfig.setTestOnCreate(testOnCreate);
 	}
 
 	public void setTestWhileIdle(boolean testWhileIdle) {

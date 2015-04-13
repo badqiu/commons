@@ -111,7 +111,7 @@
 		<dependency>
 			<groupId>com.duowan.common</groupId>
 			<artifactId>duowan-common-util</artifactId>
-			<version>1.0.9</version>
+			<version>1.0.13</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.slf4j</groupId>
@@ -273,12 +273,12 @@
 			<version>2.2</version>
 			<optional>true</optional>
 		</dependency>
-		<dependency>
-			<groupId>apache-oro</groupId>
-			<artifactId>jakarta-oro</artifactId>
-			<version>2.0.8</version>
-			<optional>true</optional>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>apache-oro</groupId> -->
+<!-- 			<artifactId>jakarta-oro</artifactId> -->
+<!-- 			<version>2.0.8</version> -->
+<!-- 			<optional>true</optional> -->
+<!-- 		</dependency> -->
 		<!-- spring end -->
 
 		<!--  apache-commons BEGIN -->

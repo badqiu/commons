@@ -230,12 +230,6 @@
 				<version>2.2</version>
 				<optional>true</optional>
 			</dependency>
-			<dependency>
-			    <groupId>apache-oro</groupId>
-			    <artifactId>jakarta-oro</artifactId>
-			    <version>2.0.8</version>
-			    <optional>true</optional>
-			</dependency>			
 			<!-- spring end -->
 
 			<!--  apache-commons BEGIN -->
