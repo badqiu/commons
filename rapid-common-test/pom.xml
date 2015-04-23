@@ -1,13 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.duowan.common</groupId>
-	<artifactId>duowan-common-test</artifactId>
-	<name>duowan-common-test</name>
+	<groupId>om.github.rapid.common</groupId>
+	<artifactId>rapid-common-test</artifactId>
+	<name>rapid-common-test</name>
 	<packaging>jar</packaging>
-	<version>1.0.1</version>	
+	<version>1.0.0</version>	
 
-	<description>duowan-common-test</description>
+	<description>rapid-common-test</description>
 	
 	<licenses>
 		<license>

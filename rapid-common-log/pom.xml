@@ -1,10 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.duowan.common</groupId>
-	<artifactId>duowan-common-redis</artifactId>
-	<version>1.0.1</version>	
-	<name>duowan-common-redis</name>
+	<groupId>om.github.rapid.common</groupId>
+	<artifactId>rapid-common-log</artifactId>
+	<version>1.0.0</version>
+	<name>rapid-common-log</name>
 	<packaging>jar</packaging>
 
 	<licenses>
@@ -15,8 +16,10 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>scm:svn:http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn/</connection>
-		<developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/trunk/rapid-mvn/</developerConnection>
+		<connection>scm:svn:http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn/
+		</connection>
+		<developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/trunk/rapid-mvn/
+		</developerConnection>
 		<url>http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn/</url>
 	</scm>
 	<developers>
@@ -32,15 +35,22 @@
 		<repository>
 			<id>releases</id>
 			<name>Internal Releases</name>
-			<url>http://dev.game.yy.com/nexus/content/repositories/releases/</url>
+			<url>http://dev.game.yy.com/nexus/content/repositories/releases/
+			</url>
 		</repository>
 		<snapshotRepository>
 			<id>snapshots</id>
 			<name>Internal snapshots</name>
-			<url>http://dev.game.yy.com/nexus/content/repositories/snapshots/</url>
+			<url>http://dev.game.yy.com/nexus/content/repositories/snapshots/
+			</url>
 		</snapshotRepository>
+		<site>
+			<id>duowan_site</id>
+			<name>duowan scm</name>
+			<url>scm:svn:http://dev.game.yy.com/repos/sites/trunk/</url>
+		</site>
 	</distributionManagement>
-			
+
 	<properties>
 		<spring.version>3.0.5.RELEASE</spring.version>
 		<struts2.version>2.1.8.1</struts2.version>
@@ -49,23 +59,25 @@
 		<h2.version>1.2.135</h2.version>
 		<jackson.version>1.5.2</jackson.version>
 		<slf4j.version>1.6.0</slf4j.version>
+		<logback.version>0.9.21</logback.version>
 		<hibernate.validator.version>4.1.0.Final</hibernate.validator.version>
-		
+
 		<hibernate.version>3.3.2.GA</hibernate.version>
 		<ibatis.version>2.3.4.726</ibatis.version>
 		<mybatis.version>3.0.1</mybatis.version>
-		
+
 		<project.version>4.0</project.version>
 
 		<targetJdk>1.5</targetJdk>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<project.reporting.outputEncoding>UTF-8
+		</project.reporting.outputEncoding>
 		<sourceEncoding>UTF-8</sourceEncoding>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
-	
-<build>
+
+	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -88,23 +100,54 @@
 						<goals>
 							<goal>jar</goal>
 						</goals>
-						</execution>
-					</executions>					
-				</plugin>				
-			</plugins>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 
-</build>
-	
-
+	</build>
 
 	<dependencies>
-
 		<dependency>
-			<groupId>redis.clients</groupId>
-			<artifactId>jedis</artifactId>
-			<version>2.7.0</version>
+			<groupId>com.duowan.common</groupId>
+			<artifactId>duowan-common-util</artifactId>
+			<version>1.0.13</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>1.4.9</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-mockito</artifactId>
+			<version>1.4.9</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<!-- email begin -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.activation</groupId>
+			<artifactId>activation</artifactId>
+			<version>1.1.1</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- email end -->
+
 		<!-- spring begin -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -194,20 +237,18 @@
 			<version>${spring.version}</version>
 			<optional>true</optional>
 		</dependency>
-		<!-- 
-		<dependency>
-			<groupId>org.springframework</groupId>
+		<!--
+			<dependency> <groupId>org.springframework</groupId>
 			<artifactId>spring-transaction</artifactId>
-			<version>${spring.version}</version>
-		</dependency>			
-		 -->
+			<version>${spring.version}</version> </dependency>
+		-->
 		<dependency>
 			<groupId>aopalliance</groupId>
 			<artifactId>aopalliance</artifactId>
 			<version>1.0</version>
 			<optional>true</optional>
 		</dependency>
-								
+
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
@@ -237,7 +278,7 @@
 <!-- 			<artifactId>jakarta-oro</artifactId> -->
 <!-- 			<version>2.0.8</version> -->
 <!-- 			<optional>true</optional> -->
-<!-- 		</dependency>			 -->
+<!-- 		</dependency> -->
 		<!-- spring end -->
 
 		<!--  apache-commons BEGIN -->
@@ -245,6 +286,7 @@
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
 			<version>1.8.3</version>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>commons-lang</groupId>
@@ -260,16 +302,19 @@
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
 			<version>1.4</version>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>1.4</version>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
 			<version>1.1.1</version>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>commons-configuration</groupId>
@@ -296,7 +341,7 @@
 			<optional>true</optional>
 		</dependency>
 		<!--  apache-commons END -->
-		
+
 		<!-- test BEGIN -->
 		<dependency>
 			<groupId>org.dbunit</groupId>
@@ -310,9 +355,15 @@
 			<version>4.8.1</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.9.0</version>
+			<scope>test</scope>
+		</dependency>
 		<!-- test END -->
 
-		
+
 		<!-- logging BEGIN-->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -323,6 +374,25 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>${slf4j.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>${logback.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-access</artifactId>
+			<version>${logback.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>
@@ -353,7 +423,29 @@
 		</dependency>
 		<!-- logging end-->
 
-																	
+		<!-- j2ee web spec -->
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<scope>provided</scope>
+			<version>2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>taglibs</groupId>
+			<artifactId>standard</artifactId>
+			<version>1.1.2</version>
+		</dependency>
 	</dependencies>
-	
+
 </project>

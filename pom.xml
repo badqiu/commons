@@ -1,24 +1,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.duowan.common</groupId>
-	<artifactId>duowan-common-parent</artifactId>
-	<name>duowan-common-parent</name>
+	<groupId>com.github.rapid.common</groupId>
+	<artifactId>rapid-common-parent</artifactId>
+	<name>rapid-common-parent</name>
 	<packaging>pom</packaging>
 	<version>1.0</version>	
 
-	<description>duowan-common-parent parent</description>
+	<description>rapid-common-parent parent</description>
 	
 
 	<modules>
-		<module>duowan-common-jdbc</module>
-		<module>duowan-common-web</module>
-		<module>duowan-common-mvc</module>
-		<module>duowan-common-test</module>
-		<module>duowan-common-util</module>
-		<module>duowan-common-rpc</module>
-		<module>duowan-common-log</module>
-		<module>duowan-common-redis</module>
+		<module>rapid-common-jdbc</module>
+		<module>rapid-common-web</module>
+		<module>rapid-common-mvc</module>
+		<module>rapid-common-test</module>
+		<module>rapid-common-util</module>
+		<module>rapid-common-rest</module>
+		<module>rapid-common-log</module>
+		<module>rapid-common-redis</module>
 	</modules>
 		
 

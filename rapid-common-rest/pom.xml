@@ -1,13 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.duowan.common</groupId>
-	<artifactId>duowan-common-rpc</artifactId>
-	<name>duowan-common-rpc</name>
+	<groupId>om.github.rapid.common</groupId>
+	<artifactId>rapid-common-rest</artifactId>
+	<name>rapid-common-rest</name>
 	<packaging>jar</packaging>
-	<version>2.0.0</version>	
+	<version>1.0.0</version>	
 
-	<description>duowan-common-rpc core libs</description>
+	<description>rapid-common-rest core libs</description>
 	
 	<licenses>
 		<license>
