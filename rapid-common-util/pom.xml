@@ -949,9 +949,9 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>com.duowan.common</groupId>
-			<artifactId>duowan-common-test</artifactId>
-			<version>1.0.1</version>
+			<groupId>com.github.rapid.common</groupId>
+			<artifactId>rapid-common-test</artifactId>
+			<version>1.0.0</version>
 			<scope>test</scope>			
 		</dependency>					
 	</dependencies>
