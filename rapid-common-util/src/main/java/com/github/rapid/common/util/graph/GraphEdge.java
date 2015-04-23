@@ -1,13 +1,17 @@
 package com.github.rapid.common.util.graph;
 
+import java.io.Serializable;
+
 /**
  * 代表图的边,有方向
  * 
  * @author badqiu
  * 
  */
-public class GraphEdge {
+public class GraphEdge implements Serializable {
 
+	private static final long serialVersionUID = 205635530806532654L;
+	
 	private String begin;
 	private String end;
 

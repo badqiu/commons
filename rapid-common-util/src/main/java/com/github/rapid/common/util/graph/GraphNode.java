@@ -1,9 +1,10 @@
 package com.github.rapid.common.util.graph;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
+import org.apache.commons.lang.StringUtils;
 
 /**
  * 代表图的某个节点
@@ -11,7 +12,10 @@ import java.util.Set;
  * @author badqiu
  * 
  */
-public class GraphNode <T>{
+public class GraphNode<T extends GraphNode> implements Serializable {
+
+	private static final long serialVersionUID = 5097996371381799833L;
+	
 	/**
 	 * 节点ID
 	 */
@@ -61,6 +65,8 @@ public class GraphNode <T>{
 	}
 
 	public List<T> getChilds() {
+		if(childs == null) childs = new ArrayList<T>();
+		
 		return childs;
 	}
 
@@ -69,6 +75,8 @@ public class GraphNode <T>{
 	}
 
 	public List<T> getParents() {
+		if(parents == null) parents = new ArrayList<T>();
+		
 		return parents;
 	}
 
@@ -77,20 +85,29 @@ public class GraphNode <T>{
 	}
 
 	public void addChild(T child) {
-		if(!childs.contains(child))
-			childs.add(child);
+		if(!getChilds().contains(child))
+			getChilds().add(child);
 	}
 
 	public void addParent(T parent) {
-		if(!parents.contains(parent))
-			parents.add(parent);
+		if(!getParents().contains(parent))
+			getParents().add(parent);
+	}
+	
+	public String dump(int tabsCount) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(StringUtils.repeat("\t", tabsCount)+getId());
+		for(T n : getChilds()) {
+			sb.append("\n"+n.dump(tabsCount+1));
+		}
+		return sb.toString();
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
 		return result;
 	}
 
@@ -103,10 +120,10 @@ public class GraphNode <T>{
 		if (getClass() != obj.getClass())
 			return false;
 		GraphNode other = (GraphNode) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (getId() == null) {
+			if (other.getId() != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!getId().equals(other.getId()))
 			return false;
 		return true;
 	}
