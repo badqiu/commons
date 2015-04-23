@@ -2,4 +2,5 @@
 <com.github.rapid.common.xstream.XstreamTestUser>
 	<ds1 ref="ds1"/>
 	<ds2 reference="ds2"/>
+	<ds3 reference="dataSource"/>
 </com.github.rapid.common.xstream.XstreamTestUser>

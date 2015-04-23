@@ -1,14 +1,17 @@
 package com.github.rapid.common.xstream;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.util.ResourceUtils;
 
 import com.thoughtworks.xstream.XStream;
@@ -16,27 +19,36 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 
 public class CustomMarshallingStrategyTest {
 
-	Map vars;
+	Map vars = new HashMap();
 	ApplicationContext applicationContext;
 	
+	@Before
+	public void setUp() {
+		applicationContext = new ClassPathXmlApplicationContext("classpath:fortest_xstream/applicationContext-resource.xml");
+	}
 	@Test
 	public void test() throws Exception {
+		vars.put("ds1", new DriverManagerDataSource());
+		vars.put("ds2", new DriverManagerDataSource());
 		
 		XStream xstream = buildXStream();
 		
 		InputStream input = new FileInputStream(ResourceUtils.getFile("classpath:fortest_xstream/xstream_test.xml"));
-		
-		fromXml(xstream, input);
+		XstreamTestUser testUser = (XstreamTestUser)fromXml(xstream, input);
+		assertNotNull(testUser.getDs1());
+		assertNotNull(testUser.getDs2());
+		assertNotNull(testUser.getDs3());
 		
 		input.close();
 	}
+	
 
-	private void fromXml(XStream xstream, InputStream input) {
+	private Object fromXml(XStream xstream, InputStream input) {
 		CustomMarshallingStrategy marshallingStrategy = new CustomMarshallingStrategy();
 		marshallingStrategy.setBeans(vars);
 		marshallingStrategy.setApplicationContext(applicationContext);
 		xstream.setMarshallingStrategy(marshallingStrategy);
-		xstream.fromXML(input);
+		return xstream.fromXML(input);
 	}
 	
 	private static XStream buildXStream() {
