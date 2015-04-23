@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<com.github.rapid.common.xstream.XstreamTestUser>
+	<ds1 ref="ds1"/>
+	<ds2 reference="ds2"/>
+</com.github.rapid.common.xstream.XstreamTestUser>

@@ -1,4 +1,4 @@
-package com.github.rapid.common.graph;
+package com.github.rapid.common.util.graph;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ public class Graph <T extends GraphNode>{
 
 	private void initAllNodeDepends() {
 		for(GraphNode node : nodes) {
-			addDepends(node.getGraphNodeId(), node.getDepends());
+			addDepends(node.getId(), node.getDepends());
 		}
 	}
 	
@@ -52,7 +52,7 @@ public class Graph <T extends GraphNode>{
 
 	public T getNode(String id) {
 		for(T node : nodes) {
-			if(node.getGraphNodeId().equals(id)) {
+			if(node.getId().equals(id)) {
 				return node;
 			}
 		}

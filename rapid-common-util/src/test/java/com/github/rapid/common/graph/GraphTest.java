@@ -5,6 +5,9 @@ import java.util.Collection;
 import org.junit.Test;
 import org.springframework.util.Assert;
 
+import com.github.rapid.common.util.graph.Graph;
+import com.github.rapid.common.util.graph.GraphNode;
+
 public class GraphTest {
 
 	@Test
@@ -26,7 +29,7 @@ public class GraphTest {
 
 	private void printNodes(Collection<GraphNode> nodes,String prefix) {
 		for(GraphNode n : nodes) {
-			System.out.println(prefix+n.getGraphNodeId());
+			System.out.println(prefix+n.getId());
 		}
 	}
 }

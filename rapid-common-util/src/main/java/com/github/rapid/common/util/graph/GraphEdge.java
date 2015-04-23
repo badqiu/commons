@@ -1,4 +1,4 @@
-package com.github.rapid.common.graph;
+package com.github.rapid.common.util.graph;
 
 /**
  * 代表图的边,有方向

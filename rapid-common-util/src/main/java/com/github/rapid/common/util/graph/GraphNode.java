@@ -1,4 +1,4 @@
-package com.github.rapid.common.graph;
+package com.github.rapid.common.util.graph;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -15,7 +15,7 @@ public class GraphNode <T>{
 	/**
 	 * 节点ID
 	 */
-	private String graphNodeId;
+	private String id;
 	/**
 	 * 节点依赖的节点
 	 */
@@ -35,12 +35,12 @@ public class GraphNode <T>{
 	
 	public GraphNode(String graphNodeId) {
 		super();
-		this.graphNodeId = graphNodeId;
+		this.id = graphNodeId;
 	}
 	
 	public GraphNode(String graphNodeId, String depends) {
 		super();
-		this.graphNodeId = graphNodeId;
+		this.id = graphNodeId;
 		this.depends = depends;
 	}
 
@@ -52,12 +52,12 @@ public class GraphNode <T>{
 		this.depends = depends;
 	}
 
-	public String getGraphNodeId() {
-		return graphNodeId;
+	public String getId() {
+		return id;
 	}
 
-	public void setGraphNodeId(String id) {
-		this.graphNodeId = id;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public List<T> getChilds() {
@@ -90,7 +90,7 @@ public class GraphNode <T>{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((graphNodeId == null) ? 0 : graphNodeId.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -103,10 +103,10 @@ public class GraphNode <T>{
 		if (getClass() != obj.getClass())
 			return false;
 		GraphNode other = (GraphNode) obj;
-		if (graphNodeId == null) {
-			if (other.graphNodeId != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!graphNodeId.equals(other.graphNodeId))
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}
