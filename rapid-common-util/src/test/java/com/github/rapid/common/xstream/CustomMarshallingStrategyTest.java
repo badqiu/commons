@@ -1,6 +1,6 @@
 package com.github.rapid.common.xstream;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -15,6 +15,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.util.ResourceUtils;
 
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.javabean.JavaBeanConverter;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 public class CustomMarshallingStrategyTest {
@@ -41,6 +42,24 @@ public class CustomMarshallingStrategyTest {
 		
 		input.close();
 	}
+	
+	@Test
+	public void test_by_custom_converter() throws Exception {
+		vars.put("ds1", new DriverManagerDataSource());
+		vars.put("ds2", new DriverManagerDataSource());
+		
+		XStream xstream = buildXStream();
+		xstream.registerConverter(new JavaBeanConverter(xstream.getMapper(),XstreamTestUser.class));
+		
+		InputStream input = new FileInputStream(ResourceUtils.getFile("classpath:fortest_xstream/xstream_test.xml"));
+		XstreamTestUser testUser = (XstreamTestUser)fromXml(xstream, input);
+		assertNotNull(testUser.getDs1());
+		assertNotNull(testUser.getDs2());
+		assertNotNull(testUser.getDs3());
+		
+		input.close();
+	}
+	
 	
 
 	private Object fromXml(XStream xstream, InputStream input) {

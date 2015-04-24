@@ -26,4 +26,11 @@ public class XstreamTestUser {
 	public void setDs3(DataSource ds3) {
 		this.ds3 = ds3;
 	}
+	public DataSource getDs4() {
+		return ds4;
+	}
+	public void setDs4(DataSource ds4) {
+		this.ds4 = ds4;
+	}
+	
 }

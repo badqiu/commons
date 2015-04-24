@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -17,10 +19,10 @@ import org.apache.commons.lang.StringUtils;
 public class Graph <NODE extends GraphNode> implements Serializable {
 
 	private static final long serialVersionUID = -772398465741515697L;
+	private static Logger logger = LoggerFactory.getLogger(Graph.class);
 	
 	private List<NODE> nodes = new ArrayList<NODE>();
 	private List<GraphEdge> edges = new ArrayList<GraphEdge>();
-	
 	public Graph(){
 	}
 
@@ -28,9 +30,13 @@ public class Graph <NODE extends GraphNode> implements Serializable {
 	 * 初始化图
 	 */
 	public void init() {
-		initAllNodeDepends(false);
+		init(false);
 	}
 
+	public void init(boolean ignoreNotFoundDependError) {
+		initAllNodeDepends(ignoreNotFoundDependError);
+	}
+	
 	private void initAllNodeDepends(boolean ignoreNotFoundDependError) {
 		for(GraphNode node : nodes) {
 			try {
@@ -38,6 +44,7 @@ public class Graph <NODE extends GraphNode> implements Serializable {
 			}catch(RuntimeException e) {
 				if(ignoreNotFoundDependError) {
 					//ignore
+					logger.warn("not found depends"+node.getDepends()+" for node:"+node.getId(),e);
 				}else {
 					throw e;
 				}
