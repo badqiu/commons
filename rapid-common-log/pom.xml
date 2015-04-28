@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>om.github.rapid.common</groupId>
+	<groupId>com.github.rapid.common</groupId>
 	<artifactId>rapid-common-log</artifactId>
 	<version>1.0.0</version>
 	<name>rapid-common-log</name>
@@ -35,20 +35,13 @@
 		<repository>
 			<id>releases</id>
 			<name>Internal Releases</name>
-			<url>http://dev.game.yy.com/nexus/content/repositories/releases/
-			</url>
+			<url>http://10.20.122.91/nexus/content/repositories/releases/</url>
 		</repository>
 		<snapshotRepository>
 			<id>snapshots</id>
 			<name>Internal snapshots</name>
-			<url>http://dev.game.yy.com/nexus/content/repositories/snapshots/
-			</url>
+			<url>http://10.20.122.91/nexus/content/repositories/snapshots/</url>
 		</snapshotRepository>
-		<site>
-			<id>duowan_site</id>
-			<name>duowan scm</name>
-			<url>scm:svn:http://dev.game.yy.com/repos/sites/trunk/</url>
-		</site>
 	</distributionManagement>
 
 	<properties>
