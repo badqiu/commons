@@ -14,27 +14,27 @@
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd"
     default-autowire="byName"   >
 
-    <bean id="userWebService" class="com.duowan.common.rpc.fortestinvoker.UserWebServiceImpl"/>
-    <bean id="blogInfoService " class="com.duowan.common.rpc.fortest.api.BlogInfoServiceImpl"/>
+    <bean id="userWebService" class="com.github.rapid.common.rpc.fortestinvoker.UserWebServiceImpl"/>
+    <bean id="blogInfoService " class="com.github.rapid.common.rpc.fortest.api.BlogInfoServiceImpl"/>
                   
-	<bean class="com.duowan.common.rpc.server.RPCServiceExporter">
-		<property name="serviceInterface" value="com.duowan.common.rpc.fortestinvoker.UserWebService" />
+	<bean class="com.github.rapid.common.rpc.server.RPCServiceExporter">
+		<property name="serviceInterface" value="com.github.rapid.common.rpc.fortestinvoker.UserWebService" />
 		<property name="service" ref="userWebService"/>
 		
 		<property name="serDeMapping">
 			<map>
 				<entry key="json">
-					<bean class="com.duowan.common.rpc.serde.JsonSerDeImpl"/>
+					<bean class="com.github.rapid.common.rpc.serde.JsonSerDeImpl"/>
 				</entry>
 				<entry key="jsonp">
-					<bean class="com.duowan.common.rpc.serde.JsonpSerDeImpl"/>
+					<bean class="com.github.rapid.common.rpc.serde.JsonpSerDeImpl"/>
 				</entry>
 			</map>
 		</property>
 	</bean>  
 
-	<bean class="com.duowan.common.rpc.server.RPCServiceExporter">
-		<property name="serviceInterface" value="com.duowan.common.rpc.fortest.api.BlogInfoService" />
+	<bean class="com.github.rapid.common.rpc.server.RPCServiceExporter">
+		<property name="serviceInterface" value="com.github.rapid.common.rpc.fortest.api.BlogInfoService" />
 		<property name="service" ref="blogInfoService"/>
 	</bean>
 	        
