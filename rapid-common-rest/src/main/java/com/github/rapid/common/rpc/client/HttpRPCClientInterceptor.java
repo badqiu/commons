@@ -132,8 +132,8 @@ public class HttpRPCClientInterceptor extends RemoteAccessor implements MethodIn
 		catch (Throwable ex) {
 			throw convertHttpInvokerAccessException(ex,methodInvocation);
 		}
-		if(StringUtils.isNotEmpty(result.getErrno())) {
-			throw new WebServiceException(result.getErrno(),result.getError(),getServiceUrl(),methodInvocation.getMethod().getName());
+		if(StringUtils.isNotEmpty(result.getErrCode())) {
+			throw new WebServiceException(result.getErrCode(),result.getErrMsg(),getServiceUrl(),methodInvocation.getMethod().getName());
 		}
 		if(methodInvocation.getMethod().getGenericReturnType().equals(void.class)) {
 			return null;

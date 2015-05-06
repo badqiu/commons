@@ -12,12 +12,12 @@ public class RPCResponse <T> implements Serializable{
 	/**
 	 * 错误码
 	 */
-	private String errno;
+	private String errCode;
 	
 	/**
 	 * 具体错误消息
 	 */
-	private String error;
+	private String errMsg;
 	
 	public RPCResponse() {
 	}
@@ -29,8 +29,8 @@ public class RPCResponse <T> implements Serializable{
 
 	public RPCResponse(String errorCode, String errorMessage) {
 		super();
-		this.errno = errorCode;
-		this.error = errorMessage;
+		this.errCode = errorCode;
+		this.errMsg = errorMessage;
 	}
 
 	public T getResult() {
@@ -41,20 +41,20 @@ public class RPCResponse <T> implements Serializable{
 		this.result = result;
 	}
 
-	public String getErrno() {
-		return errno;
+	public String getErrCode() {
+		return errCode;
 	}
 
-	public void setErrno(String errorCode) {
-		this.errno = errorCode;
+	public void setErrCode(String errorCode) {
+		this.errCode = errorCode;
 	}
 
-	public String getError() {
-		return error;
+	public String getErrMsg() {
+		return errMsg;
 	}
 
-	public void setError(String errorMessage) {
-		this.error = errorMessage;
+	public void setErrMsg(String errorMessage) {
+		this.errMsg = errorMessage;
 	}
 	
 }
