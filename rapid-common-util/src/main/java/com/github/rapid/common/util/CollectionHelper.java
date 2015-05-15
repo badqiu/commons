@@ -16,6 +16,14 @@ public class CollectionHelper {
 	
 	private CollectionHelper(){}
 	
+	public static Object safeGet(List list,int index,Object defaultValue) {
+		if(list == null) return defaultValue;
+		if(list.size() - 1 < index) {
+			return defaultValue;
+		}
+		return list.get(index);
+	}
+	
 	public static LinkedHashSet asLinkedHashSet(Collection c) {
 		return (LinkedHashSet)asTargetTypeCollection(c,LinkedHashSet.class);
 	}

@@ -115,7 +115,7 @@ public class Graph <NODE extends GraphNode> implements Serializable {
 		if(StringUtils.isBlank(depends)) {
 			return;
 		}
-		for(String depend : depends.split("[,\\s]+")){
+		for(String depend : depends.trim().split("[,\\s]+")){
 			if(StringUtils.isNotBlank(depend)) {
 				GraphEdge edge = new GraphEdge(depend,id);
 				addEdge(edge);

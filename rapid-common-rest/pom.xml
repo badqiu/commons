@@ -3,12 +3,11 @@
 
 	<groupId>com.github.rapid.common</groupId>
 	<artifactId>rapid-common-rest</artifactId>
+	<version>1.0.0</version>
+		
 	<name>rapid-common-rest</name>
 	<packaging>jar</packaging>
-	<version>1.0.0</version>	
 
-	<description>rapid-common-rest core libs</description>
-	
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
@@ -47,7 +46,7 @@
 		<spring.version>3.0.5.RELEASE</spring.version>
 
 		<jetty.version>6.1.24</jetty.version>
-		<jackson.version>1.9.2</jackson.version>
+		<jackson.version>1.9.13</jackson.version>
 		<slf4j.version>1.6.0</slf4j.version>
 
 		<targetJdk>1.5</targetJdk>

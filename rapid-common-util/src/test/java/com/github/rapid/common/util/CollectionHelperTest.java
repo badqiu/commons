@@ -3,9 +3,9 @@ package com.github.rapid.common.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.rapid.common.util.CollectionHelper;
-
 import junit.framework.TestCase;
+
+import org.junit.Test;
 
 public class CollectionHelperTest extends TestCase {
 	List values = new ArrayList();
@@ -15,6 +15,21 @@ public class CollectionHelperTest extends TestCase {
 		}
 	}
 	
+	@Test
+	public void testSafeGet() {
+		List list = new ArrayList();
+		list.add("00");
+		list.add("11");
+		
+		assertNull(CollectionHelper.safeGet(null, 10, null));
+		assertEquals(1,CollectionHelper.safeGet(null, 10, 1));
+		
+		assertEquals("00",CollectionHelper.safeGet(list, 0, 1));
+		assertEquals("11",CollectionHelper.safeGet(list, 1, 1));
+		assertEquals(1,CollectionHelper.safeGet(list, 2, 1));
+		assertEquals(1,CollectionHelper.safeGet(list, 3, 1));
+		
+	}
 //	public void testMin() {
 //		assertEquals(new Integer(0),(Integer)CollectionUtils.min(values,"class"));
 //		
