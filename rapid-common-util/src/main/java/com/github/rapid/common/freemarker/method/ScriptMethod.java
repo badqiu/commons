@@ -5,7 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.rapid.common.util.CollectionHelper;
+import com.github.rapid.common.util.CollectionUtil;
 import com.github.rapid.common.util.ScriptEngineUtil;
 
 import freemarker.template.TemplateMethodModel;
@@ -21,7 +21,7 @@ public class ScriptMethod implements TemplateMethodModel{
 		}
 		String lang = (String)args.get(0);
 		String script = (String)args.get(1);
-		boolean ignoreError = (Boolean)CollectionHelper.safeGet(args,2,false);
+		boolean ignoreError = (Boolean)CollectionUtil.safeGet(args,2,false);
 		if(ignoreError) {
 			try {
 				return ScriptEngineUtil.eval(lang, script);

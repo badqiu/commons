@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 /**
  * @author badqiu
  */
-public class DateConvertUtilsTest extends TestCase {
+public class DateConvertUtilTest extends TestCase {
 
 	public void testConvertString2Date() {
 		java.util.Date d = DateConvertUtil.parse("1999-09-09","yyyy-MM-dd",java.util.Date.class);

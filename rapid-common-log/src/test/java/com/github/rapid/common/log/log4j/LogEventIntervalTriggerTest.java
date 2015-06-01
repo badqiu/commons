@@ -7,7 +7,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.github.rapid.common.util.DateConvertUtils;
+import com.github.rapid.common.util.DateConvertUtil;
 
 public class LogEventIntervalTriggerTest extends Assert{
 
@@ -83,15 +83,15 @@ public class LogEventIntervalTriggerTest extends Assert{
 		assertFalse(trigger.isSendEvent(exception2));
 	}
 	
-	Date testDate = DateConvertUtils.parse("2012-11-10 09:00:00", "yyyy-MM-dd HH:mm:ss");
+	Date testDate = DateConvertUtil.parse("2012-11-10 09:00:00", "yyyy-MM-dd HH:mm:ss");
 	@Test
 	public void test_isTriggerByCron() throws Exception {
 		trigger.setCrons("0 0 9-12 * * *  ;  0 0 18-20 * * *");
-		testDate = DateConvertUtils.parse("2012-11-10 09:00:02", "yyyy-MM-dd HH:mm:ss");
+		testDate = DateConvertUtil.parse("2012-11-10 09:00:02", "yyyy-MM-dd HH:mm:ss");
 		assertTrue(trigger.isTriggerByCron(testDate,DateUtils.addHours(testDate,2)));
 		assertFalse(trigger.isTriggerByCron(testDate,DateUtils.addMinutes(testDate,59)));
 		
-		DateConvertUtils.parse("2012-11-10 09:00:00", "yyyy-MM-dd HH:mm:ss");
+		DateConvertUtil.parse("2012-11-10 09:00:00", "yyyy-MM-dd HH:mm:ss");
 		assertFalse(trigger.isTriggerByCron(testDate,DateUtils.addMinutes(testDate,59)));
 	}
 	

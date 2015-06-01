@@ -87,7 +87,7 @@ public class CollectionUtil {
 	}
 
 	public static double avg(Iterable objects,String propertyName) {
-		List<Number> propertyValues = CollectionHelper.selectProperty(objects, propertyName);
+		List<Number> propertyValues = CollectionUtil.selectProperty(objects, propertyName);
 		return avg(propertyValues);
 	}
 	
@@ -99,7 +99,7 @@ public class CollectionUtil {
 	
 	public static double sum(Iterable objects,String propertyName) {
 		if(objects == null) return 0;
-		List<Number> propertyValues = CollectionHelper.selectProperty(objects, propertyName);
+		List<Number> propertyValues = CollectionUtil.selectProperty(objects, propertyName);
 		return sum(propertyValues);
 	}
 
@@ -115,12 +115,12 @@ public class CollectionUtil {
 	}
 	
 	public static Object max(Collection objects,String propertyName) {
-		List<Comparable> propertyValues = CollectionHelper.selectProperty(objects, propertyName);
+		List<Comparable> propertyValues = CollectionUtil.selectProperty(objects, propertyName);
 		return Collections.max(propertyValues);
 	}
 
 	public static Object min(Collection objects,String propertyName) {
-		List<Comparable> propertyValues = CollectionHelper.selectProperty(objects, propertyName);
+		List<Comparable> propertyValues = CollectionUtil.selectProperty(objects, propertyName);
 		return Collections.min(propertyValues);
 	}
 	

@@ -21,13 +21,13 @@ public class CollectionHelperTest extends TestCase {
 		list.add("00");
 		list.add("11");
 		
-		assertNull(CollectionHelper.safeGet(null, 10, null));
-		assertEquals(1,CollectionHelper.safeGet(null, 10, 1));
+		assertNull(CollectionUtil.safeGet(null, 10, null));
+		assertEquals(1,CollectionUtil.safeGet(null, 10, 1));
 		
-		assertEquals("00",CollectionHelper.safeGet(list, 0, 1));
-		assertEquals("11",CollectionHelper.safeGet(list, 1, 1));
-		assertEquals(1,CollectionHelper.safeGet(list, 2, 1));
-		assertEquals(1,CollectionHelper.safeGet(list, 3, 1));
+		assertEquals("00",CollectionUtil.safeGet(list, 0, 1));
+		assertEquals("11",CollectionUtil.safeGet(list, 1, 1));
+		assertEquals(1,CollectionUtil.safeGet(list, 2, 1));
+		assertEquals(1,CollectionUtil.safeGet(list, 3, 1));
 		
 	}
 //	public void testMin() {
@@ -42,18 +42,18 @@ public class CollectionHelperTest extends TestCase {
 //	}
 	
 	public void testSum() {
-		assertEquals(45,(long)CollectionHelper.sum(values));
-		assertEquals(0,(long)CollectionHelper.sum(new ArrayList()));
+		assertEquals(45,(long)CollectionUtil.sum(values));
+		assertEquals(0,(long)CollectionUtil.sum(new ArrayList()));
 		
-		assertEquals(0,(long)CollectionHelper.sum(null));
+		assertEquals(0,(long)CollectionUtil.sum(null));
 
 	}
 	
 	public void testAvg() {
-		assertEquals(4.5,(double)CollectionHelper.avg(values));
-		assertEquals(0,(long)CollectionHelper.avg(new ArrayList()));
+		assertEquals(4.5,(double)CollectionUtil.avg(values));
+		assertEquals(0,(long)CollectionUtil.avg(new ArrayList()));
 		
-		assertEquals(0,(long)CollectionHelper.avg(null));
+		assertEquals(0,(long)CollectionUtil.avg(null));
 	}
 	
 	public void test_list2Map() {

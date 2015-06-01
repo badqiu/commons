@@ -10,16 +10,6 @@ import com.github.rapid.common.beanutils.BeanUtils;
 import com.github.rapid.common.beanutils.PropertyUtils;
 import com.github.rapid.common.spring.jdbc.BeanPropertyRowMapper;
 import com.github.rapid.common.test.dbunit.DBUnitFlatXmlHelper;
-import com.github.rapid.common.util.App;
-import com.github.rapid.common.util.Asserter;
-import com.github.rapid.common.util.CollectionHelper;
-import com.github.rapid.common.util.JVMUtil;
-import com.github.rapid.common.util.MapAndObject;
-import com.github.rapid.common.util.Money;
-import com.github.rapid.common.util.Profiler;
-import com.github.rapid.common.util.ScanClassUtil;
-import com.github.rapid.common.util.ScriptEngineUtil;
-import com.github.rapid.common.util.ValidationErrorsUtil;
 import com.github.rapid.common.util.yymsg.YYMsnSender;
 
 public class AsserterTest extends TestCase {
@@ -88,7 +78,7 @@ public class AsserterTest extends TestCase {
 //		ClassTestUtil.invokeAllMethods(FreemarkerTemplateProcessor.class);
 		ClassTestUtil.invokeAllMethods(App.class);
 		ClassTestUtil.invokeAllMethods(YYMsnSender.class);
-		ClassTestUtil.invokeAllMethods(CollectionHelper.class);
+		ClassTestUtil.invokeAllMethods(CollectionUtil.class);
 		ClassTestUtil.invokeAllMethods( ValidationErrorsUtil.class);
 		ClassTestUtil.invokeAllMethods( ScriptEngineUtil.class);
 		ClassTestUtil.invokeAllMethods( PropertyUtils.class);
