@@ -11,7 +11,7 @@ import org.apache.commons.lang.StringUtils;
 /**
  * @author badqiu
  */
-public class FileSizeUtils {
+public class FileSizeUtil {
 	public static long ONE_KB = 1024L;
 	public static long ONE_MB = ONE_KB * 1024L;
 	public static long ONE_GB = ONE_MB * 1024L;

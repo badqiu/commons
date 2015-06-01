@@ -8,7 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.rapid.common.util.ObjectUtils;
+import com.github.rapid.common.util.ObjectUtil;
 
 
 
@@ -20,20 +20,20 @@ public class ObjectUtilsTest {
 	}
 	@Test
 	public void testIsEmpty() {
-		Assert.assertTrue(ObjectUtils.isEmpty(null));
-		Assert.assertTrue(ObjectUtils.isEmpty(""));
-		Assert.assertTrue(ObjectUtils.isEmpty(new ArrayList()));
-		Assert.assertTrue(ObjectUtils.isEmpty(new HashMap()));
-		Assert.assertTrue(ObjectUtils.isEmpty(new Object[]{}));
+		Assert.assertTrue(ObjectUtil.isEmpty(null));
+		Assert.assertTrue(ObjectUtil.isEmpty(""));
+		Assert.assertTrue(ObjectUtil.isEmpty(new ArrayList()));
+		Assert.assertTrue(ObjectUtil.isEmpty(new HashMap()));
+		Assert.assertTrue(ObjectUtil.isEmpty(new Object[]{}));
 		
-		Assert.assertTrue(!ObjectUtils.isEmpty(" "));
-		Assert.assertTrue(!ObjectUtils.isEmpty(Arrays.asList(1,2,3)));
-		Assert.assertTrue(!ObjectUtils.isEmpty(NOT_EMPTY_MAP));
-		Assert.assertTrue(!ObjectUtils.isEmpty(new Object[]{1,2,3}));
+		Assert.assertTrue(!ObjectUtil.isEmpty(" "));
+		Assert.assertTrue(!ObjectUtil.isEmpty(Arrays.asList(1,2,3)));
+		Assert.assertTrue(!ObjectUtil.isEmpty(NOT_EMPTY_MAP));
+		Assert.assertTrue(!ObjectUtil.isEmpty(new Object[]{1,2,3}));
 	}
 	
 	@Test
 	public void testIsEmptyWithIeelgalArgument() {
-		Assert.assertFalse(ObjectUtils.isEmpty(new Object()));
+		Assert.assertFalse(ObjectUtil.isEmpty(new Object()));
 	}
 }

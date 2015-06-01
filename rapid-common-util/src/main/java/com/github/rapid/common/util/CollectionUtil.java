@@ -1,20 +1,22 @@
 package com.github.rapid.common.util;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.commons.beanutils.PropertyUtils;
+import com.github.rapid.common.beanutils.PropertyUtils;
+
 /**
  * @author badqiu
  */
-public class CollectionHelper {
+public class CollectionUtil {
 	
-	private CollectionHelper(){}
+	public CollectionUtil(){}
 	
 	public static Object safeGet(List list,int index,Object defaultValue) {
 		if(list == null) return defaultValue;
@@ -69,13 +71,9 @@ public class CollectionHelper {
 					Object value = PropertyUtils.getSimpleProperty(o, propertyName);
 					result.add(value);
 				}
-			} catch (IllegalAccessException e) {
+			} catch (Exception e) {
 				throw new IllegalArgumentException("Cannot get propertyValue by propertyName:"+propertyName+" on class:"+o.getClass(),e);
-			} catch (InvocationTargetException e) {
-				throw new IllegalArgumentException("Cannot get propertyValue by propertyName:"+propertyName+" on class:"+o.getClass(),e.getTargetException());
-			} catch (NoSuchMethodException e) {
-				throw new IllegalArgumentException("no such property:"+propertyName+" on class:"+o.getClass(),e);
-			}
+			} 
 		}
 		return result;
 	}
@@ -124,6 +122,27 @@ public class CollectionHelper {
 	public static Object min(Collection objects,String propertyName) {
 		List<Comparable> propertyValues = CollectionHelper.selectProperty(objects, propertyName);
 		return Collections.min(propertyValues);
+	}
+	
+	public static <T> Map<Object,T> list2Map(Collection<T> rows,String key) {
+		if(rows == null) return null;
+		
+		Map result = new HashMap();
+		for(Object obj : rows) {
+			if(obj instanceof Map) {
+				Map map = (Map)obj;
+				if(map.containsKey(key)) {
+					Object keyValue = map.get(key);
+					result.put(keyValue, map);
+				}
+			}else {
+				if(PropertyUtils.isReadable(obj, key)) {
+					Object keyValue = PropertyUtils.getSimpleProperty(obj, key);
+					result.put(keyValue, obj);
+				}
+			}
+		}
+		return result;
 	}
 
 }

@@ -15,7 +15,10 @@ import com.thoughtworks.xstream.mapper.Mapper;
 
 /**
  * 通过自定义 xstream的reference功能,可以引用spring,或者是自定义的属性
- * 
+ * 示例配置:
+ * <pre>
+ *  &lt;dataSource ref=""/>
+ * </pre>
  * @author badqiu
  *
  */

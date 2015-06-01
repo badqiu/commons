@@ -23,7 +23,7 @@ import org.springframework.validation.FieldError;
  * @author badqiu
  *
  */
-public class ValidationErrorsUtils {
+public class ValidationErrorsUtil {
 
 	/**
 	 * 将Set:ConstraintViolation转换为Map,key为propertyPath,value为message
@@ -48,7 +48,7 @@ public class ValidationErrorsUtils {
 	 * 将exception.getConstraintViolations()填充至 Errors
 	 */	
 	public static void convert(ConstraintViolationException exception,Errors errors) {
-		ValidationErrorsUtils.convert(exception.getConstraintViolations(),errors);
+		ValidationErrorsUtil.convert(exception.getConstraintViolations(),errors);
 	}
 	
 	/**

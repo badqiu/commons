@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  * @author badqiu
  *
  */
-public class RegexUtils {
+public class RegexUtil {
 	
 	private static WeakHashMap<String, Pattern> regexCache = new WeakHashMap<String, Pattern>();
 	

@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 
-public class ArrayUtils {
+public class ArrayUtil {
 	
 	/**
 	 * 将一个array转为根据keys转为map

@@ -2,7 +2,7 @@ package com.github.rapid.common.util;
 
 import java.sql.Timestamp;
 
-import com.github.rapid.common.util.DateConvertUtils;
+import com.github.rapid.common.util.DateConvertUtil;
 
 import junit.framework.TestCase;
 /**
@@ -11,16 +11,16 @@ import junit.framework.TestCase;
 public class DateConvertUtilsTest extends TestCase {
 
 	public void testConvertString2Date() {
-		java.util.Date d = DateConvertUtils.parse("1999-09-09","yyyy-MM-dd",java.util.Date.class);
-		Timestamp t = DateConvertUtils.parse("1999-09-09","yyyy-MM-dd",Timestamp.class);
-		java.sql.Date sd = DateConvertUtils.parse("1999-09-09","yyyy-MM-dd",java.sql.Date.class);
-		java.sql.Time st = DateConvertUtils.parse("1999-09-09","yyyy-MM-dd",java.sql.Time.class);
+		java.util.Date d = DateConvertUtil.parse("1999-09-09","yyyy-MM-dd",java.util.Date.class);
+		Timestamp t = DateConvertUtil.parse("1999-09-09","yyyy-MM-dd",Timestamp.class);
+		java.sql.Date sd = DateConvertUtil.parse("1999-09-09","yyyy-MM-dd",java.sql.Date.class);
+		java.sql.Time st = DateConvertUtil.parse("1999-09-09","yyyy-MM-dd",java.sql.Time.class);
 	}
 	
 	
 	public void testFormat() {
-		java.util.Date d = DateConvertUtils.parse("1999-09-09","yyyy-MM-dd",java.util.Date.class);
-		String r = DateConvertUtils.format(d, "MM/dd/yy");
+		java.util.Date d = DateConvertUtil.parse("1999-09-09","yyyy-MM-dd",java.util.Date.class);
+		String r = DateConvertUtil.format(d, "MM/dd/yy");
 		assertEquals(r,"09/09/99");
 	}
 }

@@ -16,7 +16,7 @@ import org.apache.log4j.MDC;
  * @author calvin
  * @authro badqiu
  */
-public class LogTraceUtils {
+public class LogTraceUtil {
 
 	public static final String TRACE_ID_KEY = "traceId";
 

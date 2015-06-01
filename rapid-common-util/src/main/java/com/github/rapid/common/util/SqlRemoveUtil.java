@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 import org.springframework.util.Assert;
 
-public class SqlRemoveUtils {
+public class SqlRemoveUtil {
 
     private static int indexOfByRegex(String input,String regex) {
         Pattern p = Pattern.compile(regex);

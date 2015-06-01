@@ -10,7 +10,7 @@ import org.apache.commons.lang.time.FastDateFormat;
 /**
  * @author badqiu
  */
-public class DateConvertUtils {
+public class DateConvertUtil {
 	
 	public static java.util.Date parse(String dateString,String dateFormat) {
 		return parse(dateString, dateFormat,java.util.Date.class);
@@ -50,6 +50,6 @@ public class DateConvertUtils {
 		if(datePattern == null) throw new IllegalArgumentException("'datePattern' must be not null");
 		if(date == null) return null;
 		
-		return DateConvertUtils.parse(DateConvertUtils.format(date, datePattern),datePattern);
+		return DateConvertUtil.parse(DateConvertUtil.format(date, datePattern),datePattern);
 	}
 }

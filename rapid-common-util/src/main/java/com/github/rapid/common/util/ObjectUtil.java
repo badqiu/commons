@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * @author badqiu
  */
-public class ObjectUtils {
+public class ObjectUtil {
 
 	public static boolean isNullOrEmptyString(Object o) {
 		if(o == null)

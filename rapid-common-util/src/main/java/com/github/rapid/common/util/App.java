@@ -11,18 +11,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 用于自动装载classpath:application.properties在类中.
+ * 用于自动装载classpath:app.properties在类中.
  * 
- * application.properties使用UTF-8编码.
+ * app.properties使用UTF-8编码.
  * 
- * 单元测试过程中，可以使用 {@link Application#setContextProperties(Properties)} 设置应用属性的上下文，避免多线程测试互相影响 
+ * 单元测试过程中，可以使用 {@link App#setContextProperties(Properties)} 设置应用属性的上下文，避免多线程测试互相影响 
  * 
  * @author badqiu
  * @see #setContextProperties(Properties)
  * 
  */
-public class Application {
-	private static Logger logger = LoggerFactory.getLogger(Application.class);
+public class App {
+	private static Logger logger = LoggerFactory.getLogger(App.class);
 	private static PropertiesHelper properties;
 	private static ThreadLocal<Properties> contextProperties = new ThreadLocal<Properties>();
 	
@@ -65,7 +65,7 @@ public class Application {
 		}
 		if (cl == null) {
 			// No thread context class loader -> use class loader of this class.
-			cl = Application.class.getClassLoader();
+			cl = App.class.getClassLoader();
 		}
 		return cl;
 	}

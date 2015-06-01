@@ -195,7 +195,7 @@ public final class Profiler {
         Step currentStep = getCurrentStep();
 
         if (currentStep != null) {
-            currentStep.release(e,loopCount,ObjectUtils.getSize(resultSizeObject));
+            currentStep.release(e,loopCount,ObjectUtil.getSize(resultSizeObject));
         }
     }
     

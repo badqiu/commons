@@ -55,4 +55,8 @@ public class CollectionHelperTest extends TestCase {
 		
 		assertEquals(0,(long)CollectionHelper.avg(null));
 	}
+	
+	public void test_list2Map() {
+//		CollectionUtil.list2Map(rows, key)
+	}
 }

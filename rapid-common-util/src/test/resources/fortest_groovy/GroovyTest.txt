@@ -1,0 +1,21 @@
+package fortest_groovy;
+
+class MapMissingWrapper {
+	HashMap row;
+	public MapMissingWrapper(Map map) {
+		this.row = map;
+	}
+	def propertyMissing(String name) { 
+		return row.get(name);
+	}
+	def int exec() {
+		return name.length();
+	}
+}
+
+long sum = 0;
+for(Map row : rows) {
+	def execObj = new MapMissingWrapper(row);
+	sum += execObj.exec();
+}
+System.out.println("sum(length):"+sum);

@@ -2,7 +2,7 @@ package com.github.rapid.common.util;
 
 import java.util.List;
 
-import com.github.rapid.common.util.ScanClassUtils;
+import com.github.rapid.common.util.ScanClassUtil;
 
 import junit.framework.TestCase;
 
@@ -11,24 +11,24 @@ public class ScanClassUtilsTest extends TestCase {
 	public void testScanPackages() {
 		List clazzes = null;
 		try {
-			clazzes = ScanClassUtils.scanPackages(null);
+			clazzes = ScanClassUtil.scanPackages(null);
 			fail();
 		}catch(Exception e) {
 			assertTrue(true);
 		}
 		
-		clazzes = ScanClassUtils.scanPackages("com.duowan.common.util");
+		clazzes = ScanClassUtil.scanPackages("com.duowan.common.util");
 		assertFalse(clazzes.isEmpty());
 		assertTrue(contains(clazzes, "com.duowan.common.util"));
 		System.out.println(clazzes);
 		
-		clazzes = ScanClassUtils.scanPackages("com.duowan.common.util.**.*");
+		clazzes = ScanClassUtil.scanPackages("com.duowan.common.util.**.*");
 		assertFalse(clazzes.isEmpty());
 		assertTrue(contains(clazzes, "com.duowan.common.util"));
 		assertTrue(contains(clazzes, "com.duowan.common.util.fortest"));
 		System.out.println(clazzes);
 		
-		clazzes = ScanClassUtils.scanPackages("javacommon.**.*,com.duowan.*");
+		clazzes = ScanClassUtil.scanPackages("javacommon.**.*,com.duowan.*");
 		assertFalse(clazzes.isEmpty());
 		assertTrue(contains(clazzes, "com.duowan.common"));
 		System.out.println(clazzes);

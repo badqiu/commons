@@ -10,16 +10,16 @@ import com.github.rapid.common.beanutils.BeanUtils;
 import com.github.rapid.common.beanutils.PropertyUtils;
 import com.github.rapid.common.spring.jdbc.BeanPropertyRowMapper;
 import com.github.rapid.common.test.dbunit.DBUnitFlatXmlHelper;
-import com.github.rapid.common.util.Application;
+import com.github.rapid.common.util.App;
 import com.github.rapid.common.util.Asserter;
 import com.github.rapid.common.util.CollectionHelper;
 import com.github.rapid.common.util.JVMUtil;
 import com.github.rapid.common.util.MapAndObject;
 import com.github.rapid.common.util.Money;
 import com.github.rapid.common.util.Profiler;
-import com.github.rapid.common.util.ScanClassUtils;
+import com.github.rapid.common.util.ScanClassUtil;
 import com.github.rapid.common.util.ScriptEngineUtil;
-import com.github.rapid.common.util.ValidationErrorsUtils;
+import com.github.rapid.common.util.ValidationErrorsUtil;
 import com.github.rapid.common.util.yymsg.YYMsnSender;
 
 public class AsserterTest extends TestCase {
@@ -86,10 +86,10 @@ public class AsserterTest extends TestCase {
 //		ClassTestUtil.invokeAllMethods(Flash.class);
 //		ClassTestUtil.invokeAllMethods(DataSourceTemplateLoader.class);
 //		ClassTestUtil.invokeAllMethods(FreemarkerTemplateProcessor.class);
-		ClassTestUtil.invokeAllMethods(Application.class);
+		ClassTestUtil.invokeAllMethods(App.class);
 		ClassTestUtil.invokeAllMethods(YYMsnSender.class);
 		ClassTestUtil.invokeAllMethods(CollectionHelper.class);
-		ClassTestUtil.invokeAllMethods( ValidationErrorsUtils.class);
+		ClassTestUtil.invokeAllMethods( ValidationErrorsUtil.class);
 		ClassTestUtil.invokeAllMethods( ScriptEngineUtil.class);
 		ClassTestUtil.invokeAllMethods( PropertyUtils.class);
 		ClassTestUtil.invokeAllMethods( BeanPropertyRowMapper.class);
@@ -104,7 +104,7 @@ public class AsserterTest extends TestCase {
 	}
 
 	private void invokeAllPackageClassMethod(String pkg) throws ClassNotFoundException {
-		List<String> clazzList = ScanClassUtils.scanPackages(pkg);
+		List<String> clazzList = ScanClassUtil.scanPackages(pkg);
 		for(String clazz : clazzList) {
 			Class cla = Class.forName(clazz);
 			if(clazz.contains("Test")) {

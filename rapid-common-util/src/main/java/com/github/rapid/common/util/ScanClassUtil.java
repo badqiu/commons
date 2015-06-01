@@ -16,10 +16,10 @@ import org.springframework.util.Assert;
  * @author badqiu
  *
  */
-public class ScanClassUtils {
+public class ScanClassUtil {
 	/**
 	 * 根据多个包名搜索class
-	 * 例如: ScanClassUtils.scanPakcages("javacommon.**.*");
+	 * 例如: ScanClassUtil.scanPakcages("javacommon.**.*");
 	 * @param basePackages 各个包名使用逗号分隔,各个包名可以有通配符
 	 * @return List包含className
 	 */

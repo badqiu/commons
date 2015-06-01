@@ -10,7 +10,7 @@ import org.apache.commons.lang.StringUtils;
 /**
  * @author badqiu
  */
-public class MapUtils {
+public class MapUtil {
 	@SuppressWarnings("all")
 	public static void putIfNull(Map map,Object key,Object defaultValue) {
 		if(key == null)
@@ -57,7 +57,7 @@ public class MapUtils {
 	}
 	
 	public static Map toMap(Object[] array,String...keys) {
-		return ArrayUtils.toMap(array, keys);
+		return ArrayUtil.toMap(array, keys);
 	}
 	
 }

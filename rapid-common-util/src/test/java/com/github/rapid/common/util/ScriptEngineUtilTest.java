@@ -1,20 +1,51 @@
 package com.github.rapid.common.util;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.github.rapid.common.util.Profiler;
-import com.github.rapid.common.util.ScriptEngineUtil;
+import org.springframework.util.ResourceUtils;
 
 
 public class ScriptEngineUtilTest extends Assert{
 	
 	@Test
-	public void test() {
-		int count = 100000;
-		Profiler.start("javascript",count);
+	public void test_groovy_class() throws Exception {
+		File file = ResourceUtils.getFile("classpath:fortest_groovy/GroovyTest.txt");
+		String groovy = FileUtils.readFileToString(file);
+		Map param = MapUtil.newMap("name","badqiu","age",20);
+		List<Map> params = new ArrayList<Map>();
+		for(int i = 0; i < 1000000; i++) {
+			Map row = MapUtil.newMap("name","badqiu"+i,"age",20+i);
+			params.add(row);
+		}
+		System.out.println("--------eval with List<map> -------");
+		ScriptEngineUtil.eval("groovy", groovy, MapUtil.newMap("rows",params));
+		Profiler.start("prppertyMissing",100);
+		for(int i = 0; i < 100; i++) {
+			ScriptEngineUtil.eval("groovy", groovy, MapUtil.newMap("rows",params));
+		}
+		Profiler.release();
+		System.out.println(Profiler.dump());
+	}
+	
+	@Test
+	public void test_perf() {
+		evalPerfTest("groovy",50000);
+		evalPerfTest("javascript",3000);
+	}
+
+	private void evalPerfTest(String lang,int count) {
+		String script = "1+1";
+		ScriptEngineUtil.eval(lang, script);
+		
+		Profiler.start(lang,count);
 		for(int i = 0; i < count; i++) {
-			assertEquals(2d,ScriptEngineUtil.eval("javascript", "1+1"));
+			assertEquals(2,ScriptEngineUtil.eval(lang, script));
 		}
 		Profiler.release();
 		System.out.println(Profiler.dump());
