@@ -86,7 +86,7 @@ public class Graph <NODE extends GraphNode> implements Serializable {
 	
 	public void addNode(NODE n) {
 		if(nodes == null) {
-			new ArrayList<NODE>();
+			nodes = new ArrayList<NODE>();
 		}
 		if(!nodes.contains(n)) 
 			nodes.add(n);

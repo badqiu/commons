@@ -85,7 +85,7 @@ public class HttpUtils {
 			Map.Entry entry = (Map.Entry)it.next();
 			String[] valueArray = (String[])entry.getValue();
 			if(valueArray == null)
-				result.put(entry.getKey(), valueArray);
+				result.put(entry.getKey(), null);
 			else
 				result.put(entry.getKey(),valueArray.length == 1 ? valueArray[0] : valueArray);
 		}

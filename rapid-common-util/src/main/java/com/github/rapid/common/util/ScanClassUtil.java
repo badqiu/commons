@@ -44,7 +44,7 @@ public class ScanClassUtil {
 				}
 			}
 		}catch(Exception e) {
-			new IllegalArgumentException("scan pakcage class error,pakcages:"+basePackages);
+			throw new IllegalArgumentException("scan pakcage class error,pakcages:"+basePackages,e);
 		}
 
 		return result;
