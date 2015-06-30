@@ -80,7 +80,7 @@ public class Graph <NODE extends GraphNode> implements Serializable {
 	public NODE getRequiredNode(String id) {
 		NODE n = getNode(id);
 		if(n == null) 
-			throw new IllegalArgumentException("not found Node by id:"+id);
+			throw new IllegalArgumentException("not found TreeNode by id:"+id);
 		return n;
 	}
 	

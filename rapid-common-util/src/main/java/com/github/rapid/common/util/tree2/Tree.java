@@ -9,53 +9,53 @@ import org.springframework.util.Assert;
 
 
 
-public class Tree {
+public class Tree <T> {
 
-	private List<Node> nodes = new ArrayList<Node>();
-	private Node root;
+	private List<TreeNode<T>> nodes = new ArrayList<TreeNode<T>>();
+	private TreeNode<T> root;
 	
-	public void addNode(Node node) {
+	public void addNode(TreeNode<T> node) {
 		nodes.add(node);
 	}
 	
-	public List<Node> getNodes() {
+	public List<TreeNode<T>> getNodes() {
 		return nodes;
 	}
 
-	public void setNodes(List<Node> nodes) {
+	public void setNodes(List<TreeNode<T>> nodes) {
 		this.nodes = nodes;
 	}
 
-	public Node getRoot() {
+	public TreeNode<T> getRoot() {
 		return root;
 	}
 
-	public void setRoot(Node root) {
+	public void setRoot(TreeNode<T> root) {
 		this.root = root;
 	}
 
 	public void init(Object rootNodeId) {
-		Node rootNode = findNode(nodes,rootNodeId);
+		TreeNode rootNode = findNode(nodes,rootNodeId);
 		Assert.notNull(rootNode,"not found rootNode by id:"+rootNodeId);
 		rootNode.setParent(findParentNode(nodes,rootNode));
 		rootNode.setChilds(findChilds(nodes,rootNodeId));
-		rootNode.setLevel(0);
+		rootNode.setDepth(0);
 		setChildsTree(nodes,rootNode,1);
 		this.root = rootNode;
 	}
 	
-	private void setChildsTree(List<Node> nodes, Node current,int level) {
-		List<Node> childs = current.getChilds();
-		for(Node child : childs) {
+	private void setChildsTree(List<TreeNode<T>> nodes, TreeNode<T> current,int depth) {
+		List<TreeNode<T>> childs = current.getChilds();
+		for(TreeNode<T> child : childs) {
 			child.setParent(findParentNode(nodes,child));
 			child.setChilds(findChilds(nodes,child.getId()));
-			child.setLevel(level);
-			setChildsTree(nodes,child,level+1);
+			child.setDepth(depth);
+			setChildsTree(nodes,child,depth+1);
 		}
 	}
 
-	private Node findParentNode(List<Node> nodes,Node current) {
-		for(Node node : nodes) {
+	private TreeNode<T> findParentNode(List<TreeNode<T>> nodes,TreeNode current) {
+		for(TreeNode<T> node : nodes) {
 			if(ObjectUtils.equals(node.getId(),current.getParentId())) {
 				return node;
 			}
@@ -63,8 +63,8 @@ public class Tree {
 		return null;
 	}
 
-	private Node findNode(List<? extends Node> nodes, Object id) {
-		for(Node node : nodes) {
+	private TreeNode<T> findNode(List<? extends TreeNode<T>> nodes, Object id) {
+		for(TreeNode<T> node : nodes) {
 			if(node.getId().equals(id)) {
 				return node;
 			}
@@ -72,9 +72,9 @@ public class Tree {
 		return null;
 	}
 	
-	private List<Node> findChilds(List<Node> nodes, Object parentId) {
-		List<Node> childs = new ArrayList<Node>();
-		for(Node node : nodes) {
+	private List<TreeNode<T>> findChilds(List<TreeNode<T>> nodes, Object parentId) {
+		List childs = new ArrayList<TreeNode<T>>();
+		for(TreeNode<T> node : nodes) {
 			Object nodeParentId = node.getParentId();
 			if(nodeParentId != null && nodeParentId.equals(parentId)) {
 				childs.add(node);
