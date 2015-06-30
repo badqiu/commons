@@ -1,8 +1,13 @@
 package com.github.rapid.common.util;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.WeakHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.lang.StringUtils;
 /**
  * 正则表达式工具类
  * @author badqiu
@@ -22,7 +27,7 @@ public class RegexUtil {
 	 */
 	public static String findByRegexGroup(String input,String regex,int regexGroup) {
 		if(input == null) return null;
-		if(regex == null || regex.isEmpty()) throw new IllegalArgumentException("'regex' must be not null");
+		if(regex == null || regex.isEmpty()) throw new IllegalArgumentException("'regex' must be not empty");
 		Pattern p = getPatternFromCache(regex);
 		
 		Matcher m = p.matcher(input);
@@ -32,6 +37,20 @@ public class RegexUtil {
 		return null;
 	}
 
+	public static List<String> findAllByRegexGroup(String input,String regex,int regexGroup) {
+		if(StringUtils.isBlank(input))
+			return Collections.EMPTY_LIST;
+		if(regex == null || regex.isEmpty()) throw new IllegalArgumentException("'regex' must be not empty");
+		
+		Pattern p = getPatternFromCache(regex);
+		Matcher m = p.matcher(input);
+		List<String> result = new ArrayList<String>();
+		while(m.find()) {
+			result.add(m.group(regexGroup));
+		}
+		return result;
+	}
+	
 	/**
 	 * 正则正确式cache
 	 * @param regex

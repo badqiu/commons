@@ -85,8 +85,9 @@ public class DateRange {
 	 */
 
 	public boolean isWithinRange(Date date) {
-		if (startDate == null || date.after(startDate)) {
-			if (endDate == null || date.before(endDate)) {
+		if(date == null) return false;
+		if (startDate != null && date.after(startDate)) {
+			if (endDate != null && date.before(endDate)) {
 				return true;
 			}
 		}

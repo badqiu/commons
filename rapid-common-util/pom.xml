@@ -67,7 +67,7 @@
 	</properties>
 
 	
-<build>
+	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -90,12 +90,11 @@
 						<goals>
 							<goal>jar</goal>
 						</goals>
-						</execution>
-					</executions>					
-				</plugin>				
-			</plugins>
-
-</build>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 	
 	<dependencyManagement>
 		<dependencies>
