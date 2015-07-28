@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
 import java.net.ServerSocket;
 import java.nio.channels.FileLock;
 import java.util.ArrayList;
@@ -24,7 +25,8 @@ public class JVMUtil {
 	 * @return
 	 */
 	public static int getPid() {
-		String name = ManagementFactory.getRuntimeMXBean().getName();
+		RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
+		String name = runtimeMXBean.getName();
 		int indexOf = name.indexOf("@");
 		if(indexOf > 0) {
 			return Integer.parseInt(name.substring(0,indexOf));

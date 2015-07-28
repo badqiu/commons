@@ -43,7 +43,7 @@ public class Table {
 	public String getTableName() {
 		return tableName;
 	}
-	
+
 	List<Column> primaryKeyColumns = null;
 	public List<Column> getPrimaryKeyColumns() {
 		if(primaryKeyColumns == null) {
