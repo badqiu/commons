@@ -31,7 +31,7 @@ public class App {
 	}
 
 	private static void loadApplicationProperties() {
-		Properties props = load("application.properties");
+		Properties props = new Properties();
 		props.putAll(load("app.properties"));
 		properties = new PropertiesHelper(props);
 	}
