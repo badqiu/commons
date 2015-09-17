@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.script.Bindings;
+import javax.script.ScriptEngine;
+import javax.script.ScriptException;
+
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -51,4 +55,14 @@ public class ScriptEngineUtilTest extends Assert{
 		System.out.println(Profiler.dump());
 	}
 	
+	@Test
+	public void getBinding() throws ScriptException {
+		ScriptEngine engine = ScriptEngineUtil.getScriptEngine("groovy");
+	    Bindings bindings = engine.createBindings();
+	    Object result = engine.eval("this.name = 'badqiu'; sex='hello'",bindings);
+	    System.out.println("result:"+result+" bindings:"+bindings);
+	    for(Object key :bindings.keySet()) {
+	    	System.out.println(key+":"+bindings.get(key));
+	    }
+	}
 }

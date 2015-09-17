@@ -5,18 +5,18 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd"
     version="2.0">
     
-  <description>duowan tag library</description>
-  <display-name>duowan tag</display-name>
+  <description>rapid tag library</description>
+  <display-name>rapid tag</display-name>
   <tlib-version>1.0</tlib-version>
-  <short-name>duowan</short-name>
-  <uri>http://www.duowan.com/duowan</uri>
+  <short-name>rapid</short-name>
+  <uri>http://github.com/badqiu/rapid-framework</uri>
 
   <tag>
     <description>
 		block tag
     </description>
     <name>block</name>
-    <tag-class>com.duowan.common.web.tags.BlockTag</tag-class>
+    <tag-class>com.github.rapid.common.web.tags.BlockTag</tag-class>
     <body-content>JSP</body-content>
 
     <attribute>
@@ -34,7 +34,7 @@
 		override desc
     </description>
     <name>override</name>
-    <tag-class>com.duowan.common.web.tags.OverrideTag</tag-class>
+    <tag-class>com.github.rapid.common.web.tags.OverrideTag</tag-class>
     <body-content>JSP</body-content>
 
     <attribute>
