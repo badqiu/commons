@@ -98,7 +98,7 @@ public class DataSourceTemplateLoader implements TemplateLoader,InitializingBean
 	}
 
 	public Object findTemplateSource(final String name) throws IOException {
-		int count = getJdbcTemplate().queryForInt(getSql("count(*)"),new Object[]{name});
+		int count = getJdbcTemplate().queryForObject(getSql("count(*)"),new Object[]{name},Integer.class);
 		return count > 0 ? name : null;
 	}
 

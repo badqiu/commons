@@ -8,8 +8,8 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.junit.Test;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 
 import com.github.rapid.common.jdbc.sqlgenerator.metadata.Column;
 import com.github.rapid.common.jdbc.sqlgenerator.metadata.Table;
@@ -63,7 +63,7 @@ public class SqlGeneratorTest {
 	
 	DataSource ds = HSQLMemDataSourceUtils.getDataSource("create table user (user_id bigint primary key,user_name varchar(50),pwd varchar(50) )");
 	NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(ds);
-	SimpleJdbcTemplate simpleTemplate = new SimpleJdbcTemplate(ds);
+	JdbcTemplate simpleTemplate = new JdbcTemplate(ds);
 	Table t = new Table("user",new Column("user_id","userId",true),new Column("user_name","userName"),new Column("pwd","pwd"));
 	SqlGenerator sg = new SpringNamedSqlGenerator(t);
 	Map data = new HashMap();

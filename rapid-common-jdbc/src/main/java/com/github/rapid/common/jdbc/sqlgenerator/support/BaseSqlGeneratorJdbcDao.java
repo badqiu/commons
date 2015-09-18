@@ -11,8 +11,6 @@ import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
-import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -37,7 +35,6 @@ import com.github.rapid.common.jdbc.sqlgenerator.metadata.Table;
  */
 public abstract class BaseSqlGeneratorJdbcDao<E,PK extends Serializable> extends JdbcDaoSupport {
 
-	protected SimpleJdbcTemplate simpleJdbcTemplate;
 	protected NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	
 	//根据table对象可以创建生成增删改查的sql的工具
@@ -59,14 +56,9 @@ public abstract class BaseSqlGeneratorJdbcDao<E,PK extends Serializable> extends
 	
 	protected void checkDaoConfig() {
 		super.checkDaoConfig();
-		simpleJdbcTemplate = new SimpleJdbcTemplate(getJdbcTemplate());
 		namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(getJdbcTemplate());
 	}
 	
-	public SimpleJdbcTemplate getSimpleJdbcTemplate() {
-		return simpleJdbcTemplate;
-	}
-
 	public NamedParameterJdbcTemplate getNamedParameterJdbcTemplate() {
 		return namedParameterJdbcTemplate;
 	}
@@ -175,7 +167,7 @@ public abstract class BaseSqlGeneratorJdbcDao<E,PK extends Serializable> extends
 		if(getSqlGenerator().getTable().getPrimaryKeyCount() > 1) {
 			list = getNamedParameterJdbcTemplate().query(getSqlGenerator().getSelectByPkSql(), new BeanPropertySqlParameterSource(id), new BeanPropertyRowMapper(getEntityClass()));
 		}else if(getSqlGenerator().getTable().getPrimaryKeyCount() == 1){
-			list = getSimpleJdbcTemplate().query(getSqlGenerator().getSelectByPkSql(), ParameterizedBeanPropertyRowMapper.newInstance(getEntityClass()), id);
+			list = getJdbcTemplate().query(getSqlGenerator().getSelectByPkSql(), new Object[]{id},new BeanPropertyRowMapper(getEntityClass()));
 		}else {
 			throw new IllegalStateException("not found primary key on table:"+getSqlGenerator().getTable().getTableName());
 		}
@@ -186,7 +178,7 @@ public abstract class BaseSqlGeneratorJdbcDao<E,PK extends Serializable> extends
 		if(getSqlGenerator().getTable().getPrimaryKeyCount() > 1) {
 			return getNamedParameterJdbcTemplate().update(getSqlGenerator().getDeleteByPkSql(),new BeanPropertySqlParameterSource(id));
 		}else if(getSqlGenerator().getTable().getPrimaryKeyCount() == 1){
-			return getSimpleJdbcTemplate().update(getSqlGenerator().getDeleteByPkSql(), id);
+			return getJdbcTemplate().update(getSqlGenerator().getDeleteByPkSql(), id);
 		}else {
 			throw new IllegalStateException("not found primary key on table:"+getSqlGenerator().getTable().getTableName());
 		}

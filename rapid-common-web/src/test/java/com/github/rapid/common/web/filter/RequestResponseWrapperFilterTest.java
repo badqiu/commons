@@ -40,7 +40,7 @@ public class RequestResponseWrapperFilterTest {
 		MockFilterChain filterChain = new MockFilterChain() {
 			@Override
 			public void doFilter(ServletRequest request,
-					ServletResponse response) {
+					ServletResponse response) throws IOException, ServletException {
 				super.doFilter(request, response);
 				Assert.assertEquals(request.getRemoteAddr(),"255.255.255.255");
 				Assert.assertEquals(request.getRemoteAddr(),"255.255.255.255");
@@ -76,7 +76,7 @@ public class RequestResponseWrapperFilterTest {
 		MockFilterChain filterChain = new MockFilterChain() {
 			@Override
 			public void doFilter(ServletRequest request,
-					ServletResponse response) {
+					ServletResponse response) throws IOException, ServletException {
 				super.doFilter(request, response);
 				HttpServletResponse httpResponse = (HttpServletResponse)response;
 				try {
