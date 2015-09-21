@@ -23,6 +23,7 @@ public class DateConvertUtil {
 		DateFormat df = new SimpleDateFormat(dateFormat);
 		try {
 			long time = df.parse(dateString).getTime();
+//			long time = ((Date)FastDateFormat.getInstance(dateFormat).parseObject(dateString)).getTime();
 			java.util.Date t = targetResultType.getConstructor(long.class).newInstance(time);
 			return (T)t;
 		} catch (ParseException e) {
