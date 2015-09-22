@@ -15,7 +15,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.github.rapid.common.web.util.FilterConfigUtils;
+import com.github.rapid.common.web.util.FilterConfigUtil;
 
 /**
  * 性能filter。
@@ -94,8 +94,8 @@ public class PerformanceFilter  extends OncePerRequestFilter implements Filter {
 
     @Override
     public void initFilterBean() throws ServletException {
-        this.threshold = FilterConfigUtils.getIntParameter(getFilterConfig(), "threshold", threshold);
-        this.includeQueryString = FilterConfigUtils.getBooleanParameter(getFilterConfig(), "includeQueryString", includeQueryString);
+        this.threshold = FilterConfigUtil.getIntParameter(getFilterConfig(), "threshold", threshold);
+        this.includeQueryString = FilterConfigUtil.getBooleanParameter(getFilterConfig(), "includeQueryString", includeQueryString);
         log.info("PerformanceFilter started with threshold:"+threshold+"ms includeQueryString:"+includeQueryString);
     }
     

@@ -60,16 +60,15 @@ public class FreemarkerSqlGenerator implements InitializingBean{
 	}
 	
 	public String getSql(String sqlId, Object params) {
-		String template = (String) properties.get(sqlId);
-		Assert.hasText(template,"not empty string by id:"+sqlId);
+		Template t = null;
 		try {
-			StringWriter out = new StringWriter(template.length() * 2);
-			Template t = conf.getTemplate(sqlId);
+			StringWriter out = new StringWriter(100);
+			t = conf.getTemplate(sqlId);
 			t.process(params, out);
 			return out.toString();
 		} catch (Exception e) {
 			throw new RuntimeException("process template error,id:" + sqlId
-					+ " params:" + params + " template:" + template,e);
+					+ " params:" + params + " template:" + t,e);
 		}
 	}
 

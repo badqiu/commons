@@ -4,10 +4,13 @@ import java.util.Set;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.metadata.BeanDescriptor;
 
 import org.springframework.beans.factory.InitializingBean;
+
+import com.opensymphony.xwork2.validator.ValidatorFactory;
 /**
  * 用于持有JSR303 Validator(Hibernate Validator),使调用Validator可以当静态方法使用.
  * 
@@ -25,7 +28,7 @@ import org.springframework.beans.factory.InitializingBean;
  *
  */
 public class BeanValidatorHolder implements InitializingBean{
-	private static Validator validator;
+	private static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
 	public void afterPropertiesSet() throws Exception {
 		if(validator == null) throw new IllegalStateException("not found JSR303(HibernateValidator) 'validator' for BeanValidatorHolder ");

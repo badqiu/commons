@@ -9,7 +9,7 @@ import org.apache.commons.lang.StringUtils;
  * @author badqiu
  *
  */
-public class FilterConfigUtils {
+public class FilterConfigUtil {
 
 	public static String getParameter(FilterConfig config,String key,String defaultValue) {
 		String v = config.getInitParameter(key);

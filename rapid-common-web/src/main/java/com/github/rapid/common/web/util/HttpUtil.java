@@ -10,9 +10,9 @@ import java.util.StringTokenizer;
  * @author badqiu
  */
 @SuppressWarnings("unchecked")
-public class HttpUtils {
+public class HttpUtil {
 
-	public HttpUtils() {
+	public HttpUtil() {
 	}
 
 	/**

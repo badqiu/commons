@@ -12,7 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
 
 import com.github.rapid.common.web.filter.RequestResponseWrapperFilter.FilterConfiger;
-import com.github.rapid.common.web.util.FilterConfigUtils;
+import com.github.rapid.common.web.util.FilterConfigUtil;
 /**
  * 通过白名单的方式，保护重定向的链接是可信的 <br/>
  * 
@@ -67,7 +67,7 @@ public class RediectProtectReponseWrapper extends HttpServletResponseWrapper imp
 
 	public void setFilterConfig(FilterConfig filterConfig) {
 		this.filterConfig = filterConfig;
-		this.safeHosts = FilterConfigUtils.getParameterArray(filterConfig,"safe_host_white_list");
+		this.safeHosts = FilterConfigUtil.getParameterArray(filterConfig,"safe_host_white_list");
 		Assert.noNullElements(safeHosts,"'safe_host_white_list' FilterConfig parameter must be not empty");
 	}
 
