@@ -9,10 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.JdbcUpdateAffectedIncorrectNumberOfRowsException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
@@ -39,7 +39,7 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport {
 
 	protected final Logger log = LoggerFactory.getLogger(getClass());
 
-	protected NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+	protected NamedParameterJdbcOperations namedParameterJdbcTemplate;
 	
 	private Dialect dialect;
 	
@@ -53,11 +53,17 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport {
 	
 	protected void checkDaoConfig() {
 		super.checkDaoConfig();
-		namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(getJdbcTemplate());
+		if(namedParameterJdbcTemplate == null) {
+			namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(getJdbcTemplate());
+		}
 	}
 	
-	public NamedParameterJdbcTemplate getNamedParameterJdbcTemplate() {
+	public NamedParameterJdbcOperations getNamedParameterJdbcTemplate() {
 		return namedParameterJdbcTemplate;
+	}
+	
+	public void setNamedParameterJdbcTemplate(NamedParameterJdbcOperations namedParameterJdbcTemplate) {
+		this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
 	}
 
 	protected void checkSingleRowAffected(String sql,int rowsAffected) throws JdbcUpdateAffectedIncorrectNumberOfRowsException {
