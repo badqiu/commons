@@ -60,6 +60,14 @@ public class FreemarkerJdbcTemplate extends PropertiesLoaderSupport implements N
 	public void setJdbcTemplate(JdbcOperations classicJdbcTemplate) {
 		this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(classicJdbcTemplate);
 	}
+	
+	public void setSqlMap(Properties sqlMap) {
+		this.sqlMap = sqlMap;
+	}
+
+	public void setConf(Configuration conf) {
+		this.conf = conf;
+	}
 
 	public String getSql(String sqlId) {
 		return getSql(sqlId,null);
