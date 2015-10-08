@@ -2,6 +2,8 @@ package com.github.rapid.common.exception;
 
 public class RuntimeIOException extends RuntimeException {
 
+	private static final long serialVersionUID = 6967398691592484191L;
+
 	public RuntimeIOException() {
 		super();
 	}
