@@ -274,6 +274,11 @@
 				<artifactId>junit</artifactId>
 				<version>4.8.1</version>
 			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+			  	<artifactId>mockito-all</artifactId>
+			  	<version>1.10.19</version>
+		  	</dependency>	
 			<!-- test END -->
 
 			<!-- jmock -->
@@ -643,6 +648,12 @@
 			<artifactId>junit</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+		  	<artifactId>mockito-all</artifactId>
+		  	<version>1.10.19</version>
+		  	<scope>test</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -919,21 +930,7 @@
 		</dependency>
 		<!-- soap end -->
 			
-		<dependency>
-			<groupId>org.jmock</groupId>
-			<artifactId>jmock</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jmock</groupId>
-			<artifactId>jmock-junit4</artifactId>
-			<scope>test</scope>  		
-		</dependency>
-		<dependency>
-			<groupId>org.jmock</groupId>
-			<artifactId>jmock-legacy</artifactId>
-			<scope>test</scope>  		
-		</dependency>
+
 					
 	</dependencies>
 	

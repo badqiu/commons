@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+
+<properties>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<entry key="app.columns">
+		<![CDATA[
+        app_id ,app_name ,app_desc ,app_logo ,version 
+		]]>
+	</entry>
+	
+    <entry key="app.insert" >
+    	<![CDATA[
+        INSERT INTO dim_app (
+        	app_id ,
+        	app_name ,
+        	app_desc ,
+        	app_logo ,
+        	version 
+        ) VALUES (
+        	:appId ,
+        	:appName ,
+        	:appDesc ,
+        	:appLogo ,
+        	:version 
+        )
+    	]]>
+    </entry>
+
+    <entry key="app.update" >
+    	<![CDATA[
+        UPDATE dim_app SET
+	        app_name = :appName ,
+	        app_desc = :appDesc ,
+	        app_logo = :appLogo ,
+	        version = :version 
+        WHERE 
+	        app_id = :appId 
+    	]]>
+    </entry>
+
+    <entry key="app.delete">
+    	<![CDATA[
+        DELETE FROM dim_app WHERE
+        app_id = :appId 
+    	]]>
+    </entry>
+    
+    <entry key="app.getById">
+		<![CDATA[
+	    SELECT <#include  "app.columns">
+	        FROM dim_app 
+	        WHERE 
+		        app_id = :appId 
+		]]>
+    </entry>
+
+	<entry key="app.findPage.where">
+		<![CDATA[
+	       <#if appId?? >
+	            and app_id = :appId
+	       </#if>
+	       
+	       <#if appName?? >
+	            and app_name = :appName
+	       </#if>
+	       
+	       <#if appDesc?? >
+	            and app_desc = :appDesc
+	       </#if>
+	       
+	       <#if appLogo?? >
+	            and app_logo = :appLogo
+	       </#if>
+	       
+	       <#if version?? >
+	            and version = :version
+	       </#if>
+	       
+     	]]>
+	</entry>
+	 
+    <entry key="app.findPage.count">
+    	<![CDATA[
+        SELECT count(*) 
+        FROM dim_app 
+        WHERE 1=1
+        <#include "app.findPage.where">
+    	]]>    
+    </entry>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 #offset#,#pageSize#,#lastRows# 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <entry key="app.findPage">
+		<![CDATA[
+    	SELECT 
+    		<#include "app.columns"> 
+    	FROM dim_app 
+    	WHERE 1=1
+		<#include "app.findPage.where">
+		
+		<#if sortColumns?? >
+			ORDER BY :sortColumns
+		</#if>
+		
+		]]>
+    </entry>
+
+		
+</properties>

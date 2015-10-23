@@ -21,6 +21,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.util.Assert;
 
 import com.github.rapid.common.freemarker.loader.MapTemplateLoader;
 
@@ -250,6 +251,7 @@ public class FreemarkerJdbcTemplate extends PropertiesLoaderSupport implements N
 	public void afterPropertiesSet() throws Exception {
 		sqlMap = createProperties();
 		conf.setTemplateLoader(new MapTemplateLoader(sqlMap));
+		Assert.notNull(namedParameterJdbcTemplate,"namedParameterJdbcTemplate must be not null");
 	}
 
 	private Properties createProperties() throws IOException {
