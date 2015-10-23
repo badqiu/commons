@@ -25,8 +25,8 @@ public class PageQuery implements java.io.Serializable{
         this.pageSize = query.pageSize;
     }
     
-    public PageQuery(int pageNo, int pageSize) {
-        this.page = pageNo;
+    public PageQuery(int page, int pageSize) {
+        this.page = page;
         this.pageSize = pageSize;
     }
 
@@ -34,8 +34,13 @@ public class PageQuery implements java.io.Serializable{
         return page;
     }
 
-    public void setPage(int pageNo) {
-        this.page = pageNo;
+    public void setPage(int page) {
+        this.page = page;
+    }
+    
+    public PageQuery page(int page) {
+    	this.page = page;
+    	return this;
     }
 
     public int getPageSize() {
@@ -44,6 +49,11 @@ public class PageQuery implements java.io.Serializable{
 
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
+    }
+    
+    public PageQuery pageSize(int pageSize) {
+    	this.pageSize = pageSize;
+    	return this;
     }
 
     public String toString() {
