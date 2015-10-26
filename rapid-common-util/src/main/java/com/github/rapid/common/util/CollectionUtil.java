@@ -9,6 +9,9 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.MapUtils;
+
+import com.github.rapid.common.beanutils.BeanUtils;
 import com.github.rapid.common.beanutils.PropertyUtils;
 
 /**
@@ -140,6 +143,30 @@ public class CollectionUtil {
 					Object keyValue = PropertyUtils.getSimpleProperty(obj, key);
 					result.put(keyValue, obj);
 				}
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * 将rows转换成目标类型:targetClass,并返回
+	 * 
+	 * @param rows
+	 * @param targetClass
+	 * @return
+	 */
+	public static <T> List<T> toBeanList(List<Map> rows,Class<T> targetClass) {
+		List<T> result = new ArrayList<T>();
+		for(Map row : rows) {
+			if(MapUtils.isEmpty(row))
+				continue;
+			
+			try {
+				T item = targetClass.newInstance();
+				BeanUtils.populate(item, row);
+				result.add(item);
+			}catch(Exception e) {
+				throw new RuntimeException("error on process row:"+row,e);
 			}
 		}
 		return result;
