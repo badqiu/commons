@@ -34,7 +34,11 @@ public class Graph <NODE extends GraphNode> implements Serializable {
 	}
 
 	public void init(boolean ignoreNotFoundDependError) {
+		for(GraphNode node : nodes) {
+			node.setGraph(this);
+		}
 		initAllNodeDepends(ignoreNotFoundDependError);
+		checkCircuit();
 	}
 	
 	private void initAllNodeDepends(boolean ignoreNotFoundDependError) {
@@ -80,7 +84,7 @@ public class Graph <NODE extends GraphNode> implements Serializable {
 	public NODE getRequiredNode(String id) {
 		NODE n = getNode(id);
 		if(n == null) 
-			throw new IllegalArgumentException("not found TreeNode by id:"+id);
+			throw new IllegalArgumentException("not found Node by id:"+id);
 		return n;
 	}
 	
@@ -150,4 +154,20 @@ public class Graph <NODE extends GraphNode> implements Serializable {
 		}
 		return sb.toString();
 	}
+	
+	public void checkCircuit() {
+		for(NODE node : nodes) {
+			checkCircuit(node,node);
+		}
+	}
+
+	private void checkCircuit(GraphNode<NODE> checkNode,GraphNode<NODE> node) {
+		for(NODE parent : node.getParents()) {
+			if(parent == checkNode) {
+				throw new IllegalStateException("found Circuit cycle on node:"+node.getId()+" and node:"+parent.getId());
+			}
+			checkCircuit(checkNode,parent);
+		}
+	}
+	
 }
