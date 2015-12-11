@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -130,7 +131,7 @@ public class CollectionUtil {
 	public static <T> Map<Object,T> list2Map(Collection<T> rows,String key) {
 		if(rows == null) return null;
 		
-		Map result = new HashMap();
+		Map result = new LinkedHashMap();
 		for(Object obj : rows) {
 			if(obj instanceof Map) {
 				Map map = (Map)obj;
@@ -142,6 +143,33 @@ public class CollectionUtil {
 				if(PropertyUtils.isReadable(obj, key)) {
 					Object keyValue = PropertyUtils.getSimpleProperty(obj, key);
 					result.put(keyValue, obj);
+				}
+			}
+		}
+		return result;
+	}
+	
+	public static <T> Map<Object,Object> list2Map(Collection<T> rows,String mapKeyProperty,String mapValueProperty) {
+		if(rows == null) return null;
+		
+		Map result = new LinkedHashMap();
+		for(Object obj : rows) {
+			if(obj instanceof Map) {
+				Map map = (Map)obj;
+				if(map.containsKey(mapKeyProperty)) {
+					Object key = map.get(mapKeyProperty);
+					Object value = map.get(mapValueProperty);
+					if(key != null) {
+						result.put(key, value);
+					}
+				}
+			}else {
+				if(PropertyUtils.isReadable(obj, mapKeyProperty)) {
+					Object key = PropertyUtils.getSimpleProperty(obj, mapKeyProperty);
+					Object value = PropertyUtils.getSimpleProperty(obj, mapValueProperty);
+					if(key != null) {
+						result.put(key, value);
+					}
 				}
 			}
 		}

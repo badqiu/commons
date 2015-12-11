@@ -2,6 +2,7 @@ package com.github.rapid.common.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import junit.framework.TestCase;
 
@@ -47,6 +48,15 @@ public class CollectionHelperTest extends TestCase {
 		
 		assertEquals(0,(long)CollectionUtil.sum(null));
 
+	}
+	
+	@Test
+	public void testlist2map() {
+		List rows = new ArrayList();
+		rows.add(MapUtil.newMap("id","1","name","badqiu"));
+		rows.add(MapUtil.newMap("id","2","name","jane"));
+		Map map = CollectionUtil.list2Map(rows, "id", "name");
+		assertEquals("{1=badqiu, 2=jane}",map.toString());
 	}
 	
 	public void testAvg() {
