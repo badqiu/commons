@@ -27,7 +27,7 @@ public class EnumBaseUtils {
      * @param values
      * @return
      */
-    public static  <T extends EnumBase> LinkedHashMap toMap(T[] values) {
+    public static  <T extends EnumBase> LinkedHashMap toMap(T... values) {
         LinkedHashMap map = new LinkedHashMap();
         for(EnumBase item : values) {
             map.put(item.getCode(), item.getDesc());
