@@ -35,12 +35,22 @@ public class CsvFileUtil {
 			if(count <= skipLines)  {
 				continue;
 			}
+			if(isCommentLine(line)) {
+				continue;
+			}
 			Map row = MapUtil.toMap(line.split(","), columnKeys);
 			result.add(row);
 		}
 		return result;
 	}
 	
+	private static boolean isCommentLine(String line) {
+		if(line != null && line.trim().startsWith("#")) {
+			return true;
+		}
+		return false;
+	}
+
 	public static List<Map> readCsv2Maps(InputStream inputStream,String chartset, String columns,int skipLines) throws IOException {
 		BufferedReader reader = null;
 		try {
