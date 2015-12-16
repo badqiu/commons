@@ -2,6 +2,8 @@ package com.github.rapid.common.rpc.client;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +14,7 @@ import com.github.rapid.common.rpc.RPCRequest;
 import com.github.rapid.common.rpc.SerDe;
 import com.github.rapid.common.rpc.SerDeMapping;
 import com.github.rapid.common.rpc.server.MethodInvoker;
+import com.github.rapid.common.rpc.util.URLParamUtil;
 
 public abstract class AbstractHttpInvokerRequestExecutor
 		implements HttpInvokerRequestExecutor, BeanClassLoaderAware {
@@ -132,7 +135,9 @@ public abstract class AbstractHttpInvokerRequestExecutor
 			throw new RuntimeException("not found http request serialize SerDe by contentType:"+getContentType());
 		}
 		invocation.setFormat(SerDeMapping.extractFormat(serDe.getContentType()));
-		String url = serviceUrl +"/"+method + "?" + MethodInvoker.KEY_PROTOCOL+"="+invocation.getFormat()+"&"+MethodInvoker.KEY_FORMAT+"="+invocation.getFormat();
+		
+		String urlParamsString = URLParamUtil.serial2UrlParams(buildUrlParams(invocation));
+		String url = serviceUrl +"/"+method + "?" + urlParamsString;
 		
 		ByteArrayOutputStream output = new ByteArrayOutputStream(300);
 		serDe.serialize((Object)invocation.getArguments(), output, null);
@@ -142,6 +147,22 @@ public abstract class AbstractHttpInvokerRequestExecutor
 					"], with parameters: " + parameters);
 		}
 		return doExecuteRequest(url,parameters);
+	}
+
+	private Map buildUrlParams(RPCRequest invocation) {
+		Map<String,String> localParamsMap = new HashMap<String,String>();
+		localParamsMap.put(MethodInvoker.KEY_PROTOCOL, invocation.getFormat());
+		localParamsMap.put(MethodInvoker.KEY_FORMAT, invocation.getFormat());
+		
+		Map<String, String> globalParams = RPCClientContext.getGlobalParams();
+		if(globalParams != null) {
+			localParamsMap.putAll(globalParams);
+		}
+		Map<String, String> contextParams = RPCClientContext.getParams();
+		if(contextParams != null) {
+			localParamsMap.putAll(contextParams);
+		}
+		return localParamsMap;
 	}
 
 	/**
