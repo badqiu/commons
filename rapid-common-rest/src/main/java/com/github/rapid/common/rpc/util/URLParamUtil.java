@@ -15,6 +15,9 @@ public class URLParamUtil {
 		for(Map.Entry entry : entrySet) {
 			Object key = entry.getKey();
 			Object value = entry.getValue();
+			if(value == null) {
+				continue;
+			}
 			sb.append(key).append("=").append(value).append("&");
 		}
 		return sb.toString();
