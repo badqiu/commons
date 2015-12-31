@@ -31,7 +31,7 @@ public class Flash {
     }
 
     public void save(HttpServletRequest request,HttpServletResponse response) {
-    	HttpSession session = request.getSession();
+    	HttpSession session = request.getSession(false);
 		if(session != null) {
 			session.setAttribute(FLASH_IN_SESSION_KEY, out);
 		}
