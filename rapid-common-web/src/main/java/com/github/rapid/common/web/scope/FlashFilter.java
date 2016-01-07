@@ -8,6 +8,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.filter.OncePerRequestFilter;
 /**
  * <pre>
@@ -20,6 +22,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
  */
 public class FlashFilter  extends OncePerRequestFilter implements Filter{
 
+	private Logger logger = LoggerFactory.getLogger(FlashFilter.class);
+	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request,HttpServletResponse response, FilterChain chain)throws ServletException, IOException {
 		try {
@@ -29,8 +33,14 @@ public class FlashFilter  extends OncePerRequestFilter implements Filter{
 		}finally {
 			Flash flash = Flash.current();
 			Flash.setCurrent(null);
-			if(flash != null)
-				flash.save(request, response);
+			if(flash != null) {
+				try {
+					flash.save(request, response);
+				}catch(Exception e) {
+					//ignore
+					logger.warn("Flash.save() error,exception:"+e,e);
+				}
+			}
 		}
 	}
 
