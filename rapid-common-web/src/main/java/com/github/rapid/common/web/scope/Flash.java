@@ -44,7 +44,7 @@ public class Flash {
         return current.get();
     }
 
-    static void setCurrent(Flash f) {
+    public static void setCurrent(Flash f) {
         current.set(f);
     }
 
