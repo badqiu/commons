@@ -16,6 +16,10 @@ import org.apache.commons.io.IOUtils;
  */
 public class CsvFileUtil {
 	
+	public static List<Map> readCsv2Maps(BufferedReader reader, String columns) throws IOException {
+		return readCsv2Maps(reader,columns,0);
+	}
+	
 	/**
 	 * 读取csv格式文件流为 List<Map>返回
 	 * 

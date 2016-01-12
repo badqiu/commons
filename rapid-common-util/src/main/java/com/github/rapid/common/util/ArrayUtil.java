@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+
 
 public class ArrayUtil {
 	
@@ -21,7 +23,7 @@ public class ArrayUtil {
 			if(array.length == i ) {
 				break;
 			}
-			m.put(keys[i], array[i]);
+			m.put(StringUtils.trim(keys[i]), array[i]);
 		}
 		return m;
 	}
