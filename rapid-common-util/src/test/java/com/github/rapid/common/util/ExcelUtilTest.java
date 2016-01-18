@@ -21,7 +21,7 @@ public class ExcelUtilTest {
 	
 	@Before
 	public void before() {
-		System.out.println("\n\n------------------ "+testName.getMethodName()+" ----------------------");
+		System.out.println("\n------------------ "+testName.getMethodName()+" ----------------------\n");
 	}
 	
 	@Test

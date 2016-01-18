@@ -32,7 +32,8 @@ public class Flash {
 
     public void save(HttpServletRequest request,HttpServletResponse response) {
     	HttpSession session = request.getSession(false);
-		if(session != null) {
+    	if(session == null) return;
+		if(out != null && !out.isEmpty()) {
 			session.setAttribute(FLASH_IN_SESSION_KEY, out);
 		}
     }
@@ -76,6 +77,10 @@ public class Flash {
 
     public void success(String value, Object... args) {
 		put("success", String.format(value, args));
+    }
+    
+    public void warning(String value, Object... args) {
+		put("warning", String.format(value, args));
     }
 
     public void discard(String key) {
