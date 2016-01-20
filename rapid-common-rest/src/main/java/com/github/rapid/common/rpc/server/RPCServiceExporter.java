@@ -100,7 +100,7 @@ public class RPCServiceExporter extends RemoteExporter implements HttpRequestHan
 			serializeResult(new RPCResponse(e.getErrorNo(),e.getMessage()),request, response,parameters);
 		} catch(Throwable e){
 			logger.warn("error on uri:"+request.getRequestURI(),e); // TODO 删除本日志打印,或者不打印error级别
-			serializeResult(new RPCResponse(e.getClass().getName(),e.getMessage()),request, response,parameters);
+			serializeResult(new RPCResponse(e.getClass().getSimpleName(),e.getMessage()),request, response,parameters);
 		}finally {
 			RPCContext.clear();
 			MDC.remove("traceId");
