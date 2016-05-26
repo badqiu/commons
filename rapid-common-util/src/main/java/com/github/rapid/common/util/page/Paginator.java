@@ -18,6 +18,9 @@ public class Paginator implements java.io.Serializable {
     /** 总记录数 */
     private int               totalItems;
 	
+    public Paginator() {
+    }
+    
 	public Paginator(int page, int pageSize, int totalItems) {
 		super();
 		this.pageSize = pageSize;
@@ -25,7 +28,19 @@ public class Paginator implements java.io.Serializable {
 		this.page = computePageNo(page);
 	}
 	
-    /**
+    public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+
+	public void setPage(int page) {
+		this.page = computePageNo(page);
+	}
+
+	public void setTotalItems(int totalItems) {
+		this.totalItems = totalItems;
+	}
+
+	/**
      * 取得当前页。
      */
 	public int getPage() {
