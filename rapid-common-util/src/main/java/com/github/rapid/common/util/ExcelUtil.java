@@ -83,20 +83,25 @@ public class ExcelUtil {
 		List<List<String>> resultList = new ArrayList<List<String>>();  
 		for(int i = sheet.getFirstRowNum(); i < sheet.getPhysicalNumberOfRows(); i++){  
 			Row row = sheet.getRow(i);  
-			List<String> listRow = new ArrayList<String>();
 			
 			if(isCommentLine(row)) {
 				continue;
 			}
 			
-		    for(int j = row.getFirstCellNum(); j < row.getPhysicalNumberOfCells(); j++){  
-		        Cell cell = row.getCell(j);
-		        String stringCellValue = getStringCellValue(cell);
-				listRow.add(stringCellValue);  
-		    }
+			List<String> listRow = readCells(row);
 		    resultList.add(listRow);
 		}
 		return resultList;
+	}
+
+	private static List<String> readCells(Row row) {
+		List<String> listRow = new ArrayList<String>();
+		for(int j = row.getFirstCellNum(); j < row.getLastCellNum(); j++){  
+		    Cell cell = row.getCell(j);
+		    String stringCellValue = getStringCellValue(cell);
+			listRow.add(stringCellValue);  
+		}
+		return listRow;
 	}
 
 	private static boolean isCommentLine(Row row) {
