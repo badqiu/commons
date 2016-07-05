@@ -31,10 +31,14 @@ import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.methods.ByteArrayRequestEntity;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
+import org.apache.commons.httpclient.protocol.Protocol;
+import org.apache.commons.httpclient.protocol.ProtocolSocketFactory;
 import org.apache.commons.io.IOUtils;
 import org.springframework.context.i18n.LocaleContext;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.util.StringUtils;
+
+import com.github.rapid.common.rpc.client.ssl.MySecureProtocolSocketFactory;
 
 /**
  * {@link HttpInvokerRequestExecutor} implementation that uses
@@ -72,6 +76,9 @@ public class CommonsHttpInvokerRequestExecutor extends AbstractHttpInvokerReques
 		this.httpClient = new HttpClient(httpConnectionManager);
 		this.setReadTimeout(getReadTimeout());
 		this.setConnectionTimeout(getConnectionTimeout());
+		
+		ProtocolSocketFactory fcty = new MySecureProtocolSocketFactory();
+		Protocol.registerProtocol("https", new Protocol("https", fcty, 443));
 	}
 
 	/**

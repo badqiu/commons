@@ -77,6 +77,7 @@ public class SimpleSerDeImpl implements SerDe{
 				return null;
 			}
 			
+			
 			if(MethodInvoker.NULL_VALUE.equals(value)) {
 				return null;
 			}
@@ -141,6 +142,9 @@ public class SimpleSerDeImpl implements SerDe{
 			// support for Date,timestamp,sql.Date,sql.Time
 			if(Date.class.isAssignableFrom(parameterType)) {
 				if(value == null) {
+					return null;
+				}
+				if(value instanceof String && StringUtils.isBlank((String)value)) {
 					return null;
 				}
 				Date result = (Date)(parameterType.isAssignableFrom(Date.class) ? (Date)parameterType.newInstance() : parameterType.getConstructor(long.class).newInstance(0L));
