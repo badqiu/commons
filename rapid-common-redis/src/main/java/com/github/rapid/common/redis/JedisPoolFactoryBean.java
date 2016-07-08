@@ -1,5 +1,7 @@
 package com.github.rapid.common.redis;
 
+import java.net.URI;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
@@ -12,6 +14,7 @@ import org.springframework.util.Assert;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.Protocol;
+import redis.clients.util.JedisURIHelper;
 /**
  * 用于spring生成JedisPool的FactoryBean
  * 
@@ -27,7 +30,7 @@ public class JedisPoolFactoryBean implements FactoryBean<JedisPool>, Initializin
 	
 	private int port = Protocol.DEFAULT_PORT;
 	private String host = null;
-	private final String password = null;
+	private String password = null;
 
 	private JedisPoolConfig poolConfig = new JedisPoolConfig();
 	
@@ -65,6 +68,10 @@ public class JedisPoolFactoryBean implements FactoryBean<JedisPool>, Initializin
 		this.port = port;
 	}
 	
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public int getMaxIdle() {
 		return poolConfig.getMaxIdle();
 	}
@@ -224,14 +231,18 @@ public class JedisPoolFactoryBean implements FactoryBean<JedisPool>, Initializin
 	}
 
 	public void setServer(String server) {
-		String[] array = StringUtils.split(StringUtils.trim(server),":");
-		if(array.length == 2) {
-			setHost(array[0]);
-			setPort(Integer.parseInt(array[1]));
-		}else if(array.length == 1) {
-			setHost(array[0]);
+		URI uri = URI.create(server);
+		if (JedisURIHelper.isValid(uri)) {
+			String host = uri.getHost();
+			int port = uri.getPort();
+			String password = JedisURIHelper.getPassword(uri);
+			int database = JedisURIHelper.getDBIndex(uri);
+			setHost(host);
+			setPort(port);
+			setPassword(password);
+			setDatabase(database);
 		}else {
-			throw new IllegalArgumentException("invalid redis server:"+server+" example value = 127.0.0.1:6737 ");
+			setHost(host);
 		}
 	}
 
