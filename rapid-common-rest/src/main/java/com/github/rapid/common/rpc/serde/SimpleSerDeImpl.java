@@ -68,6 +68,7 @@ public class SimpleSerDeImpl implements SerDe{
 		static {
 			BeanUtilsConvertRegisterHelper.registerConverters(beanUtils.getConvertUtils(), DATE_PATTERNS);
 		}
+		
 		public Object deserializeParameterValue(Class<?> parameterType,
 				Object value, Map<String, Object> params) throws InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchMethodException {
 			if(value == null && parameterType.isPrimitive()) {
@@ -148,15 +149,9 @@ public class SimpleSerDeImpl implements SerDe{
 					return null;
 				}
 				Date result = (Date)(parameterType.isAssignableFrom(Date.class) ? (Date)parameterType.newInstance() : parameterType.getConstructor(long.class).newInstance(0L));
-				try {
-					Date parseDate = DateUtils.parseDate((String)value,DATE_PATTERNS);
-					result.setTime(parseDate.getTime());
-					return result;
-				} catch (ParseException e) {
-					long time = Long.parseLong((String)value);
-					result.setTime(time);
-					return result;
-				}
+				long time = Long.parseLong((String)value);
+				result.setTime(time);
+				return result;
 			}
 			
 			// support for int,long,Long
@@ -189,8 +184,12 @@ public class SimpleSerDeImpl implements SerDe{
 			for(PropertyDescriptor pd : targetPds) {
 				if (pd.getWriteMethod() != null) {
 					String stringValue = (String)map.get(pd.getName());
-					Object value = deserializeParameterValue(pd.getPropertyType(), stringValue, map);
-					result.put(pd.getName(), value);
+					try {
+						Object value = deserializeParameterValue(pd.getPropertyType(), stringValue, map);
+						result.put(pd.getName(), value);
+					}catch(Exception e){
+						throw new RuntimeException("cannot write property:"+pd.getName()+" by value:"+stringValue+" for targetType:"+pd.getPropertyType());
+					}
 				}
 			}
 			return result;
