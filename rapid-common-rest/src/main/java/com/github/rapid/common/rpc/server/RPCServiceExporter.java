@@ -28,6 +28,7 @@ import org.springframework.web.servlet.HandlerExecutionChain;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.handler.AbstractUrlHandlerMapping;
 
+import com.github.rapid.common.rpc.RPCConstants;
 import com.github.rapid.common.rpc.RPCResponse;
 import com.github.rapid.common.rpc.SerDe;
 import com.github.rapid.common.rpc.WebServiceException;
@@ -39,10 +40,11 @@ import com.github.rapid.common.rpc.util.StringUtil;
 
 public class RPCServiceExporter extends RemoteExporter implements HttpRequestHandler,HandlerMapping,ApplicationContextAware,InitializingBean {
 	
+	
 	public static final String ENCODING = "UTF-8";
 	private static Logger logger = LoggerFactory.getLogger(RPCServiceExporter.class);
 	private static final String DEFAULT_FORMAT = "json";
-	public static final String KEY_NO_WRAP = "__noWrapResult"; // 是否包装返回结果(true则返回 RPCResponse,false直接返回结果),默认值是false
+	public static final String KEY_NO_WRAP = RPCConstants.KEY_NO_WRAP; 
 	
 	private ApplicationContext applicationContext;
 	private String defaultFormat = DEFAULT_FORMAT;

@@ -28,6 +28,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.core.convert.ConversionService;
 
+import com.github.rapid.common.rpc.RPCConstants;
 import com.github.rapid.common.rpc.SerDe;
 import com.github.rapid.common.rpc.SerializeException;
 import com.github.rapid.common.rpc.server.MethodInvoker;
@@ -79,7 +80,7 @@ public class SimpleSerDeImpl implements SerDe{
 			}
 			
 			
-			if(MethodInvoker.NULL_VALUE.equals(value)) {
+			if(RPCConstants.NULL_VALUE.equals(value)) {
 				return null;
 			}
 			
@@ -275,7 +276,7 @@ public class SimpleSerDeImpl implements SerDe{
 		// TODO 某些参数类型不支持序列化，应该抛错误
 		private String serializeParameterValue(Object arg) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 			if(arg == null) {
-				return MethodInvoker.NULL_VALUE;
+				return RPCConstants.NULL_VALUE;
 			}
 			Class parameterType = arg.getClass();
 			

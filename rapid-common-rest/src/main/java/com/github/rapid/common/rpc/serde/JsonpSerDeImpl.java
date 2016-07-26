@@ -9,6 +9,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import com.github.rapid.common.rpc.RPCConstants;
 import com.github.rapid.common.rpc.SerDe;
 import com.github.rapid.common.rpc.SerializeException;
 
@@ -19,7 +20,7 @@ import com.github.rapid.common.rpc.SerializeException;
  * 
  */
 public class JsonpSerDeImpl extends JsonSerDeImpl implements SerDe {
-	static String JSONCALLBACK_KEY = "__jsoncallback";
+	static String JSONCALLBACK_KEY = RPCConstants.JSONCALLBACK_KEY;
 
 	ObjectMapper objectMapper = new ObjectMapper();
 	

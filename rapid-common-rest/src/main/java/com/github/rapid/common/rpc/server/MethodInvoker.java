@@ -25,6 +25,7 @@ import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.core.ParameterNameDiscoverer;
 import org.springframework.util.Assert;
 
+import com.github.rapid.common.rpc.RPCConstants;
 import com.github.rapid.common.rpc.SerDe;
 import com.github.rapid.common.rpc.SerDeMapping;
 import com.github.rapid.common.rpc.serde.SimpleSerDeImpl;
@@ -39,17 +40,16 @@ import com.github.rapid.common.rpc.util.ParameterEscapeUtil;
  */
 public class MethodInvoker {
 //	public static final String KEY_VERSION = "__version"; // TODO 协议版本 
-	public static final String KEY_FORMAT = "__format"; // 协议返回值格式: json,xml
-	public static final String KEY_PROTOCOL = "__protocol"; // 通讯协议,用于决定参数的传递方式 
-	public static final String KEY_PARAMETERS = "__params"; // 参数值列表
+	public static final String KEY_FORMAT = RPCConstants.KEY_FORMAT; // 协议返回值格式: json,xml
+	public static final String KEY_PROTOCOL = RPCConstants.KEY_PROTOCOL; // 通讯协议,用于决定参数的传递方式 
+	public static final String KEY_PARAMETERS = RPCConstants.KEY_PARAMETERS; // 参数值列表
 	
 	// 参数协议类型
-	public static final String PROTOCOL_KEYVALUE = "kv"; // param1Name=param2Value&param2Name=param2Value
-	public static final String PROTOCOL_ARRAY = "array"; // __params=param1Value;param2Value
-	public static final String PROTOCOL_JSON = "json";  //  __params=["param1Value",param2Value]
-	public static final String PROTOCOL_JAVA = "java";  //  __params=["param1Value",param2Value]
+	public static final String PROTOCOL_KEYVALUE = RPCConstants.PROTOCOL_KEYVALUE; // param1Name=param2Value&param2Name=param2Value
+	public static final String PROTOCOL_ARRAY = RPCConstants.PROTOCOL_ARRAY; // __params=param1Value;param2Value
+	public static final String PROTOCOL_JSON = RPCConstants.PROTOCOL_JSON;  //  __params=["param1Value",param2Value]
+	public static final String PROTOCOL_JAVA = RPCConstants.PROTOCOL_JAVA;  //  __params=["param1Value",param2Value]
 	
-	public static final String NULL_VALUE = "null";
 	
 	private ParameterNameDiscoverer parameterNameDiscoverer = new LocalVariableTableParameterNameDiscoverer();
 	private Map<String,Object> serviceMapping = new HashMap<String,Object>();
