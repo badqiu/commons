@@ -144,10 +144,7 @@ public class CommonsHttpInvokerRequestExecutor extends AbstractHttpInvokerReques
 	 */
 	protected void setRequestBody(PostMethod postMethod,byte[] parameters)
 			throws IOException {
-		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		outputStream.write(parameters);
-		outputStream.close();
-		postMethod.setRequestEntity(new ByteArrayRequestEntity(outputStream.toByteArray(), getContentType()));
+		postMethod.setRequestEntity(new ByteArrayRequestEntity(parameters, getContentType()));
 	}
 
 	/**
