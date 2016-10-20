@@ -242,7 +242,7 @@ public class JedisPoolFactoryBean implements FactoryBean<JedisPool>, Initializin
 			setPassword(password);
 			setDatabase(database);
 		}else {
-			setHost(host);
+			setHost(server);
 		}
 	}
 
