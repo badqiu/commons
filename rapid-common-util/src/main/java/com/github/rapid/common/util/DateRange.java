@@ -52,7 +52,25 @@ public class DateRange {
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
-
+	
+	public Date startDate() {
+		return startDate;
+	}
+	
+	public DateRange startDate(Date startDate) {
+		this.startDate = startDate;
+		return this;
+	}
+	
+	public Date endDate() {
+		return endDate;
+	}
+	
+	public DateRange endDate(Date endDate) {
+		this.endDate = endDate;
+		return this;
+	}
+	
 	/**
 	 * Get the end date. This value may be null.
 	 * 

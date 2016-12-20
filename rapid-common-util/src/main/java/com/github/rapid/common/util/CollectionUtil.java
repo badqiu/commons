@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.StringUtils;
 
 import com.github.rapid.common.beanutils.BeanUtils;
 import com.github.rapid.common.beanutils.PropertyUtils;
@@ -198,6 +199,32 @@ public class CollectionUtil {
 			}
 		}
 		return result;
+	}
+	
+	public static List<Map<String, String>> toMaps(List<String> columnNames,List<List<String>> inputRows) {
+		List<Map<String,String>> resultRows = new ArrayList<Map<String,String>>();
+		for(List<String> columns : inputRows) {
+			Map row = toMap(columnNames, columns);
+			resultRows.add(row);
+		}
+		return resultRows;
+	}
+
+	private static Map toMap(List<String> columnNames, List<String> columns) {
+		Map row = new LinkedHashMap();
+		for(int col = 0; col < columnNames.size(); col++) {
+			if(col >= columns.size()) {
+				break;
+			}
+			
+			String columnName = columnNames.get(col);
+			if(columnName == null) continue;
+			
+			String key = columnName.replaceAll("\\s", "").trim();
+			String value = StringUtils.trim(columns.get(col));
+			row.put(key, value);
+		}
+		return row;
 	}
 
 }
