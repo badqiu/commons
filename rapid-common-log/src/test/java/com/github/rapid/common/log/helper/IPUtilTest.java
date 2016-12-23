@@ -12,6 +12,7 @@ public class IPUtilTest extends Assert{
 	public void test() {
 		assertTrue(StringUtils.hasText(IPUtil.getIp()));
 		assertFalse(IPUtil.getIp().equals("127.0.0.1"));
+		System.out.println(IPUtil.getIp());
 	}
 	
 }

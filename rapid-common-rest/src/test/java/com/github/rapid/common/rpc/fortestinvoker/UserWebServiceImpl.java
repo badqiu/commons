@@ -61,7 +61,7 @@ public class UserWebServiceImpl implements UserWebService{
 
 	public String enumArgument(UserTypeEnum userType, UserTypeEnum[] userTypes) {
 		System.out.println("enumArgument() userType:"+userType+" userTypes:"+Arrays.toString(userTypes));
-		return "enumArgument():";
+		return "enumArgument() userType:"+userType+" userTypes:"+Arrays.toString(userTypes);
 	}
 	
 	public String simple(int age,long big,String name,String sex,double rate,Float f,Date tdate){
