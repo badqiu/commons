@@ -71,11 +71,12 @@ public class CommonsHttpInvokerRequestExecutor extends AbstractHttpInvokerReques
 		HttpConnectionManagerParams params = new HttpConnectionManagerParams();
 		params.setDefaultMaxConnectionsPerHost(300);
 		params.setMaxTotalConnections(500);
+		params.setConnectionTimeout(getConnectionTimeout());
+		params.setSoTimeout(getReadTimeout());
+		
 		httpConnectionManager.setParams(params);
 		
 		this.httpClient = new HttpClient(httpConnectionManager);
-		this.setReadTimeout(getReadTimeout());
-		this.setConnectionTimeout(getConnectionTimeout());
 		
 		ProtocolSocketFactory fcty = new MySecureProtocolSocketFactory();
 		Protocol.registerProtocol("https", new Protocol("https", fcty, 443));
