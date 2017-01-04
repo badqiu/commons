@@ -71,7 +71,7 @@ public class MySecureProtocolSocketFactory implements SecureProtocolSocketFactor
             throw new IllegalArgumentException("Parameters may not be null");
         }
         int timeout = params.getConnectionTimeout();
-        if (timeout == 0) {
+        if (timeout <= 0) {
             return createSocket(host, port, localAddress, localPort);
         } else {
             return ControllerThreadSocketFactory.createSocket(this, host, port, localAddress, localPort, timeout);

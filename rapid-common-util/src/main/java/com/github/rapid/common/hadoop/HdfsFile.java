@@ -43,6 +43,10 @@ public class HdfsFile extends File{
 		this(fs,new Path(parent.getHdfsPath(),toRootDirIfEmpty(child)));
 	}
 
+	public HdfsFile(HdfsFile parent, String child) {
+		this(parent.getFileSystem(),new Path(parent.getHdfsPath(),toRootDirIfEmpty(child)));
+	}
+	
 	public HdfsFile(FileSystem fs,String parent, String child) {
 		this(fs,new Path(toRootDirIfEmpty(parent),toRootDirIfEmpty(child)));
 	}
@@ -379,6 +383,10 @@ public class HdfsFile extends File{
 
 	@Override
 	protected void finalize() throws Throwable {
+	}
+	
+	public FileSystem getFileSystem() {
+		return fs;
 	}
 	
 	public InputStream open() {
