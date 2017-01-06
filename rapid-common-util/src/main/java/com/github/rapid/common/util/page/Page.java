@@ -1,5 +1,6 @@
 package com.github.rapid.common.util.page;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -13,7 +14,7 @@ import org.apache.commons.collections.IteratorUtils;
  *
  * @param <T>
  */
-public class Page<T> implements Iterable<T>{
+public class Page<T> implements Iterable<T>,Serializable{
 	private List<T> itemList = new ArrayList<T>(0);
 	private Paginator paginator = new Paginator(0, 0, 0);
 	
