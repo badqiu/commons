@@ -104,7 +104,7 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport {
 	}
 	
 	private int queryTotalItems(String querySql,Map<String,Object> paramMap) {
-		String removedOrderByQuery = "select count(*) from (" + SqlRemoveUtil.removeOrders(querySql) + ") as c";//FIXME 未处理group by的 select count(*) from (subquery)
+		String removedOrderByQuery = "select count(*) from (" + SqlRemoveUtil.removeOrders(querySql) + ") c";//FIXME 未处理group by的 select count(*) from (subquery)
 		return queryForInt(removedOrderByQuery,new MapSqlParameterSource(paramMap));
 	}
 	
