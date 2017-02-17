@@ -51,8 +51,9 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport {
 		this.dialect = d;
 	}
 	
-	protected void checkDaoConfig() {
-		super.checkDaoConfig();
+	@Override
+	protected void initTemplateConfig() {
+		super.initTemplateConfig();
 		if(namedParameterJdbcTemplate == null) {
 			namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(getJdbcTemplate());
 		}
