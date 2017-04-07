@@ -27,17 +27,17 @@ public class Paginator implements java.io.Serializable {
 		this.totalItems = totalItems;
 		this.page = computePageNo(page);
 	}
+
+	public int getPageSize() {
+		return pageSize;
+	}
 	
     public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
 	}
 
 	public void setPage(int page) {
-		this.page = computePageNo(page);
-	}
-
-	public void setTotalItems(int totalItems) {
-		this.totalItems = totalItems;
+		this.page = page;
 	}
 
 	/**
@@ -46,9 +46,9 @@ public class Paginator implements java.io.Serializable {
 	public int getPage() {
 		return page;
 	}
-
-	public int getPageSize() {
-		return pageSize;
+	
+	public void setTotalItems(int totalItems) {
+		this.totalItems = totalItems;
 	}
 
     /**
