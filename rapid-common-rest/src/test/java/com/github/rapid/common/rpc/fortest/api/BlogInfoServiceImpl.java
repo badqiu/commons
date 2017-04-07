@@ -26,6 +26,8 @@ import com.github.rapid.common.rpc.fortest.api.model.ComplexObject;
 import com.github.rapid.common.rpc.fortest.api.request.BlogQuery;
 import com.github.rapid.common.rpc.fortestinvoker.UserInfo;
 import com.github.rapid.common.rpc.fortestinvoker.UserTypeEnum;
+import com.github.rapid.common.util.page.Page;
+import com.github.rapid.common.util.page.Paginator;
 
 
 public class BlogInfoServiceImpl implements BlogInfoService {
@@ -276,6 +278,17 @@ public class BlogInfoServiceImpl implements BlogInfoService {
 
 	public String[] array_arg(String[] array) {
 		return new String[]{Arrays.toString(array)};
+	}
+
+	@Override
+	public Page<String> pageQuery(int page, int pageSize) {
+		List list = new ArrayList();
+		int total = 20;
+		for(int i = 0; i < total; i++) {
+			list.add(i);
+		}
+		Paginator p = new Paginator(page, pageSize, total);
+		return new Page(list.subList(p.getStartRow(),p.getEndRow()),p);
 	}
 
 

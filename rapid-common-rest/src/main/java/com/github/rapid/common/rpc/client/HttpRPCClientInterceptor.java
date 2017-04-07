@@ -76,13 +76,15 @@ public class HttpRPCClientInterceptor extends RemoteAccessor implements MethodIn
 		if (this.httpInvokerRequestExecutor == null) {
 			if(isHttpClientAvaiable) {
 				logger.info("RPC:found org.apache.commons.httpclient.HttpClient avaiable for RPC HttpInvokerRequestExecutor,use 'CommonsHttpInvokerRequestExecutor'");
-				AbstractHttpInvokerRequestExecutor executor = new CommonsHttpInvokerRequestExecutor();
+				CommonsHttpInvokerRequestExecutor executor = new CommonsHttpInvokerRequestExecutor();
 				executor.setBeanClassLoader(getBeanClassLoader());
+				executor.afterPropertiesSet();
 				this.httpInvokerRequestExecutor = executor;
 			}else {
 				logger.info("RPC:not found org.apache.commons.httpclient.HttpClient for RPC HttpInvokerRequestExecutor,use 'SimpleHttpInvokerRequestExecutor',please import commons-httpclient.jar in classpath for better performance");
-				AbstractHttpInvokerRequestExecutor executor = new SimpleHttpInvokerRequestExecutor();
+				SimpleHttpInvokerRequestExecutor executor = new SimpleHttpInvokerRequestExecutor();
 				executor.setBeanClassLoader(getBeanClassLoader());
+				executor.afterPropertiesSet();
 				this.httpInvokerRequestExecutor = executor;
 			}
 		}

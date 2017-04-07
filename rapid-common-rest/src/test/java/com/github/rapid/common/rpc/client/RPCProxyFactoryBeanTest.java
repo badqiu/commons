@@ -11,6 +11,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -24,6 +25,7 @@ import com.github.rapid.common.rpc.fortest.api.BlogInfoServiceImpl;
 import com.github.rapid.common.rpc.fortest.api.model.Blog;
 import com.github.rapid.common.rpc.fortest.api.request.BlogQuery;
 import com.github.rapid.common.rpc.fortestinvoker.UserWebService;
+import com.github.rapid.common.rpc.tools.JettyServer;
 
 
 public class RPCProxyFactoryBeanTest extends BaseClientTestCase{
@@ -32,6 +34,12 @@ public class RPCProxyFactoryBeanTest extends BaseClientTestCase{
 	BlogInfoService httpCommonBlogInfoService = null;
 	BlogInfoService blogInfoService = null;
 	BlogInfoService localBlogInfoService = new BlogInfoServiceImpl();
+	
+	@BeforeClass
+	public static void beforeClass() throws Exception {
+		JettyServer.main(null);
+	}
+	
 	@Before
 	public void setUp() {
 		RPCProxyFactoryBean factory = new RPCProxyFactoryBean();
@@ -166,6 +174,9 @@ public class RPCProxyFactoryBeanTest extends BaseClientTestCase{
 		assertNull(blogInfoService.null_return());
 //		assertEquals(localBlogInfoService.findComplexObject("key"),blogInfoService.findComplexObject("key"));
 		assertFalse(localBlogInfoService.linked_hash_set_but_return_set("123").toString().equals(blogInfoService.linked_hash_set_but_return_set("123").toString()));
+		
+		assertEquals(localBlogInfoService.pageQuery(1, 5).getPaginator().toString(),blogInfoService.pageQuery(1, 5).getPaginator().toString());
+		assertEquals(localBlogInfoService.pageQuery(4, 5).getPaginator().toString(),blogInfoService.pageQuery(4, 5).getPaginator().toString());
 	}
 	
 	private String genComprexChars() {

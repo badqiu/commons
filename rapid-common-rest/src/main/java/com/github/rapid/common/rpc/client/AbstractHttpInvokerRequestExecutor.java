@@ -8,6 +8,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanClassLoaderAware;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
 import com.github.rapid.common.rpc.RPCRequest;
@@ -17,7 +18,7 @@ import com.github.rapid.common.rpc.server.MethodInvoker;
 import com.github.rapid.common.rpc.util.URLParamUtil;
 
 public abstract class AbstractHttpInvokerRequestExecutor
-		implements HttpInvokerRequestExecutor, BeanClassLoaderAware {
+		implements HttpInvokerRequestExecutor, BeanClassLoaderAware,InitializingBean {
 
 	/**
 	 * Default content type: "application/x-java-serialized-object"
@@ -29,8 +30,8 @@ public abstract class AbstractHttpInvokerRequestExecutor
 	/**
 	 * Default timeout value if no HttpClient is explicitly provided.
 	 */
-	protected static final int DEFAULT_READ_TIMEOUT_MILLISECONDS = (10 * 1000);
-	protected static final int DEFAULT_CONNECTION_TIMEOUT_MILLISECONDS = (3 * 1000);
+	protected static final int DEFAULT_READ_TIMEOUT_MILLISECONDS = (30 * 1000);
+	protected static final int DEFAULT_CONNECTION_TIMEOUT_MILLISECONDS = (30 * 1000);
 	
 	protected static final String HTTP_METHOD_POST = "POST";
 

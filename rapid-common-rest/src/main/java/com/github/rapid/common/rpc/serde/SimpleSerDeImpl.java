@@ -78,7 +78,9 @@ public class SimpleSerDeImpl implements SerDe{
 			if(value == null && (parameterType.isEnum())) {
 				return null;
 			}
-			
+			if(parameterType.isInterface()) {
+				return null;
+			}
 			
 			if(RPCConstants.NULL_VALUE.equals(value)) {
 				return null;
@@ -160,6 +162,8 @@ public class SimpleSerDeImpl implements SerDe{
 				return conversionService.convert(value, parameterType);
 			}
 
+			
+			
 			// support for DTO object
 			if(!parameterType.getName().startsWith("java")) {
 				Object result = parameterType.newInstance();
@@ -189,7 +193,7 @@ public class SimpleSerDeImpl implements SerDe{
 						Object value = deserializeParameterValue(pd.getPropertyType(), stringValue, map);
 						result.put(pd.getName(), value);
 					}catch(Exception e){
-						throw new RuntimeException("cannot write property:"+pd.getName()+" by value:"+stringValue+" for targetType:"+pd.getPropertyType());
+						throw new RuntimeException("cannot write property:"+pd.getName()+" by value:"+stringValue+" for targetType:"+pd.getPropertyType(),e);
 					}
 				}
 			}

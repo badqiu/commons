@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Parameter;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -21,6 +22,7 @@ import org.codehaus.jackson.map.DeserializationConfig.Feature;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.type.TypeFactory;
+import org.springframework.core.JdkVersion;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.core.ParameterNameDiscoverer;
 import org.springframework.util.Assert;
@@ -29,6 +31,7 @@ import com.github.rapid.common.rpc.RPCConstants;
 import com.github.rapid.common.rpc.SerDe;
 import com.github.rapid.common.rpc.SerDeMapping;
 import com.github.rapid.common.rpc.serde.SimpleSerDeImpl;
+import com.github.rapid.common.rpc.util.JavaVersionUtil;
 import com.github.rapid.common.rpc.util.ParameterEscapeUtil;
 
 /**
@@ -98,6 +101,10 @@ public class MethodInvoker {
 			Class[] paramTypes = method.getParameterTypes();
 			for(int i = 0; i < parameters.length; i++) {
 				String name = parameterNames[i];
+				if(name == null) {
+					throw new RuntimeException("fatal error,cannot get parameter name on method:"+method+"; current javaVersion:"+System.getProperty("java.version")+", required javaVersion must be java8");
+				}
+				
 				Class<?> parameterType = paramTypes[i];
 				Object rawValue = params.get(name);
 				parameters[i] = simpleSerDe.deserializeParameterValue(parameterType,rawValue,params);
@@ -121,12 +128,21 @@ public class MethodInvoker {
 
 	ConcurrentHashMap<Method,String[]> parameterNamesCache = new ConcurrentHashMap<Method,String[]>();
 	private String[] getParameterNames(Method method) {
-		String[] parameterNames = parameterNamesCache.get(method);
-		if(parameterNames == null) {
-			parameterNames = parameterNameDiscoverer.getParameterNames(method);
-			parameterNamesCache.put(method, parameterNames);
-		}
-		return parameterNames;
+//		if(JavaVersionUtil.isGreatthanJava8()) {
+//			Parameter[] params = method.getParameters();
+//			String[] names = new String[params.length];
+//			for(int i = 0; i < params.length; i++) {
+//				names[i] = params[i].getName();
+//			}
+//			return names;
+//		}else {
+			String[] parameterNames = parameterNamesCache.get(method);
+			if(parameterNames == null) {
+				parameterNames = parameterNameDiscoverer.getParameterNames(method);
+				parameterNamesCache.put(method, parameterNames);
+			}
+			return parameterNames;
+//		}
 	}
 
 	ObjectMapper objectMapper = new ObjectMapper(); 

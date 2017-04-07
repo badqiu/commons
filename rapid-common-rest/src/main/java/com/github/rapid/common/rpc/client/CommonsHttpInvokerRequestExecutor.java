@@ -34,6 +34,7 @@ import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 import org.apache.commons.httpclient.protocol.Protocol;
 import org.apache.commons.httpclient.protocol.ProtocolSocketFactory;
 import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.i18n.LocaleContext;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.util.StringUtils;
@@ -54,7 +55,7 @@ import com.github.rapid.common.rpc.client.ssl.MySecureProtocolSocketFactory;
  * @since 1.1
  * @see SimpleHttpInvokerRequestExecutor
  */
-public class CommonsHttpInvokerRequestExecutor extends AbstractHttpInvokerRequestExecutor {
+public class CommonsHttpInvokerRequestExecutor extends AbstractHttpInvokerRequestExecutor implements InitializingBean {
 
 	private HttpClient httpClient;
 
@@ -67,19 +68,7 @@ public class CommonsHttpInvokerRequestExecutor extends AbstractHttpInvokerReques
 	 * @see org.apache.commons.httpclient.MultiThreadedHttpConnectionManager
 	 */
 	public CommonsHttpInvokerRequestExecutor() {
-		MultiThreadedHttpConnectionManager httpConnectionManager = new MultiThreadedHttpConnectionManager();
-		HttpConnectionManagerParams params = new HttpConnectionManagerParams();
-		params.setDefaultMaxConnectionsPerHost(300);
-		params.setMaxTotalConnections(500);
-		params.setConnectionTimeout(getConnectionTimeout());
-		params.setSoTimeout(getReadTimeout());
 		
-		httpConnectionManager.setParams(params);
-		
-		this.httpClient = new HttpClient(httpConnectionManager);
-		
-		ProtocolSocketFactory fcty = new MySecureProtocolSocketFactory();
-		Protocol.registerProtocol("https", new Protocol("https", fcty, 443));
 	}
 
 	/**
@@ -247,6 +236,23 @@ public class CommonsHttpInvokerRequestExecutor extends AbstractHttpInvokerReques
 			r.put(h.getName(), h.getValue());
 		}
 		return r;
+	}
+
+	@Override
+	public void afterPropertiesSet()  {
+		MultiThreadedHttpConnectionManager httpConnectionManager = new MultiThreadedHttpConnectionManager();
+		HttpConnectionManagerParams params = new HttpConnectionManagerParams();
+		params.setDefaultMaxConnectionsPerHost(300);
+		params.setMaxTotalConnections(500);
+		params.setConnectionTimeout(getConnectionTimeout());
+		params.setSoTimeout(getReadTimeout());
+		
+		httpConnectionManager.setParams(params);
+		
+		this.httpClient = new HttpClient(httpConnectionManager);
+		
+		ProtocolSocketFactory fcty = new MySecureProtocolSocketFactory();
+		Protocol.registerProtocol("https", new Protocol("https", fcty, 443));
 	}
 
 }

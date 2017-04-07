@@ -183,5 +183,10 @@ public class SimpleHttpInvokerRequestExecutor extends AbstractHttpInvokerRequest
 		return (encodingHeader != null && encodingHeader.toLowerCase().indexOf(ENCODING_GZIP) != -1);
 	}
 
+	@Override
+	public void afterPropertiesSet()  {
+		
+	}
+
 
 }

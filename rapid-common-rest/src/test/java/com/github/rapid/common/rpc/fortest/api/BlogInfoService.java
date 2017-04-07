@@ -15,6 +15,7 @@ import com.github.rapid.common.rpc.fortest.api.model.Blog;
 import com.github.rapid.common.rpc.fortest.api.model.ComplexObject;
 import com.github.rapid.common.rpc.fortest.api.request.BlogQuery;
 import com.github.rapid.common.rpc.fortestinvoker.UserTypeEnum;
+import com.github.rapid.common.util.page.Page;
 
 public interface BlogInfoService {
 	Blog emptyParam();
@@ -93,4 +94,5 @@ public interface BlogInfoService {
 	public TreeMap<String,String> tree_map(String input);
 	public Map<String,String> tree_map_but_return_map(String input);
 	
+	public Page<String> pageQuery(int page,int pageSize);
 }
