@@ -62,6 +62,8 @@ public interface BlogInfoService {
 	
 	Blog throwException(String key);
 	
+	String listKeys(List<String> keys);
+	
 	Blog throwWebServiceException(String key);
 	
 	String complexArguments(Blog blog,String[] names,int[] args,Map<String,String> parameters,List<String> sex);

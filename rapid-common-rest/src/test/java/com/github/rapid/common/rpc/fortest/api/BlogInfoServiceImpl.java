@@ -18,6 +18,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 
 import com.github.rapid.common.rpc.WebServiceException;
@@ -289,6 +290,11 @@ public class BlogInfoServiceImpl implements BlogInfoService {
 		}
 		Paginator p = new Paginator(page, pageSize, total);
 		return new Page(list.subList(p.getStartRow(),p.getEndRow()),p);
+	}
+
+	@Override
+	public String listKeys(List<String> keys) {
+		return StringUtils.join(keys,",");
 	}
 
 

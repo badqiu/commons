@@ -78,9 +78,6 @@ public class SimpleSerDeImpl implements SerDe{
 			if(value == null && (parameterType.isEnum())) {
 				return null;
 			}
-			if(parameterType.isInterface()) {
-				return null;
-			}
 			
 			if(RPCConstants.NULL_VALUE.equals(value)) {
 				return null;
@@ -177,6 +174,10 @@ public class SimpleSerDeImpl implements SerDe{
 			}
 			
 			if(value == null) {
+				return null;
+			}
+			
+			if(parameterType.isInterface()) {
 				return null;
 			}
 			
