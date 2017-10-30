@@ -46,7 +46,7 @@
 		
 		<project.version>4.0</project.version>
 
-		<targetJdk>1.5</targetJdk>
+		<targetJdk>1.6</targetJdk>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<sourceEncoding>UTF-8</sourceEncoding>
@@ -77,7 +77,7 @@
 					<configuration>
 						<encoding>UTF-8</encoding>
 						<source>1.6</source>
-						<target>1.5</target>
+						<target>1.6</target>
 					</configuration>
 				</plugin>
 				<!-- source plugin -->
