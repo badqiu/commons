@@ -160,6 +160,9 @@ public class SimpleSerDeImpl implements SerDe{
 			}
 
 			
+			if(parameterType.isInterface()) {
+				return null;
+			}
 			
 			// support for DTO object
 			if(!parameterType.getName().startsWith("java")) {
@@ -177,9 +180,7 @@ public class SimpleSerDeImpl implements SerDe{
 				return null;
 			}
 			
-			if(parameterType.isInterface()) {
-				return null;
-			}
+			
 			
 			throw new IllegalArgumentException("cannot convert value:"+value+" to targetType:"+parameterType);
 		}
