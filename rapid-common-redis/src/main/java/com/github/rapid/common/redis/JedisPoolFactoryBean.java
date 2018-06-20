@@ -239,7 +239,8 @@ public class JedisPoolFactoryBean implements FactoryBean<JedisPool>, Initializin
 			int database = JedisURIHelper.getDBIndex(uri);
 			setHost(host);
 			setPort(port);
-			setPassword(password);
+			if(StringUtils.isNotBlank(password))
+				setPassword(password);
 			setDatabase(database);
 		}else {
 			setHost(server);
