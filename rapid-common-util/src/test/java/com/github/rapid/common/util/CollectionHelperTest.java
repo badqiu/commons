@@ -1,6 +1,7 @@
 package com.github.rapid.common.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -68,5 +69,20 @@ public class CollectionHelperTest extends TestCase {
 	
 	public void test_list2Map() {
 //		CollectionUtil.list2Map(rows, key)
+	}
+	
+	@Test
+	public void test_chunk() {
+		List<Integer> list = Arrays.asList(1,2,3,4,5,6,7,8,9,10);
+		
+		System.out.println(CollectionUtil.chunk(null, 3));
+		System.out.println(CollectionUtil.chunk(new ArrayList(), 3));
+		
+		assertEquals("[[1, 2, 3], [4, 5, 6], [7, 8, 9], [10]]",CollectionUtil.chunk(list, 3).toString());
+		
+		System.out.println(CollectionUtil.chunk(list, 3));
+		System.out.println(CollectionUtil.chunk(list, 2));
+		System.out.println(CollectionUtil.chunk(list, 9));
+		System.out.println(CollectionUtil.chunk(list, 30));
 	}
 }

@@ -227,4 +227,31 @@ public class CollectionUtil {
 		return row;
 	}
 
+	/**
+	 * 将单行的数据变成多行返回，列数由chunkSize指定
+	 * @param list
+	 * @param chunkSize
+	 * @return
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static List<List> chunk(List list,int chunkSize) {
+		if(list == null) return null;
+		if(list.isEmpty()) return Collections.EMPTY_LIST;
+		
+		List results = new ArrayList();
+		List result = new ArrayList();
+		for(int i = 0; i < list.size(); i++) {
+			Object v = list.get(i);
+			result.add(v);
+			if(i % chunkSize == (chunkSize - 1)) {
+				results.add(result);
+				result = new ArrayList();
+			}
+		}
+		if(!result.isEmpty()) {
+			results.add(result);
+		}
+		
+		return results;
+	}
 }
