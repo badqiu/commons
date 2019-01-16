@@ -77,11 +77,11 @@ public class RedisTemplate implements InitializingBean {
 		Jedis jedis = jedisPool.getResource();
 		try {
 			T result = callback.doInRedis(jedis);
-			jedisPool.returnResource(jedis);
 			return result;
 		}catch(Exception e) {
-			jedisPool.returnBrokenResource(jedis);
 			throw new RuntimeException("redis error",e);
+		}finally {
+			jedis.close();
 		}
 	}
 	

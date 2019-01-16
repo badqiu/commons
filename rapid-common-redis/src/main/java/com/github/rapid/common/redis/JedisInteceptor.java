@@ -28,11 +28,8 @@ public class JedisInteceptor implements  MethodInterceptor {
 		try {
 			Method m = invocation.getMethod();
 			return m.invoke(jedis, invocation.getArguments());
-		}catch(Exception e) {
-			jedisPool.returnBrokenResource(jedis);
-			throw e;
 		}finally {
-			jedisPool.returnResource(jedis);
+			jedis.close();
 		}
 	}
 
