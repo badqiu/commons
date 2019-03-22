@@ -78,8 +78,6 @@ public class RedisTemplate implements InitializingBean {
 		try {
 			T result = callback.doInRedis(jedis);
 			return result;
-		}catch(Exception e) {
-			throw new RuntimeException("redis error",e);
 		}finally {
 			jedis.close();
 		}
@@ -94,11 +92,9 @@ public class RedisTemplate implements InitializingBean {
 		try {
 			Transaction tran = jedis.multi();
 			T object = callback.doInTransaction(tran);
-			jedisPool.returnResource(jedis);
 			return object;
-		}catch(Exception e) {
-			jedisPool.returnBrokenResource(jedis);
-			throw new RuntimeException("redis error",e);
+		}finally {
+			jedis.close();
 		}
 	}
 	
