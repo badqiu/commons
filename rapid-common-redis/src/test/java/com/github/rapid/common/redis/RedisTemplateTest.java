@@ -13,12 +13,26 @@ public class RedisTemplateTest extends Assert {
 	String key = "RedisTemplateTest_"+System.currentTimeMillis();
 	
 	@Test
-	public void test() {
-		RedisTemplate t = new RedisTemplate();
+	public void test() throws InterruptedException {
+		final RedisTemplate t = new RedisTemplate();
 		
-		t.setJedisPool(new JedisPool("113.108.228.101"));
+		t.setJedisPool(new JedisPool("123.59.14.36",7777));
 		
-		t.set(key, "100");
-		assertEquals("100",t.get(key));
+		for(int i = 0; i < 10000; i++) {
+			runThread(t, i);
+		}
+		
+		Thread.sleep(1000 * 100);
+	}
+
+	private void runThread(final RedisTemplate t, final int i) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				t.set(key, "100");
+				assertEquals("100",t.get(key));
+				System.out.println("execute i:"+i);
+			}
+		}).start();;
 	}
 }

@@ -3,7 +3,7 @@
 
 	<groupId>com.github.rapid.common</groupId>
 	<artifactId>rapid-common-redis</artifactId>
-	<version>1.0.2</version>	
+	<version>1.0.3</version>	
 	<name>rapid-common-redis</name>
 	<packaging>jar</packaging>
 
@@ -100,9 +100,9 @@
 	<dependencies>
 
 		<dependency>
-			<groupId>redis.clients</groupId>
-			<artifactId>jedis</artifactId>
-			<version>2.10.1</version>
+		  <groupId>redis.clients</groupId>
+		  <artifactId>jedis</artifactId>
+		  <version>3.0.1</version>
 		</dependency>
 		
 		<!-- spring begin -->

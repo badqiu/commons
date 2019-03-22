@@ -10,28 +10,35 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
-import redis.clients.jedis.BinaryClient.LIST_POSITION;
 import redis.clients.jedis.BinaryJedisPubSub;
 import redis.clients.jedis.BitOP;
 import redis.clients.jedis.BitPosParams;
 import redis.clients.jedis.Client;
+import redis.clients.jedis.ClusterReset;
 import redis.clients.jedis.DebugParams;
+import redis.clients.jedis.GeoCoordinate;
+import redis.clients.jedis.GeoRadiusResponse;
+import redis.clients.jedis.GeoUnit;
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisCluster.Reset;
 import redis.clients.jedis.JedisMonitor;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolAbstract;
 import redis.clients.jedis.JedisPubSub;
+import redis.clients.jedis.ListPosition;
+import redis.clients.jedis.Module;
 import redis.clients.jedis.Pipeline;
-import redis.clients.jedis.PipelineBlock;
 import redis.clients.jedis.ScanParams;
 import redis.clients.jedis.ScanResult;
 import redis.clients.jedis.SortingParams;
 import redis.clients.jedis.Transaction;
-import redis.clients.jedis.TransactionBlock;
 import redis.clients.jedis.Tuple;
 import redis.clients.jedis.ZParams;
-import redis.clients.util.Pool;
-import redis.clients.util.Slowlog;
+import redis.clients.jedis.params.ClientKillParams;
+import redis.clients.jedis.params.GeoRadiusParam;
+import redis.clients.jedis.params.MigrateParams;
+import redis.clients.jedis.params.SetParams;
+import redis.clients.jedis.params.ZAddParams;
+import redis.clients.jedis.params.ZIncrByParams;
 
 /**
  * Redis妯℃澘绫�,鐢ㄤ簬鍗曟潯鎿嶄綔
@@ -414,7 +421,7 @@ public class RedisTemplate implements InitializingBean {
 		return proxy.getrange(key, startOffset, endOffset);
 	}
 
-	public Long getDB() {
+	public int getDB() {
 		return proxy.getDB();
 	}
 
@@ -864,9 +871,7 @@ public class RedisTemplate implements InitializingBean {
 		return proxy.multi();
 	}
 
-	public List<Object> multi(TransactionBlock jedisTransaction) {
-		return proxy.multi(jedisTransaction);
-	}
+
 
 	public String watch(byte[]... keys) {
 		return proxy.watch(keys);
@@ -928,9 +933,7 @@ public class RedisTemplate implements InitializingBean {
 		return proxy.zrangeByScore(key, min, max);
 	}
 
-	public List<Object> pipelined(PipelineBlock jedisPipeline) {
-		return proxy.pipelined(jedisPipeline);
-	}
+
 
 	public Pipeline pipelined() {
 		return proxy.pipelined();
@@ -1160,10 +1163,7 @@ public class RedisTemplate implements InitializingBean {
 		return proxy.rpushx(key, string);
 	}
 
-	public Long linsert(String key, LIST_POSITION where, String pivot,
-			String value) {
-		return proxy.linsert(key, where, pivot, value);
-	}
+
 
 	public Boolean setbit(String key, long offset, boolean value) {
 		return proxy.setbit(key, offset, value);
@@ -1201,13 +1201,6 @@ public class RedisTemplate implements InitializingBean {
 		proxy.monitor(jedisMonitor);
 	}
 
-	public List<Slowlog> slowlogGet() {
-		return proxy.slowlogGet();
-	}
-
-	public List<Slowlog> slowlogGet(long entries) {
-		return proxy.slowlogGet(entries);
-	}
 
 	public Long objectRefcount(String string) {
 		return proxy.objectRefcount(string);
@@ -1253,10 +1246,6 @@ public class RedisTemplate implements InitializingBean {
 		return proxy.rpushx(key, string);
 	}
 
-	public Long linsert(byte[] key, LIST_POSITION where, byte[] pivot,
-			byte[] value) {
-		return proxy.linsert(key, where, pivot, value);
-	}
 
 	public Boolean setbit(byte[] key, long offset, byte[] value) {
 		return proxy.setbit(key, offset, value);
@@ -1298,10 +1287,6 @@ public class RedisTemplate implements InitializingBean {
 		return proxy.slowlogReset();
 	}
 
-	public long slowlogLen() {
-		return proxy.slowlogLen();
-	}
-
 	public List<byte[]> slowlogGetBinary() {
 		return proxy.slowlogGetBinary();
 	}
@@ -1321,8 +1306,6 @@ public class RedisTemplate implements InitializingBean {
 	public Long objectIdletime(byte[] key) {
 		return proxy.objectIdletime(key);
 	}
-	
-	
 
 	public String asking() {
 		return proxy.asking();
@@ -1468,9 +1451,6 @@ public class RedisTemplate implements InitializingBean {
 		return proxy.clusterReplicate(nodeId);
 	}
 
-	public String clusterReset(Reset resetType) {
-		return proxy.clusterReset(resetType);
-	}
 
 	public String clusterSaveConfig() {
 		return proxy.clusterSaveConfig();
@@ -1602,10 +1582,6 @@ public class RedisTemplate implements InitializingBean {
 		return proxy.ltrim(key, start, end);
 	}
 
-	public String migrate(byte[] host, int port, byte[] key, int destinationDb,
-			int timeout) {
-		return proxy.migrate(host, port, key, destinationDb, timeout);
-	}
 
 	public String migrate(String host, int port, String key, int destinationDb,
 			int timeout) {
@@ -1757,37 +1733,9 @@ public class RedisTemplate implements InitializingBean {
 		return proxy.sentinelSlaves(arg0);
 	}
 
-	public String set(byte[] key, byte[] value, byte[] nxxx, byte[] expx,
-			int time) {
-		return proxy.set(key, value, nxxx, expx, time);
-	}
 
-	public String set(byte[] key, byte[] value, byte[] nxxx, byte[] expx,
-			long time) {
-		return proxy.set(key, value, nxxx, expx, time);
-	}
 
-	public String set(byte[] key, byte[] value, byte[] nxxx) {
-		return proxy.set(key, value, nxxx);
-	}
 
-	public String set(String key, String value, String nxxx, String expx,
-			int time) {
-		return proxy.set(key, value, nxxx, expx, time);
-	}
-
-	public String set(String key, String value, String nxxx, String expx,
-			long time) {
-		return proxy.set(key, value, nxxx, expx, time);
-	}
-
-	public String set(String key, String value, String nxxx) {
-		return proxy.set(key, value, nxxx);
-	}
-
-	public void setDataSource(Pool<Jedis> jedisPool) {
-		proxy.setDataSource(jedisPool);
-	}
 
 	public Boolean setbit(byte[] key, long offset, boolean value) {
 		return proxy.setbit(key, offset, value);
@@ -1917,14 +1865,6 @@ public class RedisTemplate implements InitializingBean {
 		return proxy.zscan(key, cursor);
 	}
 
-	public ScanResult<Tuple> zscan(String key, int cursor, ScanParams params) {
-		return proxy.zscan(key, cursor, params);
-	}
-
-	public ScanResult<Tuple> zscan(String key, int cursor) {
-		return proxy.zscan(key, cursor);
-	}
-
 	public ScanResult<Tuple> zscan(String key, String cursor, ScanParams params) {
 		return proxy.zscan(key, cursor, params);
 	}
@@ -1936,5 +1876,368 @@ public class RedisTemplate implements InitializingBean {
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(jedisPool,"jedisPool must be not null");
 	}
+
+	public List<Long> bitfield(byte[] key, byte[]... arguments) {
+		return proxy.bitfield(key, arguments);
+	}
+
+	public List<Long> bitfield(String key, String... arguments) {
+		return proxy.bitfield(key, arguments);
+	}
+
+	public byte[] clientGetnameBinary() {
+		return proxy.clientGetnameBinary();
+	}
+
+	public Long clientKill(ClientKillParams params) {
+		return proxy.clientKill(params);
+	}
+
+	public String clientKill(String ip, int port) {
+		return proxy.clientKill(ip, port);
+	}
+
+	public byte[] clientListBinary() {
+		return proxy.clientListBinary();
+	}
+
+	public String clientPause(long timeout) {
+		return proxy.clientPause(timeout);
+	}
+
+	public String clusterReset(ClusterReset resetType) {
+		return proxy.clusterReset(resetType);
+	}
+
+	public String configRewrite() {
+		return proxy.configRewrite();
+	}
+
+	public boolean equals(Object obj) {
+		return proxy.equals(obj);
+	}
+
+	public Long exists(byte[]... keys) {
+		return proxy.exists(keys);
+	}
+
+	public Long exists(String... keys) {
+		return proxy.exists(keys);
+	}
+
+	public Long geoadd(byte[] key, double longitude, double latitude,
+			byte[] member) {
+		return proxy.geoadd(key, longitude, latitude, member);
+	}
+
+	public Long geoadd(byte[] key,
+			Map<byte[], GeoCoordinate> memberCoordinateMap) {
+		return proxy.geoadd(key, memberCoordinateMap);
+	}
+
+	public Long geoadd(String key, double longitude, double latitude,
+			String member) {
+		return proxy.geoadd(key, longitude, latitude, member);
+	}
+
+	public Long geoadd(String key,
+			Map<String, GeoCoordinate> memberCoordinateMap) {
+		return proxy.geoadd(key, memberCoordinateMap);
+	}
+
+	public Double geodist(byte[] key, byte[] member1, byte[] member2,
+			GeoUnit unit) {
+		return proxy.geodist(key, member1, member2, unit);
+	}
+
+	public Double geodist(byte[] key, byte[] member1, byte[] member2) {
+		return proxy.geodist(key, member1, member2);
+	}
+
+	public Double geodist(String key, String member1, String member2,
+			GeoUnit unit) {
+		return proxy.geodist(key, member1, member2, unit);
+	}
+
+	public Double geodist(String key, String member1, String member2) {
+		return proxy.geodist(key, member1, member2);
+	}
+
+	public List<byte[]> geohash(byte[] key, byte[]... members) {
+		return proxy.geohash(key, members);
+	}
+
+	public List<String> geohash(String key, String... members) {
+		return proxy.geohash(key, members);
+	}
+
+	public List<GeoCoordinate> geopos(byte[] key, byte[]... members) {
+		return proxy.geopos(key, members);
+	}
+
+	public List<GeoCoordinate> geopos(String key, String... members) {
+		return proxy.geopos(key, members);
+	}
+
+	public List<GeoRadiusResponse> georadius(byte[] key, double longitude,
+			double latitude, double radius, GeoUnit unit, GeoRadiusParam param) {
+		return proxy.georadius(key, longitude, latitude, radius, unit, param);
+	}
+
+	public List<GeoRadiusResponse> georadius(byte[] key, double longitude,
+			double latitude, double radius, GeoUnit unit) {
+		return proxy.georadius(key, longitude, latitude, radius, unit);
+	}
+
+	public List<GeoRadiusResponse> georadius(String key, double longitude,
+			double latitude, double radius, GeoUnit unit, GeoRadiusParam param) {
+		return proxy.georadius(key, longitude, latitude, radius, unit, param);
+	}
+
+	public List<GeoRadiusResponse> georadius(String key, double longitude,
+			double latitude, double radius, GeoUnit unit) {
+		return proxy.georadius(key, longitude, latitude, radius, unit);
+	}
+
+	public List<GeoRadiusResponse> georadiusByMember(byte[] key, byte[] member,
+			double radius, GeoUnit unit, GeoRadiusParam param) {
+		return proxy.georadiusByMember(key, member, radius, unit, param);
+	}
+
+	public List<GeoRadiusResponse> georadiusByMember(byte[] key, byte[] member,
+			double radius, GeoUnit unit) {
+		return proxy.georadiusByMember(key, member, radius, unit);
+	}
+
+	public List<GeoRadiusResponse> georadiusByMember(String key, String member,
+			double radius, GeoUnit unit, GeoRadiusParam param) {
+		return proxy.georadiusByMember(key, member, radius, unit, param);
+	}
+
+	public List<GeoRadiusResponse> georadiusByMember(String key, String member,
+			double radius, GeoUnit unit) {
+		return proxy.georadiusByMember(key, member, radius, unit);
+	}
+
+	public List<GeoRadiusResponse> georadiusByMemberReadonly(byte[] key,
+			byte[] member, double radius, GeoUnit unit, GeoRadiusParam param) {
+		return proxy
+				.georadiusByMemberReadonly(key, member, radius, unit, param);
+	}
+
+	public List<GeoRadiusResponse> georadiusByMemberReadonly(byte[] key,
+			byte[] member, double radius, GeoUnit unit) {
+		return proxy.georadiusByMemberReadonly(key, member, radius, unit);
+	}
+
+	public List<GeoRadiusResponse> georadiusByMemberReadonly(String key,
+			String member, double radius, GeoUnit unit, GeoRadiusParam param) {
+		return proxy
+				.georadiusByMemberReadonly(key, member, radius, unit, param);
+	}
+
+	public List<GeoRadiusResponse> georadiusByMemberReadonly(String key,
+			String member, double radius, GeoUnit unit) {
+		return proxy.georadiusByMemberReadonly(key, member, radius, unit);
+	}
+
+	public List<GeoRadiusResponse> georadiusReadonly(byte[] key,
+			double longitude, double latitude, double radius, GeoUnit unit,
+			GeoRadiusParam param) {
+		return proxy.georadiusReadonly(key, longitude, latitude, radius, unit,
+				param);
+	}
+
+	public List<GeoRadiusResponse> georadiusReadonly(byte[] key,
+			double longitude, double latitude, double radius, GeoUnit unit) {
+		return proxy.georadiusReadonly(key, longitude, latitude, radius, unit);
+	}
+
+	public List<GeoRadiusResponse> georadiusReadonly(String key,
+			double longitude, double latitude, double radius, GeoUnit unit,
+			GeoRadiusParam param) {
+		return proxy.georadiusReadonly(key, longitude, latitude, radius, unit,
+				param);
+	}
+
+	public List<GeoRadiusResponse> georadiusReadonly(String key,
+			double longitude, double latitude, double radius, GeoUnit unit) {
+		return proxy.georadiusReadonly(key, longitude, latitude, radius, unit);
+	}
+
+	public int hashCode() {
+		return proxy.hashCode();
+	}
+
+	public Long hset(byte[] key, Map<byte[], byte[]> hash) {
+		return proxy.hset(key, hash);
+	}
+
+	public Long hset(String key, Map<String, String> hash) {
+		return proxy.hset(key, hash);
+	}
+
+	public Long hstrlen(byte[] key, byte[] field) {
+		return proxy.hstrlen(key, field);
+	}
+
+	public Long hstrlen(String key, String field) {
+		return proxy.hstrlen(key, field);
+	}
+
+	public Long linsert(byte[] key, ListPosition where, byte[] pivot,
+			byte[] value) {
+		return proxy.linsert(key, where, pivot, value);
+	}
+
+	public Long linsert(String key, ListPosition where, String pivot,
+			String value) {
+		return proxy.linsert(key, where, pivot, value);
+	}
+
+	public String migrate(String host, int port, byte[] key, int destinationDb,
+			int timeout) {
+		return proxy.migrate(host, port, key, destinationDb, timeout);
+	}
+
+	public String migrate(String host, int port, int destinationDB,
+			int timeout, MigrateParams params, byte[]... keys) {
+		return proxy.migrate(host, port, destinationDB, timeout, params, keys);
+	}
+
+	public String migrate(String host, int port, int destinationDB,
+			int timeout, MigrateParams params, String... keys) {
+		return proxy.migrate(host, port, destinationDB, timeout, params, keys);
+	}
+
+	public List<Module> moduleList() {
+		return proxy.moduleList();
+	}
+
+	public String moduleLoad(String path) {
+		return proxy.moduleLoad(path);
+	}
+
+	public String moduleUnload(String name) {
+		return proxy.moduleUnload(name);
+	}
+
+	public byte[] ping(byte[] message) {
+		return proxy.ping(message);
+	}
+
+	public String ping(String message) {
+		return proxy.ping(message);
+	}
+
+	public String readonly() {
+		return proxy.readonly();
+	}
+
+	public String restoreReplace(byte[] key, int ttl, byte[] serializedValue) {
+		return proxy.restoreReplace(key, ttl, serializedValue);
+	}
+
+	public String restoreReplace(String key, int ttl, byte[] serializedValue) {
+		return proxy.restoreReplace(key, ttl, serializedValue);
+	}
+
+	public Long scriptExists(byte[] sha1) {
+		return proxy.scriptExists(sha1);
+	}
+
+	public String set(byte[] key, byte[] value, SetParams params) {
+		return proxy.set(key, value, params);
+	}
+
+	public String set(String key, String value, SetParams params) {
+		return proxy.set(key, value, params);
+	}
+
+	public void setDataSource(JedisPoolAbstract jedisPool) {
+		proxy.setDataSource(jedisPool);
+	}
+
+	public List<redis.clients.jedis.util.Slowlog> slowlogGet() {
+		return proxy.slowlogGet();
+	}
+
+	public List<redis.clients.jedis.util.Slowlog> slowlogGet(long entries) {
+		return proxy.slowlogGet(entries);
+	}
+
+	public Long slowlogLen() {
+		return proxy.slowlogLen();
+	}
+
+	public String swapDB(int index1, int index2) {
+		return proxy.swapDB(index1, index2);
+	}
+
+	public String toString() {
+		return proxy.toString();
+	}
+
+	public Long touch(byte[]... keys) {
+		return proxy.touch(keys);
+	}
+
+	public Long touch(byte[] key) {
+		return proxy.touch(key);
+	}
+
+	public Long touch(String... keys) {
+		return proxy.touch(keys);
+	}
+
+	public Long touch(String key) {
+		return proxy.touch(key);
+	}
+
+	public Long unlink(byte[]... keys) {
+		return proxy.unlink(keys);
+	}
+
+	public Long unlink(byte[] key) {
+		return proxy.unlink(key);
+	}
+
+	public Long unlink(String... keys) {
+		return proxy.unlink(keys);
+	}
+
+	public Long unlink(String key) {
+		return proxy.unlink(key);
+	}
+
+	public Long zadd(byte[] key, double score, byte[] member, ZAddParams params) {
+		return proxy.zadd(key, score, member, params);
+	}
+
+	public Long zadd(byte[] key, Map<byte[], Double> scoreMembers,
+			ZAddParams params) {
+		return proxy.zadd(key, scoreMembers, params);
+	}
+
+	public Long zadd(String key, double score, String member, ZAddParams params) {
+		return proxy.zadd(key, score, member, params);
+	}
+
+	public Long zadd(String key, Map<String, Double> scoreMembers,
+			ZAddParams params) {
+		return proxy.zadd(key, scoreMembers, params);
+	}
+
+	public Double zincrby(byte[] key, double increment, byte[] member,
+			ZIncrByParams params) {
+		return proxy.zincrby(key, increment, member, params);
+	}
+
+	public Double zincrby(String key, double increment, String member,
+			ZIncrByParams params) {
+		return proxy.zincrby(key, increment, member, params);
+	}
+	
+	
 	
 }

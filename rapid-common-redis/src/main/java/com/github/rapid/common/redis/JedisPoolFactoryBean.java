@@ -14,7 +14,7 @@ import org.springframework.util.Assert;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.Protocol;
-import redis.clients.util.JedisURIHelper;
+import redis.clients.jedis.util.JedisURIHelper;
 /**
  * 用于spring生成JedisPool的FactoryBean
  * 
