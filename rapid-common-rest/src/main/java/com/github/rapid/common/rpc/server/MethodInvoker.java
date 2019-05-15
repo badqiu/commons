@@ -2,10 +2,10 @@ package com.github.rapid.common.rpc.server;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.lang.reflect.Parameter;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.aopalliance.intercept.MethodInterceptor;
+import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParseException;
@@ -22,7 +24,6 @@ import org.codehaus.jackson.map.DeserializationConfig.Feature;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.type.TypeFactory;
-import org.springframework.core.JdkVersion;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.core.ParameterNameDiscoverer;
 import org.springframework.util.Assert;
@@ -31,7 +32,6 @@ import com.github.rapid.common.rpc.RPCConstants;
 import com.github.rapid.common.rpc.SerDe;
 import com.github.rapid.common.rpc.SerDeMapping;
 import com.github.rapid.common.rpc.serde.SimpleSerDeImpl;
-import com.github.rapid.common.rpc.util.JavaVersionUtil;
 import com.github.rapid.common.rpc.util.ParameterEscapeUtil;
 
 /**
@@ -65,9 +65,19 @@ public class MethodInvoker {
 		Object service = lookupService(serviceId);
 		Method method = lookupMethod(service,methodName);
 		String protocol = resolveProtocol(params,method);
-		Object[] parameters = deserializeForParameters(params, method,protocol,body);
+		Object[] arguments = deserializeForParameters(params, method,protocol,body);
 		
-		return method.invoke(service, parameters); //TODO 方法调用前应该有拦截器
+		
+		beforeMethodInvoke(method,arguments);
+		Object result = method.invoke(service, arguments); //TODO 方法调用前应该有拦截器
+		return afterMethodInvoke(method,result);
+	}
+
+	protected Object afterMethodInvoke(Method method, Object result) {
+		return result;
+	}
+
+	protected void beforeMethodInvoke(Method method,Object[] arguments) {
 	}
 
 	private String resolveProtocol(Map<String, Object> params, Method method) {
@@ -83,7 +93,7 @@ public class MethodInvoker {
 	}
 
 	SimpleSerDeImpl simpleSerDe = new SimpleSerDeImpl();
-	private Object[] deserializeForParameters(Map<String, Object> params,
+	protected Object[] deserializeForParameters(Map<String, Object> params,
 			Method method,String protocol,byte[] body) throws InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchMethodException {
 		Object[] parameters = new Object[method.getParameterTypes().length];
 		SerDe serDe = null;

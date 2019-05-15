@@ -38,7 +38,8 @@ public class RPCServiceExporterTest extends Assert{
 		
 		Map<String,Object> serviceMapping = new HashMap<String,Object>();
 		serviceMapping.put("UserWebService", new UserWebServiceImpl());
-		exporter.invoker.setServiceMapping(serviceMapping);
+		exporter.methodInvoker.setServiceMapping(serviceMapping);
+		
 		
 		Map<String,SerDe> serDeMapping = new HashMap<String,SerDe>();
 		serDeMapping.put("json", new JsonSerDeImpl());

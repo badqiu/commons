@@ -51,7 +51,7 @@ public class RPCServiceExporter extends RemoteExporter implements HttpRequestHan
 	private String defaultFormat = DEFAULT_FORMAT;
 	private Map<String,SerDe> serDeMapping = new HashMap<String,SerDe>();
 	
-	MethodInvoker invoker = new MethodInvoker();
+	MethodInvoker methodInvoker = new MethodInvoker();
 	
 	/**
 	 * URL映射的目录前缀
@@ -71,6 +71,10 @@ public class RPCServiceExporter extends RemoteExporter implements HttpRequestHan
 			Assert.isTrue(dir.startsWith("/"),"dir must be start with '/' prefix,example values:  /rpc,/service etc...");
 		}
 		this.dir = dir;
+	}
+	
+	public void setMethodInvoker(MethodInvoker methodInvoker) {
+		this.methodInvoker = methodInvoker;
 	}
 
 	/**
@@ -133,7 +137,7 @@ public class RPCServiceExporter extends RemoteExporter implements HttpRequestHan
 			String serviceId = resloveServiceId(request);
 			String method = resloveMethod(request);
 			byte[] body = request.getInputStream() == null ? null : IOUtils.toByteArray(request.getInputStream());
-			return invoker.invoke(serviceId, method, parameters,body);
+			return methodInvoker.invoke(serviceId, method, parameters,body);
 		} catch (WebServiceException e) {
 			throw e;
 		} catch(Exception e) {
@@ -193,7 +197,7 @@ public class RPCServiceExporter extends RemoteExporter implements HttpRequestHan
 	}
 	
 	private void initMethodInvoker() {
-		invoker.addService(getServiceId(), getService(), getServiceInterface());
+		methodInvoker.addService(getServiceId(), getService(), getServiceInterface());
 		logger.info("export RPC service:"+getServiceId()+" serviceInterface:"+getServiceInterface());
 	}
 	
