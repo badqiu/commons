@@ -180,6 +180,19 @@ public class RPCServiceExporter extends RemoteExporter implements HttpRequestHan
 
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(applicationContext,"'applicationContext' must be not null");
+		if(getServiceInterface() == null) {
+			Class<?>[] interfaces = getService().getClass().getInterfaces();
+			if(interfaces.length > 0) {
+				setServiceInterface(interfaces[0]);
+			}
+		}
+		
+		initSerDeMapping();
+		initMethodInvoker();
+		initRPCHandlerMapping();
+	}
+
+	private void initSerDeMapping() {
 		if(serDeMapping == null || serDeMapping.isEmpty()) {
 			Map<String,SerDe> defaultSerdeMapping = new HashMap<String,SerDe>();
 			defaultSerdeMapping.put("json", new JsonSerDeImpl());
@@ -189,11 +202,7 @@ public class RPCServiceExporter extends RemoteExporter implements HttpRequestHan
 			serDeMapping = defaultSerdeMapping;
 		}
 		Assert.notEmpty(serDeMapping,"'serDeMapping' must be not empty");
-		
 		logger.info("support serDeMapping:"+serDeMapping.keySet());
-		
-		initMethodInvoker();
-		initRPCHandlerMapping();
 	}
 	
 	private void initMethodInvoker() {

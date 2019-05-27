@@ -91,7 +91,7 @@ public class RPCProxyFactoryBeanTest extends BaseClientTestCase{
 	@Test
 	public void test_js() throws Exception, InvocationTargetException, NoSuchMethodException {
 		String str = readURL("http://localhost:26060/services/BlogInfoService/findDate?__format=jsonp&__jsoncallback=findDateCallback");
-		assertEquals("findDateCallback({\"result\":199999999,\"errno\":null,\"error\":null})",str);
+		assertEquals("findDateCallback({\"result\":199999999,\"errCode\":null,\"errMsg\":null})",str);
 	}
 	
 	public static String readURL(String urladdress) {
@@ -213,7 +213,7 @@ public class RPCProxyFactoryBeanTest extends BaseClientTestCase{
 			blogInfoService.throwException("key");
 			fail();
 		}catch(WebServiceException e) {
-			assertEquals(e.getErrorNo(),"java.lang.RuntimeException");
+			assertEquals(e.getErrorNo(),"RuntimeException");
 			assertEquals(e.getMessage(),"custom_unknow_error");
 		}
 		
@@ -231,7 +231,7 @@ public class RPCProxyFactoryBeanTest extends BaseClientTestCase{
 			fail();
 		}catch(WebServiceException e) {
 			e.printStackTrace();
-			assertEquals(e.getErrorNo(),"java.lang.RuntimeException");
+			assertEquals(e.getErrorNo(),"RuntimeException");
 			assertEquals(e.getMessage(),"voidThrowException");
 		}
 	}
