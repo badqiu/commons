@@ -51,8 +51,10 @@ public class ScanClassUtil {
 					MetadataReader metadataReader = metadataReaderFactory.getMetadataReader(resource);   
 					String className = metadataReader.getClassMetadata().getClassName();
 					
-					if(isIgnoreSomeClass && !isIgnoreClassName(className)) {
-						result.add(className);
+					if(isIgnoreSomeClass) {
+						if(!isIgnoreClassName(className)) {
+							result.add(className);
+						}
 					}else {
 						result.add(className);
 					}
