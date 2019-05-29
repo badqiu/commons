@@ -31,7 +31,7 @@ public class ScanClassUtil {
 	 * @return List包含className
 	 */
 	@SuppressWarnings("all")
-	public static List<String> scanPackages(String basePackages,boolean isIgnoreSomeClass) throws IllegalArgumentException{
+	public static List<String> scanPackages(String basePackages,boolean isIgnoreTestClass) throws IllegalArgumentException{
 		Assert.hasText(basePackages,"'basePakcages' must be not null");
 		
 		ResourcePatternResolver rl = new PathMatchingResourcePatternResolver();
@@ -51,7 +51,7 @@ public class ScanClassUtil {
 					MetadataReader metadataReader = metadataReaderFactory.getMetadataReader(resource);   
 					String className = metadataReader.getClassMetadata().getClassName();
 					
-					if(isIgnoreSomeClass) {
+					if(isIgnoreTestClass) {
 						if(!isIgnoreClassName(className)) {
 							result.add(className);
 						}
