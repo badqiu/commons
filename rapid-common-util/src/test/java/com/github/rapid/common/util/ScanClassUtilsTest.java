@@ -2,9 +2,9 @@ package com.github.rapid.common.util;
 
 import java.util.List;
 
-import com.github.rapid.common.util.ScanClassUtil;
-
 import junit.framework.TestCase;
+
+import org.junit.Test;
 
 public class ScanClassUtilsTest extends TestCase {
 	
@@ -41,6 +41,10 @@ public class ScanClassUtilsTest extends TestCase {
 			}
 		}
 		return false;
+	}
+	
+	@Test
+	public void test() {
 	}
 	
 }

@@ -3,6 +3,7 @@ package com.github.rapid.common.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -10,6 +11,7 @@ import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
 import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.util.Assert;
+import org.springframework.util.ClassUtils;
 
 /**
  * 搜索class的工具类
@@ -17,6 +19,11 @@ import org.springframework.util.Assert;
  *
  */
 public class ScanClassUtil {
+	
+	public static List<String> scanPackages(String basePackages) throws IllegalArgumentException{
+		return scanPackages(basePackages,true);
+	}
+	
 	/**
 	 * 根据多个包名搜索class
 	 * 例如: ScanClassUtil.scanPakcages("javacommon.**.*");
@@ -24,15 +31,18 @@ public class ScanClassUtil {
 	 * @return List包含className
 	 */
 	@SuppressWarnings("all")
-	public static List<String> scanPackages(String basePackages) throws IllegalArgumentException{
-		Assert.notNull(basePackages,"'basePakcages' must be not null");
+	public static List<String> scanPackages(String basePackages,boolean isIgnoreSomeClass) throws IllegalArgumentException{
+		Assert.hasText(basePackages,"'basePakcages' must be not null");
+		
 		ResourcePatternResolver rl = new PathMatchingResourcePatternResolver();
 		MetadataReaderFactory metadataReaderFactory = new CachingMetadataReaderFactory(rl); 
 		List result = new ArrayList();
 		String[] arrayPackages = basePackages.split(",");
 		try {
 			for(int j = 0; j < arrayPackages.length; j++) {
-				String packageToScan = arrayPackages[j];
+				String packageToScan = StringUtils.trim(arrayPackages[j]);
+				if(StringUtils.isBlank(packageToScan)) continue;
+				
 				String packagePart = packageToScan.replace('.', '/');
 				String classPattern = "classpath*:/" + packagePart + "/**/*.class";
 				Resource[] resources = rl.getResources(classPattern);
@@ -40,7 +50,12 @@ public class ScanClassUtil {
 					Resource resource = resources[i];
 					MetadataReader metadataReader = metadataReaderFactory.getMetadataReader(resource);   
 					String className = metadataReader.getClassMetadata().getClassName();
-					result.add(className);
+					
+					if(isIgnoreSomeClass && !isIgnoreClassName(className)) {
+						result.add(className);
+					}else {
+						result.add(className);
+					}
 				}
 			}
 		}catch(Exception e) {
@@ -48,6 +63,18 @@ public class ScanClassUtil {
 		}
 
 		return result;
+	}
+
+	public static boolean isIgnoreClassName(String className) {
+		String shortClassName = ClassUtils.getShortName(className);
+		if(shortClassName.equals("package-info")) {
+			return true;
+		}
+		if(shortClassName.endsWith("Test") || shortClassName.startsWith("Test")) {
+			return true;
+		}
+		
+		return false;
 	}
 	
 }
