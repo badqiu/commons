@@ -11,6 +11,7 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.DeserializationConfig.Feature;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 import org.codehaus.jackson.map.type.TypeFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,7 @@ public class JsonSerDeImpl implements SerDe {
 	ObjectMapper objectMapper = new ObjectMapper();
 	{
 		objectMapper.getDeserializationConfig().set(Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		objectMapper.setSerializationInclusion(Inclusion.NON_NULL); 
 	}
 	
 	public void serialize(Object object, OutputStream output,Map<String,Object> params) throws SerializeException {
