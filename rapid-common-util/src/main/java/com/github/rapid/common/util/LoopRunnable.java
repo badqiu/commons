@@ -34,15 +34,18 @@ public class LoopRunnable implements Runnable{
 	public LoopRunnable(Runnable delegate) {
 		this.delegate = delegate;
 	}
-
+	
+	/** 终止线程执行 */
 	public void shutdown() {
 		running = false;
 	}
 	
+	/** 暂停线程执行 */
 	public void pause() {
 		paused = true;
 	}
 	
+	/** 恢复线程执行 */
 	public void resume() {
 		paused = false;
 		synchronized (this) {
@@ -108,7 +111,7 @@ public class LoopRunnable implements Runnable{
 			try {
 				Thread.sleep(sleepInterval);
 			} catch (InterruptedException e) {
-				//ignore
+				throw new RuntimeException("InterruptedException",e);
 			}
 		}
 	}
@@ -119,7 +122,7 @@ public class LoopRunnable implements Runnable{
 				try {
 					this.wait();
 				} catch (InterruptedException e) {
-					//ignore
+					throw new RuntimeException("InterruptedException",e);
 				}
 			}
 		}

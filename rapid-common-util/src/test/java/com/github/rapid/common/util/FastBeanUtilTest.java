@@ -46,13 +46,13 @@ public class FastBeanUtilTest {
 		}
 		Profiler.release();
 		
-		Profiler.enter("BeanUtils.copyProperties",loopCount);
+		Profiler.enter("apapche BeanUtils.copyProperties",loopCount);
 		for(int i = 0; i < loopCount; i++) {
 			BeanUtils.copyProperties(source, target);
 		}
 		Profiler.release();
 		
-		Profiler.enter("PropertyUtils.copyProperties",loopCount);
+		Profiler.enter("apapche PropertyUtils.copyProperties",loopCount);
 		for(int i = 0; i < loopCount; i++) {
 			PropertyUtils.copyProperties(source, target);
 		}
@@ -70,13 +70,13 @@ public class FastBeanUtilTest {
 		}
 		Profiler.release();
 		
-		Profiler.enter("BeanUtils.describe",loopCount);
+		Profiler.enter("apache BeanUtils.describe",loopCount);
 		for(int i = 0; i < loopCount; i++) {
 			BeanUtils.describe(source);
 		}
 		Profiler.release();
 		
-		Profiler.enter("PropertyUtils.describe",loopCount);
+		Profiler.enter("apache PropertyUtils.describe",loopCount);
 		for(int i = 0; i < loopCount; i++) {
 			PropertyUtils.describe(source);
 		}
@@ -96,7 +96,7 @@ public class FastBeanUtilTest {
 		}
 		Profiler.release();
 		
-		Profiler.enter("BeanUtils.populate",loopCount);
+		Profiler.enter("apache BeanUtils.populate",loopCount);
 		for(int i = 0; i < loopCount; i++) {
 			BeanUtils.populate(source,map);
 		}
@@ -106,7 +106,7 @@ public class FastBeanUtilTest {
 	
 	@Test
 	public void test_date_parse_perf() throws Exception{
-		int loopCount = 100000;
+		int loopCount = 1000000;
 		Date date = new Date();
 		String strDate = "2012-10-10 10:10:10";
 		
