@@ -30,6 +30,10 @@ public class App {
 		return "/data/log/"+app;
 	}
 	
+	public String getTmpDir() {
+		return System.getProperty("java.io.tmpdir")+"/"+app;
+	}
+	
 	public String getAppMode() {
 		String appMode =  System.getProperty("APP_MODE");
 		if(StringUtils.isBlank(appMode)) {

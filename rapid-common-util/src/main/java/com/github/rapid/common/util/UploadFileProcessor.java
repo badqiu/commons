@@ -19,6 +19,12 @@ import org.springframework.util.Assert;
 
 import com.github.rapid.common.util.DateConvertUtil;
 
+/**
+ * 上传文件保存的工具类
+ * 
+ * @author badqiu
+ *
+ */
 public class UploadFileProcessor {
 
 	private static Logger logger = LoggerFactory.getLogger(UploadFileProcessor.class);
