@@ -1,6 +1,5 @@
 package com.github.rapid.common.util;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.util.Date;
@@ -14,9 +13,6 @@ import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-
-import com.github.rapid.common.beanutils.PropertyUtils;
-import com.github.rapid.common.util.DateConvertUtil;
 /**
  * 生成excel工具类
  * 

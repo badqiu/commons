@@ -1,7 +1,5 @@
 package com.github.rapid.common.util;
 
-import static org.junit.Assert.fail;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -16,10 +14,15 @@ import org.slf4j.LoggerFactory;
 public class JVMUtilTest {
 
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void lockFileForOnlyProcess() {
+		JVMUtil.lockFileForOnlyProcess(JVMUtilTest.class);
 	}
 
+	@Test
+	public void getPid() {
+		System.out.println("pid:"+JVMUtil.getPid());
+	}
+	
 	static Logger logger = LoggerFactory.getLogger(JVMUtil.class);
 	private static List<FileLock> fileLocks = new ArrayList<FileLock>(); 
 	public static boolean lockFileForOnlyProcess(String lockName,int lockNum) {

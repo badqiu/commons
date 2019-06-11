@@ -13,7 +13,15 @@ public class IPUtil {
 	 * 获取第一个非 127.0.0.1 的ipv4的地址
 	 * @return
 	 */
+	private static String ip = null;
 	public static String getIp() {
+		if(ip == null) {
+			ip = getIp0();
+		}
+		return ip;
+	}
+
+	private static String getIp0() {
 		Enumeration<NetworkInterface> allNetInterfaces = null;
 		try {
 			allNetInterfaces = NetworkInterface.getNetworkInterfaces();
