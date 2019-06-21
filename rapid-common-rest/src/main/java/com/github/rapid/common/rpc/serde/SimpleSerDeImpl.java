@@ -83,6 +83,14 @@ public class SimpleSerDeImpl implements SerDe{
 				return null;
 			}
 			
+			if(RPCConstants.UNDEFINED_VALUE.equals(value)) {
+				return null;
+			}
+			
+			if(RPCConstants.NaN_VALUE.equals(value)) {
+				return null;
+			}
+			
 			// support for map
 			if(Map.class.isAssignableFrom(parameterType)) {
 				Map result = null;

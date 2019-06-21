@@ -23,5 +23,7 @@ public class RPCConstants {
 	public static final String PROTOCOL_JAVA = "java";  //  __params=["param1Value",param2Value]
 	
 	public static final String NULL_VALUE = "null";
+	public static final String UNDEFINED_VALUE = "undefined";
+	public static final String NaN_VALUE = "NaN";
 	
 }

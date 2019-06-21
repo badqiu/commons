@@ -23,7 +23,7 @@ public class App {
 	}
 	
 	public String getConfigDir() {
-		return "/data/"+app+"/conf";
+		return "/data/app/"+app+"/config";
 	}
 	
 	public String getLogDir() {
