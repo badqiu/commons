@@ -7,47 +7,41 @@ public class CacheSqlGenerator implements SqlGenerator{
 	private SqlGenerator delegate;
 
 	public CacheSqlGenerator(SqlGenerator delegate) {
-		super();
-		this.delegate = delegate;
+		setSqlGenerator(delegate);
 	}
 
-	private String columnsSql = NULL;
+	private void setSqlGenerator(SqlGenerator delegate) {
+		this.delegate = delegate;
+		
+		columnsSql = delegate.getColumnsSql();
+		deleteByPkSql = delegate.getDeleteByPkSql();
+		insertSql = delegate.getInsertSql();
+		selectByPkSql = delegate.getSelectByPkSql();
+		updateByPkSql = delegate.getUpdateByPkSql();
+	}
+
+	private String columnsSql = null;
 	public String getColumnsSql() {
-		if(columnsSql == NULL) {
-			columnsSql = delegate.getColumnsSql();
-		}
 		return columnsSql;
 	}
 
-	private String deleteByPkSql = NULL;
+	private String deleteByPkSql = null;
 	public String getDeleteByPkSql() {
-		if(deleteByPkSql == NULL) {
-			deleteByPkSql = delegate.getDeleteByPkSql();
-		}
 		return deleteByPkSql;
 	}
 
-	private String insertSql = NULL;
+	private String insertSql = null;
 	public String getInsertSql() {
-		if(insertSql == NULL) {
-			insertSql = delegate.getInsertSql();
-		}
 		return insertSql;
 	}
 
-	private String selectByPkSql = NULL;
+	private String selectByPkSql = null;
 	public String getSelectByPkSql() {
-		if(selectByPkSql == NULL) {
-			selectByPkSql = delegate.getSelectByPkSql();
-		}
 		return selectByPkSql;
 	}
 
-	private String updateByPkSql = NULL;
+	private String updateByPkSql = null;
 	public String getUpdateByPkSql() {
-		if(updateByPkSql == NULL) {
-			updateByPkSql = delegate.getUpdateByPkSql();
-		}
 		return updateByPkSql;
 	}
 
