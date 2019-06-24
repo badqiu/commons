@@ -6,6 +6,12 @@ public class CacheSqlGenerator implements SqlGenerator{
 	private static final String NULL = new String();
 	private SqlGenerator delegate;
 
+	private String columnsSql = null;
+	private String deleteByPkSql = null;
+	private String insertSql = null;
+	private String selectByPkSql = null;
+	private String updateByPkSql = null;
+	
 	public CacheSqlGenerator(SqlGenerator delegate) {
 		setSqlGenerator(delegate);
 	}
@@ -20,27 +26,22 @@ public class CacheSqlGenerator implements SqlGenerator{
 		updateByPkSql = delegate.getUpdateByPkSql();
 	}
 
-	private String columnsSql = null;
 	public String getColumnsSql() {
 		return columnsSql;
 	}
 
-	private String deleteByPkSql = null;
 	public String getDeleteByPkSql() {
 		return deleteByPkSql;
 	}
 
-	private String insertSql = null;
 	public String getInsertSql() {
 		return insertSql;
 	}
 
-	private String selectByPkSql = null;
 	public String getSelectByPkSql() {
 		return selectByPkSql;
 	}
 
-	private String updateByPkSql = null;
 	public String getUpdateByPkSql() {
 		return updateByPkSql;
 	}
