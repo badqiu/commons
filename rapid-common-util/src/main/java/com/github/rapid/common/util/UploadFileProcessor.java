@@ -19,17 +19,12 @@ import org.springframework.util.Assert;
 
 import com.github.rapid.common.util.DateConvertUtil;
 
-/**
- * 上传文件保存的工具类
- * 
- * @author badqiu
- *
- */
 public class UploadFileProcessor {
 
 	private static Logger logger = LoggerFactory.getLogger(UploadFileProcessor.class);
 	
 	private String rootDir = null;
+	private String dateDirFormat = "/yyyy/MM/dd/";
 	
 	public UploadFileProcessor() {
 	}
@@ -38,6 +33,10 @@ public class UploadFileProcessor {
 		setRootDir(rootDir);
 	}
 	
+	public void setDateDirFormat(String dateDirFormat) {
+		this.dateDirFormat = dateDirFormat;
+	}
+
 	public String getRootDir() {
 		return rootDir;
 	}
@@ -74,9 +73,11 @@ public class UploadFileProcessor {
 		Assert.notNull(saveDate,"saveDate must be not null");
 		Assert.notNull(input,"input must be not null");
 		
-		String dateDir = DateConvertUtil.format(saveDate, "/yyyy/MM/dd/");
+		String dateDir = DateConvertUtil.format(saveDate, dateDirFormat);
 		String filePath = fileModule + dateDir + filename + "." + StringUtils.lowerCase(filenameExtension);
+		
 		saveUploadFile(filePath,input);
+		
 		return filePath;
 	}
 	
@@ -97,13 +98,13 @@ public class UploadFileProcessor {
 	} 
 	
 	/**
-	 * 根据相对路径，得到所有完整路径文件件，文件间用逗号分隔
+	 * 根据相对路径，得到所有完整路径文件件，文件间用分号(path.separator)分隔
 	 * @param filePath
 	 * @return
 	 */
 	public List<File> getUploadFiles(String filePaths) {
 		if(StringUtils.isBlank(filePaths)) return null;
-		List<String> paths = Arrays.asList(filePaths.split(","));
+		List<String> paths = Arrays.asList(filePaths.split(";"));
 		return paths.stream().filter((v) -> { 
 			return StringUtils.isNotBlank(v);}
 		).map( path -> {
@@ -136,7 +137,8 @@ public class UploadFileProcessor {
 	public boolean deleteFile(String filePath) {
 		if(StringUtils.isBlank(filePath)) return false;
 		
-		return getUploadFile(filePath).delete();
+		File file = getUploadFile(filePath);
+		return file.delete();
 	}
 	
 }
