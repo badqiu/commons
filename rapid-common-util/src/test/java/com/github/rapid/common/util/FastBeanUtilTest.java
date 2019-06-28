@@ -11,6 +11,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -26,6 +27,10 @@ public class FastBeanUtilTest {
 		System.out.println("\n\n---------------------"+testName.getMethodName()+"---------------------------");
 		ConvertUtils.register(new DateConverter(null),java.util.Date.class);
 		Profiler.start();
+		
+		FastBean source = new FastBean();
+		FastBeanChild target = new FastBeanChild();
+		FastBeanUtil.copyProperties(source, target);
 	}
 	
 	@After
@@ -58,6 +63,7 @@ public class FastBeanUtilTest {
 		FastBeanUtil.copyProperties(source, target);
 		
 		assertEquals(target.getAction(),"a11111");
+		System.out.println(ToStringBuilder.reflectionToString(target));
 	}
 	
 	@Test
@@ -76,19 +82,20 @@ public class FastBeanUtilTest {
 		FastBean target = new FastBean();
 		int loopCount = 100000;
 		
+		
 		Profiler.enter("FastBeanUtil.copyProperties",loopCount);
 		for(int i = 0; i < loopCount; i++) {
 			FastBeanUtil.copyProperties(source, target);
 		}
 		Profiler.release();
 		
-		Profiler.enter("apapche BeanUtils.copyProperties",loopCount);
+		Profiler.enter("Apache BeanUtils.copyProperties",loopCount);
 		for(int i = 0; i < loopCount; i++) {
 			BeanUtils.copyProperties(source, target);
 		}
 		Profiler.release();
 		
-		Profiler.enter("apapche PropertyUtils.copyProperties",loopCount);
+		Profiler.enter("Apache PropertyUtils.copyProperties",loopCount);
 		for(int i = 0; i < loopCount; i++) {
 			PropertyUtils.copyProperties(source, target);
 		}
@@ -106,13 +113,13 @@ public class FastBeanUtilTest {
 		}
 		Profiler.release();
 		
-		Profiler.enter("apache BeanUtils.describe",loopCount);
+		Profiler.enter("Apache BeanUtils.describe",loopCount);
 		for(int i = 0; i < loopCount; i++) {
 			BeanUtils.describe(source);
 		}
 		Profiler.release();
 		
-		Profiler.enter("apache PropertyUtils.describe",loopCount);
+		Profiler.enter("Apache PropertyUtils.describe",loopCount);
 		for(int i = 0; i < loopCount; i++) {
 			PropertyUtils.describe(source);
 		}
@@ -132,7 +139,7 @@ public class FastBeanUtilTest {
 		}
 		Profiler.release();
 		
-		Profiler.enter("apache BeanUtils.populate",loopCount);
+		Profiler.enter("Apache BeanUtils.populate",loopCount);
 		for(int i = 0; i < loopCount; i++) {
 			BeanUtils.populate(source,map);
 		}
