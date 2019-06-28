@@ -177,6 +177,10 @@ public class FastBean {
 	 * 判断数据是否是加密出来的
 	 */
 	private boolean encrypt = false;
+	
+	private double age;
+	
+	private Date birthDate;
 
 	public String getAction() {
 		return action;
@@ -449,5 +453,23 @@ public class FastBean {
 	public void setEncrypt(boolean encrypt) {
 		this.encrypt = encrypt;
 	}
+
+	public double getAge() {
+		return age;
+	}
+
+	public void setAge(double age) {
+		this.age = age;
+	}
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+	
+	
 	
 }

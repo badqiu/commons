@@ -1,7 +1,10 @@
 package com.github.rapid.common.util;
 
+import static org.junit.Assert.assertEquals;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -13,9 +16,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
-
-import com.github.rapid.common.util.FastBeanUtil;
-import com.github.rapid.common.util.Profiler;
 
 
 public class FastBeanUtilTest {
@@ -32,6 +32,42 @@ public class FastBeanUtilTest {
 	public void tearDown() {
 		Profiler.release();
 		System.out.println(Profiler.dump());
+	}
+	
+	@Test
+	public void test_child_object() throws Exception{
+		FastBean source = new FastBean();
+		source.setAction("a11111");
+		FastBeanChild target = new FastBeanChild();
+		FastBeanUtil.copyProperties(source, target);
+		
+		assertEquals(target.getAction(),"a11111");
+	}
+	
+	@Test
+	public void test_map() throws Exception{
+		Map source = new HashMap();
+		source.put("action","a11111");
+		source.put("abc","abc");
+		source.put("flag","true");
+		source.put("duration","100");
+		source.put("age","100.0");
+		source.put("birthDate","19998");
+		
+		FastBeanChild target = new FastBeanChild();
+		FastBeanUtil.copyProperties(source, target);
+		
+		assertEquals(target.getAction(),"a11111");
+	}
+	
+	@Test
+	public void test_child_object2() throws Exception{
+		FastBeanChild source = new FastBeanChild();
+		source.setAction("a11111");
+		FastBean target = new FastBean();
+		FastBeanUtil.copyProperties(source, target);
+		
+		assertEquals(target.getAction(),"a11111");
 	}
 	
 	@Test

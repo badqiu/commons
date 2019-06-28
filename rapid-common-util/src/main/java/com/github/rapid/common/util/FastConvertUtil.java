@@ -29,45 +29,52 @@ public class FastConvertUtil {
 			return value;
 		}
 		if(isDateType(targetClass)) {
-			Date date = (Date)BeanUtils.instantiate(targetClass);
-			if(value instanceof Number) {
-				date.setTime(((Number) value).longValue());
-			}else if(value instanceof String) {
-				date.setTime(Long.parseLong(String.valueOf(value)));
-			}else if(value instanceof Date) {
-				date.setTime(((Date)value).getTime());
-			}else if(value instanceof Calendar) {
-				date.setTime(((Calendar)value).getTimeInMillis());
-			}else {
-				throw new IllegalStateException("cannot convert value:"+value+" to target date:"+targetClass);
-			}
-			return date;
+			return convert2Date(targetClass, value);
         }
 		
 		return convert2FromString(targetClass, String.valueOf(value));
 	}
 
+	private static Object convert2Date(Class<?> targetClass, Object value) {
+		Date date = (Date)BeanUtils.instantiate(targetClass);
+		if(value instanceof Number) {
+			date.setTime(((Number) value).longValue());
+		}else if(value instanceof String) {
+			date.setTime(Long.parseLong(String.valueOf(value)));
+		}else if(value instanceof Date) {
+			date.setTime(((Date)value).getTime());
+		}else if(value instanceof Calendar) {
+			date.setTime(((Calendar)value).getTimeInMillis());
+		}else {
+			throw new IllegalStateException("cannot convert value:"+value+" to target date:"+targetClass);
+		}
+		return date;
+	}
+
 	private static Object convert2FromString(Class<?> targetClass, String value) {
 		if(targetClass == int.class || targetClass == Integer.class) {
-			return Integer.parseInt(String.valueOf(value));
+			return Integer.parseInt(value);
 		}
 		if(targetClass == long.class || targetClass == Long.class) {
-			return Long.parseLong(String.valueOf(value));
+			return Long.parseLong(value);
 		}
 		if(targetClass == double.class || targetClass == Double.class) {
-			return Double.parseDouble(String.valueOf(value));
+			return Double.parseDouble(value);
 		}
 		if(targetClass == float.class || targetClass == Float.class) {
-			return Float.parseFloat(String.valueOf(value));
+			return Float.parseFloat(value);
 		}
 		if(targetClass == char.class || targetClass == Character.class) {
 			return value;
 		}
 		if(targetClass == short.class || targetClass == Short.class) {
-			return Short.parseShort(String.valueOf(value));
+			return Short.parseShort(value);
 		}
 		if(targetClass == byte.class || targetClass == Byte.class) {
-			return Byte.parseByte(String.valueOf(value));
+			return Byte.parseByte(value);
+		}
+		if(targetClass == boolean.class || targetClass == Boolean.class) {
+			return Boolean.parseBoolean(value);
 		}
         if(targetClass == BigDecimal.class) {
             return new BigDecimal(value);
