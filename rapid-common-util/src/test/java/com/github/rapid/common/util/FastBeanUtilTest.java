@@ -57,7 +57,7 @@ public class FastBeanUtilTest {
 		source.put("flag","true");
 		source.put("duration","100");
 		source.put("age","100.0");
-		source.put("birthDate","19998");
+		source.put("birthDate","1999-10-10");
 		
 		FastBeanChild target = new FastBeanChild();
 		FastBeanUtil.copyProperties(source, target);

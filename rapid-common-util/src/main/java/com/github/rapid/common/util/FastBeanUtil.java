@@ -168,7 +168,7 @@ public class FastBeanUtil {
 						}
 					}
 				}catch (Throwable ex) {
-						throw new FatalBeanException("Could not copy properties from source to target,property:"+(targetPd == null ? "" : targetPd.getName())+" value:"+value, ex);
+					throw new FatalBeanException("copy properties error,property:"+(targetPd == null ? "" : targetPd.getName())+", source value:"+value, ex);
 				}
 			}
 		}
