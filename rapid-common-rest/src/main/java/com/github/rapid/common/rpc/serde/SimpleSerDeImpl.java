@@ -70,24 +70,31 @@ public class SimpleSerDeImpl implements SerDe{
 			BeanUtilsConvertRegisterHelper.registerConverters(beanUtils.getConvertUtils(), DATE_PATTERNS);
 		}
 		
+	public static Object toNullIf(Object value) {
+		if(RPCConstants.NULL_VALUE.equals(value)) {
+			return null;
+		}
+		
+		if(RPCConstants.UNDEFINED_VALUE.equals(value)) {
+			return null;
+		}
+		
+		if(RPCConstants.NaN_VALUE.equals(value)) {
+			return null;
+		}
+		return value;
+	}
+		
 		public Object deserializeParameterValue(Class<?> parameterType,
 				Object value, Map<String, Object> params) throws InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchMethodException {
+			value = toNullIf(value);
+			
 			if(value == null && parameterType.isPrimitive()) {
 				return PrimitiveTypeUtil.getPrimitiveDefaultValue(parameterType);
 			}
+			
+			//support enum
 			if(value == null && (parameterType.isEnum())) {
-				return null;
-			}
-			
-			if(RPCConstants.NULL_VALUE.equals(value)) {
-				return null;
-			}
-			
-			if(RPCConstants.UNDEFINED_VALUE.equals(value)) {
-				return null;
-			}
-			
-			if(RPCConstants.NaN_VALUE.equals(value)) {
 				return null;
 			}
 			
