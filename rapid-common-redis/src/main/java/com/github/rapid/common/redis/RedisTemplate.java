@@ -14,7 +14,6 @@ import redis.clients.jedis.BinaryJedisPubSub;
 import redis.clients.jedis.BitOP;
 import redis.clients.jedis.BitPosParams;
 import redis.clients.jedis.Client;
-import redis.clients.jedis.ClusterReset;
 import redis.clients.jedis.DebugParams;
 import redis.clients.jedis.GeoCoordinate;
 import redis.clients.jedis.GeoRadiusResponse;
@@ -22,10 +21,7 @@ import redis.clients.jedis.GeoUnit;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisMonitor;
 import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolAbstract;
 import redis.clients.jedis.JedisPubSub;
-import redis.clients.jedis.ListPosition;
-import redis.clients.jedis.Module;
 import redis.clients.jedis.Pipeline;
 import redis.clients.jedis.ScanParams;
 import redis.clients.jedis.ScanResult;
@@ -33,34 +29,30 @@ import redis.clients.jedis.SortingParams;
 import redis.clients.jedis.Transaction;
 import redis.clients.jedis.Tuple;
 import redis.clients.jedis.ZParams;
-import redis.clients.jedis.params.ClientKillParams;
-import redis.clients.jedis.params.GeoRadiusParam;
-import redis.clients.jedis.params.MigrateParams;
-import redis.clients.jedis.params.SetParams;
-import redis.clients.jedis.params.ZAddParams;
-import redis.clients.jedis.params.ZIncrByParams;
 
 /**
  * Redis妯℃澘绫�,鐢ㄤ簬鍗曟潯鎿嶄綔
+ * 
  * @author badqiu
  *
  */
 public class RedisTemplate implements InitializingBean {
-	protected static final Logger log = LoggerFactory.getLogger(JedisPoolFactoryBean.class);
-	
+	protected static final Logger log = LoggerFactory
+			.getLogger(JedisPoolFactoryBean.class);
+
 	private JedisPool jedisPool;
-	
+
 	private Jedis proxy;
-	
+
 	private static class JedisProxy extends Jedis {
 		public JedisProxy() {
 			super("create_by_proxy_host");
 		}
 	}
-	
-	public RedisTemplate(){
+
+	public RedisTemplate() {
 	}
-	
+
 	public RedisTemplate(JedisPool jedisPool) {
 		super();
 		setJedisPool(jedisPool);
@@ -71,40 +63,42 @@ public class RedisTemplate implements InitializingBean {
 	}
 
 	public void setJedisPool(JedisPool jedisPool) {
-		Assert.notNull(jedisPool,"jedisPool must be not null");
+		Assert.notNull(jedisPool, "jedisPool must be not null");
 		this.jedisPool = jedisPool;
-		proxy = ProxyUtil.createProxy(new JedisProxy(), new JedisInteceptor(jedisPool));
+		proxy = ProxyUtil.createProxy(new JedisProxy(), new JedisInteceptor(
+				jedisPool));
 	}
 
 	public <T> T execute(RedisCallback<T> callback) {
-		return execute(jedisPool,callback);
+		return execute(jedisPool, callback);
 	}
 
-	public static <T> T execute(JedisPool jedisPool,RedisCallback<T> callback) {
+	public static <T> T execute(JedisPool jedisPool, RedisCallback<T> callback) {
 		Jedis jedis = jedisPool.getResource();
 		try {
 			T result = callback.doInRedis(jedis);
 			return result;
-		}finally {
+		} finally {
 			jedis.close();
 		}
 	}
-	
+
 	public <T> T execute(RedisTransactionCallback<T> callback) {
-		return execute(jedisPool,callback);
+		return execute(jedisPool, callback);
 	}
-	
-	public static <T> T execute(JedisPool jedisPool,RedisTransactionCallback<T> callback) {
+
+	public static <T> T execute(JedisPool jedisPool,
+			RedisTransactionCallback<T> callback) {
 		Jedis jedis = jedisPool.getResource();
 		try {
 			Transaction tran = jedis.multi();
 			T object = callback.doInTransaction(tran);
 			return object;
-		}finally {
+		} finally {
 			jedis.close();
 		}
 	}
-	
+
 	public String get(String key) {
 		return proxy.get(key);
 	}
@@ -421,10 +415,6 @@ public class RedisTemplate implements InitializingBean {
 		return proxy.getrange(key, startOffset, endOffset);
 	}
 
-	public int getDB() {
-		return proxy.getDB();
-	}
-
 	public Object eval(byte[] script, List<byte[]> keys, List<byte[]> args) {
 		return proxy.eval(script, keys, args);
 	}
@@ -432,8 +422,6 @@ public class RedisTemplate implements InitializingBean {
 	public Object eval(byte[] script, byte[] keyCount, byte[][] params) {
 		return proxy.eval(script, keyCount, params);
 	}
-	
-	
 
 	public String ping() {
 		return proxy.ping();
@@ -767,7 +755,7 @@ public class RedisTemplate implements InitializingBean {
 		return proxy.zadd(key, score, member);
 	}
 
-	public Long zadd(String key, Map<String,Double> scoreMembers) {
+	public Long zadd(String key, Map<String, Double> scoreMembers) {
 		return proxy.zadd(key, scoreMembers);
 	}
 
@@ -779,7 +767,7 @@ public class RedisTemplate implements InitializingBean {
 		return proxy.zrem(key, members);
 	}
 
-	public Long zadd(byte[] key, Map<byte[],Double> scoreMembers) {
+	public Long zadd(byte[] key, Map<byte[], Double> scoreMembers) {
 		return proxy.zadd(key, scoreMembers);
 	}
 
@@ -871,8 +859,6 @@ public class RedisTemplate implements InitializingBean {
 		return proxy.multi();
 	}
 
-
-
 	public String watch(byte[]... keys) {
 		return proxy.watch(keys);
 	}
@@ -932,8 +918,6 @@ public class RedisTemplate implements InitializingBean {
 	public Set<String> zrangeByScore(String key, double min, double max) {
 		return proxy.zrangeByScore(key, min, max);
 	}
-
-
 
 	public Pipeline pipelined() {
 		return proxy.pipelined();
@@ -1163,8 +1147,6 @@ public class RedisTemplate implements InitializingBean {
 		return proxy.rpushx(key, string);
 	}
 
-
-
 	public Boolean setbit(String key, long offset, boolean value) {
 		return proxy.setbit(key, offset, value);
 	}
@@ -1200,7 +1182,6 @@ public class RedisTemplate implements InitializingBean {
 	public void monitor(JedisMonitor jedisMonitor) {
 		proxy.monitor(jedisMonitor);
 	}
-
 
 	public Long objectRefcount(String string) {
 		return proxy.objectRefcount(string);
@@ -1245,7 +1226,6 @@ public class RedisTemplate implements InitializingBean {
 	public Long rpushx(byte[] key, byte[] string) {
 		return proxy.rpushx(key, string);
 	}
-
 
 	public Boolean setbit(byte[] key, long offset, byte[] value) {
 		return proxy.setbit(key, offset, value);
@@ -1451,7 +1431,6 @@ public class RedisTemplate implements InitializingBean {
 		return proxy.clusterReplicate(nodeId);
 	}
 
-
 	public String clusterSaveConfig() {
 		return proxy.clusterSaveConfig();
 	}
@@ -1581,7 +1560,6 @@ public class RedisTemplate implements InitializingBean {
 	public String ltrim(byte[] key, long start, long end) {
 		return proxy.ltrim(key, start, end);
 	}
-
 
 	public String migrate(String host, int port, String key, int destinationDb,
 			int timeout) {
@@ -1733,10 +1711,6 @@ public class RedisTemplate implements InitializingBean {
 		return proxy.sentinelSlaves(arg0);
 	}
 
-
-
-
-
 	public Boolean setbit(byte[] key, long offset, boolean value) {
 		return proxy.setbit(key, offset, value);
 	}
@@ -1874,7 +1848,7 @@ public class RedisTemplate implements InitializingBean {
 	}
 
 	public void afterPropertiesSet() throws Exception {
-		Assert.notNull(jedisPool,"jedisPool must be not null");
+		Assert.notNull(jedisPool, "jedisPool must be not null");
 	}
 
 	public List<Long> bitfield(byte[] key, byte[]... arguments) {
@@ -1883,34 +1857,6 @@ public class RedisTemplate implements InitializingBean {
 
 	public List<Long> bitfield(String key, String... arguments) {
 		return proxy.bitfield(key, arguments);
-	}
-
-	public byte[] clientGetnameBinary() {
-		return proxy.clientGetnameBinary();
-	}
-
-	public Long clientKill(ClientKillParams params) {
-		return proxy.clientKill(params);
-	}
-
-	public String clientKill(String ip, int port) {
-		return proxy.clientKill(ip, port);
-	}
-
-	public byte[] clientListBinary() {
-		return proxy.clientListBinary();
-	}
-
-	public String clientPause(long timeout) {
-		return proxy.clientPause(timeout);
-	}
-
-	public String clusterReset(ClusterReset resetType) {
-		return proxy.clusterReset(resetType);
-	}
-
-	public String configRewrite() {
-		return proxy.configRewrite();
 	}
 
 	public boolean equals(Object obj) {
@@ -1980,18 +1926,8 @@ public class RedisTemplate implements InitializingBean {
 	}
 
 	public List<GeoRadiusResponse> georadius(byte[] key, double longitude,
-			double latitude, double radius, GeoUnit unit, GeoRadiusParam param) {
-		return proxy.georadius(key, longitude, latitude, radius, unit, param);
-	}
-
-	public List<GeoRadiusResponse> georadius(byte[] key, double longitude,
 			double latitude, double radius, GeoUnit unit) {
 		return proxy.georadius(key, longitude, latitude, radius, unit);
-	}
-
-	public List<GeoRadiusResponse> georadius(String key, double longitude,
-			double latitude, double radius, GeoUnit unit, GeoRadiusParam param) {
-		return proxy.georadius(key, longitude, latitude, radius, unit, param);
 	}
 
 	public List<GeoRadiusResponse> georadius(String key, double longitude,
@@ -2000,244 +1936,29 @@ public class RedisTemplate implements InitializingBean {
 	}
 
 	public List<GeoRadiusResponse> georadiusByMember(byte[] key, byte[] member,
-			double radius, GeoUnit unit, GeoRadiusParam param) {
-		return proxy.georadiusByMember(key, member, radius, unit, param);
-	}
-
-	public List<GeoRadiusResponse> georadiusByMember(byte[] key, byte[] member,
 			double radius, GeoUnit unit) {
 		return proxy.georadiusByMember(key, member, radius, unit);
 	}
 
 	public List<GeoRadiusResponse> georadiusByMember(String key, String member,
-			double radius, GeoUnit unit, GeoRadiusParam param) {
-		return proxy.georadiusByMember(key, member, radius, unit, param);
-	}
-
-	public List<GeoRadiusResponse> georadiusByMember(String key, String member,
 			double radius, GeoUnit unit) {
 		return proxy.georadiusByMember(key, member, radius, unit);
-	}
-
-	public List<GeoRadiusResponse> georadiusByMemberReadonly(byte[] key,
-			byte[] member, double radius, GeoUnit unit, GeoRadiusParam param) {
-		return proxy
-				.georadiusByMemberReadonly(key, member, radius, unit, param);
-	}
-
-	public List<GeoRadiusResponse> georadiusByMemberReadonly(byte[] key,
-			byte[] member, double radius, GeoUnit unit) {
-		return proxy.georadiusByMemberReadonly(key, member, radius, unit);
-	}
-
-	public List<GeoRadiusResponse> georadiusByMemberReadonly(String key,
-			String member, double radius, GeoUnit unit, GeoRadiusParam param) {
-		return proxy
-				.georadiusByMemberReadonly(key, member, radius, unit, param);
-	}
-
-	public List<GeoRadiusResponse> georadiusByMemberReadonly(String key,
-			String member, double radius, GeoUnit unit) {
-		return proxy.georadiusByMemberReadonly(key, member, radius, unit);
-	}
-
-	public List<GeoRadiusResponse> georadiusReadonly(byte[] key,
-			double longitude, double latitude, double radius, GeoUnit unit,
-			GeoRadiusParam param) {
-		return proxy.georadiusReadonly(key, longitude, latitude, radius, unit,
-				param);
-	}
-
-	public List<GeoRadiusResponse> georadiusReadonly(byte[] key,
-			double longitude, double latitude, double radius, GeoUnit unit) {
-		return proxy.georadiusReadonly(key, longitude, latitude, radius, unit);
-	}
-
-	public List<GeoRadiusResponse> georadiusReadonly(String key,
-			double longitude, double latitude, double radius, GeoUnit unit,
-			GeoRadiusParam param) {
-		return proxy.georadiusReadonly(key, longitude, latitude, radius, unit,
-				param);
-	}
-
-	public List<GeoRadiusResponse> georadiusReadonly(String key,
-			double longitude, double latitude, double radius, GeoUnit unit) {
-		return proxy.georadiusReadonly(key, longitude, latitude, radius, unit);
 	}
 
 	public int hashCode() {
 		return proxy.hashCode();
 	}
 
-	public Long hset(byte[] key, Map<byte[], byte[]> hash) {
-		return proxy.hset(key, hash);
-	}
-
-	public Long hset(String key, Map<String, String> hash) {
-		return proxy.hset(key, hash);
-	}
-
-	public Long hstrlen(byte[] key, byte[] field) {
-		return proxy.hstrlen(key, field);
-	}
-
-	public Long hstrlen(String key, String field) {
-		return proxy.hstrlen(key, field);
-	}
-
-	public Long linsert(byte[] key, ListPosition where, byte[] pivot,
-			byte[] value) {
-		return proxy.linsert(key, where, pivot, value);
-	}
-
-	public Long linsert(String key, ListPosition where, String pivot,
-			String value) {
-		return proxy.linsert(key, where, pivot, value);
-	}
-
-	public String migrate(String host, int port, byte[] key, int destinationDb,
-			int timeout) {
-		return proxy.migrate(host, port, key, destinationDb, timeout);
-	}
-
-	public String migrate(String host, int port, int destinationDB,
-			int timeout, MigrateParams params, byte[]... keys) {
-		return proxy.migrate(host, port, destinationDB, timeout, params, keys);
-	}
-
-	public String migrate(String host, int port, int destinationDB,
-			int timeout, MigrateParams params, String... keys) {
-		return proxy.migrate(host, port, destinationDB, timeout, params, keys);
-	}
-
-	public List<Module> moduleList() {
-		return proxy.moduleList();
-	}
-
-	public String moduleLoad(String path) {
-		return proxy.moduleLoad(path);
-	}
-
-	public String moduleUnload(String name) {
-		return proxy.moduleUnload(name);
-	}
-
-	public byte[] ping(byte[] message) {
-		return proxy.ping(message);
-	}
-
-	public String ping(String message) {
-		return proxy.ping(message);
-	}
-
 	public String readonly() {
 		return proxy.readonly();
-	}
-
-	public String restoreReplace(byte[] key, int ttl, byte[] serializedValue) {
-		return proxy.restoreReplace(key, ttl, serializedValue);
-	}
-
-	public String restoreReplace(String key, int ttl, byte[] serializedValue) {
-		return proxy.restoreReplace(key, ttl, serializedValue);
 	}
 
 	public Long scriptExists(byte[] sha1) {
 		return proxy.scriptExists(sha1);
 	}
 
-	public String set(byte[] key, byte[] value, SetParams params) {
-		return proxy.set(key, value, params);
-	}
-
-	public String set(String key, String value, SetParams params) {
-		return proxy.set(key, value, params);
-	}
-
-	public void setDataSource(JedisPoolAbstract jedisPool) {
-		proxy.setDataSource(jedisPool);
-	}
-
-	public List<redis.clients.jedis.util.Slowlog> slowlogGet() {
-		return proxy.slowlogGet();
-	}
-
-	public List<redis.clients.jedis.util.Slowlog> slowlogGet(long entries) {
-		return proxy.slowlogGet(entries);
-	}
-
 	public Long slowlogLen() {
 		return proxy.slowlogLen();
 	}
 
-	public String swapDB(int index1, int index2) {
-		return proxy.swapDB(index1, index2);
-	}
-
-	public String toString() {
-		return proxy.toString();
-	}
-
-	public Long touch(byte[]... keys) {
-		return proxy.touch(keys);
-	}
-
-	public Long touch(byte[] key) {
-		return proxy.touch(key);
-	}
-
-	public Long touch(String... keys) {
-		return proxy.touch(keys);
-	}
-
-	public Long touch(String key) {
-		return proxy.touch(key);
-	}
-
-	public Long unlink(byte[]... keys) {
-		return proxy.unlink(keys);
-	}
-
-	public Long unlink(byte[] key) {
-		return proxy.unlink(key);
-	}
-
-	public Long unlink(String... keys) {
-		return proxy.unlink(keys);
-	}
-
-	public Long unlink(String key) {
-		return proxy.unlink(key);
-	}
-
-	public Long zadd(byte[] key, double score, byte[] member, ZAddParams params) {
-		return proxy.zadd(key, score, member, params);
-	}
-
-	public Long zadd(byte[] key, Map<byte[], Double> scoreMembers,
-			ZAddParams params) {
-		return proxy.zadd(key, scoreMembers, params);
-	}
-
-	public Long zadd(String key, double score, String member, ZAddParams params) {
-		return proxy.zadd(key, score, member, params);
-	}
-
-	public Long zadd(String key, Map<String, Double> scoreMembers,
-			ZAddParams params) {
-		return proxy.zadd(key, scoreMembers, params);
-	}
-
-	public Double zincrby(byte[] key, double increment, byte[] member,
-			ZIncrByParams params) {
-		return proxy.zincrby(key, increment, member, params);
-	}
-
-	public Double zincrby(String key, double increment, String member,
-			ZIncrByParams params) {
-		return proxy.zincrby(key, increment, member, params);
-	}
-	
-	
-	
 }

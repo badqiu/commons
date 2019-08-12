@@ -5,16 +5,24 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.springframework.util.Assert;
 
-public class JedisPoolFactoryBeanTest {
+import redis.clients.jedis.JedisPool;
+
+public class JedisPoolFactoryBeanTest extends BaseRedisTest {
 
 	@Test
 	public void test() throws Exception {
 		JedisPoolFactoryBean f = new JedisPoolFactoryBean();
-		f.setServer("redis://jf02oO0Oo:user@120.132.77.166:6379/1");
+		f.setServer("redis://120.92.6.245:6379/1");
 		f.afterPropertiesSet();
 		
-		Object pool = f.getObject();
+		JedisPool pool = (JedisPool)f.getObject();
 		Assert.notNull(pool);
+		
+		RedisTemplate template = new RedisTemplate();
+		template.setJedisPool(pool);
+		
+		template.set("hello", "123");
+		assertEquals("123",template.get("hello"));
 	}
 
 }
