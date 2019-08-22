@@ -48,7 +48,7 @@ Profiler
 *** 2.spring方法拦截器配置 
 拦截需要性能分析的方法及类,被拦截的方法启动子任务分析:enter(),release()
 +---+
-	<bean id="profiledAnnotationPointcutAdvisor" class="com.duowan.common.log.aop.ProfiledAnnotationPointcutAdvisor"/>
+	<bean id="profiledAnnotationPointcutAdvisor" class="com.github.rapid.common.log.aop.ProfiledAnnotationPointcutAdvisor"/>
 	
 	<!-- 拦截有@Profiled标注的类或者方法 -->
  	<bean id="bean" class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
@@ -69,8 +69,8 @@ Profiler
 ** 三.日志打印结果 
 *** 1. 日志打印位置 
 +---+
-# DWPROJECTNO是环境变量中的配置，profilerLogDir整个配置可以通过System.properties覆盖
-profilerLogDir=/data2/log/${DWPROJECTNO}/
+# PROJECT_ID是环境变量中的配置，profilerLogDir整个配置可以通过System.properties覆盖
+profilerLogDir=/data2/log/${PROJECT_ID}/
 +---+
 
 *** 2. digest-profiler.log 

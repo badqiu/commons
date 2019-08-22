@@ -4,7 +4,7 @@
 
 	<groupId>com.github.rapid.common</groupId>
 	<artifactId>rapid-common-log</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>rapid-common-log</name>
 	<packaging>jar</packaging>
 
