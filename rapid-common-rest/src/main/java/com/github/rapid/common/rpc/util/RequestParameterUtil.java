@@ -1,8 +1,8 @@
 package com.github.rapid.common.rpc.util;
 
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 import javax.servlet.ServletRequest;
 
@@ -15,7 +15,7 @@ public class RequestParameterUtil {
 		Assert.notNull(request, "Request must not be null");
 		
 		Enumeration paramNames = request.getParameterNames();
-		Map<String, Object> params = new TreeMap<String, Object>();
+		Map<String, Object> params = new HashMap<String, Object>();
 		while (paramNames != null && paramNames.hasMoreElements()) {
 			String paramName = (String) paramNames.nextElement();
 			String[] values = request.getParameterValues(paramName);
