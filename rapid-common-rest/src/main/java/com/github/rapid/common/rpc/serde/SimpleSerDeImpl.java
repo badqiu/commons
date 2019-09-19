@@ -100,16 +100,12 @@ public class SimpleSerDeImpl implements SerDe{
 			
 			// support for map
 			if(Map.class.isAssignableFrom(parameterType)) {
-				Map result = null;
-				if(parameterType.isInterface()) {
-					result = new HashMap();
-				}else {
-					result = (Map)parameterType.newInstance();
-				}
+				Map result = newMap(parameterType);
+				
 				Map map = convertUtil.string2Map((String)value);
-				if(map.isEmpty()) {
-					map = params;
-				}
+//				if(map.isEmpty()) {
+//					map = params;
+//				}
 				result.putAll(map);
 				return result;
 			}
@@ -119,16 +115,8 @@ public class SimpleSerDeImpl implements SerDe{
 				if(value == null) {
 					return null;
 				}
-				Collection result = null;
-				if(parameterType.isInterface()) {
-					if(parameterType.isAssignableFrom(List.class)) {
-						result = new ArrayList();
-					}else if(parameterType.isAssignableFrom(Set.class)) {
-						result = new HashSet();
-					}
-				}else {
-					result = (Collection)parameterType.newInstance();
-				}
+				Collection result = newCollection(parameterType);
+				
 				if(value instanceof Object[]) {
 					return conversionService.convert((Object[])value, parameterType); //TODO 增加这个分支的单元测试
 				}else {
@@ -198,6 +186,32 @@ public class SimpleSerDeImpl implements SerDe{
 			
 			
 			throw new IllegalArgumentException("cannot convert value:"+value+" to targetType:"+parameterType);
+		}
+
+		private Collection newCollection(Class<?> parameterType)
+				throws InstantiationException, IllegalAccessException {
+			Collection result = null;
+			if(parameterType.isInterface()) {
+				if(parameterType.isAssignableFrom(List.class)) {
+					result = new ArrayList();
+				}else if(parameterType.isAssignableFrom(Set.class)) {
+					result = new HashSet();
+				}
+			}else {
+				result = (Collection)parameterType.newInstance();
+			}
+			return result;
+		}
+
+		private Map newMap(Class<?> parameterType)
+				throws InstantiationException, IllegalAccessException {
+			Map result = null;
+			if(parameterType.isInterface()) {
+				result = new HashMap();
+			}else {
+				result = (Map)parameterType.newInstance();
+			}
+			return result;
 		}
 
 		private Map deserializationMap(Map map, Class<?> targetType) throws InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchMethodException {

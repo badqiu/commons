@@ -69,7 +69,7 @@ public class MethodInvoker {
 		
 		
 		beforeMethodInvoke(method,arguments);
-		Object result = method.invoke(service, arguments); //TODO 方法调用前应该有拦截器
+		Object result = method.invoke(service, arguments); //TODO 方法调用前应该有拦截器 FIXME: 反射是否有性能问题
 		return afterMethodInvoke(method,result);
 	}
 
