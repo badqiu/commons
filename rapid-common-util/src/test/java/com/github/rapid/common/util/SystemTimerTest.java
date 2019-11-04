@@ -18,16 +18,16 @@ public class SystemTimerTest {
 	
 	@Test
 	public void test_perf() throws InterruptedException {
-		int count = 1000000000;
+		long count = 1000000000;
 		Profiler.start("SystemTimer.currentTimeMillis",count);
-		for(int i = 0; i < count; i++) {
+		for(long i = 0; i < count; i++) {
 			SystemTimer.currentTimeMillis();
 		}
 		Profiler.release();
 		System.out.println(Profiler.dump());
 		
 		Profiler.start("System.currentTimeMillis",count);
-		for(int i = 0; i < count; i++) {
+		for(long i = 0; i < count; i++) {
 			System.currentTimeMillis();
 		}
 		Profiler.release();
