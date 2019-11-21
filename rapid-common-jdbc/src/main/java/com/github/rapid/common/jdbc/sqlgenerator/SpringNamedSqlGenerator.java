@@ -96,12 +96,8 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 		sb.append(StringUtils.join(getUpdateColumns().iterator(), ","));
 		sb.append(" WHERE ");
 
-		for(int i = 0; i < getPrimaryKeyColumns().size(); i++) {
-			Column c = getPrimaryKeyColumns().get(i);
-			sb.append(c.getSqlName()+" = "+getColumnPlaceholder(c));
-			if(i < getPrimaryKeyColumns().size() - 1)
-				sb.append(" AND ");
-		}
+		List<Column> primaryKeyColumns = getPrimaryKeyColumns();
+		appendWhereString(sb, primaryKeyColumns);
 		return sb.toString();
 	}
 
@@ -123,14 +119,10 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 		sb.append(" WHERE ");
 
 		List<Column> primaryKeyColumns = getPrimaryKeyColumns();
-		for(int i = 0; i < primaryKeyColumns.size(); i++) {
-			Column c = primaryKeyColumns.get(i);
-			sb.append(c.getSqlName()+" = "+getColumnPlaceholder(c));
-			if(i < primaryKeyColumns.size() - 1)
-				sb.append(" AND ");
-		}
+		appendWhereString(sb, primaryKeyColumns);
 		return sb.toString();
 	}
+
 
 	public String getDeleteBySinglePkSql() {
 		checkIsSinglePrimaryKey();
@@ -147,12 +139,7 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 	public String getSelectByMultiPkSql() {
 		StringBuilder sb = new StringBuilder("SELECT "+getColumnsSql()+" FROM " + getTableName()+" WHERE ");
 		List<Column> primaryKeyColumns = getPrimaryKeyColumns();
-		for(int i = 0; i < primaryKeyColumns.size(); i++) {
-			Column c = primaryKeyColumns.get(i);
-			sb.append(c.getSqlName()+" = "+getColumnPlaceholder(c));
-			if(i < primaryKeyColumns.size() - 1)
-				sb.append(" AND ");
-		}
+		appendWhereString(sb, primaryKeyColumns);
 		return sb.toString();
 	}
 
@@ -179,6 +166,15 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 				sb.append(",");
 		}
 		return sb.toString();
+	}
+	
+	private void appendWhereString(StringBuilder sb, List<Column> primaryKeyColumns) {
+		for(int i = 0; i < primaryKeyColumns.size(); i++) {
+			Column c = primaryKeyColumns.get(i);
+			sb.append(c.getSqlName()+" = "+getColumnPlaceholder(c));
+			if(i < primaryKeyColumns.size() - 1)
+				sb.append(" AND ");
+		}
 	}
 	
 	protected String getColumnPlaceholder(Column c) {
