@@ -14,6 +14,7 @@ import redis.clients.jedis.BinaryJedisPubSub;
 import redis.clients.jedis.BitOP;
 import redis.clients.jedis.BitPosParams;
 import redis.clients.jedis.Client;
+import redis.clients.jedis.ClusterReset;
 import redis.clients.jedis.DebugParams;
 import redis.clients.jedis.GeoCoordinate;
 import redis.clients.jedis.GeoRadiusResponse;
@@ -21,14 +22,28 @@ import redis.clients.jedis.GeoUnit;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisMonitor;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolAbstract;
 import redis.clients.jedis.JedisPubSub;
+import redis.clients.jedis.ListPosition;
+import redis.clients.jedis.Module;
 import redis.clients.jedis.Pipeline;
 import redis.clients.jedis.ScanParams;
 import redis.clients.jedis.ScanResult;
 import redis.clients.jedis.SortingParams;
+import redis.clients.jedis.StreamEntry;
+import redis.clients.jedis.StreamEntryID;
+import redis.clients.jedis.StreamPendingEntry;
 import redis.clients.jedis.Transaction;
 import redis.clients.jedis.Tuple;
 import redis.clients.jedis.ZParams;
+import redis.clients.jedis.commands.ProtocolCommand;
+import redis.clients.jedis.params.ClientKillParams;
+import redis.clients.jedis.params.GeoRadiusParam;
+import redis.clients.jedis.params.MigrateParams;
+import redis.clients.jedis.params.SetParams;
+import redis.clients.jedis.params.ZAddParams;
+import redis.clients.jedis.params.ZIncrByParams;
+import redis.clients.jedis.util.Slowlog;
 
 /**
  * Redis妯℃澘绫�,鐢ㄤ簬鍗曟潯鎿嶄綔
@@ -1960,5 +1975,431 @@ public class RedisTemplate implements InitializingBean {
 	public Long slowlogLen() {
 		return proxy.slowlogLen();
 	}
+
+	public String ping(String message) {
+		return proxy.ping(message);
+	}
+
+	public String set(String key, String value, SetParams params) {
+		return proxy.set(key, value, params);
+	}
+
+	public byte[] ping(byte[] message) {
+		return proxy.ping(message);
+	}
+
+	public Long unlink(String... keys) {
+		return proxy.unlink(keys);
+	}
+
+	public String set(byte[] key, byte[] value, SetParams params) {
+		return proxy.set(key, value, params);
+	}
+
+	public Long unlink(String key) {
+		return proxy.unlink(key);
+	}
+
+	public String toString() {
+		return proxy.toString();
+	}
+
+	public Long unlink(byte[]... keys) {
+		return proxy.unlink(keys);
+	}
+
+	public Long unlink(byte[] key) {
+		return proxy.unlink(key);
+	}
+
+	public Long touch(String... keys) {
+		return proxy.touch(keys);
+	}
+
+	public Long touch(String key) {
+		return proxy.touch(key);
+	}
+
+	public Long touch(byte[]... keys) {
+		return proxy.touch(keys);
+	}
+
+	public Long touch(byte[] key) {
+		return proxy.touch(key);
+	}
+
+	public String swapDB(int index1, int index2) {
+		return proxy.swapDB(index1, index2);
+	}
+
+	public Long hset(String key, Map<String, String> hash) {
+		return proxy.hset(key, hash);
+	}
+
+	public Long hset(byte[] key, Map<byte[], byte[]> hash) {
+		return proxy.hset(key, hash);
+	}
+
+	public Long zadd(String key, double score, String member, ZAddParams params) {
+		return proxy.zadd(key, score, member, params);
+	}
+
+	public Long zadd(String key, Map<String, Double> scoreMembers,
+			ZAddParams params) {
+		return proxy.zadd(key, scoreMembers, params);
+	}
+
+	public Double zincrby(String key, double increment, String member,
+			ZIncrByParams params) {
+		return proxy.zincrby(key, increment, member, params);
+	}
+
+	public Long zadd(byte[] key, double score, byte[] member, ZAddParams params) {
+		return proxy.zadd(key, score, member, params);
+	}
+
+	public Long zadd(byte[] key, Map<byte[], Double> scoreMembers,
+			ZAddParams params) {
+		return proxy.zadd(key, scoreMembers, params);
+	}
+
+	public Double zincrby(byte[] key, double increment, byte[] member,
+			ZIncrByParams params) {
+		return proxy.zincrby(key, increment, member, params);
+	}
+
+	public Long linsert(String key, ListPosition where, String pivot,
+			String value) {
+		return proxy.linsert(key, where, pivot, value);
+	}
+
+	public List<Slowlog> slowlogGet() {
+		return proxy.slowlogGet();
+	}
+
+	public List<Slowlog> slowlogGet(long entries) {
+		return proxy.slowlogGet(entries);
+	}
+
+	public String restoreReplace(String key, int ttl, byte[] serializedValue) {
+		return proxy.restoreReplace(key, ttl, serializedValue);
+	}
+
+	public String configRewrite() {
+		return proxy.configRewrite();
+	}
+
+	public String migrate(String host, int port, int destinationDB,
+			int timeout, MigrateParams params, String... keys) {
+		return proxy.migrate(host, port, destinationDB, timeout, params, keys);
+	}
+
+	public Long linsert(byte[] key, ListPosition where, byte[] pivot,
+			byte[] value) {
+		return proxy.linsert(key, where, pivot, value);
+	}
+
+	public String clusterReset(ClusterReset resetType) {
+		return proxy.clusterReset(resetType);
+	}
+
+	public int getDB() {
+		return proxy.getDB();
+	}
+
+	public void setDataSource(JedisPoolAbstract jedisPool) {
+		proxy.setDataSource(jedisPool);
+	}
+
+	public String restoreReplace(byte[] key, int ttl, byte[] serializedValue) {
+		return proxy.restoreReplace(key, ttl, serializedValue);
+	}
+
+	public List<GeoRadiusResponse> georadiusReadonly(String key,
+			double longitude, double latitude, double radius, GeoUnit unit) {
+		return proxy.georadiusReadonly(key, longitude, latitude, radius, unit);
+	}
+
+	public List<GeoRadiusResponse> georadius(String key, double longitude,
+			double latitude, double radius, GeoUnit unit, GeoRadiusParam param) {
+		return proxy.georadius(key, longitude, latitude, radius, unit, param);
+	}
+
+	public List<GeoRadiusResponse> georadiusReadonly(String key,
+			double longitude, double latitude, double radius, GeoUnit unit,
+			GeoRadiusParam param) {
+		return proxy.georadiusReadonly(key, longitude, latitude, radius, unit,
+				param);
+	}
+
+	public List<GeoRadiusResponse> georadiusByMemberReadonly(String key,
+			String member, double radius, GeoUnit unit) {
+		return proxy.georadiusByMemberReadonly(key, member, radius, unit);
+	}
+
+	public List<GeoRadiusResponse> georadiusByMember(String key, String member,
+			double radius, GeoUnit unit, GeoRadiusParam param) {
+		return proxy.georadiusByMember(key, member, radius, unit, param);
+	}
+
+	public byte[] memoryDoctorBinary() {
+		return proxy.memoryDoctorBinary();
+	}
+
+	public List<GeoRadiusResponse> georadiusByMemberReadonly(String key,
+			String member, double radius, GeoUnit unit, GeoRadiusParam param) {
+		return proxy
+				.georadiusByMemberReadonly(key, member, radius, unit, param);
+	}
+
+	public String clientKill(String ip, int port) {
+		return proxy.clientKill(ip, port);
+	}
+
+	public String moduleLoad(String path) {
+		return proxy.moduleLoad(path);
+	}
+
+	public Long clientKill(ClientKillParams params) {
+		return proxy.clientKill(params);
+	}
+
+	public String moduleUnload(String name) {
+		return proxy.moduleUnload(name);
+	}
+
+	public byte[] clientGetnameBinary() {
+		return proxy.clientGetnameBinary();
+	}
+
+	public List<Module> moduleList() {
+		return proxy.moduleList();
+	}
+
+	public byte[] clientListBinary() {
+		return proxy.clientListBinary();
+	}
+
+	public Long hstrlen(String key, String field) {
+		return proxy.hstrlen(key, field);
+	}
+
+	public String clientPause(long timeout) {
+		return proxy.clientPause(timeout);
+	}
+
+	public String memoryDoctor() {
+		return proxy.memoryDoctor();
+	}
+
+	public String migrate(String host, int port, byte[] key, int destinationDb,
+			int timeout) {
+		return proxy.migrate(host, port, key, destinationDb, timeout);
+	}
+
+	public StreamEntryID xadd(String key, StreamEntryID id,
+			Map<String, String> hash) {
+		return proxy.xadd(key, id, hash);
+	}
+
+	public StreamEntryID xadd(String key, StreamEntryID id,
+			Map<String, String> hash, long maxLen, boolean approximateLength) {
+		return proxy.xadd(key, id, hash, maxLen, approximateLength);
+	}
+
+	public String migrate(String host, int port, int destinationDB,
+			int timeout, MigrateParams params, byte[]... keys) {
+		return proxy.migrate(host, port, destinationDB, timeout, params, keys);
+	}
+
+	public Long xlen(String key) {
+		return proxy.xlen(key);
+	}
+
+	public List<StreamEntry> xrange(String key, StreamEntryID start,
+			StreamEntryID end, int count) {
+		return proxy.xrange(key, start, end, count);
+	}
+
+	public List<StreamEntry> xrevrange(String key, StreamEntryID end,
+			StreamEntryID start, int count) {
+		return proxy.xrevrange(key, end, start, count);
+	}
+
+	public List<Entry<String, List<StreamEntry>>> xread(int count, long block,
+			Entry<String, StreamEntryID>... streams) {
+		return proxy.xread(count, block, streams);
+	}
+
+	public long xack(String key, String group, StreamEntryID... ids) {
+		return proxy.xack(key, group, ids);
+	}
+
+	public String xgroupCreate(String key, String groupname, StreamEntryID id,
+			boolean makeStream) {
+		return proxy.xgroupCreate(key, groupname, id, makeStream);
+	}
+
+	public String xgroupSetID(String key, String groupname, StreamEntryID id) {
+		return proxy.xgroupSetID(key, groupname, id);
+	}
+
+	public long xgroupDestroy(String key, String groupname) {
+		return proxy.xgroupDestroy(key, groupname);
+	}
+
+	public String xgroupDelConsumer(String key, String groupname,
+			String consumerName) {
+		return proxy.xgroupDelConsumer(key, groupname, consumerName);
+	}
+
+	public long xdel(String key, StreamEntryID... ids) {
+		return proxy.xdel(key, ids);
+	}
+
+	public long xtrim(String key, long maxLen, boolean approximateLength) {
+		return proxy.xtrim(key, maxLen, approximateLength);
+	}
+
+	public List<Entry<String, List<StreamEntry>>> xreadGroup(String groupname,
+			String consumer, int count, long block, boolean noAck,
+			Entry<String, StreamEntryID>... streams) {
+		return proxy.xreadGroup(groupname, consumer, count, block, noAck,
+				streams);
+	}
+
+	public List<StreamPendingEntry> xpending(String key, String groupname,
+			StreamEntryID start, StreamEntryID end, int count,
+			String consumername) {
+		return proxy.xpending(key, groupname, start, end, count, consumername);
+	}
+
+	public List<StreamEntry> xclaim(String key, String group,
+			String consumername, long minIdleTime, long newIdleTime,
+			int retries, boolean force, StreamEntryID... ids) {
+		return proxy.xclaim(key, group, consumername, minIdleTime, newIdleTime,
+				retries, force, ids);
+	}
+
+	public Object sendCommand(ProtocolCommand cmd, String... args) {
+		return proxy.sendCommand(cmd, args);
+	}
+
+	public List<GeoRadiusResponse> georadiusReadonly(byte[] key,
+			double longitude, double latitude, double radius, GeoUnit unit) {
+		return proxy.georadiusReadonly(key, longitude, latitude, radius, unit);
+	}
+
+	public List<GeoRadiusResponse> georadius(byte[] key, double longitude,
+			double latitude, double radius, GeoUnit unit, GeoRadiusParam param) {
+		return proxy.georadius(key, longitude, latitude, radius, unit, param);
+	}
+
+	public List<GeoRadiusResponse> georadiusReadonly(byte[] key,
+			double longitude, double latitude, double radius, GeoUnit unit,
+			GeoRadiusParam param) {
+		return proxy.georadiusReadonly(key, longitude, latitude, radius, unit,
+				param);
+	}
+
+	public List<GeoRadiusResponse> georadiusByMemberReadonly(byte[] key,
+			byte[] member, double radius, GeoUnit unit) {
+		return proxy.georadiusByMemberReadonly(key, member, radius, unit);
+	}
+
+	public List<GeoRadiusResponse> georadiusByMember(byte[] key, byte[] member,
+			double radius, GeoUnit unit, GeoRadiusParam param) {
+		return proxy.georadiusByMember(key, member, radius, unit, param);
+	}
+
+	public List<GeoRadiusResponse> georadiusByMemberReadonly(byte[] key,
+			byte[] member, double radius, GeoUnit unit, GeoRadiusParam param) {
+		return proxy
+				.georadiusByMemberReadonly(key, member, radius, unit, param);
+	}
+
+	public Long hstrlen(byte[] key, byte[] field) {
+		return proxy.hstrlen(key, field);
+	}
+
+	public List<byte[]> xread(int count, long block, Map<byte[], byte[]> streams) {
+		return proxy.xread(count, block, streams);
+	}
+
+	public List<byte[]> xreadGroup(byte[] groupname, byte[] consumer,
+			int count, long block, boolean noAck, Map<byte[], byte[]> streams) {
+		return proxy.xreadGroup(groupname, consumer, count, block, noAck,
+				streams);
+	}
+
+	public byte[] xadd(byte[] key, byte[] id, Map<byte[], byte[]> hash,
+			long maxLen, boolean approximateLength) {
+		return proxy.xadd(key, id, hash, maxLen, approximateLength);
+	}
+
+	public Long xlen(byte[] key) {
+		return proxy.xlen(key);
+	}
+
+	public List<byte[]> xrange(byte[] key, byte[] start, byte[] end, long count) {
+		return proxy.xrange(key, start, end, count);
+	}
+
+	public List<byte[]> xrevrange(byte[] key, byte[] end, byte[] start,
+			int count) {
+		return proxy.xrevrange(key, end, start, count);
+	}
+
+	public Long xack(byte[] key, byte[] group, byte[]... ids) {
+		return proxy.xack(key, group, ids);
+	}
+
+	public String xgroupCreate(byte[] key, byte[] consumer, byte[] id,
+			boolean makeStream) {
+		return proxy.xgroupCreate(key, consumer, id, makeStream);
+	}
+
+	public String xgroupSetID(byte[] key, byte[] consumer, byte[] id) {
+		return proxy.xgroupSetID(key, consumer, id);
+	}
+
+	public Long xgroupDestroy(byte[] key, byte[] consumer) {
+		return proxy.xgroupDestroy(key, consumer);
+	}
+
+	public String xgroupDelConsumer(byte[] key, byte[] consumer,
+			byte[] consumerName) {
+		return proxy.xgroupDelConsumer(key, consumer, consumerName);
+	}
+
+	public Long xdel(byte[] key, byte[]... ids) {
+		return proxy.xdel(key, ids);
+	}
+
+	public Long xtrim(byte[] key, long maxLen, boolean approximateLength) {
+		return proxy.xtrim(key, maxLen, approximateLength);
+	}
+
+	public List<byte[]> xpending(byte[] key, byte[] groupname, byte[] start,
+			byte[] end, int count, byte[] consumername) {
+		return proxy.xpending(key, groupname, start, end, count, consumername);
+	}
+
+	public List<byte[]> xclaim(byte[] key, byte[] groupname,
+			byte[] consumername, long minIdleTime, long newIdleTime,
+			int retries, boolean force, byte[][] ids) {
+		return proxy.xclaim(key, groupname, consumername, minIdleTime,
+				newIdleTime, retries, force, ids);
+	}
+
+	public Object sendCommand(ProtocolCommand cmd, byte[]... args) {
+		return proxy.sendCommand(cmd, args);
+	}
+
+	public Object sendCommand(ProtocolCommand cmd) {
+		return proxy.sendCommand(cmd);
+	}
+	
+	
 
 }
