@@ -58,7 +58,7 @@ public class SimpleNamedJdbcTemplate extends NamedParameterJdbcTemplate {
 		return super.query(sql, new BeanPropertySqlParameterSource(paramSource), rowMapper);
 	}
 	
-	public <T> List<T> query(String sql, Object paramSource,Class rowMappedClass) throws DataAccessException {
+	public <T> List<T> query(String sql, Object paramSource,Class<?> rowMappedClass) throws DataAccessException {
 		return super.query(sql, new BeanPropertySqlParameterSource(paramSource), getBeanPropertyRowMapper(rowMappedClass));
 	}
 	
