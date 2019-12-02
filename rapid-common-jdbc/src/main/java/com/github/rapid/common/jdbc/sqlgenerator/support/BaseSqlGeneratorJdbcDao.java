@@ -163,25 +163,12 @@ public abstract class BaseSqlGeneratorJdbcDao<E,PK extends Serializable> extends
 	
 	@SuppressWarnings("all")
 	public E getById(PK id) {
-		List list = null;
-		if(getSqlGenerator().getTable().getPrimaryKeyCount() > 1) {
-			list = getNamedParameterJdbcTemplate().query(getSqlGenerator().getSelectByPkSql(), new BeanPropertySqlParameterSource(id), new BeanPropertyRowMapper(getEntityClass()));
-		}else if(getSqlGenerator().getTable().getPrimaryKeyCount() == 1){
-			list = getJdbcTemplate().query(getSqlGenerator().getSelectByPkSql(), new Object[]{id},new BeanPropertyRowMapper(getEntityClass()));
-		}else {
-			throw new IllegalStateException("not found primary key on table:"+getSqlGenerator().getTable().getTableName());
-		}
+		List list = list = getNamedParameterJdbcTemplate().query(getSqlGenerator().getSelectByPkSql(), new BeanPropertySqlParameterSource(id), new BeanPropertyRowMapper(getEntityClass()));;
 		return (E)DataAccessUtils.singleResult(list);
 	}
 
 	public int deleteById(PK id) {
-		if(getSqlGenerator().getTable().getPrimaryKeyCount() > 1) {
-			return getNamedParameterJdbcTemplate().update(getSqlGenerator().getDeleteByPkSql(),new BeanPropertySqlParameterSource(id));
-		}else if(getSqlGenerator().getTable().getPrimaryKeyCount() == 1){
-			return getJdbcTemplate().update(getSqlGenerator().getDeleteByPkSql(), id);
-		}else {
-			throw new IllegalStateException("not found primary key on table:"+getSqlGenerator().getTable().getTableName());
-		}
+		return getNamedParameterJdbcTemplate().update(getSqlGenerator().getDeleteByPkSql(),new BeanPropertySqlParameterSource(id));
 	}
 	
 	public int update(E entity) {
