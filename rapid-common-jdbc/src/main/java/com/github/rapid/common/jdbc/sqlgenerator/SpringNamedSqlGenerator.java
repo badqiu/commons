@@ -69,21 +69,23 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 	}
 
 	public String getDeleteByPkSql() {
-		if(isMultiPrimaryKey()) {
 			return getDeleteByMultiPkSql();
-		}else if(isSinglePrimaryKey()) {
-			return getDeleteBySinglePkSql();
-		}
-		throw new IllegalStateException("not found primary key config on table:"+table.getTableName());
+//		if(isMultiPrimaryKey()) {
+//			return getDeleteByMultiPkSql();
+//		}else if(isSinglePrimaryKey()) {
+//			return getDeleteBySinglePkSql();
+//		}
+//		throw new IllegalStateException("not found primary key config on table:"+table.getTableName());
 	}
 
 	public String getSelectByPkSql() {
-		if(isMultiPrimaryKey()) {
-			return getSelectByMultiPkSql();
-		}else if(isSinglePrimaryKey()) {
-			return getSelectBySinglePkSql();
-		}
-		throw new IllegalStateException("not found primary key config on table:"+table.getTableName());
+		return getSelectByMultiPkSql();
+//		if(isMultiPrimaryKey()) {
+//			return getSelectByMultiPkSql();
+//		}else if(isSinglePrimaryKey()) {
+//			return getSelectBySinglePkSql();
+//		}
+//		throw new IllegalStateException("not found primary key config on table:"+table.getTableName());
 	}
 
 	public String getUpdateByPkSql() {
