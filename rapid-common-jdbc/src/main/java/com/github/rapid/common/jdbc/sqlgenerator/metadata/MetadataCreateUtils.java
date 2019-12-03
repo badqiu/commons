@@ -47,11 +47,13 @@ public class MetadataCreateUtils {
 			boolean isPrimaryKey = isPrimaryKeyColumn(readMethod);
 			boolean generatedValue = isGeneratedValueColumn(readMethod);
 			String sqlName = getColumnSqlName(pd,readMethod);
+			
 			Column column = new Column(sqlName,pd.getName(),isPrimaryKey);
 			column.setInsertable(getColumnInsertable(pd, readMethod));
 			column.setUpdatable(getColumnUpdatable(pd, readMethod));
 			column.setUnique(getColumnUnique(pd, readMethod));
 			column.setGeneratedValue(generatedValue);
+			
 			columns.add(column);
 		}
 
