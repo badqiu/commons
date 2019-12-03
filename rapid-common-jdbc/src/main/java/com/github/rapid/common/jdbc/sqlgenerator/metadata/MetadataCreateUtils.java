@@ -5,8 +5,12 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -37,7 +41,7 @@ public class MetadataCreateUtils {
 			if(isTransientProperty(readMethod,pd.getWriteMethod())) {
 				continue;
 			}
-			if(!isNativeJavaType(readMethod.getReturnType())) {
+			if(!isIncludeJavaType(readMethod.getReturnType())) {
 			    continue;
 			}
 			boolean isPrimaryKey = isPrimaryKeyColumn(readMethod);
@@ -55,15 +59,27 @@ public class MetadataCreateUtils {
 		return t;
 	}
 	
-	static boolean isNativeJavaType(Class clazz) {
+	static boolean isIncludeJavaType(Class clazz) {
 	    if(clazz == null) return false;
 	    if(clazz.isArray()) return false;
 	    
-	    if(clazz.isPrimitive() || clazz.getName().startsWith("java.") || clazz.getName().startsWith("javax.")) {
+	    if(clazz.isPrimitive() || clazz.getName().startsWith("java.lang") || clazz.getName().startsWith("java.sql") ) {
+	        return true;
+	    }
+	    if(includeType.contains(clazz)) {
 	        return true;
 	    }
 	    return false;
     }
+	
+	private static Set<Class> includeType = new HashSet();
+	static {
+		includeType.add(Date.class);
+		includeType.add(Timestamp.class);
+		includeType.add(java.sql.Date.class);
+		includeType.add(java.sql.Time.class);
+	}
+	
 
     private  static boolean isTransientProperty(Method readMethod,Method writeMethod) {
 		if(isJPAClassAvaiable) {
