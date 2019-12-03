@@ -19,6 +19,7 @@ import org.springframework.jdbc.support.incrementer.DB2SequenceMaxValueIncrement
 import org.springframework.jdbc.support.incrementer.OracleSequenceMaxValueIncrementer;
 
 import com.github.rapid.common.jdbc.sqlgenerator.CacheSqlGenerator;
+import com.github.rapid.common.jdbc.sqlgenerator.ExtNamedJdbcTemplate;
 import com.github.rapid.common.jdbc.sqlgenerator.SpringNamedSqlGenerator;
 import com.github.rapid.common.jdbc.sqlgenerator.SqlGenerator;
 import com.github.rapid.common.jdbc.sqlgenerator.metadata.Column;
@@ -35,7 +36,7 @@ import com.github.rapid.common.jdbc.sqlgenerator.metadata.Table;
  */
 public abstract class BaseSqlGeneratorJdbcDao<E,PK extends Serializable> extends JdbcDaoSupport {
 
-	protected NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+	protected ExtNamedJdbcTemplate namedParameterJdbcTemplate;
 	
 	//根据table对象可以创建生成增删改查的sql的工具
 	protected Table table;
@@ -56,10 +57,14 @@ public abstract class BaseSqlGeneratorJdbcDao<E,PK extends Serializable> extends
 	
 	protected void checkDaoConfig() {
 		super.checkDaoConfig();
-		namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(getJdbcTemplate());
+		namedParameterJdbcTemplate = new ExtNamedJdbcTemplate(getJdbcTemplate());
 	}
 	
 	public NamedParameterJdbcTemplate getNamedParameterJdbcTemplate() {
+		return namedParameterJdbcTemplate;
+	}
+	
+	public ExtNamedJdbcTemplate getExtNamedJdbcTemplate() {
 		return namedParameterJdbcTemplate;
 	}
 	

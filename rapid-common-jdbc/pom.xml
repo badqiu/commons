@@ -5,7 +5,7 @@
 	<artifactId>rapid-common-jdbc</artifactId>
 	<name>rapid-common-jdbc</name>
 	<packaging>jar</packaging>
-	<version>1.0.2</version>	
+	<version>1.0.3</version>	
 
 	<description>rapid-common-jdbc</description>
 	
