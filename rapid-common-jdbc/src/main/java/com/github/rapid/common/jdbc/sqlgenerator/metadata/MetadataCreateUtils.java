@@ -63,7 +63,7 @@ public class MetadataCreateUtils {
 	    if(clazz == null) return false;
 	    if(clazz.isArray()) return false;
 	    
-	    if(clazz.isPrimitive() || clazz.getName().startsWith("java.lang") || clazz.getName().startsWith("java.sql") ) {
+	    if(clazz.isPrimitive() || clazz.getName().startsWith("java.lang") || clazz.getName().startsWith("java.sql") || clazz.getName().startsWith("java.time") ) {
 	        return true;
 	    }
 	    if(includeType.contains(clazz)) {
@@ -84,6 +84,9 @@ public class MetadataCreateUtils {
     private  static boolean isTransientProperty(Method readMethod,Method writeMethod) {
 		if(isJPAClassAvaiable) {
 			if(readMethod.isAnnotationPresent(Transient.class)) {
+				return true;
+			}
+			if(writeMethod.isAnnotationPresent(Transient.class)) {
 				return true;
 			}
 		}
