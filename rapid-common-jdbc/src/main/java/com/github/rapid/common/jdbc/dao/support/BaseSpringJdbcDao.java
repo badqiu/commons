@@ -92,11 +92,25 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport {
 	@SuppressWarnings("unchecked")
 	public <E> Page<E> pageQuery(String sql, PageQuery pageQuery,RowMapper<E> rowMapper) {
 		Map<String ,Object> paramMap = new HashMap<String ,Object> (PropertyUtils.describe(pageQuery));
-		return pageQuery(sql,paramMap,queryTotalItems(sql, paramMap),pageQuery.getPageSize(),pageQuery.getPage(),rowMapper);
+		int totalItems = queryTotalItems(sql, paramMap);
+		return pageQuery(sql,paramMap,totalItems,pageQuery.getPageSize(),pageQuery.getPage(),rowMapper);
 	}
 	
 	public  <E> Page<E> pageQuery(String sql, Map<String ,Object> paramMap,int pageSize, int pageNumber, RowMapper<E> rowMapper) {
-		return pageQuery(sql,paramMap,queryTotalItems(sql, paramMap),pageSize,pageNumber,rowMapper);
+		int totalItems = queryTotalItems(sql, paramMap);
+		return pageQuery(sql,paramMap,totalItems,pageSize,pageNumber,rowMapper);
+	}
+	
+	public  <E> List<E> pageQueryForList(String sql, Map<String ,Object> paramMap,int pageSize, int pageNumber, RowMapper<E> rowMapper) {
+		Paginator paginator = new Paginator(pageNumber, pageSize, Integer.MAX_VALUE);
+		List<E> list = pageQueryForListByStartRow(sql, paramMap,paginator.getOffset(),pageSize,rowMapper);
+		return list;
+	}
+	
+	public  <E> List<E> pageQueryForList(String sql, Map<String ,Object> paramMap,PageQuery pageQuery, RowMapper<E> rowMapper) {
+		Paginator paginator = new Paginator(pageQuery.getPage(), pageQuery.getPageSize(), Integer.MAX_VALUE);
+		List<E> list = pageQueryForListByStartRow(sql, paramMap,paginator.getOffset(),pageQuery.getPageSize(),rowMapper);
+		return list;
 	}
 	
 	private <E> Page<E>  pageQuery(String sql, Map<String ,Object> paramMap, final int totalItems,int pageSize, int pageNumber, RowMapper<E> rowMapper) {
@@ -104,7 +118,7 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport {
 			return new Page<E>(new Paginator(pageNumber,pageSize,0));
 		}
 		Paginator paginator = new Paginator(pageNumber, pageSize, totalItems);
-		List<E> list = pageQueryForList(sql, paramMap,paginator.getOffset(),pageSize,rowMapper);
+		List<E> list = pageQueryForListByStartRow(sql, paramMap,paginator.getOffset(),pageSize,rowMapper);
 		return new Page<E>(list,paginator);
 	}
 	
@@ -121,7 +135,7 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport {
 	static final String LIMIT_PLACEHOLDER = ":__limit";
 	static final String OFFSET_PLACEHOLDER = ":__offset";
 	@SuppressWarnings("unchecked")
-	protected <E> List<E> pageQueryForList(String sql, final Map<String,Object> paramMap, int startRow,int pageSize, final RowMapper<E> rowMapper) {
+	protected <E> List<E> pageQueryForListByStartRow(String sql, final Map<String,Object> paramMap, int startRow,int pageSize, final RowMapper<E> rowMapper) {
 		//支持limit查询
 		if(dialect.supportsLimit()) {
 			paramMap.put(LIMIT_PLACEHOLDER.substring(1), pageSize);
