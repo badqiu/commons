@@ -13,7 +13,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -25,6 +24,7 @@ import org.springframework.jdbc.support.incrementer.OracleSequenceMaxValueIncrem
 import com.github.rapid.common.beanutils.BeanUtils;
 import com.github.rapid.common.beanutils.PropertyUtils;
 import com.github.rapid.common.jdbc.dialect.Dialect;
+import com.github.rapid.common.jdbc.sqlgenerator.ExtNamedJdbcTemplate;
 import com.github.rapid.common.jdbc.support.OffsetLimitResultSetExtractor;
 import com.github.rapid.common.util.SqlRemoveUtil;
 import com.github.rapid.common.util.page.Page;
@@ -39,7 +39,7 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport {
 
 	protected final Logger log = LoggerFactory.getLogger(getClass());
 
-	protected NamedParameterJdbcOperations namedParameterJdbcTemplate;
+	protected ExtNamedJdbcTemplate extNamedJdbcTemplate;
 	
 	private Dialect dialect;
 	
@@ -54,17 +54,21 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport {
 	@Override
 	protected void initTemplateConfig() {
 		super.initTemplateConfig();
-		if(namedParameterJdbcTemplate == null) {
-			namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(getJdbcTemplate());
+		if(extNamedJdbcTemplate == null) {
+			extNamedJdbcTemplate = new ExtNamedJdbcTemplate(getJdbcTemplate());
 		}
 	}
 	
 	public NamedParameterJdbcOperations getNamedParameterJdbcTemplate() {
-		return namedParameterJdbcTemplate;
+		return extNamedJdbcTemplate;
+	}
+	
+	public ExtNamedJdbcTemplate getExtNamedJdbcTemplate() {
+		return extNamedJdbcTemplate;
 	}
 	
 	public void setNamedParameterJdbcTemplate(NamedParameterJdbcOperations namedParameterJdbcTemplate) {
-		this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+		this.extNamedJdbcTemplate = new ExtNamedJdbcTemplate(namedParameterJdbcTemplate.getJdbcOperations());
 	}
 
 	protected void checkSingleRowAffected(String sql,int rowsAffected) throws JdbcUpdateAffectedIncorrectNumberOfRowsException {
