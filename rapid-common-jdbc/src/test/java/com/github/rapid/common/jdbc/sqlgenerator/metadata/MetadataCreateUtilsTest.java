@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.sql.Ref;
 import java.sql.Timestamp;
+import java.time.LocalTime;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +22,7 @@ public class MetadataCreateUtilsTest {
         assertTrue(MetadataCreateUtils.isIncludeJavaType(Integer.class));
         assertTrue(MetadataCreateUtils.isIncludeJavaType(Date.class));
         assertTrue(MetadataCreateUtils.isIncludeJavaType(Timestamp.class));
+        assertTrue(MetadataCreateUtils.isIncludeJavaType(LocalTime.class));
         assertTrue(MetadataCreateUtils.isIncludeJavaType(Ref.class));
         assertFalse(MetadataCreateUtils.isIncludeJavaType(null));
         assertFalse(MetadataCreateUtils.isIncludeJavaType(AAA.class));
