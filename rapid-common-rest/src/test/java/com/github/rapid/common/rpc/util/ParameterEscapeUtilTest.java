@@ -3,12 +3,8 @@ package com.github.rapid.common.rpc.util;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.type.TypeFactory;
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.github.rapid.common.rpc.util.ParameterEscapeUtil;
 
 
 public class ParameterEscapeUtilTest extends Assert {

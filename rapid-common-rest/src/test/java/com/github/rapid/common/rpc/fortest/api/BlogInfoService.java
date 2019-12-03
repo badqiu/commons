@@ -1,7 +1,10 @@
 package com.github.rapid.common.rpc.fortest.api;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -97,4 +100,9 @@ public interface BlogInfoService {
 	public Map<String,String> tree_map_but_return_map(String input);
 	
 	public Page<String> pageQuery(int page,int pageSize);
+	
+	public Map<String, String> nullValueMapList(String key);
+	
+	public Map<String, List> emptyValueMapList(String key);
+	
 }

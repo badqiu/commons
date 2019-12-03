@@ -129,6 +129,6 @@ public class MethodInvokerSerTest extends Assert{
 		String actual = output.toString();
 		output.reset();
 		params.clear();
-		assertTrue(str+"\n"+actual,actual.replaceAll("\\s*", "").equals(str.replaceAll("\\s*", "")));
+		assertTrue("\n"+str+"\n"+actual,actual.replaceAll("\\s*", "").equals(str.replaceAll("\\s*", "")));
 	}
 }

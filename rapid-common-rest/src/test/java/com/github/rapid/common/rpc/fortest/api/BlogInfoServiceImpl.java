@@ -131,10 +131,24 @@ public class BlogInfoServiceImpl implements BlogInfoService {
 		HashMap<String, List<Blog>> result = new HashMap<String, List<Blog>>();
 		result.put("1", findBlogList(key));
 		result.put("2", findBlogList(key));
-		result.put("3", null);
+//		result.put("3", null);
 		return result;
 	}
 
+	public Map<String, String> nullValueMapList(String key) {
+		HashMap<String,String> result = new HashMap();
+		result.put("1", "1");
+		result.put("null_key", null);
+		return result;
+	}
+	
+	public Map<String, List> emptyValueMapList(String key) {
+		HashMap<String,List> result = new HashMap();
+		result.put("3", Arrays.asList(1,2,3));
+		result.put("empty_key", new ArrayList());
+		return result;
+	}
+	
 	public LinkedHashMap<String, Blog> findBlogLinkedHashMap(String key) {
 		LinkedHashMap map = new LinkedHashMap();
 		map.put("1", createBlog());

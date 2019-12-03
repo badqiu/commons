@@ -9,15 +9,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.io.output.TeeOutputStream;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.core.convert.ConversionFailedException;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.rapid.common.rpc.fortestinvoker.UserWebService;
 import com.github.rapid.common.rpc.fortestinvoker.UserWebServiceImpl;
-import com.github.rapid.common.rpc.server.MethodInvoker;
 
 public class MethodInvokerTest extends Assert{
 	

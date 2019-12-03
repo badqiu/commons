@@ -6,16 +6,17 @@ import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.DeserializationConfig.Feature;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
-import org.codehaus.jackson.map.type.TypeFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonFactory.Feature;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.github.rapid.common.rpc.SerDe;
 import com.github.rapid.common.rpc.SerializeException;
 
@@ -31,8 +32,9 @@ public class JsonSerDeImpl implements SerDe {
 
 	ObjectMapper objectMapper = new ObjectMapper();
 	{
-		objectMapper.getDeserializationConfig().set(Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		objectMapper.setSerializationInclusion(Inclusion.NON_NULL); 
+//		objectMapper.getDeserializationConfig().set(Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		objectMapper.setSerializationInclusion(Include.NON_NULL);
 	}
 	
 	public void serialize(Object object, OutputStream output,Map<String,Object> params) throws SerializeException {
@@ -50,7 +52,7 @@ public class JsonSerDeImpl implements SerDe {
 	
 	public Object deserialize(InputStream input, Type returnType,Map<String,Object> params) throws SerializeException {
 		try {
-			return objectMapper.readValue(input, TypeFactory.type(returnType));
+			return objectMapper.readValue(input, objectMapper.constructType(returnType));
 		} catch (JsonParseException e) {
 			throw new SerializeException(e);
 		} catch (JsonMappingException e) {

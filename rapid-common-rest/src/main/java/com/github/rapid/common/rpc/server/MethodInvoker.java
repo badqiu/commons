@@ -2,7 +2,6 @@ package com.github.rapid.common.rpc.server;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -14,20 +13,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.aopalliance.intercept.MethodInterceptor;
-import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang.StringUtils;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.map.DeserializationConfig.Feature;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.type.TypeFactory;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.core.ParameterNameDiscoverer;
 import org.springframework.util.Assert;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser.Feature;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.github.rapid.common.rpc.RPCConstants;
 import com.github.rapid.common.rpc.SerDe;
 import com.github.rapid.common.rpc.SerDeMapping;
@@ -157,7 +155,8 @@ public class MethodInvoker {
 
 	ObjectMapper objectMapper = new ObjectMapper(); 
 	{
-		objectMapper.getDeserializationConfig().set(Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+//		objectMapper.getDeserializationConfig().set(Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 	}
 	private Object[] deserializationParameterByJson(Method method,
 			String parametersStringValue,byte[] body)
@@ -166,11 +165,11 @@ public class MethodInvoker {
 		Object[] parameters = new Object[method.getParameterTypes().length];
 		Type[] parameterTypes = method.getGenericParameterTypes();
 		JsonNode arrayNode = StringUtils.isEmpty(parametersStringValue) ? objectMapper.readTree(body) : objectMapper.readTree(parametersStringValue);
-		Iterator<JsonNode> elems = arrayNode.getElements();
+		Iterator<JsonNode> elems = arrayNode.elements();
 		int i = 0;
 		for(JsonNode arg = null; elems.hasNext(); i++){
 			arg = elems.next();
-			Object argumentValue = objectMapper.readValue(arg.traverse(), TypeFactory.type(parameterTypes[i]));
+			Object argumentValue = objectMapper.readValue(arg.traverse(), objectMapper.constructType((parameterTypes[i])));
 			parameters[i] = argumentValue;
 		}
 		return parameters;

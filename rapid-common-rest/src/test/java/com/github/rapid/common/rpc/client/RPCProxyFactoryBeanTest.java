@@ -177,6 +177,9 @@ public class RPCProxyFactoryBeanTest extends BaseClientTestCase{
 		
 		assertEquals(localBlogInfoService.pageQuery(1, 5).getPaginator().toString(),blogInfoService.pageQuery(1, 5).getPaginator().toString());
 		assertEquals(localBlogInfoService.pageQuery(4, 5).getPaginator().toString(),blogInfoService.pageQuery(4, 5).getPaginator().toString());
+		
+		assertFalse(localBlogInfoService.nullValueMapList("key").equals(blogInfoService.nullValueMapList("key")));
+		assertFalse(localBlogInfoService.emptyValueMapList("key").equals(blogInfoService.emptyValueMapList("key")));
 	}
 	
 	private String genComprexChars() {

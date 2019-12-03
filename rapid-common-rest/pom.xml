@@ -3,7 +3,7 @@
 
 	<groupId>com.github.rapid.common</groupId>
 	<artifactId>rapid-common-rest</artifactId>
-	<version>1.0.9</version>
+	<version>1.0.10</version>
 		
 	<name>rapid-common-rest</name>
 	<packaging>jar</packaging>
@@ -46,7 +46,7 @@
 		<spring.version>4.2.1.RELEASE</spring.version>
 
 		<jetty.version>6.1.24</jetty.version>
-		<jackson.version>1.9.13</jackson.version>
+		<jackson.version>2.6.1</jackson.version>
 		<slf4j.version>1.7.3</slf4j.version>
 
 		<targetJdk>1.6</targetJdk>
@@ -290,20 +290,25 @@
 			<!-- test END -->
 
 			<!-- json ser/dser-->
+<!-- 			<dependency> -->
+<!-- 				<groupId>org.codehaus.jackson</groupId> -->
+<!-- 				<artifactId>jackson-core-asl</artifactId> -->
+<!-- 				<version>${jackson.version}</version> -->
+<!-- 			</dependency> -->
+<!-- 			<dependency> -->
+<!-- 				<groupId>org.codehaus.jackson</groupId> -->
+<!-- 				<artifactId>jackson-mapper-asl</artifactId> -->
+<!-- 				<version>${jackson.version}</version> -->
+<!-- 			</dependency> -->
+<!-- 			<dependency> -->
+<!-- 				<groupId>org.codehaus.jackson</groupId> -->
+<!-- 				<artifactId>jackson-jaxrs</artifactId> -->
+<!-- 				<version>${jackson.version}</version> -->
+<!-- 			</dependency> -->
 			<dependency>
-				<groupId>org.codehaus.jackson</groupId>
-				<artifactId>jackson-core-asl</artifactId>
-				<version>${jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.codehaus.jackson</groupId>
-				<artifactId>jackson-mapper-asl</artifactId>
-				<version>${jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.codehaus.jackson</groupId>
-				<artifactId>jackson-jaxrs</artifactId>
-				<version>${jackson.version}</version>
+			  <groupId>com.mastfrog</groupId>
+			  <artifactId>jackson</artifactId>
+			  <version>${jackson.version}</version>
 			</dependency>
 			
 			<!-- fastjson ser/dser -->
