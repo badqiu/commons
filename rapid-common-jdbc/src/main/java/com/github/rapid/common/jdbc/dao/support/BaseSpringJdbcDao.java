@@ -103,13 +103,13 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport {
 	
 	public  <E> List<E> pageQueryForList(String sql, Map<String ,Object> paramMap,int pageSize, int pageNumber, RowMapper<E> rowMapper) {
 		Paginator paginator = new Paginator(pageNumber, pageSize, Integer.MAX_VALUE);
-		List<E> list = pageQueryForListByStartRow(sql, paramMap,paginator.getOffset(),pageSize,rowMapper);
+		List<E> list = queryForListByStartRowAndPageSize(sql, paramMap,paginator.getOffset(),pageSize,rowMapper);
 		return list;
 	}
 	
 	public  <E> List<E> pageQueryForList(String sql, Map<String ,Object> paramMap,PageQuery pageQuery, RowMapper<E> rowMapper) {
 		Paginator paginator = new Paginator(pageQuery.getPage(), pageQuery.getPageSize(), Integer.MAX_VALUE);
-		List<E> list = pageQueryForListByStartRow(sql, paramMap,paginator.getOffset(),pageQuery.getPageSize(),rowMapper);
+		List<E> list = queryForListByStartRowAndPageSize(sql, paramMap,paginator.getOffset(),pageQuery.getPageSize(),rowMapper);
 		return list;
 	}
 	
@@ -118,7 +118,7 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport {
 			return new Page<E>(new Paginator(pageNumber,pageSize,0));
 		}
 		Paginator paginator = new Paginator(pageNumber, pageSize, totalItems);
-		List<E> list = pageQueryForListByStartRow(sql, paramMap,paginator.getOffset(),pageSize,rowMapper);
+		List<E> list = queryForListByStartRowAndPageSize(sql, paramMap,paginator.getOffset(),pageSize,rowMapper);
 		return new Page<E>(list,paginator);
 	}
 	
@@ -135,7 +135,7 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport {
 	static final String LIMIT_PLACEHOLDER = ":__limit";
 	static final String OFFSET_PLACEHOLDER = ":__offset";
 	@SuppressWarnings("unchecked")
-	protected <E> List<E> pageQueryForListByStartRow(String sql, final Map<String,Object> paramMap, int startRow,int pageSize, final RowMapper<E> rowMapper) {
+	protected <E> List<E> queryForListByStartRowAndPageSize(String sql, final Map<String,Object> paramMap, int startRow,int pageSize, final RowMapper<E> rowMapper) {
 		//支持limit查询
 		if(dialect.supportsLimit()) {
 			paramMap.put(LIMIT_PLACEHOLDER.substring(1), pageSize);
