@@ -11,6 +11,7 @@ public class CacheSqlGenerator implements SqlGenerator{
 	private String insertSql = null;
 	private String selectByPkSql = null;
 	private String updateByPkSql = null;
+	private String selectFromSql = null;
 	
 	public CacheSqlGenerator(SqlGenerator delegate) {
 		setSqlGenerator(delegate);
@@ -24,6 +25,7 @@ public class CacheSqlGenerator implements SqlGenerator{
 		insertSql = delegate.getInsertSql();
 		selectByPkSql = delegate.getSelectByPkSql();
 		updateByPkSql = delegate.getUpdateByPkSql();
+		selectFromSql = delegate.getSelectFromSql();
 	}
 
 	public String getColumnsSql() {
@@ -52,6 +54,11 @@ public class CacheSqlGenerator implements SqlGenerator{
 
 	public String getColumnsSql(String columnPrefix) {
 		return delegate.getColumnsSql(columnPrefix);
+	}
+
+	@Override
+	public String getSelectFromSql() {
+		return selectFromSql;
 	}
 
 }

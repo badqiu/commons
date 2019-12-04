@@ -194,5 +194,9 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 		}
 	}
 
+	@Override
+	public String getSelectFromSql() {
+		return "select "+getColumnsSql() + " from " + getTableName() + " ";
+	}
 
 }
