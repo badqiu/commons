@@ -99,7 +99,7 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 		sb.append(" WHERE ");
 
 		List<Column> primaryKeyColumns = getPrimaryKeyColumns();
-		appendWhereString(sb, primaryKeyColumns);
+		appendWhereEqString(sb, primaryKeyColumns);
 		return sb.toString();
 	}
 
@@ -121,7 +121,7 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 		sb.append(" WHERE ");
 
 		List<Column> primaryKeyColumns = getPrimaryKeyColumns();
-		appendWhereString(sb, primaryKeyColumns);
+		appendWhereEqString(sb, primaryKeyColumns);
 		return sb.toString();
 	}
 
@@ -139,9 +139,9 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 	}
 
 	public String getSelectByMultiPkSql() {
-		StringBuilder sb = new StringBuilder("SELECT "+getColumnsSql()+" FROM " + getTableName()+" WHERE ");
+		StringBuilder sb = new StringBuilder(getSelectFromSql()+" WHERE ");
 		List<Column> primaryKeyColumns = getPrimaryKeyColumns();
-		appendWhereString(sb, primaryKeyColumns);
+		appendWhereEqString(sb, primaryKeyColumns);
 		return sb.toString();
 	}
 
@@ -149,11 +149,16 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 		checkIsSinglePrimaryKey();
 		List<Column> primaryKeyColumns = getPrimaryKeyColumns();
 
-		StringBuilder sb = new StringBuilder("SELECT "+getColumnsSql()+" FROM " + getTableName()+" WHERE ");
+		StringBuilder sb = new StringBuilder(getSelectFromSql()+" WHERE ");
 		sb.append(getSinglePrimaryKeyWhere());
 		return sb.toString();
 	}
 
+	@Override
+	public String getSelectFromSql() {
+		return "SELECT "+getColumnsSql() + " FROM " + getTableName() + " ";
+	}
+	
 	public String getColumnsSql() {
 		return getColumnsSql(null);
 	}
@@ -170,14 +175,24 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 		return sb.toString();
 	}
 	
-	private void appendWhereString(StringBuilder sb, List<Column> primaryKeyColumns) {
-		for(int i = 0; i < primaryKeyColumns.size(); i++) {
-			Column c = primaryKeyColumns.get(i);
+	private void appendWhereEqString(StringBuilder sb, List<Column> columns) {
+		for(int i = 0; i < columns.size(); i++) {
+			Column c = columns.get(i);
 			sb.append(c.getSqlName()+" = "+getColumnPlaceholder(c));
-			if(i < primaryKeyColumns.size() - 1)
+			if(i < columns.size() - 1)
 				sb.append(" AND ");
 		}
 	}
+	
+//	public void whereEqString(Map where) {
+//		List<>
+//		for(int i = 0; i < columns.size(); i++) {
+//			Column c = columns.get(i);
+//			sb.append(c.getSqlName()+" = "+getColumnPlaceholder(c));
+//			if(i < columns.size() - 1)
+//				sb.append(" AND ");
+//		}
+//	}
 	
 	protected String getColumnPlaceholder(Column c) {
 		return ":"+c.getPropertyName();
@@ -192,11 +207,6 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 		if(getPrimaryKeyColumns().size() != 1) {
 			throw new IllegalStateException("expected single primary key on table:"+getTableName()+",but was primary keys:"+getPrimaryKeyColumns());
 		}
-	}
-
-	@Override
-	public String getSelectFromSql() {
-		return "select "+getColumnsSql() + " from " + getTableName() + " ";
 	}
 
 }
