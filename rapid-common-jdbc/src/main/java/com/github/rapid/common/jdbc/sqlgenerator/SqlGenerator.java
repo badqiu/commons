@@ -73,6 +73,7 @@ public interface SqlGenerator {
 	 */
 	public String getColumnsSql(String columnPrefix);
 
+//	public String getWhereSql(String... propertyName); //FIXME: 增加 where sql
 
 	public Table getTable();
 }

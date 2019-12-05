@@ -3,7 +3,9 @@ package com.github.rapid.common.jdbc.sqlgenerator.metadata;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * table为metadata类,根据该类的数据生成增删改查sql
@@ -16,6 +18,9 @@ public class Table {
 	private List<Column> columns;
 	
 	private boolean hasGeneratedPk = false;
+	
+	private Map<String,Column> sqlNameColumnsMap = null;
+	private Map<String,Column> propertyNameColumnsMap = null;
 	
 	public Table(String tableName, Column... columns) {
 		this(tableName,Arrays.asList(columns));
@@ -30,6 +35,14 @@ public class Table {
 	public void setColumns(List<Column> columns) {
 		this.columns = columns;
 		this.primaryKeyColumns = null;
+		
+		propertyNameColumnsMap = new HashMap();
+		sqlNameColumnsMap = new HashMap();
+		for(Column c : columns) {
+			propertyNameColumnsMap.put(c.getPropertyName(), c);
+			sqlNameColumnsMap.put(c.getSqlName(), c);
+		}
+		
 	}
 
 	public List<Column> getColumns() {
@@ -57,21 +70,27 @@ public class Table {
 	}
 	
 	public Column getColumnBySqlName(String sqlName) {
+		/*
 		for(Column c : columns) {
 			if(c.getSqlName().equals(sqlName)) {
 				return c;
 			}
 		}
 		return null;
+		*/
+		return sqlNameColumnsMap.get(sqlName);
 	}
 
 	public Column getColumnByPropertyName(String propertyName) {
+		/*
 		for(Column c : columns) {
 			if(c.getPropertyName().equals(propertyName)) {
 				return c;
 			}
 		}
-		return null;
+		*/
+//		return null;
+		return propertyNameColumnsMap.get(propertyName);
 	}
 	
 	private List<Column> getPrimaryKeyColumns0() {
