@@ -2,6 +2,7 @@ package com.github.rapid.common.rpc.util;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Arrays;
 
 /**
  * 自定义的 ParameterizedType
@@ -30,6 +31,14 @@ public class CustomParameterizedType implements ParameterizedType {
 	public Type getRawType() {
 		return rawType;
 	}
+
+	@Override
+	public String toString() {
+		return "CustomParameterizedType [rawType=" + rawType + ", ownerType="
+				+ ownerType + ", actualTypeArguments="
+				+ Arrays.toString(actualTypeArguments) + "]";
+	}
+	
 	
 }
 

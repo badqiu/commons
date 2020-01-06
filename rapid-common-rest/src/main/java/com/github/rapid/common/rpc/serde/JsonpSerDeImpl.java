@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.alibaba.fastjson.JSON;
 import com.github.rapid.common.rpc.RPCConstants;
 import com.github.rapid.common.rpc.SerDe;
 import com.github.rapid.common.rpc.SerializeException;
@@ -20,7 +20,12 @@ import com.github.rapid.common.rpc.SerializeException;
 public class JsonpSerDeImpl extends JsonSerDeImpl implements SerDe {
 	static String JSONCALLBACK_KEY = RPCConstants.JSONCALLBACK_KEY;
 
-	ObjectMapper objectMapper = new ObjectMapper();
+//	ObjectMapper objectMapper = new ObjectMapper();
+//	{
+////		objectMapper.getDeserializationConfig().set(Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+//		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+//		objectMapper.setSerializationInclusion(Include.NON_NULL);
+//	}
 	
 	public void serialize(Object object, OutputStream output,Map<String,Object> serializeParams) throws SerializeException {
 		if(serializeParams == null) {
@@ -35,7 +40,7 @@ public class JsonpSerDeImpl extends JsonSerDeImpl implements SerDe {
 			
 			String prefix = callback+"(";
 			output.write(prefix.getBytes());
-			output.write(objectMapper.writeValueAsBytes(object));
+			output.write(JSON.toJSONBytes(object));
 			output.write(")".getBytes());
 		}catch(IOException e) {
 			throw new SerializeException(e);

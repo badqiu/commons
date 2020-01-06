@@ -94,7 +94,7 @@ public interface BlogInfoService {
 	public Set<String> linked_hash_set_but_return_set(String input);
 	
 	public LinkedHashMap<String,String> linked_hash_map(String input);
-	public Map<String,String> linked_hash_map_but_return_map(String input);
+	public Map<Integer,Integer> linked_hash_map_but_return_map(String input);
 	
 	public TreeMap<String,String> tree_map(String input);
 	public Map<String,String> tree_map_but_return_map(String input);

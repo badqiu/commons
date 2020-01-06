@@ -1,7 +1,6 @@
 package com.github.rapid.common.rpc.server;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -13,19 +12,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.core.ParameterNameDiscoverer;
 import org.springframework.util.Assert;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonParser.Feature;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.alibaba.fastjson.JSON;
 import com.github.rapid.common.rpc.RPCConstants;
 import com.github.rapid.common.rpc.SerDe;
 import com.github.rapid.common.rpc.SerDeMapping;
@@ -121,9 +114,7 @@ public class MethodInvoker {
 			String parametersStringValue = (String)params.get(KEY_PARAMETERS);
 			try {
 				parameters = deserializationParameterByJson(method,parametersStringValue,body);
-			}catch(JsonProcessingException e) {
-				throw new IllegalArgumentException("cannot process json arguments:"+parametersStringValue+" for method:"+method,e);
-			}catch(IOException e) {
+			}catch(Exception e) {
 				throw new IllegalArgumentException("cannot process json arguments:"+parametersStringValue+" for method:"+method,e);
 			}
 		}else if((serDe = SerDeMapping.DEFAULT_MAPPING.getSerDeByFormat(protocol)) != null) {
@@ -153,23 +144,40 @@ public class MethodInvoker {
 //		}
 	}
 
-	ObjectMapper objectMapper = new ObjectMapper(); 
-	{
-//		objectMapper.getDeserializationConfig().set(Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-	}
+//	ObjectMapper objectMapper = new ObjectMapper(); 
+//	{
+////		objectMapper.getDeserializationConfig().set(Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+//		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+//	}
+//	private Object[] deserializationParameterByJson(Method method,
+//			String parametersStringValue,byte[] body)
+//			throws Exception{
+//		Object[] parameters = new Object[method.getParameterTypes().length];
+//		Type[] parameterTypes = method.getGenericParameterTypes();
+//		JsonNode arrayNode = StringUtils.isEmpty(parametersStringValue) ? objectMapper.readTree(body) : objectMapper.readTree(parametersStringValue);
+//		Iterator<JsonNode> elems = arrayNode.elements();
+//		int i = 0;
+//		for(JsonNode arg = null; elems.hasNext(); i++){
+//			arg = elems.next();
+//			Object argumentValue = objectMapper.readValue(arg.traverse(), objectMapper.constructType((parameterTypes[i])));
+//			parameters[i] = argumentValue;
+//		}
+//		return parameters;
+//	}
+	
 	private Object[] deserializationParameterByJson(Method method,
 			String parametersStringValue,byte[] body)
-			throws IOException, JsonProcessingException, JsonParseException,
-			JsonMappingException {
+			throws Exception{
 		Object[] parameters = new Object[method.getParameterTypes().length];
 		Type[] parameterTypes = method.getGenericParameterTypes();
-		JsonNode arrayNode = StringUtils.isEmpty(parametersStringValue) ? objectMapper.readTree(body) : objectMapper.readTree(parametersStringValue);
-		Iterator<JsonNode> elems = arrayNode.elements();
+		
+		List<Object> arrayNode = StringUtils.isEmpty(parametersStringValue) ? JSON.parseArray(IOUtils.toString(body,"UTF-8"),parameterTypes) : JSON.parseArray(parametersStringValue,parameterTypes);
+		
+		Iterator<Object> elems = arrayNode.iterator();
 		int i = 0;
-		for(JsonNode arg = null; elems.hasNext(); i++){
+		for(Object arg = null; elems.hasNext(); i++){
 			arg = elems.next();
-			Object argumentValue = objectMapper.readValue(arg.traverse(), objectMapper.constructType((parameterTypes[i])));
+			Object argumentValue = arg;
 			parameters[i] = argumentValue;
 		}
 		return parameters;

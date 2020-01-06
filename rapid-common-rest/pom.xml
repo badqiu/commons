@@ -3,7 +3,7 @@
 
 	<groupId>com.github.rapid.common</groupId>
 	<artifactId>rapid-common-rest</artifactId>
-	<version>1.0.11</version>
+	<version>1.0.12</version>
 		
 	<name>rapid-common-rest</name>
 	<packaging>jar</packaging>
@@ -305,19 +305,26 @@
 <!-- 				<artifactId>jackson-jaxrs</artifactId> -->
 <!-- 				<version>${jackson.version}</version> -->
 <!-- 			</dependency> -->
-			<dependency>
+<!-- 			<dependency>
 			  <groupId>com.mastfrog</groupId>
 			  <artifactId>jackson</artifactId>
 			  <version>${jackson.version}</version>
+			</dependency> -->
+			
+			<dependency>
+			  <groupId>com.alibaba</groupId>
+			  <artifactId>fastjson</artifactId>
+			  <version>1.2.62</version>
 			</dependency>
 			
 			<!-- fastjson ser/dser -->
+			<!-- 
 			<dependency>
 			     <groupId>com.alibaba</groupId>
 			     <artifactId>fastjson</artifactId>
 			     <version>1.2.6</version>
-			     <scope>test</scope>
 			</dependency>
+			 -->
 			
 			<dependency>
 			    <groupId>com.caucho</groupId>

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -17,9 +18,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.github.rapid.common.rpc.WebServiceException;
-import com.github.rapid.common.rpc.client.CommonsHttpInvokerRequestExecutor;
-import com.github.rapid.common.rpc.client.RPCProxyFactoryBean;
-import com.github.rapid.common.rpc.client.SimpleHttpInvokerRequestExecutor;
 import com.github.rapid.common.rpc.fortest.api.BlogInfoService;
 import com.github.rapid.common.rpc.fortest.api.BlogInfoServiceImpl;
 import com.github.rapid.common.rpc.fortest.api.model.Blog;
@@ -91,7 +89,7 @@ public class RPCProxyFactoryBeanTest extends BaseClientTestCase{
 	@Test
 	public void test_js() throws Exception, InvocationTargetException, NoSuchMethodException {
 		String str = readURL("http://localhost:26060/services/BlogInfoService/findDate?__format=jsonp&__jsoncallback=findDateCallback");
-		assertEquals("findDateCallback({\"result\":199999999,\"errCode\":null,\"errMsg\":null})",str);
+		assertEquals("findDateCallback({\"result\":199999999})",str);
 	}
 	
 	public static String readURL(String urladdress) {
@@ -138,8 +136,7 @@ public class RPCProxyFactoryBeanTest extends BaseClientTestCase{
 		assertEquals(localBlogInfoService.genBlogList(100),blogInfoService.genBlogList(100));
 		assertEquals(localBlogInfoService.findBlogListMap(null),blogInfoService.findBlogListMap(null));
 		
-		assertEquals(localBlogInfoService.return_input_2_arg(specialChars,specialChars),blogInfoService.return_input_2_arg(specialChars,specialChars));
-		assertEquals(localBlogInfoService.return_input_2_arg(genComprexChars,genComprexChars),blogInfoService.return_input_2_arg(genComprexChars,genComprexChars));
+		
 		
 		assertEquals(localBlogInfoService.findBlogMap("key"),blogInfoService.findBlogMap("key"));
 		assertArrayEquals(localBlogInfoService.findBlogArray("key"),blogInfoService.findBlogArray("key"));
@@ -153,10 +150,7 @@ public class RPCProxyFactoryBeanTest extends BaseClientTestCase{
 		assertEquals(localBlogInfoService.AComplex__methodDDDD123Name(),blogInfoService.AComplex__methodDDDD123Name());
 		assertEquals(localBlogInfoService.return_input("中国人民银行;123"),blogInfoService.return_input("中国人民银行;123"));
 		
-		assertEquals(localBlogInfoService.tree_map("123").toString(),blogInfoService.tree_map("123").toString());
-		assertEquals(localBlogInfoService.tree_map_but_return_map("123").toString(),blogInfoService.tree_map_but_return_map("123").toString());
-		assertEquals(localBlogInfoService.linked_hash_map("123").toString(),blogInfoService.linked_hash_map("123").toString());
-		assertEquals(localBlogInfoService.linked_hash_map_but_return_map("123").toString(),blogInfoService.linked_hash_map_but_return_map("123").toString());
+
 		
 		assertEquals(localBlogInfoService.tree_set("123").toString(),blogInfoService.tree_set("123").toString());
 		assertTrue(localBlogInfoService.tree_set_but_return_set("123").toString().equals(new TreeSet(blogInfoService.tree_set_but_return_set("123")).toString()));
@@ -166,7 +160,7 @@ public class RPCProxyFactoryBeanTest extends BaseClientTestCase{
 		
 		assertEquals(localBlogInfoService.return_exception().toString(),blogInfoService.return_exception().toString());
 
-		assertEquals(localBlogInfoService.map_arg(new HashMap()).toString(),blogInfoService.map_arg(new HashMap()).toString());
+		assertEquals(new TreeMap(localBlogInfoService.map_arg(new HashMap<String,String>())).toString(),new TreeMap(blogInfoService.map_arg(new HashMap<String,String>())).toString());
 		assertEquals(localBlogInfoService.list_arg(new ArrayList()).toString(),blogInfoService.list_arg(new ArrayList()).toString());
 		assertEquals(Arrays.toString(localBlogInfoService.array_arg(new String[]{"1","2"})),Arrays.toString(blogInfoService.array_arg(new String[]{"1","2"})));
 		
@@ -179,7 +173,15 @@ public class RPCProxyFactoryBeanTest extends BaseClientTestCase{
 		assertEquals(localBlogInfoService.pageQuery(4, 5).getPaginator().toString(),blogInfoService.pageQuery(4, 5).getPaginator().toString());
 		
 		assertFalse(localBlogInfoService.nullValueMapList("key").equals(blogInfoService.nullValueMapList("key")));
-		assertFalse(localBlogInfoService.emptyValueMapList("key").equals(blogInfoService.emptyValueMapList("key")));
+		assertTrue("remote:"+blogInfoService.emptyValueMapList("key")+" local:"+localBlogInfoService.emptyValueMapList("key"),localBlogInfoService.emptyValueMapList("key").equals(blogInfoService.emptyValueMapList("key")));
+		
+		assertEquals(localBlogInfoService.tree_map("123").toString(),blogInfoService.tree_map("123").toString());
+		assertEquals(localBlogInfoService.tree_map_but_return_map("123").toString(),new TreeMap(blogInfoService.tree_map_but_return_map("123")).toString());
+		assertEquals(localBlogInfoService.linked_hash_map("123").toString(),blogInfoService.linked_hash_map("123").toString());
+		assertEquals(localBlogInfoService.linked_hash_map_but_return_map("123").toString(),blogInfoService.linked_hash_map_but_return_map("123").toString());
+		
+		assertEquals(localBlogInfoService.return_input_2_arg(specialChars,specialChars),blogInfoService.return_input_2_arg(specialChars,specialChars));
+		assertEquals(localBlogInfoService.return_input_2_arg(genComprexChars,genComprexChars),blogInfoService.return_input_2_arg(genComprexChars,genComprexChars));
 	}
 	
 	private String genComprexChars() {

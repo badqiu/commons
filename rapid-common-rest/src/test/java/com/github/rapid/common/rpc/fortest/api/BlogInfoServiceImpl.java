@@ -231,11 +231,11 @@ public class BlogInfoServiceImpl implements BlogInfoService {
 	}
 
 	public LinkedHashMap<String, String> linked_hash_map(String input) {
-		return linkedHashMap();
+		return stringLinkedHashMap();
 	}
 
-	public Map<String, String> linked_hash_map_but_return_map(String input) {
-		return linkedHashMap();
+	public Map<Integer, Integer> linked_hash_map_but_return_map(String input) {
+		return integerlinkedHashMap();
 	}
 
 	public TreeMap<String, String> tree_map(String input) {
@@ -259,6 +259,14 @@ public class BlogInfoServiceImpl implements BlogInfoService {
 		return map;
 	}
 	
+	private static LinkedHashMap<Integer,Integer> integerlinkedHashMap() {
+		LinkedHashMap<Integer,Integer> map = new LinkedHashMap<Integer,Integer>();
+		map.put(100, 100);
+		map.put(5, 100);
+		return map;
+	}
+	
+	
 	private static LinkedHashMap linkedHashMap() {
 		LinkedHashMap map = new LinkedHashMap();
 		map.put(100, 100);
@@ -268,6 +276,16 @@ public class BlogInfoServiceImpl implements BlogInfoService {
 		map.put("5000", 100);
 		map.put("8000", 100);
 		map.put(5, 100);
+		return map;
+	}
+	
+	private static LinkedHashMap stringLinkedHashMap() {
+		LinkedHashMap map = new LinkedHashMap();
+		map.put("9000", 100);
+		map.put("1000", 100);
+		map.put("4000", 100);
+		map.put("5000", 100);
+		map.put("8000", 100);
 		return map;
 	}
 
@@ -280,7 +298,7 @@ public class BlogInfoServiceImpl implements BlogInfoService {
 	}
 
 	public Map map_arg(Map<String, String> map) {
-		LinkedHashMap result = linkedHashMap();
+		LinkedHashMap result = stringLinkedHashMap();
 		result.putAll(map);
 		return result;
 	}

@@ -14,7 +14,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.core.convert.ConversionFailedException;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.rapid.common.rpc.fortestinvoker.UserWebService;
 import com.github.rapid.common.rpc.fortestinvoker.UserWebServiceImpl;
 
@@ -54,7 +53,6 @@ public class MethodInvokerTest extends Assert{
 		verifyOutput("UserWebServiceImpl.say() name:jjyy age:50 timestamp:100");
 		
 		
-		ObjectMapper mapper = new ObjectMapper();
 	}
 
 	@Test
