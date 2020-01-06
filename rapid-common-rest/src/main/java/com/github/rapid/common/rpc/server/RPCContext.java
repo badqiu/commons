@@ -12,6 +12,7 @@ public class RPCContext {
 	
 	private static ThreadLocal<HttpServletRequest> requestContext = new ThreadLocal<HttpServletRequest>();
 	private static ThreadLocal<HttpServletResponse> responseContext = new ThreadLocal<HttpServletResponse>();
+	private static ThreadLocal<String> msgContext = new ThreadLocal<String>();
 	
 	public static HttpServletRequest getRequest() {
 		return requestContext.get();
@@ -19,6 +20,10 @@ public class RPCContext {
 	
 	public static HttpServletResponse getResponse() {
 		return responseContext.get();
+	}
+	
+	public static String getInfoMsg() {
+		return msgContext.get();
 	}
 	
 	public static void setRequest(HttpServletRequest request) {
@@ -29,10 +34,14 @@ public class RPCContext {
 		responseContext.set(response);
 	}
 	
+	public static void setInfoMsg(String msg) {
+		msgContext.set(msg);
+	}
+	
 	public static void clear() {
 		requestContext.set(null);
 		responseContext.set(null);
+		msgContext.set(null);
 	}
-	
 	
 }

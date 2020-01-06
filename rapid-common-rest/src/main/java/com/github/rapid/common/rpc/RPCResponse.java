@@ -19,16 +19,24 @@ public class RPCResponse <T> implements Serializable{
 	 */
 	private String errMsg;
 	
+	/**
+	 * 提示消息
+	 */
+	private String infoMsg;
+	
 	public RPCResponse() {
 	}
 	
 	public RPCResponse(T result) {
-		super();
 		this.result = result;
+	}
+	
+	public RPCResponse(T result,String infoMsg) {
+		this.result = result;
+		this.infoMsg = infoMsg;
 	}
 
 	public RPCResponse(String errorCode, String errorMessage) {
-		super();
 		this.errCode = errorCode;
 		this.errMsg = errorMessage;
 	}
@@ -56,5 +64,14 @@ public class RPCResponse <T> implements Serializable{
 	public void setErrMsg(String errorMessage) {
 		this.errMsg = errorMessage;
 	}
+
+	public String getInfoMsg() {
+		return infoMsg;
+	}
+
+	public void setInfoMsg(String infoMsg) {
+		this.infoMsg = infoMsg;
+	}
+	
 	
 }

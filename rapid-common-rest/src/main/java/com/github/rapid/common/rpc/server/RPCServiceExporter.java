@@ -100,7 +100,7 @@ public class RPCServiceExporter extends RemoteExporter implements HttpRequestHan
 			if("true".equals(parameters.get(KEY_NO_WRAP))) {
 				serializeResult(result,request, response,parameters);
 			}else {
-				serializeResult(new RPCResponse(result),request, response,parameters);
+				serializeResult(new RPCResponse(result,RPCContext.getInfoMsg()),request, response,parameters);
 			}
 		} catch (WebServiceException e) {
 			logger.warn("error on uri:"+request.getRequestURI(),e); // TODO 删除本日志打印,或者不打印error级别
