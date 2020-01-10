@@ -28,5 +28,14 @@ public class LRUMapTest {
 		System.out.println(userFriendCache.size());
 		
 	}
+	
+	@Test
+	public void testRemoveOld() {
+		LRUMap<Integer,Integer> c = new LRUMap(1,10);
+		for(int i = 0; i < 100; i++) {
+			c.put(i,i);
+		}
+		System.out.println(c);
+	}
 
 }
