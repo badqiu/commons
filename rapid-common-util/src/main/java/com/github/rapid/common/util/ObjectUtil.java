@@ -4,6 +4,8 @@ import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * @author badqiu
  */
@@ -30,7 +32,8 @@ public class ObjectUtil {
         if(o == null) return true;
 
         if(o instanceof String) {
-            if(((String)o).length() == 0){
+            String str = (String)o;
+			if(StringUtils.isBlank(str)){
                 return true;
             }
         } else if(o instanceof Collection) {
@@ -45,8 +48,6 @@ public class ObjectUtil {
             if(((Map)o).isEmpty()){
                 return true;
             }
-        }else {
-            return false;
         }
 
         return false;
