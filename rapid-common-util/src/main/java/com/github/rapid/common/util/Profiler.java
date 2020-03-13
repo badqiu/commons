@@ -472,9 +472,9 @@ public final class Profiler {
          * 得到TPS(每秒事务处理量Transaction Per Second)
          * @return
          */
-        public int getTps() {
+        public long getTps() {
         	if(loopCount > 0 && getDuration() > 0) {
-        		return (int)(loopCount * 1000 / getDuration());
+        		return (long)(loopCount * 1000 / getDuration());
         	}else {
         		return 0;
         	}

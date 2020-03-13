@@ -1,5 +1,7 @@
 package com.github.rapid.common.util;
 
+import java.util.regex.Pattern;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -17,5 +19,19 @@ public class RegexUtilsTest extends Assert {
 		assertEquals("123",RegexUtil.findByRegexGroup("abc123", "(a).*(123)", 2));
 		
 		assertEquals(null,RegexUtil.findByRegexGroup(" asdf", null, 0));
+	}
+	
+	@Test
+	public void perf() {
+		long count = 10000 * 100;
+		Profiler.start("Pattern.compile",count);
+		
+		for(int i = 0; i < count; i++) {
+			Pattern.compile("[1-9]\\d{7}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}$|^[1-9]\\d{5}[1-9]\\d{3}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}([0-9]|X)");
+		}
+		
+		Profiler.release();
+		
+		System.out.println(Profiler.dump());
 	}
 }
