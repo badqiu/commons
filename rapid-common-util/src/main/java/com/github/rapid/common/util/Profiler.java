@@ -302,12 +302,12 @@ public final class Profiler {
         private final Step  parentStep;
         private final Step  firstStep;
         private final long   baseTime;
-        private final long   startTime;
-        private long         endTime;
+        private final long   startTime; //开始时间
+        private long         endTime; //结束时间
         
-        private long 		 loopCount;
-        private Throwable exception;
-        private int resultSize;
+        private long 		 loopCount; //循环执行次数
+        private Throwable exception; //是否异常
+        private int resultSize; //结果集大小
         
         /**
          * 创建一个新的step。
@@ -474,7 +474,7 @@ public final class Profiler {
          */
         public long getTps() {
         	if(loopCount > 0 && getDuration() > 0) {
-        		return (long)(loopCount * 1000 / getDuration());
+        		return loopCount * 1000 / getDuration();
         	}else {
         		return 0;
         	}
