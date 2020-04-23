@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.util.Assert;
 
 import com.alibaba.fastjson.JSON;
 import com.github.rapid.common.rpc.RPCConstants;
@@ -32,9 +33,8 @@ public class JsonpSerDeImpl extends JsonSerDeImpl implements SerDe {
 			throw new IllegalArgumentException("serializeParams must be not null");
 		}
 		String callback = (String)serializeParams.get(JSONCALLBACK_KEY);
-		if(StringUtils.isBlank(callback)) {
-			throw new IllegalArgumentException("not found jsonp callback function name:"+JSONCALLBACK_KEY);
-		}
+		
+		checkCallback(callback);
 		
 		try {
 			
@@ -45,6 +45,13 @@ public class JsonpSerDeImpl extends JsonSerDeImpl implements SerDe {
 		}catch(IOException e) {
 			throw new SerializeException(e);
 		}
+	}
+
+	public static void checkCallback(String callback) {
+		if(StringUtils.isBlank(callback)) {
+			throw new IllegalArgumentException("not found jsonp callback function name:"+JSONCALLBACK_KEY);
+		}
+		Assert.isTrue(callback.matches("[\\w_]+"),"callback only number or a-z or _");
 	}
 
 	@Override

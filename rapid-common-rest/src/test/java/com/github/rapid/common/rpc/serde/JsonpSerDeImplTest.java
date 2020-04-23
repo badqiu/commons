@@ -7,8 +7,6 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.github.rapid.common.rpc.serde.JsonpSerDeImpl;
-
 
 public class JsonpSerDeImplTest extends Assert{
 	
@@ -36,5 +34,20 @@ public class JsonpSerDeImplTest extends Assert{
 		serDe.serialize(map, output,seriParameters);
 		System.out.println(output.toString());
 		assertEquals(output.toString(),"test_json_callback({\"age\":100,\"name\":\"badqiu\"})");
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testCheckCallback_fail() {
+		JsonpSerDeImpl.checkCallback(null);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testCheckCallback_fail_2() {
+		JsonpSerDeImpl.checkCallback("<>");
+	}
+	
+	@Test()
+	public void testCheckCallback_success() {
+		JsonpSerDeImpl.checkCallback("abc123_diyDKdjf");
 	}
 }
