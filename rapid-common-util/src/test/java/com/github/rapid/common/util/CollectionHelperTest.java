@@ -5,9 +5,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.junit.Test;
+
+import com.github.rapid.common.util.CollectionUtil.SortOrder;
 
 public class CollectionHelperTest extends TestCase {
 	List values = new ArrayList();
@@ -84,5 +87,21 @@ public class CollectionHelperTest extends TestCase {
 		System.out.println(CollectionUtil.chunk(list, 2));
 		System.out.println(CollectionUtil.chunk(list, 9));
 		System.out.println(CollectionUtil.chunk(list, 30));
+	}
+	
+	@Test
+	public void test_sort() {
+		List list = new ArrayList();
+		list.add(3);
+		list.add(2);
+		list.add(10);
+		
+		CollectionUtil.sort(list,(row) -> { return row;},SortOrder.DESC);
+		System.out.println(list);
+		Assert.assertEquals(list.toString(), "[10, 3, 2]");
+		
+		CollectionUtil.sort(list,(row) -> { return row;},SortOrder.ASC);
+		System.out.println(list);
+		Assert.assertEquals(list.toString(), "[2, 3, 10]");
 	}
 }

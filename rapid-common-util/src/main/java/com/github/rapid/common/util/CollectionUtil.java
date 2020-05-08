@@ -3,15 +3,18 @@ package com.github.rapid.common.util;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.collections.comparators.ReverseComparator;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.util.Assert;
 
 import com.github.rapid.common.beanutils.BeanUtils;
 import com.github.rapid.common.beanutils.PropertyUtils;
@@ -253,5 +256,38 @@ public class CollectionUtil {
 		}
 		
 		return results;
+	}
+	
+	public static <T> void sort(List<T> list,Function<T,Object> sortValueFunc,SortOrder sortOrder){
+		Assert.notNull(sortOrder,"sortOrder must be not null");
+		
+		Comparator<Object> comparator = new Comparator<Object>() {
+			@Override
+			public int compare(Object o1, Object o2) {
+				Object s1 = sortValueFunc.apply((T)o1);
+				Object s2 = sortValueFunc.apply((T)o2);
+				
+				if(s1 == s2) return 0;
+				if(s1 == null && s2 == null) return 0;
+				if(s1 == null) return -1;
+				if(s2 == null) return 1;
+				
+				int result = ((Comparable)s1).compareTo((Comparable)s2);
+				
+				return result;
+			}
+		};
+		
+		if(sortOrder == SortOrder.DESC) {
+			list.sort(new ReverseComparator(comparator));
+		}else {
+			list.sort(comparator);
+		}
+		
+	}
+	
+	public static enum SortOrder {
+		DESC, //从大至小: 降序
+		ASC //从小至大: 升序
 	}
 }
