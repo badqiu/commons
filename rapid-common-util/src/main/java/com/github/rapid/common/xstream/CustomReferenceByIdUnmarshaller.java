@@ -64,12 +64,12 @@ public class CustomReferenceByIdUnmarshaller extends ReferenceByIdUnmarshaller {
 		return lookupObjectByKey(reference);
 	}
 
-	protected Object lookupObjectByKey(String reference) {
-		if(applicationContext != null && applicationContext.containsBean(reference)) {
-			return applicationContext.getBean(reference);
+	protected Object lookupObjectByKey(String beanName) {
+		if(applicationContext != null && applicationContext.containsBean(beanName)) {
+			return applicationContext.getBean(beanName);
 		}
-		if(beans != null && beans.containsKey(reference)) {
-			return beans.get(reference);
+		if(beans != null && beans.containsKey(beanName)) {
+			return beans.get(beanName);
 		}
 		return null;
 	}
