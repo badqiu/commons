@@ -108,20 +108,6 @@
 	
 	</build>
 	
-	<!-- deploy path -->
-	<distributionManagement>
-		<repository>
-			<id>releases</id>
-			<name>Internal Releases</name>
-			<url>http://nexus.qinha.com:8081/nexus/content/repositories/releases/</url>
-		</repository>
-		<snapshotRepository>
-			<id>snapshots</id>
-			<name>Internal snapshots</name>
-			<url>http://nexus.qinha.com:8081/nexus/content/repositories/snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
-	
 	<dependencyManagement>
 		<dependencies>
 			<!--  sub projects BEGIN -->
