@@ -10,19 +10,7 @@
 	<description>rapid-common-parent parent</description>
 	
 
-	<!-- deploy path -->
-	<distributionManagement>
-		<repository>
-			<id>releases</id>
-			<name>Internal Releases</name>
-			<url>http://maven.lizhi.fm:8081/nexus/content/repositories/releases/</url>
-		</repository>
-		<snapshotRepository>
-			<id>snapshots</id>
-			<name>Internal snapshots</name>
-			<url>http://maven.lizhi.fm:8081/nexus/content/repositories/snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
+
 	
 	<modules>
 		<module>rapid-common-jdbc</module>
