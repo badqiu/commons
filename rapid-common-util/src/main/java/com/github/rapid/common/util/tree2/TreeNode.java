@@ -1,8 +1,9 @@
 package com.github.rapid.common.util.tree2;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -68,6 +69,14 @@ public class TreeNode<T> implements Comparable {
 	}
 
 	public int compareTo(Object o) {
-		return 0;
+		TreeNode other = (TreeNode)o;
+		return ((Comparable)getId()).compareTo((Comparable)other.getId());
 	}
+	
+	@Override
+	public String toString() {
+		String depth = StringUtils.repeat("\t", getDepth());
+		return depth + getId()+"\n" + getChilds();
+	}
+	
 }

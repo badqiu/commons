@@ -17,6 +17,7 @@ public class TreeTest {
 		}
 		
 	}
+	
 	@Test
 	public void test() {
 		Tree tree = new Tree();
@@ -28,6 +29,7 @@ public class TreeTest {
 		
 		assertNotNull(tree.getRoot());
 		assertEquals(tree.getRoot().getId(),100);
+		System.out.println(tree.getRoot());
 	}
 
 }

@@ -7,8 +7,27 @@ import java.util.List;
 import org.apache.commons.lang.ObjectUtils;
 import org.springframework.util.Assert;
 
+import com.github.rapid.common.util.tree2.TreeTest.TreeNodeImpl;
 
 
+/**
+ * 
+ * 根据父子关系，构建一颗树。
+ * 
+ * 使用如下:
+ * 
+ * 		Tree tree = new Tree();
+ *		tree.addNode(new TreeNodeImpl(100,null));
+ *		tree.addNode(new TreeNodeImpl(1,100));
+ *		tree.addNode(new TreeNodeImpl(1,100));
+ *		
+ *		tree.init(100); //从根节点初始化
+ *		tree.getRoot(); //得到根节点
+ *
+ *		
+ * @author badqiu
+ *
+ */
 public class Tree <T> {
 
 	private List<TreeNode<T>> nodes = new ArrayList<TreeNode<T>>();
