@@ -76,7 +76,11 @@ public class TreeNode<T> implements Comparable {
 	@Override
 	public String toString() {
 		String depth = StringUtils.repeat("\t", getDepth());
-		return depth + getId()+"\n" + getChilds();
+		return depth + nodeToString() + "\n" + getChilds();
+	}
+	
+	protected String nodeToString() {
+		return String.valueOf(getId());
 	}
 	
 }
