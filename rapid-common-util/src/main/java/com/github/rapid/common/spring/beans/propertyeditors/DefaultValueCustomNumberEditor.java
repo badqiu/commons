@@ -20,10 +20,10 @@ public class DefaultValueCustomNumberEditor extends
 
 	@Override
 	public void setAsText(String text) throws IllegalArgumentException {
-		if (!StringUtils.hasText(text)) {
-			setValue(0);
-		} else {
+		if (StringUtils.hasText(text)) {
 			super.setAsText(text);
+		} else {
+			setValue(0);
 		}
 	}
 	
