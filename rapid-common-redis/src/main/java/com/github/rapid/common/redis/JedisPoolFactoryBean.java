@@ -1,6 +1,8 @@
 package com.github.rapid.common.redis;
 
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -229,21 +231,41 @@ public class JedisPoolFactoryBean implements FactoryBean<JedisPool>, Initializin
 				.setSoftMinEvictableIdleTimeMillis(softMinEvictableIdleTimeMillis);
 	}
 
+	// _下划线的转换字符
+	private static String _ = "UUUU";
 	public void setServer(String server) {
+		JedisPoolConfig poolConfig = new JedisPoolConfig();
+		server = server.replace("_", _); //转义,不转义会出错
+		
 		URI uri = URI.create(server);
 		if (JedisURIHelper.isValid(uri)) {
-			String host = uri.getHost();
-			int port = uri.getPort();
-			String password = JedisURIHelper.getPassword(uri);
-			int database = JedisURIHelper.getDBIndex(uri);
-			setHost(host);
-			setPort(port);
-			if(StringUtils.isNotBlank(password))
-				setPassword(password);
-			setDatabase(database);
+			setByURI(uri);
 		}else {
 			setHost(server);
 		}
+	}
+
+	private void setByURI(URI uri) {
+		String host = uri.getHost();
+		int port = uri.getPort();
+		String password = JedisURIHelper.getPassword(uri);
+		password = StringUtils.trimToNull(password);
+		int database = JedisURIHelper.getDBIndex(uri);
+		Map params = new HashMap();
+		if(StringUtils.isNotBlank(uri.getQuery())) {
+			String query = uri.getQuery().replace(_, "_"); //还原
+			params = JedisURIHelper.parseQueryString(query);
+		}
+		
+		String timeout = (String)params.getOrDefault("timeout", ""+(1000 * 100));
+		
+		host = host.replace(_, "_"); //还原
+		
+		setHost(host);
+		setPort(port);
+		setTimeout(Integer.parseInt(timeout));
+		setPassword(password);
+		setDatabase(database);
 	}
 
 	public void afterPropertiesSet() throws Exception {
