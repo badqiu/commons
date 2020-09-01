@@ -155,6 +155,9 @@ public class Graph <NODE extends GraphNode> implements Serializable {
 		return sb.toString();
 	}
 	
+	/**
+	 * 检查是否有依赖环 
+	 **/
 	public void checkCircuit() {
 		for(NODE node : nodes) {
 			checkCircuit(node,node);

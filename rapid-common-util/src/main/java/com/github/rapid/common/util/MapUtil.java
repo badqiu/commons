@@ -5,12 +5,16 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.function.BiFunction;
 
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 /**
  * @author badqiu
  */
 public class MapUtil {
+	
 	@SuppressWarnings("all")
 	public static void putIfNull(Map map,Object key,Object defaultValue) {
 		if(key == null)
@@ -58,6 +62,36 @@ public class MapUtil {
 	
 	public static Map toMap(Object[] array,String...keys) {
 		return ArrayUtil.toMap(array, keys);
+	}
+	
+	/**
+	 * Map进行string join
+	 * @param map
+	 * @param seperator 分隔符
+	 * @param itemBuilder　k,v字符串构建器
+	 * @return
+	 */
+	public static String mapStringJoin(Map map,String seperator,BiFunction<String, String, String> itemBuilder) {
+		if(MapUtils.isEmpty(map)) return "";
+		
+		StringBuilder sb = new StringBuilder();
+		boolean first = true;
+		Set<Map.Entry<Object,Object>> entrySet = map.entrySet();
+		for(Map.Entry<Object,Object> entry : entrySet) {
+			Object key = entry.getKey();
+			Object value = entry.getValue();
+			String k = StringUtils.trim(key == null ? "" : String.valueOf(key));
+			String v = StringUtils.trim(value == null ? "" : String.valueOf(value));
+			
+			if(first) {
+				first = false;
+			}else {
+				sb.append(seperator);
+			}
+			sb.append(itemBuilder.apply(k, v));
+		}
+		
+		return sb.toString();
 	}
 	
 }
