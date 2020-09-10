@@ -106,6 +106,7 @@ public class DataSourceTemplateLoader implements TemplateLoader,InitializingBean
 		return "select "+columnNames+" from "+tableName+" where "+templateNameColumn+"=?";
 	}
 
+	@SuppressWarnings("unchecked")
 	public Reader getReader(Object templateSource, final String encoding) throws IOException {
 		final String templateName = (String)templateSource;
 		return (Reader)getJdbcTemplate().query(getSql(templateContentColumn),new Object[]{templateName}, new ResultSetExtractor() {
