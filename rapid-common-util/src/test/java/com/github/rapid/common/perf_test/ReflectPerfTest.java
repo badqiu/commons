@@ -15,9 +15,9 @@ public class ReflectPerfTest {
 		Method m = g.getClass().getMethod("getNodes");
 		m.invoke(g);
 		
-		int count = 1000000000;
+		long count = 1000000000;
 		Profiler.start(count);
-		for(int i = 0; i < count; i++)
+		for(long i = 0; i < count; i++)
 			m.invoke(g);
 		Profiler.release();
 		

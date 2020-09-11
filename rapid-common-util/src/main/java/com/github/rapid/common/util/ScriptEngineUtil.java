@@ -45,25 +45,31 @@ public class ScriptEngineUtil {
 		}
 	}
 
-	private static CompiledScript getCompiledScript(String script, ScriptEngine engine) throws ScriptException {
+	public static CompiledScript getCompiledScript(String script, ScriptEngine engine) throws ScriptException {
 		CompiledScript compiledScript = scriptCache.get(script);
         if(compiledScript == null) {
-	        if(engine instanceof Compilable) {
-	        	Compilable compilable = (Compilable)engine;
-				compiledScript = compilable.compile(script);
-				scriptCache.put(script, compiledScript);
-	        }
-	        return compiledScript;
+        	synchronized (ScriptEngineUtil.class) {
+        		if(engine instanceof Compilable) {
+    	        	Compilable compilable = (Compilable)engine;
+    				compiledScript = compilable.compile(script);
+    				scriptCache.put(script, compiledScript);
+    	        }
+    	        return compiledScript;
+			}
         }
         return null;
 	}
 	
 	public static ScriptEngine getScriptEngine(String scriptEngineName) {
 		ScriptEngine engine = scriptEngineCache.get(scriptEngineName);
+		
 		if(engine == null) {
-			engine = factory.getEngineByName(scriptEngineName);
-			scriptEngineCache.put(scriptEngineName, engine);
+			synchronized (ScriptEngineUtil.class) {
+				engine = factory.getEngineByName(scriptEngineName);
+				scriptEngineCache.put(scriptEngineName, engine);
+			}
 		}
+		
 		if(engine == null)
 			throw new IllegalStateException("not found ScriptEngine by name:"+scriptEngineName);
 		return engine;
