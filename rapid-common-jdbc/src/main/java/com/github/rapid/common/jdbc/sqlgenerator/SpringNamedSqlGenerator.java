@@ -48,8 +48,6 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 	}
 
 	public String getInsertSql() {
-		StringBuilder sb = new StringBuilder("INSERT INTO ").append(getTableName()).append(" (");
-		
 		List<String> insertColumns = new ArrayList(getColumns().size());
 		List<String> insertPlaceholderColumns = new ArrayList(getColumns().size());
 		for(int i = 0; i < getColumns().size(); i++) {
@@ -59,6 +57,8 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 				insertPlaceholderColumns.add(getColumnPlaceholder(c));
 			}
 		}
+		
+		StringBuilder sb = new StringBuilder("INSERT INTO ").append(getTableName()).append(" (");
 		
 		sb.append(StringUtils.join(insertColumns.iterator(), ","));
 		sb.append(" ) VALUES ( ");
