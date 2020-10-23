@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -234,4 +235,14 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport {
 			throw new IllegalStateException("cannot get property value on entityClass:"+entity.getClass()+" by propertyName:"+getIdentifierPropertyName(),e);
 		}
 	}
+	
+	/**
+	 * 构建SQL使用
+	 * @param sqlSegments
+	 * @return
+	 */
+	public static String sql(String... sqlSegments) {
+		return StringUtils.join(sqlSegments," ");
+	}
+	
 }
