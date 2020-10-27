@@ -105,7 +105,9 @@ public class ExtNamedJdbcTemplate extends NamedParameterJdbcTemplate {
 		return super.execute(sql, new BeanPropertySqlParameterSource(paramSource), action);
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private Map<Class,BeanPropertyRowMapper> beanPropertyRowMapperCache = new HashMap();
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	protected BeanPropertyRowMapper getBeanPropertyRowMapper(Class rowMappedClass) {
 		BeanPropertyRowMapper result = beanPropertyRowMapperCache.get(rowMappedClass);
 		if(result == null) {
