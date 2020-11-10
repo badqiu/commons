@@ -14,9 +14,11 @@ public class GraphTest {
 	public void test() {
 		Graph<GraphNode> graph = new Graph<GraphNode>();
 		graph.addNode(new GraphNode("start"));
+		
 		for(int i = 0; i < 10; i++) {
 			graph.addNode(new GraphNode("demo_"+i,"start"));
 		}
+		
 		graph.init();
 		
 		Assert.notEmpty(graph.getEdges());
