@@ -39,9 +39,21 @@ public class SqlGeneratorTest {
 	}
 	@Test
 	public void getSelectByPkSql(){
-		assertEquals("SELECT user_id userId,user_name userName,pwd pwd FROM user WHERE user_id = :userId",singleGenerator.getSelectByPkSql());
-		assertEquals("SELECT user_id userId,group_id groupId,user_name userName,pwd pwd FROM user WHERE user_id = :userId AND group_id = :groupId",multiGenerator.getSelectByPkSql());
+		assertEquals("SELECT user_id userId,user_name userName,pwd pwd FROM user  WHERE user_id = :userId",singleGenerator.getSelectByPkSql());
+		assertEquals("SELECT user_id userId,group_id groupId,user_name userName,pwd pwd FROM user  WHERE user_id = :userId AND group_id = :groupId",multiGenerator.getSelectByPkSql());
 	}
+	
+	@Test
+	public void getSelectByPkVersionSql(){
+		Column version = new Column("version","version");
+		version.setVersion(true);
+		Table table = new Table("user",new Column("user_id","userId",true),new Column("user_name","userName"),new Column("pwd","pwd"),version);
+		SqlGenerator singleGenerator = new SpringNamedSqlGenerator(table);
+		
+		assertEquals("SELECT user_id userId,user_name userName,pwd pwd,version version FROM user  WHERE user_id = :userId",singleGenerator.getSelectByPkSql());
+		assertEquals("UPDATE user SET user_name = :userName,pwd = :pwd,version = :version + 1  WHERE user_id = :userId AND version = :version",singleGenerator.getUpdateByPkSql());
+	}
+	
 	@Test
 	public void getColumnsSql(){
 		assertEquals("user_id userId,user_name userName,pwd pwd",singleGenerator.getColumnsSql());

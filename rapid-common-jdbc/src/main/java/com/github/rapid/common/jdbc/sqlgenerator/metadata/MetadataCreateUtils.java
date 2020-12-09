@@ -53,6 +53,7 @@ public class MetadataCreateUtils {
 			column.setUpdatable(getColumnUpdatable(pd, readMethod));
 			column.setUnique(getColumnUnique(pd, readMethod));
 			column.setGeneratedValue(generatedValue);
+			column.setVersion(getColumnVersion(pd, readMethod));
 			
 			columns.add(column);
 		}
@@ -61,6 +62,8 @@ public class MetadataCreateUtils {
 		return t;
 	}
 	
+
+
 	static boolean isIncludeJavaType(Class clazz) {
 	    if(clazz == null) return false;
 	    if(clazz.isArray()) return false;
@@ -179,6 +182,17 @@ public class MetadataCreateUtils {
 		return unique;
 	}
 
+	private static boolean getColumnVersion(PropertyDescriptor pd, Method method) {
+		boolean version = false;
+		if(isJPAClassAvaiable) {
+			javax.persistence.Version v = (javax.persistence.Version)method.getAnnotation(javax.persistence.Version.class);
+			if(v != null) {
+				return true;
+			}
+		}
+		return version;
+	}
+	
 	private static String getTableName(Class clazz) {
 		String tableName = toUnderscoreName(clazz.getSimpleName());
 		if(isJPAClassAvaiable) {

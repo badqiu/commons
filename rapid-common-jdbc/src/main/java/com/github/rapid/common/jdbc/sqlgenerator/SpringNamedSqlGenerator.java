@@ -100,7 +100,22 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 
 		List<Column> primaryKeyColumns = getPrimaryKeyColumns();
 		appendWhereEqString(sb, primaryKeyColumns);
+		
+		Column versionColumn = getVersionColumn();
+		if(versionColumn != null) {
+			sb.append(" AND "+versionColumn.getSqlName() + " = " + getColumnPlaceholder(versionColumn));
+		}
 		return sb.toString();
+	}
+
+	private Column getVersionColumn() {
+		List<Column> columns = getColumns();
+		for(Column c : columns) {
+			if(c.isVersion()) {
+				return c;
+			}
+		}
+		return null;
 	}
 
 	private List getUpdateColumns() {
@@ -109,7 +124,11 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 		for(int i = 0; i < columns.size(); i++) {
 			Column c = columns.get(i);
 			if(c.isUpdatable() && !c.isPrimaryKey()) {
-				updateColumns.add(c.getSqlName() + " = "+getColumnPlaceholder(c));
+				if(c.isVersion()) {
+					updateColumns.add(c.getSqlName() + " = "+getColumnPlaceholder(c) + " + 1 ");
+				}else {
+					updateColumns.add(c.getSqlName() + " = "+getColumnPlaceholder(c));
+				}
 			}
 		}
 		return updateColumns;

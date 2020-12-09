@@ -12,6 +12,7 @@ public class Column {
 	private boolean insertable = true;
 	private boolean unique = false;
 	private boolean generatedValue = false;
+	private boolean version = false; //是否乐观锁字段
 	
 	public Column(String sqlName, String propertyName) {
 		this(sqlName,propertyName,false);
@@ -81,6 +82,14 @@ public class Column {
 
 	public void setGeneratedValue(boolean generatedValue) {
 		this.generatedValue = generatedValue;
+	}
+	
+	public boolean isVersion() {
+		return version;
+	}
+
+	public void setVersion(boolean version) {
+		this.version = version;
 	}
 
 	public String toString() {
