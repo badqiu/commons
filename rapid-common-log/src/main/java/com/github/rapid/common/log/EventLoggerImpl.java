@@ -67,7 +67,10 @@ public class EventLoggerImpl implements EventLogger {
 	}
 	
 	private String toMsg(LoggerMsg msg) {
-		return null;
+		if(msg.getEventType() == null) {
+			msg.setEventType(logger.getName());
+		}
+		return msg.toString();
 	}
 
 }
