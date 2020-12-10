@@ -1,13 +1,15 @@
 package com.github.rapid.common.log;
 
+import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class EventLoggerImpl implements EventLogger {
 	private Logger logger;
 	
-	public EventLoggerImpl() {
-	}
+//	public EventLoggerImpl() {
+//	}
 	
 	public EventLoggerImpl(String loggerName) {
 		logger = LoggerFactory.getLogger(loggerName);
@@ -43,33 +45,37 @@ public class EventLoggerImpl implements EventLogger {
 
 	@Override
 	public void trace(LoggerMsg msg) {
-		logger.trace(toMsg(msg));
+		logger.trace(initAndToString(msg));
 	}
 	
 	@Override
 	public void debug(LoggerMsg msg) {
-		logger.debug(toMsg(msg));
+		logger.debug(initAndToString(msg));
 	}
 
 	@Override
 	public void info(LoggerMsg msg) {
-		logger.info(toMsg(msg));
+		logger.info(initAndToString(msg));
 	}
 
 	@Override
 	public void warn(LoggerMsg msg) {
-		logger.warn(toMsg(msg));
+		logger.warn(initAndToString(msg));
 	}
 
 	@Override
 	public void error(LoggerMsg msg) {
-		logger.error(toMsg(msg));
+		logger.error(initAndToString(msg));
 	}
 	
-	private String toMsg(LoggerMsg msg) {
+	private String initAndToString(LoggerMsg msg) {
 		if(msg.getEventType() == null) {
 			msg.setEventType(logger.getName());
 		}
+		if(msg.getStartTime() == null) {
+			msg.setStartTime(new Date());
+		}
+		
 		return msg.toString();
 	}
 

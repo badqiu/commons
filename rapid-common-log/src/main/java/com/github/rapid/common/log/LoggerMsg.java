@@ -1,7 +1,7 @@
 package com.github.rapid.common.log;
 
+import java.sql.Timestamp;
 import java.util.Date;
-import java.util.Map;
 
 /**
  * 标准化日志，覆盖5W: 何时，何地，何人，何事，何因
@@ -10,12 +10,12 @@ import java.util.Map;
  *
  */
 public class LoggerMsg {
-	private String eventType; // 错误事件类型,如Project
-	private String eventAction; // 错误事件动作,如 update,delete,write,read,run
-	private String message; // 错误摘要信息
-	private String fullLog; // 错误完整日志
+	private String eventType; // 日志事件类型,如Project
+	private String eventAction; // 日志事件动作,如 update,delete,write,read,run
+	private String message; // 摘要信息
+	private String fullLog; // 完整日志
 	private Throwable exception; // 错误原因
-	private String operator; // 错误操作人
+	private String operator; // 日志操作人
 	//private Map params; //参数？？
 	
 	private long loopCount; // 循环执行大小，一般用于计算TPS
@@ -148,6 +148,12 @@ public class LoggerMsg {
 		return this;
 	}
 
-	
+	@Override
+	public String toString() {
+		return "eventType=" + eventType + ", eventAction=" + eventAction + ", message=" + message
+				+ ", fullLog=" + fullLog + ", exception=" + exception + ", operator=" + operator + ", loopCount="
+				+ loopCount + ", resultSize=" + resultSize + ", startTime=" + new Timestamp(startTime.getTime()) + ", duration=" + duration
+				;
+	}
 
 }
