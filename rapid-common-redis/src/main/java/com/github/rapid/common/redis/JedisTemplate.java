@@ -89,11 +89,18 @@ public class JedisTemplate implements InitializingBean {
 	}
 
 	public static <T> T execute(JedisPool jedisPool, RedisCallback<T> callback) {
-		Jedis jedis = jedisPool.getResource();
+		Jedis jedis = null;
 		try {
+			jedis = jedisPool.getResource();
 			T result = callback.doInRedis(jedis);
 			return result;
 		} finally {
+			close(jedis);
+		}
+	}
+
+	private static void close(Jedis jedis) {
+		if(jedis != null) {
 			jedis.close();
 		}
 	}
@@ -104,13 +111,14 @@ public class JedisTemplate implements InitializingBean {
 
 	public static <T> T execute(JedisPool jedisPool,
 			RedisTransactionCallback<T> callback) {
-		Jedis jedis = jedisPool.getResource();
+		Jedis jedis = null;
 		try {
+			jedis = jedisPool.getResource();
 			Transaction tran = jedis.multi();
 			T object = callback.doInTransaction(tran);
 			return object;
 		} finally {
-			jedis.close();
+			close(jedis);
 		}
 	}
 
@@ -2398,6 +2406,38 @@ public class JedisTemplate implements InitializingBean {
 
 	public Object sendCommand(ProtocolCommand cmd) {
 		return proxy.sendCommand(cmd);
+	}
+
+	public Tuple zpopmax(String key) {
+		return proxy.zpopmax(key);
+	}
+
+	public Set<Tuple> zpopmax(String key, int count) {
+		return proxy.zpopmax(key, count);
+	}
+
+	public Tuple zpopmin(String key) {
+		return proxy.zpopmin(key);
+	}
+
+	public Set<Tuple> zpopmin(String key, int count) {
+		return proxy.zpopmin(key, count);
+	}
+
+	public Tuple zpopmax(byte[] key) {
+		return proxy.zpopmax(key);
+	}
+
+	public Set<Tuple> zpopmax(byte[] key, int count) {
+		return proxy.zpopmax(key, count);
+	}
+
+	public Tuple zpopmin(byte[] key) {
+		return proxy.zpopmin(key);
+	}
+
+	public Set<Tuple> zpopmin(byte[] key, int count) {
+		return proxy.zpopmin(key, count);
 	}
 	
 	
