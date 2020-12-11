@@ -20,6 +20,8 @@ import org.springframework.beans.BeanUtils;
 public class BeanAssert {
 
 	public static void testPropertiesAndCommonMethod(Class<?> clazz) throws InstantiationException, IllegalAccessException {
+		if(clazz.isInterface()) return;
+		
 		Object bean = clazz.newInstance();
 		BeanDefaultValueUtils.setBeanProperties(bean);
 		BeanAssert.assertPropertiesNotNull(bean);
@@ -108,6 +110,11 @@ public class BeanAssert {
     		for(int i = 0; i < descriptors.length; i++ ) {
                 String name = descriptors[i].getName();
                 Method readMethod = descriptors[i].getReadMethod();
+                Method writeMethod = descriptors[i].getWriteMethod();
+                if(writeMethod == null) {
+                	continue;
+                }
+                
                 if("class".equals(name)) {
                 	continue;
                 }
