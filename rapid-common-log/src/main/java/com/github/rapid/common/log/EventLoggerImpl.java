@@ -6,8 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class EventLoggerImpl implements EventLogger {
-	private Logger logger;
+	public static String defaultSystem = "default_system";
 	
+	private Logger logger;
+	private String system = defaultSystem;
 //	public EventLoggerImpl() {
 //	}
 	
@@ -23,6 +25,10 @@ public class EventLoggerImpl implements EventLogger {
 		this.logger = logger;
 	}
 
+	public void setSystem(String system) {
+		this.system = system;
+	}
+	
 	public boolean isTraceEnabled() {
 		return logger.isTraceEnabled();
 	}
@@ -74,6 +80,9 @@ public class EventLoggerImpl implements EventLogger {
 		}
 		if(msg.getStartTime() == null) {
 			msg.setStartTime(new Date());
+		}
+		if(msg.getSystem() == null) {
+			msg.setSystem(system);
 		}
 		
 		return msg.toString();
