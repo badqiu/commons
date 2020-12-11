@@ -10,8 +10,11 @@ import java.util.Date;
  *
  */
 public class LoggerMsg {
+	private String system; //系统ID
 	private String eventType; // 日志事件类型,如Project
 	private String eventAction; // 日志事件动作,如 update,delete,write,read,run
+	private String eventObjectId; // 事件对象ID
+	private String batchId; //批量任务ID，同一批次的任务有用
 	private String message; // 摘要信息
 	private String fullLog; // 完整日志
 	private Throwable exception; // 错误原因
@@ -20,8 +23,12 @@ public class LoggerMsg {
 	
 	private long loopCount; // 循环执行大小，一般用于计算TPS
 	private long resultSize; // 结果集大小
+	private String resultStatus; //执行结果状态：success,fail
 	private Date startTime = new Date(); // 开始时间
 	private long duration; // 时长
+	private int retryTimes; //重试次数
+	private String host; //执行机器
+	
 	
 	public String getEventType() {
 		return eventType;
@@ -103,6 +110,46 @@ public class LoggerMsg {
 		this.duration = duration;
 	}
 	
+	public String getSystem() {
+		return system;
+	}
+
+	public void setSystem(String system) {
+		this.system = system;
+	}
+
+	public String getBatchId() {
+		return batchId;
+	}
+
+	public void setBatchId(String batchId) {
+		this.batchId = batchId;
+	}
+	
+	public String getEventObjectId() {
+		return eventObjectId;
+	}
+
+	public void setEventObjectId(String eventObjectId) {
+		this.eventObjectId = eventObjectId;
+	}
+
+	public String getResultStatus() {
+		return resultStatus;
+	}
+
+	public void setResultStatus(String resultStatus) {
+		this.resultStatus = resultStatus;
+	}
+
+	public int getRetryTimes() {
+		return retryTimes;
+	}
+
+	public void setRetryTimes(int retryTimes) {
+		this.retryTimes = retryTimes;
+	}
+
 	public LoggerMsg eventType(Class eventType) {
 		this.eventType = eventType.getSimpleName();
 		return this;
@@ -145,6 +192,29 @@ public class LoggerMsg {
 	}
 	public LoggerMsg duration(long duration) {
 		this.duration = duration;
+		return this;
+	}
+	public LoggerMsg system(String system) {
+		this.system = system;
+		return this;
+	}
+	public LoggerMsg batchId(String batchId) {
+		this.batchId = batchId;
+		return this;
+	}
+	
+	public LoggerMsg eventObjectId(String eventObjectId) {
+		this.eventObjectId = eventObjectId;
+		return this;
+	}
+	
+	public LoggerMsg resultStatus(String resultStatus) {
+		this.resultStatus = resultStatus;
+		return this;
+	}
+
+	public LoggerMsg retryTimes(int retryTimes) {
+		this.retryTimes = retryTimes;
 		return this;
 	}
 
