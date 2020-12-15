@@ -27,6 +27,7 @@ import com.github.rapid.common.beanutils.PropertyUtils;
 import com.github.rapid.common.jdbc.dialect.Dialect;
 import com.github.rapid.common.jdbc.sqlgenerator.ExtNamedJdbcTemplate;
 import com.github.rapid.common.jdbc.support.OffsetLimitResultSetExtractor;
+import com.github.rapid.common.util.MapUtil;
 import com.github.rapid.common.util.SqlRemoveUtil;
 import com.github.rapid.common.util.page.Page;
 import com.github.rapid.common.util.page.PageQuery;
@@ -243,6 +244,13 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport {
 	 */
 	public static String sql(String... sqlSegments) {
 		return StringUtils.join(sqlSegments," ");
+	}
+	
+	/**
+	 * 构建Map工具使用
+	 */
+	public static Map newMap(Object... args) {
+		return MapUtil.newMap(args);
 	}
 	
 }
