@@ -16,6 +16,25 @@ import org.apache.commons.lang.StringUtils;
 public class MapUtil {
 	
 	@SuppressWarnings("all")
+	public static Map trimKeyValue(Map p) {
+		if(p == null) return null;
+		
+		Map result = new HashMap();
+		p.forEach((key,value) -> {
+			result.put(trimObject(key), trimObject(value));
+		});
+		return result;
+	}
+
+	private static Object trimObject(Object v) {
+		if(v == null) return null;
+		if(v instanceof String) {
+			return StringUtils.trim((String)v);
+		}
+		return v;
+	}
+	
+	@SuppressWarnings("all")
 	public static void putIfNull(Map map,Object key,Object defaultValue) {
 		if(key == null)
 			throw new IllegalArgumentException("key must be not null");
