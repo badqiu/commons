@@ -27,7 +27,13 @@ public class LoggerMsg {
 	private Date startTime = new Date(); // 开始时间
 	private long duration; // 时长
 	private int retryTimes; //重试次数
-	private String host; //执行机器
+	
+	//环境信息
+	private String host; //执行机器IP
+	private String instanceId; //执行实例ID
+	private String deployEnv; //部署环境: prod,test,dev,pre
+	private String idc; //机房IDC
+	private String region; //部署区域: 国内，国外
 	
 	
 	public String getEventType() {
