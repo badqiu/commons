@@ -11,7 +11,15 @@ import java.util.concurrent.TimeUnit;
  */
 public class Timeout {
 
-	private long lastTime = SystemTimer.currentTimeMillis();
+	private long lastTime = 0;
+	
+	public Timeout() {
+		lastTime = SystemTimer.currentTimeMillis();
+	}
+	
+	public Timeout(long lastTime) {
+		this.lastTime = lastTime;
+	}
 	
 	public void updateLastTime() {
 		lastTime = SystemTimer.currentTimeMillis();
