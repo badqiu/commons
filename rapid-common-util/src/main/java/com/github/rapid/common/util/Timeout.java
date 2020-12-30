@@ -20,11 +20,19 @@ public class Timeout {
 	public Timeout(long lastTime) {
 		this.lastTime = lastTime;
 	}
+
+	public long getLastTime() {
+		return lastTime;
+	}
+
+	public void setLastTime(long lastTime) {
+		this.lastTime = lastTime;
+	}
 	
 	public void updateLastTime() {
 		lastTime = SystemTimer.currentTimeMillis();
 	}
-	
+
 	public boolean isTimeout(long duration,TimeUnit timeUnit) {
 		return isTimeoutByTimeMills(timeUnit.toMillis(duration));
 	}
