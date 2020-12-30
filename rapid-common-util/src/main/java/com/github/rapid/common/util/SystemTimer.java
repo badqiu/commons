@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 public class SystemTimer {
 	private static Logger logger = LoggerFactory.getLogger(SystemTimer.class);
 	
-	private static int refreshTimeInterval = 50;
+	private static int refreshTimeInterval = 100;
 	
 	private static long cachedCurrentTimeMillis = System.currentTimeMillis();
 	
