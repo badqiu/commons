@@ -1,5 +1,6 @@
 package com.github.rapid.common.util;
 
+import java.time.Duration;
 import java.util.concurrent.Callable;
 
 import org.springframework.util.Assert;
@@ -13,14 +14,14 @@ public class Retry {
 	
 	private Callable cmd;
 	private int retryTimes;  // 重试次数
-	private int retryInterval;// 重试间隔
-	private int retryTimeout; //超时时间
+	private long retryInterval;// 重试间隔
+	private long retryTimeout; //超时时间
 	
 //	private int failovers; //failover retry次数
 	private int useRetryTimes;
 	private Exception exception;
 	
-	public Retry(int retryTimes, int retryInterval,int retryTimeout,Callable cmd) {
+	public Retry(int retryTimes, long retryInterval,long retryTimeout,Callable cmd) {
 		super();
 		if(retryTimes > 0) {
 			Assert.isTrue(retryInterval > 0,"retryInterval > 0 must be true ");
@@ -31,7 +32,7 @@ public class Retry {
 		this.retryTimeout = retryTimeout;
 	}
 
-	public Retry(int retryTimes, int retryInterval, Callable cmd) {
+	public Retry(int retryTimes, long retryInterval, Callable cmd) {
 		this(retryTimes,retryInterval,0,cmd);
 	}
 
@@ -80,12 +81,20 @@ public class Retry {
 		throw new RetryException(useRetryTimes,"retry error",exception);
 	}
 	
-	public static Object retry(int retryTimes,int retryInterval,Callable cmd) {
+	public static Object retry(int retryTimes,long retryInterval,Callable cmd) {
 		return new Retry(retryTimes,retryInterval,cmd).exec();
 	}
 	
-	public static Object retry(int retryTimes,int retryInterval,int retryTimeout,Callable cmd) {
+	public static Object retry(int retryTimes,Duration retryInterval,Callable cmd) {
+		return new Retry(retryTimes,retryInterval.toMillis(),cmd).exec();
+	}
+	
+	public static Object retry(int retryTimes,long retryInterval,long retryTimeout,Callable cmd) {
 		return new Retry(retryTimes,retryInterval,retryTimeout,cmd).exec();
+	}
+	
+	public static Object retry(int retryTimes,Duration retryInterval,Duration retryTimeout,Callable cmd) {
+		return new Retry(retryTimes,retryInterval.toMillis(),retryTimeout.toMillis(),cmd).exec();
 	}
 	
 	
