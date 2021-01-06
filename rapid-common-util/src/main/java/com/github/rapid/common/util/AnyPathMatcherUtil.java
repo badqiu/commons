@@ -28,6 +28,10 @@ public class AnyPathMatcherUtil {
 		}
 		
 		for(String pattern : patternList) {
+			if(path.equals(pattern)) {
+				return true;
+			}
+			
 			if(antPathMatcher.match(pattern, path)) {
 				return true;
 			}
