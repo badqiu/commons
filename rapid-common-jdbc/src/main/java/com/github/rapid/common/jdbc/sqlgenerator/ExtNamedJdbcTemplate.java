@@ -37,31 +37,31 @@ public class ExtNamedJdbcTemplate extends NamedParameterJdbcTemplate {
 	}
 	
 	public int update(String sql, Object paramSource) throws DataAccessException {
-		return super.update(sql, new BeanPropertySqlParameterSource(paramSource));
+		return super.update(sql, newBeanPropertySqlParameterSource(paramSource));
 	}
 	
 	public int update(String sql, Object paramSource,KeyHolder generatedKeyHolder) throws DataAccessException {
-		return super.update(sql, new BeanPropertySqlParameterSource(paramSource), generatedKeyHolder);
+		return super.update(sql, newBeanPropertySqlParameterSource(paramSource), generatedKeyHolder);
 	}
 	
 	public int update(String sql, Object paramSource,KeyHolder generatedKeyHolder, String[] keyColumnNames)throws DataAccessException {
-		return super.update(sql, new BeanPropertySqlParameterSource(paramSource), generatedKeyHolder, keyColumnNames);
+		return super.update(sql, newBeanPropertySqlParameterSource(paramSource), generatedKeyHolder, keyColumnNames);
 	}
 
 	public <T> T query(String sql, Object paramSource,ResultSetExtractor<T> rse) throws DataAccessException {
-		return super.query(sql, new BeanPropertySqlParameterSource(paramSource), rse);
+		return super.query(sql, newBeanPropertySqlParameterSource(paramSource), rse);
 	}
 	
 	public void query(String sql, Object paramSource,RowCallbackHandler rch) throws DataAccessException {
-		super.query(sql, new BeanPropertySqlParameterSource(paramSource), rch);
+		super.query(sql, newBeanPropertySqlParameterSource(paramSource), rch);
 	}
-	
+
 	public <T> List<T> query(String sql, Object paramSource,RowMapper<T> rowMapper) throws DataAccessException {
-		return super.query(sql, new BeanPropertySqlParameterSource(paramSource), rowMapper);
+		return super.query(sql, newBeanPropertySqlParameterSource(paramSource), rowMapper);
 	}
 	
 	public <T> List<T> query(String sql, Object paramSource,Class<?> rowMappedClass) throws DataAccessException {
-		return super.query(sql, new BeanPropertySqlParameterSource(paramSource), getBeanPropertyRowMapper(rowMappedClass));
+		return super.query(sql, newBeanPropertySqlParameterSource(paramSource), getBeanPropertyRowMapper(rowMappedClass));
 	}
 
 	public <T> T queryOne(String sql, Map paramMap,RowMapper<T> rowMapper) throws DataAccessException {
@@ -69,23 +69,23 @@ public class ExtNamedJdbcTemplate extends NamedParameterJdbcTemplate {
 	}
 	
 	public <T> T queryOne(String sql, Object paramSource,RowMapper<T> rowMapper) throws DataAccessException {
-		return DataAccessUtils.singleResult(super.query(sql, new BeanPropertySqlParameterSource(paramSource), rowMapper));
+		return DataAccessUtils.singleResult(super.query(sql, newBeanPropertySqlParameterSource(paramSource), rowMapper));
 	}
 	
 	public <T> T queryOne(String sql, Object paramSource,Class<?> rowMappedClass) throws DataAccessException {
-		return (T)DataAccessUtils.singleResult(super.query(sql, new BeanPropertySqlParameterSource(paramSource), getBeanPropertyRowMapper(rowMappedClass)));
+		return (T)DataAccessUtils.singleResult(super.query(sql, newBeanPropertySqlParameterSource(paramSource), getBeanPropertyRowMapper(rowMappedClass)));
 	}
 	
 	public SqlRowSet queryForRowSet(String sql, Object paramSource)throws DataAccessException {
-		return super.queryForRowSet(sql, new BeanPropertySqlParameterSource(paramSource));
+		return super.queryForRowSet(sql, newBeanPropertySqlParameterSource(paramSource));
 	}
 	
 	public List<Map<String, Object>> queryForList(String sql,Object paramSource) throws DataAccessException {
-		return super.queryForList(sql, new BeanPropertySqlParameterSource(paramSource));
+		return super.queryForList(sql, newBeanPropertySqlParameterSource(paramSource));
 	}
 	
 	public <T> List<T> queryForList(String sql, Object paramSource,Class<T> elementType) throws DataAccessException {
-		return super.queryForList(sql, new BeanPropertySqlParameterSource(paramSource), elementType);
+		return super.queryForList(sql, newBeanPropertySqlParameterSource(paramSource), elementType);
 	}
 	
 	public int[] batchUpdate(String sql, Object[] batchArgs) {
@@ -96,13 +96,27 @@ public class ExtNamedJdbcTemplate extends NamedParameterJdbcTemplate {
 		BeanPropertySqlParameterSource[] args = new BeanPropertySqlParameterSource[batchArgs.length];
 		for(int i = 0; i < batchArgs.length; i++) {
 			Object object = batchArgs[i];
-			args[i] = new BeanPropertySqlParameterSource(object);
+			args[i] = newBeanPropertySqlParameterSource(object);
 		}
 		return super.batchUpdate(sql, args);
 	}
 	
 	public <T> T execute(String sql, Object paramSource,PreparedStatementCallback<T> action) throws DataAccessException {
-		return super.execute(sql, new BeanPropertySqlParameterSource(paramSource), action);
+		return super.execute(sql, newBeanPropertySqlParameterSource(paramSource), action);
+	}
+	
+	//解决枚举值问题
+	protected BeanPropertySqlParameterSource newBeanPropertySqlParameterSource(Object paramSource) {
+		return new BeanPropertySqlParameterSource(paramSource) {
+			@Override
+			public Object getValue(String paramName) throws IllegalArgumentException {
+				Object value = super.getValue(paramName);
+				if (value instanceof Enum) {
+	                return ((Enum) value).name();
+	            }
+	            return value;
+			}
+		};
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
