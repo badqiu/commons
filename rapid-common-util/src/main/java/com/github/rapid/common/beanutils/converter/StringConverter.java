@@ -8,7 +8,7 @@ public final class StringConverter implements Converter {
 
 	public Object convert(Class type, Object value) {
 		if (value == null || "".equals(value.toString())) {
-			return (String) null;
+			return null;
 		} else {
 			return value.toString();
 		}
