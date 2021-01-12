@@ -2,12 +2,12 @@ package com.github.rapid.common.util.tree2;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.springframework.util.Assert;
-
-import com.github.rapid.common.util.tree2.TreeTest.TreeNodeImpl;
 
 
 /**
@@ -54,13 +54,32 @@ public class Tree <T> {
 	}
 
 	public void init(Object rootNodeId) {
+		sortNodesById();
+		
 		TreeNode rootNode = findNode(nodes,rootNodeId);
 		Assert.notNull(rootNode,"not found rootNode by id:"+rootNodeId);
+		
 		rootNode.setParent(findParentNode(nodes,rootNode));
 		rootNode.setChilds(findChilds(nodes,rootNodeId));
 		rootNode.setDepth(0);
 		setChildsTree(nodes,rootNode,1);
 		this.root = rootNode;
+	}
+
+	private void sortNodesById() {
+		nodes.sort(newTreeNodeIdComparator());
+	}
+
+	private Comparator<TreeNode> newTreeNodeIdComparator() {
+		return new Comparator<TreeNode>() {
+			@Override
+			public int compare(TreeNode o1, TreeNode o2) {
+				Comparable c1 = (Comparable)o1.getId();
+				Comparable c2 = (Comparable)o2.getId();
+				if(Objects.equals(c1, c2)) return 0;
+				return c1.compareTo(c2);
+			}
+		};
 	}
 	
 	private void setChildsTree(List<TreeNode<T>> nodes, TreeNode<T> current,int depth) {
@@ -82,7 +101,14 @@ public class Tree <T> {
 		return null;
 	}
 
+	private TreeNode<T> findNode(List<? extends TreeNode<T>> nodes, TreeNode id) {
+		int index = Collections.binarySearch(nodes, id, newTreeNodeIdComparator());
+		if(index >= 0) return nodes.get(index);
+		return null;		
+	}
+	
 	private TreeNode<T> findNode(List<? extends TreeNode<T>> nodes, Object id) {
+
 		for(TreeNode<T> node : nodes) {
 			if(node.getId().equals(id)) {
 				return node;
