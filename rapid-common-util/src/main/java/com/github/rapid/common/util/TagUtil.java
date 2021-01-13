@@ -21,13 +21,17 @@ public class TagUtil {
 	 * @param tags
 	 * @return
 	 */
-	public static Set parseTags(String tags) {
+	public static Set<String> parseTags(String tags) {
 		if(StringUtils.isBlank(tags)) {
-			return new HashSet();
+			return new HashSet<String>();
 		}
 		
 		String[] tagsArray = StringUtils.split(tags, ',');
-		Set result = new HashSet();
+		return trimArray(tagsArray);
+	}
+
+	private static Set<String> trimArray(String[] tagsArray) {
+		Set<String> result = new HashSet<String>();
 		for(int i = 0; i < tagsArray.length; i++) {
 			String tag = StringUtils.trim(tagsArray[i]);
 			if(StringUtils.isBlank(tag)) {
