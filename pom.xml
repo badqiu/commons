@@ -21,6 +21,7 @@
 		<module>rapid-common-rest</module>
 		<module>rapid-common-log</module>
 		<module>rapid-common-redis</module>
+		<module>rapid-common-security</module>
 	</modules>
 		
 
