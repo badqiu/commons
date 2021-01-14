@@ -2,6 +2,12 @@ package com.github.rapid.common.security;
 
 import java.util.List;
 
+/**
+ * 得到对象的拥有者及权限
+ * 
+ * @author badqiu
+ *
+ */
 public interface EntityPermission {
 
 //	public List<OwnerPermission> getOwnerUserPermissionList();
