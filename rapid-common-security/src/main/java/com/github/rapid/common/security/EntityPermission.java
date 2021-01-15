@@ -1,6 +1,6 @@
 package com.github.rapid.common.security;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * 得到对象的拥有者及权限
@@ -16,6 +16,6 @@ public interface EntityPermission {
 //	public List<OwnerPermission> getOwnerDeptPermissionList();
 //	public List<OwnerPermission> getOtherUserPermissionList();
 	
-	public List<OwnerPermission> getOwnerPermissionList();
+	public Set<OwnerPermission> getOwnerPermissionSet();
 	
 }
