@@ -1,0 +1,27 @@
+
+//检查行权限
+checkEntityPermission(project,permission){
+  String<String> otherUserPermSet = project.getRequiredOtherUserPermission();
+  if(otherUserPermSet.contains(permission)) {
+    return;
+  }
+  
+  LoginUser loginUser = getLoginUser();
+  String user = project.getRequiredUser();
+  String userPermSet = project.getRequiredUserPermission();
+  if(loginUser.getUsername().equals(user) || loginUser.getUserId().equals(user)) {
+    if(userPermSet.contains(permission)) {
+      return;
+    }
+  }
+  
+  Role role = project.getRequiredRole();
+  if(loginUser.getRoleSet().contains(role.name())) {
+    String rolePermSet = role.getRequiredRolePermission();
+    if(rolePermSet.contains(permission)) {
+      return;
+    }
+  }
+  
+  throw new SecurityException("not permission on object:"+project+" permission:"+permission);
+}
