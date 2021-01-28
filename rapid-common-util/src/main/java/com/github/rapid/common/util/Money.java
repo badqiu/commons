@@ -316,8 +316,12 @@ public class Money implements Serializable, Comparable<Money> {
     public Currency getCurrency() {
         return currency;
     }
+    
+    public void setCurrency(Currency currency) {
+		this.currency = currency;
+	}
 
-    /**
+	/**
      * 获取本货币币种的元/分换算比率。
      *
      * @return 本货币币种的元/分换算比率。
