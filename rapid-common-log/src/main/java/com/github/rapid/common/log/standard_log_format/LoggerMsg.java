@@ -1,4 +1,4 @@
-package com.github.rapid.common.log;
+package com.github.rapid.common.log.standard_log_format;
 
 import java.sql.Timestamp;
 import java.util.Date;

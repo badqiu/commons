@@ -11,6 +11,7 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang.text.StrLookup;
 import org.apache.commons.lang.text.StrSubstitutor;
 
+import com.github.rapid.common.log.standard_log_format.ExceptionDigest;
 import com.github.rapid.common.util.Profiler;
 import com.github.rapid.common.util.Profiler.Step;
 
