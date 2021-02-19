@@ -228,8 +228,14 @@ public class LoggerMsg {
 	public String toString() {
 		return "eventType=" + eventType + ", eventAction=" + eventAction + ", message=" + message
 				+ ", fullLog=" + fullLog + ", exception=" + exception + ", operator=" + operator + ", loopCount="
-				+ loopCount + ", resultSize=" + resultSize + ", startTime=" + new Timestamp(startTime.getTime()) + ", duration=" + duration
+				+ loopCount + ", resultSize=" + resultSize + ", startTime=" + formatTime(startTime) + ", duration=" + duration
 				;
+	}
+
+	private Timestamp formatTime(Date date) {
+		if(date == null) return null;
+		
+		return new Timestamp(date.getTime());
 	}
 
 }
