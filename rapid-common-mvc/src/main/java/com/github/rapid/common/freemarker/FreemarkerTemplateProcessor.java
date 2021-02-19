@@ -5,8 +5,8 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Locale;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
@@ -21,7 +21,7 @@ import freemarker.template.TemplateException;
  * @author badqiu
  */
 public class FreemarkerTemplateProcessor implements InitializingBean{
-	static Log log = LogFactory.getLog(FreemarkerTemplateProcessor.class);
+	static Logger log = LoggerFactory.getLogger(FreemarkerTemplateProcessor.class);
 	private Configuration configuration;
 	private boolean exposeRapidMacros = true;
 	
