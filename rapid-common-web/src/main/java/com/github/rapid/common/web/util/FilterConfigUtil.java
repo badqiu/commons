@@ -12,6 +12,8 @@ import org.apache.commons.lang.StringUtils;
 public class FilterConfigUtil {
 
 	public static String getParameter(FilterConfig config,String key,String defaultValue) {
+		if(config == null) return defaultValue;
+		
 		String v = config.getInitParameter(key);
 		return StringUtils.isEmpty(v) ? defaultValue : v;
 	}

@@ -52,14 +52,14 @@ public class PerformanceFilterTest{
     public void test_initFilterBean() throws Throwable{
         performanceFilter.init(filterConfig);
         performanceFilter.initFilterBean();
-        Assert.assertEquals(performanceFilter.threshold,3000);
+        Assert.assertEquals(performanceFilter.slowlogTime,3000);
         Assert.assertEquals(performanceFilter.includeQueryString,false);
         
         filterConfig.addInitParameter("threshold", ""+5000);
         filterConfig.addInitParameter("includeQueryString", "true");
         performanceFilter.init(filterConfig);
         performanceFilter.initFilterBean();
-        Assert.assertEquals(performanceFilter.threshold,5000);
+        Assert.assertEquals(performanceFilter.slowlogTime,5000);
         Assert.assertEquals(performanceFilter.includeQueryString,true);
         
     }

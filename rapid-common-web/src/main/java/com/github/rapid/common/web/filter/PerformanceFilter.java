@@ -42,7 +42,7 @@ import com.github.rapid.common.web.util.FilterConfigUtil;
  *
  */
 public class PerformanceFilter  extends OncePerRequestFilter implements Filter {
-    int threshold = 3000;
+    int slowlogTime = 3000;
     boolean includeQueryString = false;
     private static final Log log = LogFactory.getLog(PerformanceFilter.class);
     private static final Log slowlog = LogFactory.getLog("slowlog");
@@ -50,12 +50,12 @@ public class PerformanceFilter  extends OncePerRequestFilter implements Filter {
     public void destroy() {
     }
     
-	public int getThreshold() {
-		return threshold;
+	public int getSlowlogTime() {
+		return slowlogTime;
 	}
 
-	public void setThreshold(int threshold) {
-		this.threshold = threshold;
+	public void setSlowlogTime(int slowlogTime) {
+		this.slowlogTime = slowlogTime;
 	}
 
 	public boolean isIncludeQueryString() {
@@ -82,9 +82,10 @@ public class PerformanceFilter  extends OncePerRequestFilter implements Filter {
             rethrowThrowable(failed);
         } finally {
             long duration = System.currentTimeMillis() - start;
+
             if (failed != null) {
                 log.error(requestString+",F,"+duration+"ms");
-            } else if (duration > threshold) {
+            } else if (duration > slowlogTime) {
             	slowlog.warn(requestString+",Y,"+duration+"ms");
             } else if (log.isInfoEnabled()) {
                 log.info(requestString+",Y,"+duration+"ms");
@@ -111,9 +112,9 @@ public class PerformanceFilter  extends OncePerRequestFilter implements Filter {
 
     @Override
     public void initFilterBean() throws ServletException {
-        this.threshold = FilterConfigUtil.getIntParameter(getFilterConfig(), "threshold", threshold);
+        this.slowlogTime = FilterConfigUtil.getIntParameter(getFilterConfig(), "threshold", slowlogTime);
         this.includeQueryString = FilterConfigUtil.getBooleanParameter(getFilterConfig(), "includeQueryString", includeQueryString);
-        log.info("PerformanceFilter started with threshold:"+threshold+"ms includeQueryString:"+includeQueryString);
+        log.info("PerformanceFilter started with threshold:"+slowlogTime+"ms includeQueryString:"+includeQueryString);
     }
     
     /**
