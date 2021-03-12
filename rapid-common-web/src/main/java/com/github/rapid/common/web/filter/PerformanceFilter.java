@@ -45,9 +45,26 @@ public class PerformanceFilter  extends OncePerRequestFilter implements Filter {
     int threshold = 3000;
     boolean includeQueryString = false;
     private static final Log log = LogFactory.getLog(PerformanceFilter.class);
+    private static final Log slowlog = LogFactory.getLog("slowlog");
 
     public void destroy() {
     }
+    
+	public int getThreshold() {
+		return threshold;
+	}
+
+	public void setThreshold(int threshold) {
+		this.threshold = threshold;
+	}
+
+	public boolean isIncludeQueryString() {
+		return includeQueryString;
+	}
+
+	public void setIncludeQueryString(boolean includeQueryString) {
+		this.includeQueryString = includeQueryString;
+	}
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request,
@@ -68,7 +85,7 @@ public class PerformanceFilter  extends OncePerRequestFilter implements Filter {
             if (failed != null) {
                 log.error(requestString+",F,"+duration+"ms");
             } else if (duration > threshold) {
-                log.warn(requestString+",Y,"+duration+"ms");
+            	slowlog.warn(requestString+",Y,"+duration+"ms");
             } else if (log.isInfoEnabled()) {
                 log.info(requestString+",Y,"+duration+"ms");
             }
