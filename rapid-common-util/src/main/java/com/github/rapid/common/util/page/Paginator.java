@@ -154,6 +154,14 @@ public class Paginator implements java.io.Serializable {
             return 0;
         }
     }
+    
+    /**
+     * 结束offset，(0-based)
+     **/
+    public int getEndOffset() {
+        return getOffset() + getLimit();
+    }
+    
 	/**
 	 * 得到 总页数
 	 * @return

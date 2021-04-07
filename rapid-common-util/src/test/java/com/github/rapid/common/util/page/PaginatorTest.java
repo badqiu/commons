@@ -1,6 +1,9 @@
 package com.github.rapid.common.util.page;
 
-import com.github.rapid.common.util.page.Paginator;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Test;
 
 import junit.framework.TestCase;
 
@@ -96,6 +99,8 @@ public class PaginatorTest extends TestCase {
 		assertEquals(p.getStartRow(),46);
 		assertEquals(p.getEndRow(),50);
 		assertEquals(p.getOffset(),45);
+		assertEquals(p.getLimit(),5);
+		assertEquals(p.getEndOffset(),50);
 		assertEquals(p.getPage(),10);
 		assertEquals(p.getPageSize(),5);
 		assertEquals(p.getPrePage(),9);
@@ -107,6 +112,8 @@ public class PaginatorTest extends TestCase {
 		assertEquals(p.getStartRow(),1801);
 		assertEquals(p.getEndRow(),2000);
 		assertEquals(p.getOffset(),1800);
+		assertEquals(p.getLimit(),200);
+		assertEquals(p.getEndOffset(),2000);
 		assertEquals(p.getPage(),10);
 		assertEquals(p.getPageSize(),200);
 		assertEquals(p.getPrePage(),9);
@@ -173,6 +180,34 @@ public class PaginatorTest extends TestCase {
 		assertEquals(p.getTotalPages(),0);
 		assertEquals(p.getTotalItems(),10);
 
+	}
+	
+	@Test
+	public void test_page_for_list() {
+		List list = new ArrayList();
+		for(int i = 0; i < 112;i++) {
+			list.add(i);
+		}
+		
+		p = new Paginator(0,10,list.size());
+		System.out.println(list.subList(p.getOffset(), p.getEndOffset()));
+		assertEquals(list.subList(p.getOffset(), p.getEndOffset()).toString(),"[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]");
+		
+		p = new Paginator(2,10,list.size());
+		System.out.println(list.subList(p.getOffset(), p.getEndOffset()));
+		assertEquals(list.subList(p.getOffset(), p.getEndOffset()).toString(),"[10, 11, 12, 13, 14, 15, 16, 17, 18, 19]");
+		
+		p = new Paginator(11,10,list.size());
+		System.out.println(list.subList(p.getOffset(), p.getEndOffset()));
+		assertEquals(list.subList(p.getOffset(), p.getEndOffset()).toString(),"[100, 101, 102, 103, 104, 105, 106, 107, 108, 109]");
+		
+		p = new Paginator(12,10,list.size());
+		System.out.println(list.subList(p.getOffset(), p.getEndOffset()));
+		assertEquals(list.subList(p.getOffset(), p.getEndOffset()).toString(),"[110, 111]");
+		
+		p = new Paginator(100,10,list.size());
+		System.out.println(list.subList(p.getOffset(), p.getEndOffset()));
+		assertEquals(list.subList(p.getOffset(), p.getEndOffset()).toString(),"[110, 111]");
 	}
 	
 }
