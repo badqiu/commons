@@ -4,8 +4,6 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import org.springframework.util.ReflectionUtils;
-
 /**
  * apache PropertyUtils的等价类，修改如下:
  * 1. 将check exception改为uncheck exception
@@ -16,7 +14,7 @@ import org.springframework.util.ReflectionUtils;
 public class PropertyUtils {
 
 	private static void handleException(Exception e) {
-		ReflectionUtils.handleReflectionException(e);
+		BeanUtils.handleReflectionException(e);
 	}
 	
 	public static void clearDescriptors() {
