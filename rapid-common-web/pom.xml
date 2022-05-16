@@ -39,7 +39,7 @@
 		<slf4j.version>1.7.3</slf4j.version>
 		<hibernate.validator.version>4.1.0.Final</hibernate.validator.version>
 		
-		<hibernate.version>3.3.2.GA</hibernate.version>
+		<hibernate.version>5.4.24.Final</hibernate.version>
 		<ibatis.version>2.3.4.726</ibatis.version>
 		<mybatis.version>3.0.1</mybatis.version>
 		
