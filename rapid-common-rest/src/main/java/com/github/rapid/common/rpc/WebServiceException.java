@@ -22,6 +22,9 @@ public class WebServiceException extends RuntimeException {
 	/** 非法参数  as HTTP SC_BAD_REQUEST:400  */
 	public static String ILLEGAL_ARGUMENT = "ILLEGAL_ARGUMENT";
 	
+	/** 安全错误  */
+	public static String SECURITY_ERROR = "SECURITY_ERROR";
+	
 	/**
 	 * 错误码
 	 */
