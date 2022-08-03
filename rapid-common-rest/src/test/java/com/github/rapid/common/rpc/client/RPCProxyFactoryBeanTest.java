@@ -105,8 +105,10 @@ public class RPCProxyFactoryBeanTest extends BaseClientTestCase{
 		commonHttpFactory.setHttpHeaders(httpHeaders);
 		commonHttpFactory.afterPropertiesSet();
 		BlogInfoService httpCommonBlogInfoService = (BlogInfoService)commonHttpFactory.getObject();
+		
+		httpHeaders.put("access-token", "secure-diy2");
 		String remoteResult2 = httpCommonBlogInfoService.httpHeader("hello");
-		assertEquals(remoteResult2,"accessToken:secure-abc123 info:hello");
+		assertEquals(remoteResult2,"accessToken:secure-diy2 info:hello");
 	}
 	
 	@Test
