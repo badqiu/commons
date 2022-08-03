@@ -22,11 +22,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 
 import com.github.rapid.common.rpc.WebServiceException;
+import com.github.rapid.common.rpc.client.RPCClientContext;
 import com.github.rapid.common.rpc.fortest.api.model.Blog;
 import com.github.rapid.common.rpc.fortest.api.model.ComplexObject;
 import com.github.rapid.common.rpc.fortest.api.request.BlogQuery;
 import com.github.rapid.common.rpc.fortestinvoker.UserInfo;
 import com.github.rapid.common.rpc.fortestinvoker.UserTypeEnum;
+import com.github.rapid.common.rpc.server.RPCContext;
 import com.github.rapid.common.util.page.Page;
 import com.github.rapid.common.util.page.Paginator;
 
@@ -327,6 +329,12 @@ public class BlogInfoServiceImpl implements BlogInfoService {
 	@Override
 	public String listKeys(List<String> keys) {
 		return StringUtils.join(keys,",");
+	}
+
+	@Override
+	public String httpHeader(String info) {
+		String accessToken = RPCContext.getRequest().getHeader("access-token");
+		return "accessToken:"+accessToken+" info:"+info;
 	}
 
 

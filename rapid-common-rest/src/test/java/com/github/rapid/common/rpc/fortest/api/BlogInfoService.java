@@ -104,5 +104,7 @@ public interface BlogInfoService {
 	public Map<String, String> nullValueMapList(String key);
 	
 	public Map<String, List> emptyValueMapList(String key);
+
+	String httpHeader(String info);
 	
 }

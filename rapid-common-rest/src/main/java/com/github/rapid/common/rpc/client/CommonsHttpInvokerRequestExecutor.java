@@ -236,6 +236,7 @@ public class CommonsHttpInvokerRequestExecutor extends AbstractHttpInvokerReques
 
 	private void setRequestHeaders(PostMethod postMethod, Map<String, String> headers) {
 		if(headers == null) return;
+		
 		for(Map.Entry<String,String> entry : headers.entrySet()) {
 			postMethod.setRequestHeader(entry.getKey(), entry.getValue());
 		}

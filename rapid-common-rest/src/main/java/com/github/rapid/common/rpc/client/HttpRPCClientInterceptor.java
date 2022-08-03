@@ -7,6 +7,8 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.ConnectException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
@@ -33,6 +35,9 @@ public class HttpRPCClientInterceptor extends RemoteAccessor implements MethodIn
 	private HttpInvokerRequestExecutor httpInvokerRequestExecutor;
 
 	private int[] retryIntervalMills = null;
+	
+	private Map<String,String> httpHeaders = null;
+	
 	/**
 	 * Set the HttpInvokerRequestExecutor implementation to use for executing
 	 * remote invocations.
@@ -58,7 +63,21 @@ public class HttpRPCClientInterceptor extends RemoteAccessor implements MethodIn
 		this.retryIntervalMills = retryIntervalMills;
 	}
 	
+	public Map<String, String> getHttpHeaders() {
+		return httpHeaders;
+	}
+
+	public void setHttpHeaders(Map<String, String> httpHeaders) {
+		this.httpHeaders = httpHeaders;
+	}
 	
+	public void setHttpHeader(String headerName,String headerValue) {
+		if(httpHeaders == null) {
+			setHttpHeaders(new HashMap<String,String>());
+		}
+		this.httpHeaders.put(headerName, headerValue);
+	}
+
 	private static boolean isHttpClientAvaiable = false;
 	static {
 		try {
@@ -164,6 +183,7 @@ public class HttpRPCClientInterceptor extends RemoteAccessor implements MethodIn
 		RPCRequest request = new RPCRequest();
 		request.setArguments(methodInvocation.getArguments());
 		request.setMethod(methodInvocation.getMethod().getName());
+		request.setHeaders(httpHeaders);
 		return request;
 	}
 

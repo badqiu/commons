@@ -29,10 +29,11 @@ import com.github.rapid.common.rpc.tools.JettyServer;
 public class RPCProxyFactoryBeanTest extends BaseClientTestCase{
 	
 	UserWebService userWebService = null;
-	BlogInfoService httpCommonBlogInfoService = null;
+	BlogInfoService httpSimpleBlogInfoService = null;
 	BlogInfoService blogInfoService = null;
 	BlogInfoService localBlogInfoService = new BlogInfoServiceImpl();
 	
+	Map httpHeaders = new HashMap();
 	@BeforeClass
 	public static void beforeClass() throws Exception {
 		JettyServer.main(null);
@@ -40,24 +41,26 @@ public class RPCProxyFactoryBeanTest extends BaseClientTestCase{
 	
 	@Before
 	public void setUp() {
-		RPCProxyFactoryBean factory = new RPCProxyFactoryBean();
-		factory.setServiceInterface(UserWebService.class);
-		factory.setHttpInvokerRequestExecutor(new CommonsHttpInvokerRequestExecutor());
-		factory.setServiceUrl("http://localhost:26060/services/userWebService");
-		factory.setRetryIntervalMills(new int[]{100,200});
-		factory.afterPropertiesSet();
-		userWebService = (UserWebService)factory.getObject();
+		RPCProxyFactoryBean commonHttpFactory = new RPCProxyFactoryBean();
+		commonHttpFactory.setServiceInterface(UserWebService.class);
+		commonHttpFactory.setHttpInvokerRequestExecutor(new CommonsHttpInvokerRequestExecutor());
+		commonHttpFactory.setServiceUrl("http://localhost:26060/services/userWebService");
+		commonHttpFactory.setRetryIntervalMills(new int[]{100,200});
+		commonHttpFactory.setHttpHeaders(httpHeaders);
+		commonHttpFactory.afterPropertiesSet();
+		userWebService = (UserWebService)commonHttpFactory.getObject();
 		
 		ApplicationContext context = new ClassPathXmlApplicationContext("client/rpc-client.xml");
 		blogInfoService = (BlogInfoService)context.getBean("blogInfoService");
 		userWebService = (UserWebService)context.getBean("userWebService");
 		
-		factory = new RPCProxyFactoryBean();
-		factory.setServiceInterface(com.github.rapid.common.rpc.fortest.api.BlogInfoService.class);
-		factory.setHttpInvokerRequestExecutor(new SimpleHttpInvokerRequestExecutor());
-		factory.setServiceUrl("http://localhost:26060/services/BlogInfoService");
-		factory.afterPropertiesSet();
-		httpCommonBlogInfoService = (BlogInfoService)factory.getObject();
+		RPCProxyFactoryBean simpleHttpFactory = new RPCProxyFactoryBean();
+		simpleHttpFactory.setServiceInterface(com.github.rapid.common.rpc.fortest.api.BlogInfoService.class);
+		simpleHttpFactory.setHttpInvokerRequestExecutor(new SimpleHttpInvokerRequestExecutor());
+		simpleHttpFactory.setServiceUrl("http://localhost:26060/services/BlogInfoService");
+		simpleHttpFactory.setHttpHeaders(httpHeaders);
+		simpleHttpFactory.afterPropertiesSet();
+		httpSimpleBlogInfoService = (BlogInfoService)simpleHttpFactory.getObject();
 	}
 	
 	@Test
@@ -84,6 +87,26 @@ public class RPCProxyFactoryBeanTest extends BaseClientTestCase{
 		System.out.println(BeanUtils.describe(blog));
 		System.out.println(BeanUtils.describe(BlogInfoServiceImpl.createBlog()));
 		assertEquals(BlogInfoServiceImpl.createBlog(),blog);
+	}
+	
+	@Test
+	public void test_http_header() throws Exception, InvocationTargetException, NoSuchMethodException {
+		httpHeaders.put("access-token", "secure-abc123");
+		String remoteResult = httpSimpleBlogInfoService.httpHeader("hello");
+		assertEquals(remoteResult,"accessToken:secure-abc123 info:hello");
+		
+		
+		RPCProxyFactoryBean commonHttpFactory = new RPCProxyFactoryBean();
+		commonHttpFactory.setServiceInterface(com.github.rapid.common.rpc.fortest.api.BlogInfoService.class);
+		CommonsHttpInvokerRequestExecutor httpInvokerRequestExecutor = new CommonsHttpInvokerRequestExecutor();
+		httpInvokerRequestExecutor.afterPropertiesSet();
+		commonHttpFactory.setHttpInvokerRequestExecutor(httpInvokerRequestExecutor);
+		commonHttpFactory.setServiceUrl("http://localhost:26060/services/BlogInfoService");
+		commonHttpFactory.setHttpHeaders(httpHeaders);
+		commonHttpFactory.afterPropertiesSet();
+		BlogInfoService httpCommonBlogInfoService = (BlogInfoService)commonHttpFactory.getObject();
+		String remoteResult2 = httpCommonBlogInfoService.httpHeader("hello");
+		assertEquals(remoteResult2,"accessToken:secure-abc123 info:hello");
 	}
 	
 	@Test
@@ -156,7 +179,7 @@ public class RPCProxyFactoryBeanTest extends BaseClientTestCase{
 		assertTrue(localBlogInfoService.tree_set_but_return_set("123").toString().equals(new TreeSet(blogInfoService.tree_set_but_return_set("123")).toString()));
 		assertEquals(localBlogInfoService.linked_hash_set("123").toString(),blogInfoService.linked_hash_set("123").toString());
 		
-		assertEquals(localBlogInfoService.AComplex__methodDDDD123Name(),httpCommonBlogInfoService.AComplex__methodDDDD123Name());
+		assertEquals(localBlogInfoService.AComplex__methodDDDD123Name(),httpSimpleBlogInfoService.AComplex__methodDDDD123Name());
 		
 		assertEquals(localBlogInfoService.return_exception().toString(),blogInfoService.return_exception().toString());
 

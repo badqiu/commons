@@ -47,16 +47,29 @@ public class SimpleHttpInvokerRequestExecutor extends AbstractHttpInvokerRequest
 			throws IOException, ClassNotFoundException {
 
 		HttpURLConnection con = openConnection(url);
-		prepareConnection(con,parameters.length );
+		prepareConnection(con,parameters.length,headers);
+		
 		writeRequestBody(con, parameters);
 		validateResponse(con);
 		InputStream responseBody = readResponseBody(con);
+		
 		HttpResponse r = new HttpResponse();
 		r.setBody(responseBody);
-		r.setHeaders(toHttpHeadersMap(headers));
+		r.setHeaders(toResponseHeadersMap(con.getHeaderFields()));
 		return r;
 	}
 
+	private Map<String, String> toResponseHeadersMap(Map<String, List<String>> headerFields) {
+		Map m = new HashMap(headerFields.size() * 2);
+		for(Map.Entry<String, List<String>> entry : headerFields.entrySet()) {
+			List<String> value = entry.getValue();
+			if(value != null && !value.isEmpty()) {
+				m.put(entry.getKey(), value.get(0));
+			}
+		}
+		return m;
+	}
+	
 	private Map<String, String> toHttpHeadersMap(Map<String, String> headerFields) {
 		if(headerFields == null) return Collections.emptyMap();
 		return headerFields;
@@ -109,7 +122,7 @@ public class SimpleHttpInvokerRequestExecutor extends AbstractHttpInvokerRequest
 	 * @see java.net.HttpURLConnection#setRequestMethod
 	 * @see java.net.HttpURLConnection#setRequestProperty
 	 */
-	protected void prepareConnection(HttpURLConnection con, int contentLength) throws IOException {
+	protected void prepareConnection(HttpURLConnection con, int contentLength,Map<String,String> headers) throws IOException {
 		con.setConnectTimeout(getConnectionTimeout());
 		con.setReadTimeout(getReadTimeout());
 		
@@ -117,6 +130,13 @@ public class SimpleHttpInvokerRequestExecutor extends AbstractHttpInvokerRequest
 		con.setRequestMethod(HTTP_METHOD_POST);
 		con.setRequestProperty(HTTP_HEADER_CONTENT_TYPE, getContentType());
 		con.setRequestProperty(HTTP_HEADER_CONTENT_LENGTH, Integer.toString(contentLength));
+		
+		if(headers != null) {
+			for(Map.Entry<String,String> entry : headers.entrySet()) {
+				con.setRequestProperty(entry.getKey(), entry.getValue());
+			}
+		}
+		
 		LocaleContext locale = LocaleContextHolder.getLocaleContext();
 		if (locale != null) {
 			con.setRequestProperty(HTTP_HEADER_ACCEPT_LANGUAGE, StringUtils.toLanguageTag(locale.getLocale()));

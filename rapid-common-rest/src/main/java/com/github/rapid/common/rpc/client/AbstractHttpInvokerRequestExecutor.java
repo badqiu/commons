@@ -145,7 +145,7 @@ public abstract class AbstractHttpInvokerRequestExecutor
 		byte[] parameters = output.toByteArray();
 		if (logger.isDebugEnabled()) {
 			logger.debug("Sending HTTP invoker request for service at [" + url +
-					"], with parameters: " + parameters);
+					"], with parameters: " + parameters+" headers:"+invocation.getHeaders());
 		}
 		return doExecuteRequest(url,parameters,invocation.getHeaders());
 	}
