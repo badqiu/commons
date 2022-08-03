@@ -110,14 +110,14 @@ public class MethodInvokerSerTest extends Assert{
 	public void test_MapArgument() throws ParseException {
 		
 		userWebService.mapArgument(new String[]{"badqiu","jjyy"}, new int[]{111,222}, null);
-		verifyOutput("UserWebServiceImpl.mapArgument() name:[badqiu, jjyy] age:[111, 222] map:null");
+		verifyOutput("UserWebServiceImpl.mapArgument() name:[badqiu, jjyy] age:[111, 222] map:{}");
 		
 		Map map = new HashMap();
 		map.put("int1", 1);
 		map.put("key2", "value2");
 		map.put("key1", "value1");
 		userWebService.mapArgument(new String[]{"badqiu","jjyy"}, new int[]{111,222}, map);
-		verifyOutput("UserWebServiceImpl.mapArgument() name:[badqiu, jjyy] age:[111, 222] map:{key2=value2, key1=value1, int1=1}");
+		verifyOutput("UserWebServiceImpl.mapArgument() name:[badqiu, jjyy] age:[111, 222] map:{key1=value1, key2=value2, int1=1}");
 		
 		map = new HashMap();
 		userWebService.mapArgument(new String[]{"badqiu","jjyy"}, new int[]{111,222}, map);
@@ -129,6 +129,9 @@ public class MethodInvokerSerTest extends Assert{
 		String actual = output.toString();
 		output.reset();
 		params.clear();
-		assertTrue("\n"+str+"\n"+actual,actual.replaceAll("\\s*", "").equals(str.replaceAll("\\s*", "")));
+		String message = "\n"+str+"\n"+actual;
+		String expected = actual.replaceAll("\\s*", "");
+		String right = str.replaceAll("\\s*", "");
+		assertEquals(message, expected, right);
 	}
 }
