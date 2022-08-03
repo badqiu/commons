@@ -3,6 +3,8 @@ package com.github.rapid.common.util;
 import java.time.Duration;
 import java.util.concurrent.Callable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 /**
@@ -11,6 +13,7 @@ import org.springframework.util.Assert;
  *
  */
 public class Retry {
+	private static Logger logger = LoggerFactory.getLogger(Retry.class);
 	
 	private Callable cmd;
 	private int retryTimes;  // 重试次数
@@ -55,6 +58,8 @@ public class Retry {
 				Object result = cmd.call();
 				return result;
 			} catch (Exception e) {
+				logger.warn("occer error,retry execute: useRetryTimes:"+useRetryTimes+" retryTimes:"+retryTimes+" retryInterval:"+retryInterval,e);
+				
 				exception = e;
 				useRetryTimes++;
 				if(useRetryTimes > retryTimes) {

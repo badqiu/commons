@@ -4,10 +4,11 @@
 	<groupId>com.github.rapid.common</groupId>
 	<artifactId>rapid-common-util</artifactId>
 	<name>rapid-common-util</name>
-	<version>1.0.0</version>	
+	<version>1.0.1</version>	
 	<packaging>jar</packaging>
 
 	<description>rapid-common-util core libs</description>
+	
 	
 	<licenses>
 		<license>
@@ -83,6 +84,7 @@
 			</plugin>
 		</plugins>
 	</build>
+	
 	
 	<dependencyManagement>
 		<dependencies>
@@ -968,7 +970,7 @@
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
-			<version>1.4.16</version>
+			<version>1.4.17</version>
 			<optional>true</optional>
 		</dependency>
 		
