@@ -71,6 +71,12 @@ public class CommonsHttpInvokerRequestExecutor extends AbstractHttpInvokerReques
 		
 	}
 
+	public CommonsHttpInvokerRequestExecutor(boolean init) {
+		if(init) {
+			afterPropertiesSet();
+		}
+	}
+
 	/**
 	 * Create a new CommonsHttpInvokerRequestExecutor with the given
 	 * HttpClient instance. The socket read timeout of the provided
@@ -252,6 +258,10 @@ public class CommonsHttpInvokerRequestExecutor extends AbstractHttpInvokerReques
 
 	@Override
 	public void afterPropertiesSet()  {
+		init();
+	}
+
+	private void init() {
 		MultiThreadedHttpConnectionManager httpConnectionManager = new MultiThreadedHttpConnectionManager();
 		HttpConnectionManagerParams params = new HttpConnectionManagerParams();
 		params.setDefaultMaxConnectionsPerHost(300);

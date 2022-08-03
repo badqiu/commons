@@ -98,8 +98,7 @@ public class RPCProxyFactoryBeanTest extends BaseClientTestCase{
 		
 		RPCProxyFactoryBean commonHttpFactory = new RPCProxyFactoryBean();
 		commonHttpFactory.setServiceInterface(com.github.rapid.common.rpc.fortest.api.BlogInfoService.class);
-		CommonsHttpInvokerRequestExecutor httpInvokerRequestExecutor = new CommonsHttpInvokerRequestExecutor();
-		httpInvokerRequestExecutor.afterPropertiesSet();
+		CommonsHttpInvokerRequestExecutor httpInvokerRequestExecutor = new CommonsHttpInvokerRequestExecutor(true);
 		commonHttpFactory.setHttpInvokerRequestExecutor(httpInvokerRequestExecutor);
 		commonHttpFactory.setServiceUrl("http://localhost:26060/services/BlogInfoService");
 		commonHttpFactory.setHttpHeaders(httpHeaders);
