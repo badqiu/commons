@@ -133,6 +133,7 @@ public class RPCServiceExporter extends RemoteExporter implements HttpRequestHan
 	}
 
 	private Object invokeServiceMethod(HttpServletRequest request,Map<String, Object> parameters) {
+		beforeInvokeServiceMethod(request,parameters);
 		try {
 			String serviceId = resloveServiceId(request);
 			String method = resloveMethod(request);
@@ -146,6 +147,9 @@ public class RPCServiceExporter extends RemoteExporter implements HttpRequestHan
 		}
 	}
 	
+	protected void beforeInvokeServiceMethod(HttpServletRequest request, Map<String, Object> parameters) {
+	}
+
 	/**
 	 * extract method from "/services/serviceId/method.do" 
 	 * @param request
