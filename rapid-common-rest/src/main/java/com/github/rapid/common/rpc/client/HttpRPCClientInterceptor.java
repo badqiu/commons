@@ -160,7 +160,7 @@ public class HttpRPCClientInterceptor extends RemoteAccessor implements MethodIn
 		return result.getResult();
 	}
 
-	private RPCRequest createRemoteInvocation(MethodInvocation methodInvocation) {
+	protected RPCRequest createRemoteInvocation(MethodInvocation methodInvocation) {
 		RPCRequest request = new RPCRequest();
 		request.setArguments(methodInvocation.getArguments());
 		request.setMethod(methodInvocation.getMethod().getName());

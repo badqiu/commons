@@ -1,6 +1,7 @@
 package com.github.rapid.common.rpc;
 
 import java.io.Serializable;
+import java.util.Map;
 
 
 public class RPCRequest implements Serializable{
@@ -19,6 +20,7 @@ public class RPCRequest implements Serializable{
 	 */
 	private String format;
 	
+	private Map<String,String> headers; //HTTP头
 
 	public String getMethod() {
 		return method;
@@ -49,6 +51,15 @@ public class RPCRequest implements Serializable{
 	public void setArguments(Object[] arguments) {
 		this.arguments = arguments;
 	}
+
+	public Map<String, String> getHeaders() {
+		return headers;
+	}
+
+	public void setHeaders(Map<String, String> headers) {
+		this.headers = headers;
+	}
+	
 	
 //	private Class[] argumentTypes;
 	

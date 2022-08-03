@@ -7,6 +7,7 @@ import java.io.PrintStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +43,7 @@ public class SimpleHttpInvokerRequestExecutor extends AbstractHttpInvokerRequest
 	 * @see #validateResponse
 	 * @see #readResponseBody
 	 */
-	protected HttpResponse doExecuteRequest(String url,byte[] parameters)
+	protected HttpResponse doExecuteRequest(String url,byte[] parameters,Map<String,String> headers)
 			throws IOException, ClassNotFoundException {
 
 		HttpURLConnection con = openConnection(url);
@@ -52,19 +53,21 @@ public class SimpleHttpInvokerRequestExecutor extends AbstractHttpInvokerRequest
 		InputStream responseBody = readResponseBody(con);
 		HttpResponse r = new HttpResponse();
 		r.setBody(responseBody);
-		r.setHeaders(toHttpHeadersMap(con.getHeaderFields()));
+		r.setHeaders(toHttpHeadersMap(headers));
 		return r;
 	}
 
-	private Map<String, String> toHttpHeadersMap(Map<String, List<String>> headerFields) {
-		Map m = new HashMap(headerFields.size() * 2);
-		for(Map.Entry<String, List<String>> entry : headerFields.entrySet()) {
-			List<String> value = entry.getValue();
-			if(value != null && !value.isEmpty()) {
-				m.put(entry.getKey(), value.get(0));
-			}
-		}
-		return m;
+	private Map<String, String> toHttpHeadersMap(Map<String, String> headerFields) {
+		if(headerFields == null) return Collections.emptyMap();
+		return headerFields;
+//		Map m = new HashMap(headerFields.size() * 2);
+//		for(Map.Entry<String, List<String>> entry : headerFields.entrySet()) {
+//			List<String> value = entry.getValue();
+//			if(value != null && !value.isEmpty()) {
+//				m.put(entry.getKey(), value.get(0));
+//			}
+//		}
+//		return m;
 	}
 
 	private void writeRequestBody(

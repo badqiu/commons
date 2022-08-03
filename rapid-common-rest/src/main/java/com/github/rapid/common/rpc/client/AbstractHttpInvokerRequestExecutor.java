@@ -147,7 +147,7 @@ public abstract class AbstractHttpInvokerRequestExecutor
 			logger.debug("Sending HTTP invoker request for service at [" + url +
 					"], with parameters: " + parameters);
 		}
-		return doExecuteRequest(url,parameters);
+		return doExecuteRequest(url,parameters,invocation.getHeaders());
 	}
 
 	private Map buildUrlParams(RPCRequest invocation) {
@@ -180,7 +180,7 @@ public abstract class AbstractHttpInvokerRequestExecutor
 	 * @throws Exception in case of general errors
 	 * @see #readRemoteInvocationResult(java.io.InputStream, String)
 	 */
-	protected abstract HttpResponse doExecuteRequest(String url,byte[] parameters)
+	protected abstract HttpResponse doExecuteRequest(String url,byte[] parameters,Map<String,String> headers)
 			throws Exception;
 
 

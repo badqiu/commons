@@ -211,11 +211,15 @@ public class CommonsHttpInvokerRequestExecutor extends AbstractHttpInvokerReques
 	}
 
 	@Override
-	protected HttpResponse doExecuteRequest(String url,byte[] parameters) throws Exception {
+	protected HttpResponse doExecuteRequest(String url,byte[] parameters,Map<String,String> headers) throws Exception {
 		PostMethod postMethod = createPostMethod(url);
 		try {
+			
+			setRequestHeaders(postMethod,headers);
 			setRequestBody(postMethod,parameters);
 			executePostMethod(getHttpClient(), postMethod);
+			
+			
 			validateResponse(postMethod);
 			InputStream responseBody = getResponseBody(postMethod);
 			ByteArrayInputStream responseBodyInput = new ByteArrayInputStream(IOUtils.toByteArray(responseBody));
@@ -227,6 +231,13 @@ public class CommonsHttpInvokerRequestExecutor extends AbstractHttpInvokerReques
 		finally {
 			// Need to explicitly release because it might be pooled.
 			postMethod.releaseConnection();
+		}
+	}
+
+	private void setRequestHeaders(PostMethod postMethod, Map<String, String> headers) {
+		if(headers == null) return;
+		for(Map.Entry<String,String> entry : headers.entrySet()) {
+			postMethod.setRequestHeader(entry.getKey(), entry.getValue());
 		}
 	}
 
