@@ -133,12 +133,16 @@ public class RPCServiceExporter extends RemoteExporter implements HttpRequestHan
 	}
 
 	private Object invokeServiceMethod(HttpServletRequest request,Map<String, Object> parameters) {
-		beforeInvokeServiceMethod(request,parameters);
 		try {
+			beforeInvokeServiceMethod(request,parameters);
+			
 			String serviceId = resloveServiceId(request);
 			String method = resloveMethod(request);
 			byte[] body = request.getInputStream() == null ? null : IOUtils.toByteArray(request.getInputStream());
-			return methodInvoker.invoke(serviceId, method, parameters,body);
+			Object result = methodInvoker.invoke(serviceId, method, parameters,body);
+			
+			afterInvokeServiceMethod(result);
+			return result;
 		} catch (WebServiceException e) {
 			throw e;
 		} catch(Exception e) {
@@ -148,6 +152,9 @@ public class RPCServiceExporter extends RemoteExporter implements HttpRequestHan
 	}
 	
 	protected void beforeInvokeServiceMethod(HttpServletRequest request, Map<String, Object> parameters) {
+	}
+	
+	protected void afterInvokeServiceMethod(Object result) {
 	}
 
 	/**
