@@ -213,7 +213,8 @@ public class BlogInfoServiceImpl implements BlogInfoService {
 	}
 	
 	public String return_input_2_arg(String input,String age) {
-		return input+age;
+//		return new StringBuilder(input).append(age).toString();
+		return input;
 	}
 
 	public TreeSet<String> tree_set(String input) {
