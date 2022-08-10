@@ -57,7 +57,7 @@ public class FastBeanUtilTest {
 		source.put("flag","true");
 		source.put("duration","100");
 		source.put("age","100.0");
-		source.put("birthDate","1999-10-10");
+//		source.put("birthDate","1999-10-10");
 		
 		FastBeanChild target = new FastBeanChild();
 		FastBeanUtil.copyProperties(source, target);
@@ -100,6 +100,12 @@ public class FastBeanUtilTest {
 			PropertyUtils.copyProperties(source, target);
 		}
 		Profiler.release();
+		
+		Profiler.enter("spring BeanUtils.copyProperties",loopCount);
+		for(int i = 0; i < loopCount; i++) {
+			org.springframework.beans.BeanUtils.copyProperties(source, target);
+		}
+		Profiler.release();
 	}
 	
 	@Test
@@ -124,6 +130,8 @@ public class FastBeanUtilTest {
 			PropertyUtils.describe(source);
 		}
 		Profiler.release();
+		
+
 	}
 	
 	

@@ -162,7 +162,7 @@ public class FastBeanUtil {
 						}
 					} else {
 						PropertyDescriptor sourcePd = BeanUtils.getPropertyDescriptor(source.getClass(), targetPd.getName());
-						if (sourcePd != null&& sourcePd.getReadMethod() != null) {
+						if (sourcePd != null && sourcePd.getReadMethod() != null) {
 							value = getProperty(source, sourcePd);
 							setProperty(target, targetPd, value);
 						}
