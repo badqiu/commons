@@ -1,12 +1,10 @@
 package com.github.rapid.common.util;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.FastDateFormat;
+import org.apache.commons.lang3.time.FastDateFormat;
 /**
  * @author badqiu
  */
@@ -20,10 +18,9 @@ public class DateConvertUtil {
 	public static <T extends java.util.Date> T parse(String dateString,String dateFormat,Class<T> targetResultType) {
 		if(StringUtils.isEmpty(dateString))
 			return null;
-		DateFormat df = new SimpleDateFormat(dateFormat);
+		FastDateFormat df = FastDateFormat.getInstance(dateFormat);
 		try {
 			long time = df.parse(dateString).getTime();
-//			long time = ((Date)FastDateFormat.getInstance(dateFormat).parseObject(dateString)).getTime();
 			java.util.Date t = targetResultType.getConstructor(long.class).newInstance(time);
 			return (T)t;
 		} catch (ParseException e) {

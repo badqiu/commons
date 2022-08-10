@@ -17,6 +17,10 @@ public class DateConvertUtilTest extends TestCase {
 		java.sql.Time st = DateConvertUtil.parse("1999-09-09","yyyy-MM-dd",java.sql.Time.class);
 	}
 	
+	public void test_parse() {
+		java.util.Date d = DateConvertUtil.parse("1999-01-02 12:13:14","yyyy-MM-dd HH:mm:ss",java.util.Date.class);
+		System.out.println(d);
+	}
 	
 	public void testFormat() {
 		java.util.Date d = DateConvertUtil.parse("1999-09-09","yyyy-MM-dd",java.util.Date.class);
