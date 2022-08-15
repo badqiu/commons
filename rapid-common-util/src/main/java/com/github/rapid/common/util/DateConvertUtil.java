@@ -44,10 +44,10 @@ public class DateConvertUtil {
 	 * 
 	 * @return 
 	 */
-	public static Date extract(Date date,String datePattern) throws IllegalArgumentException {
-		if(datePattern == null) throw new IllegalArgumentException("'datePattern' must be not null");
+	public static Date extract(Date date,String dateFormat) throws IllegalArgumentException {
+		if(dateFormat == null) throw new IllegalArgumentException("'dateFormat' must be not null");
 		if(date == null) return null;
 		
-		return DateConvertUtil.parse(DateConvertUtil.format(date, datePattern),datePattern);
+		return DateConvertUtil.parse(DateConvertUtil.format(date, dateFormat),dateFormat);
 	}
 }
