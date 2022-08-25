@@ -2,11 +2,12 @@ package com.github.rapid.common.redis;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.Reader;
+import java.io.Writer;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
 public class SimpleRedisServer {
@@ -25,7 +26,13 @@ public class SimpleRedisServer {
 					try {
 						System.out.println("receive socket:"+socket);
 						Reader input = new InputStreamReader(socket.getInputStream());
-				        IOUtils.copy(input, System.out);
+						Writer output = new OutputStreamWriter(socket.getOutputStream());
+						output.write("+OK\n");
+						output.flush();
+						
+						OutputStreamWriter sysout = new OutputStreamWriter(System.out);
+						copyLarge(input, sysout);
+						
 					}catch(Exception e) {
 						e.printStackTrace();
 					}
@@ -35,6 +42,17 @@ public class SimpleRedisServer {
         }
 	}
 	
+    public static long copyLarge(Reader input, Writer output) throws IOException {
+        char[] buffer = new char[1];
+        long count = 0;
+        int n = 0;
+        while (-1 != (n = input.read(buffer))) {
+            output.write(buffer, 0, n);
+            count += n;
+        }
+        return count;
+    }
+    
 	@Test
 	public void startSimpleRedisServer() throws IOException {
 		new SimpleRedisServer().start();

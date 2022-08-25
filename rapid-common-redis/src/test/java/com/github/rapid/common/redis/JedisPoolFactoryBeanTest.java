@@ -10,7 +10,7 @@ import redis.clients.jedis.JedisPool;
 public class JedisPoolFactoryBeanTest extends BaseRedisTest {
 
 	@Test
-	public void test() throws Exception {
+	public void testSet() throws Exception {
 		JedisPoolFactoryBean f = new JedisPoolFactoryBean();
 		f.setServer("redis://localhost:"+SimpleRedisServer.DEFAULT_PORT+"/1");
 		f.afterPropertiesSet();
