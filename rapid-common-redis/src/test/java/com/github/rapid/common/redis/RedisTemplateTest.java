@@ -16,7 +16,7 @@ public class RedisTemplateTest extends Assert {
 	public void test() throws InterruptedException {
 		final RedisTemplate t = new RedisTemplate();
 		
-		t.setJedisPool(new JedisPool("123.59.14.36",7777));
+		t.setJedisPool(new JedisPool("localhost",6379));
 		
 		for(int i = 0; i < 10000; i++) {
 			runThread(t, i);

@@ -1,6 +1,6 @@
 package com.github.rapid.common.redis;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 import org.springframework.util.Assert;
@@ -12,16 +12,19 @@ public class JedisPoolFactoryBeanTest extends BaseRedisTest {
 	@Test
 	public void test() throws Exception {
 		JedisPoolFactoryBean f = new JedisPoolFactoryBean();
-		f.setServer("redis://120.92.6.245:6379/1");
+		f.setServer("redis://localhost:"+SimpleRedisServer.DEFAULT_PORT+"/1");
 		f.afterPropertiesSet();
 		
 		JedisPool pool = (JedisPool)f.getObject();
 		Assert.notNull(pool);
 		
-		RedisTemplate template = new RedisTemplate();
+		JedisTemplate template = new JedisTemplate();
 		template.setJedisPool(pool);
 		
+		System.out.println("set before");
 		template.set("hello", "123");
+		System.out.println("set after");
+		
 		assertEquals("123",template.get("hello"));
 	}
 
