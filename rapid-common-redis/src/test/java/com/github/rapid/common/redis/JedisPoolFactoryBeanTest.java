@@ -12,7 +12,8 @@ public class JedisPoolFactoryBeanTest extends BaseRedisTest {
 	@Test
 	public void testSet() throws Exception {
 		JedisPoolFactoryBean f = new JedisPoolFactoryBean();
-		f.setServer("redis://localhost:"+SimpleRedisServer.DEFAULT_PORT+"/1");
+		f.setServer("redis://localhost:"+SimpleRedisServer.DEFAULT_PORT+"/9");
+		f.setPassword("password");
 		f.afterPropertiesSet();
 		
 		JedisPool pool = (JedisPool)f.getObject();

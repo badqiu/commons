@@ -8,6 +8,7 @@ import java.io.Writer;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
 public class SimpleRedisServer {
@@ -25,13 +26,14 @@ public class SimpleRedisServer {
 				public void run() {
 					try {
 						System.out.println("receive socket:"+socket);
-						Reader input = new InputStreamReader(socket.getInputStream());
-						Writer output = new OutputStreamWriter(socket.getOutputStream());
-						output.write("+OK\n");
-						output.flush();
+//						Reader input = new InputStreamReader(socket.getInputStream());
+						//Writer output = new OutputStreamWriter(socket.getOutputStream());
+						//output.write("+OK\r\n");
+						//output.flush();
 						
-						OutputStreamWriter sysout = new OutputStreamWriter(System.out);
-						copyLarge(input, sysout);
+//						OutputStreamWriter sysout = new OutputStreamWriter(System.out);
+//						copyLarge(input, sysout);
+						IOUtils.copy(socket.getInputStream(), System.out);
 						
 					}catch(Exception e) {
 						e.printStackTrace();

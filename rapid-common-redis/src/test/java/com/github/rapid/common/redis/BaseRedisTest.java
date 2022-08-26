@@ -11,13 +11,15 @@ public class BaseRedisTest {
 	RedisServer redisServer = null;
 	@Before
 	public void startRedisServer() throws Exception {
-		redisServer = new RedisServer(6379);
+//		redisServer = new RedisServer(6379);
 //		redisServer.start();
 	}
 	
 	@After
 	public void closeRedisServer() {
-		redisServer.stop();
+		if(redisServer != null) {
+			redisServer.stop();
+		}
 	}
 	
 	@Test

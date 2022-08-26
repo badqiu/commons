@@ -40,4 +40,14 @@ public class LogTraceUtil {
 	public static void endTrace() {
 		MDC.remove(TRACE_ID_KEY);
 	}
+	
+	/**
+	 * 结束一次Trace.
+	 * 清除traceId.
+	 */
+	public static void trace(Runnable cmd) {
+		beginTrace();
+		cmd.run();
+		endTrace();
+	}
 }
