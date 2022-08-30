@@ -3,7 +3,6 @@ package com.github.rapid.common.util;
 import java.io.IOException;
 import java.net.Socket;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +25,9 @@ public class PingUtil {
 	}
 	
 	public static boolean socketPing(String host, int port,int timeout) {
+		Assert.hasText(host,"host must be not blank");
+		Assert.isTrue(port >= 0,"port >= 0 must be true");
+		
 		Socket socket = null;
 		try {
 			socket = new Socket(StringUtils.trim(host), port);
