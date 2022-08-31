@@ -80,7 +80,7 @@ public class FastConvertUtil {
             return new BigDecimal(value);
         }
         if(targetClass == BigInteger.class) {
-            return BigInteger.valueOf(Long.parseLong(value));
+            return new BigInteger(value);
         }
 		return value;
 	}
