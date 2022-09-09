@@ -1,5 +1,7 @@
 package com.github.rapid.common.security;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -63,6 +65,7 @@ public class ActionSecurityUtil {
 	 *  用户登录成功,设置登录成功信息
 	 **/
 	public static void setLoginUser(HttpServletRequest request,LoginUser loginUser) {
+		loginUser.setLoginTime(new Date());
 		request.getSession().setAttribute(LOGIN_USER,loginUser);
 	}
 	

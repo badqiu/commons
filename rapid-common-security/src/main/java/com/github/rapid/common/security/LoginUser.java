@@ -13,7 +13,7 @@ public class LoginUser implements Serializable {
 	private Long userId;
 	private String username;
 	private boolean superAdmin; // 是否超级管理员
-	private Date loginTime = new Date();
+	private Date loginTime = null;
 	
 	
 	private Set<String> userPermissionSet = new HashSet<String>(0); // 用户拥有的权限
@@ -56,6 +56,10 @@ public class LoginUser implements Serializable {
 		return loginTime;
 	}
 	
+	public void setLoginTime(Date loginTime) {
+		this.loginTime = loginTime;
+	}
+
 	public LoginUser addPermission(Class<?> actionType,String permission) {
 		addPermission(toActionTypeString(actionType),permission);
 		return this;
