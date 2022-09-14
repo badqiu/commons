@@ -24,6 +24,12 @@ public class RPCResponse <T> implements Serializable{
 	 */
 	private String infoMsg;
 	
+	/**
+	 * 请求跟踪ID
+	 */
+	private String traceId;
+	
+	
 	public RPCResponse() {
 	}
 	
@@ -72,6 +78,16 @@ public class RPCResponse <T> implements Serializable{
 	public void setInfoMsg(String infoMsg) {
 		this.infoMsg = infoMsg;
 	}
+
+	public String getTraceId() {
+		return traceId;
+	}
+
+	public void setTraceId(String traceId) {
+		this.traceId = traceId;
+	}
+	
+	
 	
 	
 }

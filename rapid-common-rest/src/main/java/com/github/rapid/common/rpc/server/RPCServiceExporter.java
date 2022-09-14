@@ -92,7 +92,8 @@ public class RPCServiceExporter extends RemoteExporter implements HttpRequestHan
 		response.setCharacterEncoding(ENCODING);
 		RPCContext.setRequest(request);
 		RPCContext.setResponse(response);
-		MDC.put("traceId", RandomStringUtils.randomAlphanumeric(10));
+		String traceId = RandomStringUtils.randomAlphanumeric(10);
+		MDC.put("traceId", traceId);
 		
 		Map<String, Object> parameters = RequestParameterUtil.getParameters(request);
 		try {
@@ -100,14 +101,20 @@ public class RPCServiceExporter extends RemoteExporter implements HttpRequestHan
 			if("true".equals(parameters.get(KEY_NO_WRAP))) {
 				serializeResult(result,request, response,parameters);
 			}else {
-				serializeResult(new RPCResponse(result,RPCContext.getInfoMsg()),request, response,parameters);
+				RPCResponse responseResult = new RPCResponse(result,RPCContext.getInfoMsg());
+				responseResult.setTraceId(traceId);
+				serializeResult(responseResult,request, response,parameters);
 			}
 		} catch (WebServiceException e) {
 			logger.warn("error on uri:"+request.getRequestURI(),e); // TODO 删除本日志打印,或者不打印error级别
-			serializeResult(new RPCResponse(e.getErrorNo(),e.getMessage()),request, response,parameters);
+			RPCResponse responseResult = new RPCResponse(e.getErrorNo(),e.getMessage());
+			responseResult.setTraceId(traceId);
+			serializeResult(responseResult,request, response,parameters);
 		} catch(Throwable e){
 			logger.warn("error on uri:"+request.getRequestURI(),e); // TODO 删除本日志打印,或者不打印error级别
-			serializeResult(new RPCResponse(e.getClass().getSimpleName(),e.getMessage()),request, response,parameters);
+			RPCResponse responseResult = new RPCResponse(e.getClass().getSimpleName(),e.getMessage());
+			responseResult.setTraceId(traceId);
+			serializeResult(responseResult,request, response,parameters);
 		}finally {
 			RPCContext.clear();
 			MDC.remove("traceId");
