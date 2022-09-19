@@ -107,14 +107,10 @@ public final class Profiler {
 	 */
 	public static void startRelease(String message,long loopCount,Runnable cmd) {
 		start(message,loopCount);
-		Throwable e = null;
 		try {
 			cmd.run();
-		}catch(RuntimeException ex) {
-			e = ex;
-			throw new RuntimeException(ex);
 		}finally {
-			release(e);
+			release();
 		}
 	}
 	
@@ -164,14 +160,10 @@ public final class Profiler {
 	 */
 	public static void enterRelease(String message,long loopCount,Runnable cmd) {
 		enter(message,loopCount);
-		Throwable e = null;
 		try {
 			cmd.run();
-		}catch(RuntimeException ex) {
-			e = ex;
-			throw new RuntimeException(ex);
 		}finally {
-			release(e);
+			release();
 		}
 	}
 	
