@@ -112,6 +112,25 @@ public class ProfilerTest {
 		}
 	}
 
+	@Test
+	public void test_new_object_by_startRelease() throws InterruptedException {
+		int count = 1000000000;
+		
+		Profiler.startRelease("newObject-ByStart", count,() -> {
+			for(int i = 0; i< count; i++) {
+				new Object();
+			}
+		});
+		
+		Profiler.enterRelease("newObject-byEnter",count, () -> {
+			for(int i = 0; i< count; i++) {
+				new Object();
+			}
+		});
+		
+		System.out.println(Profiler.dump());
+	}
+	
 	public void doSomething() throws InterruptedException {
 		try {
 			Profiler.enter("doSomething");

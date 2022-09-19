@@ -98,6 +98,26 @@ public final class Profiler {
         stepThreadLocal.set(new Step(message, null, null,loopCount));
     }
     
+    public static void startRelease(String message,Runnable cmd) {
+    	startRelease(message,0,cmd);
+    }
+    
+	/**
+	 * 开始计时
+	 */
+	public static void startRelease(String message,long loopCount,Runnable cmd) {
+		start(message,loopCount);
+		Throwable e = null;
+		try {
+			cmd.run();
+		}catch(RuntimeException ex) {
+			e = ex;
+			throw new RuntimeException(ex);
+		}finally {
+			release(e);
+		}
+	}
+	
     /**
      * 清除计时器。
      * 
@@ -132,6 +152,29 @@ public final class Profiler {
         }
     }
     
+    /**
+	 * 开始一个新的step，并计时。
+	 */
+    public static void enterRelease(String message,Runnable cmd) {
+    	enterRelease(message,0,cmd);
+    }
+    
+	/**
+	 * 开始一个新的step，并计时。
+	 */
+	public static void enterRelease(String message,long loopCount,Runnable cmd) {
+		enter(message,loopCount);
+		Throwable e = null;
+		try {
+			cmd.run();
+		}catch(RuntimeException ex) {
+			e = ex;
+			throw new RuntimeException(ex);
+		}finally {
+			release(e);
+		}
+	}
+	
     /**
      * 结束最近的一个step，记录结束时间。
      */
