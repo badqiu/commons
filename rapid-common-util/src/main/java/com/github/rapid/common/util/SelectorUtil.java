@@ -14,10 +14,14 @@ import com.github.rapid.common.beanutils.PropertyUtils;
 public class SelectorUtil {
 
 	public static Object getElementById(Object root, String id){
+		return getElementByKeyName(root,"id",id);
+	}
+	
+	public static Object getElementByKeyName(Object root, String keyName,String keyValue){
 		try {
-			return getElementByKeyName(root,"id",id,new HashSet<Object>());
+			return getElementByKeyName(root,keyName,keyValue,new HashSet<Object>());
 		} catch (Exception e) {
-			throw new RuntimeException("getElementById error,id="+id+" root:"+root,e);
+			throw new RuntimeException("getElementByKeyName error,keyName=" + keyName + " keyValue:"+keyValue+" root:"+root,e);
 		}
 	}
 	
