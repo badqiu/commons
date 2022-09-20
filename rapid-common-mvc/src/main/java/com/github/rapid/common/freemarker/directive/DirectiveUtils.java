@@ -32,7 +32,7 @@ public class DirectiveUtils {
 	
 	static String getRequiredParam(Map params,String key) throws TemplateException {
 		Object value = params.get(key);
-		if(value == null || StringUtils.isEmpty(value.toString())) {
+		if(value == null || StringUtils.isBlank(value.toString())) {
 			throw new TemplateModelException("not found required parameter:"+key+" for directive");
 		}
 		return value.toString();

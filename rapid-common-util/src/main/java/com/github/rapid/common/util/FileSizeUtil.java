@@ -26,7 +26,7 @@ public class FileSizeUtil {
 	 */
 	private static Pattern FILE_SIZE_UNIT_PATTERN = Pattern.compile("(?i)([\\d\\.]*)([kmgtpb]{2})$");
 	public static long parseHumanReadableFileSize(String fileSize) {
-		if(StringUtils.isEmpty(fileSize)) {
+		if(StringUtils.isBlank(fileSize)) {
 			return 0;
 		}
 		Matcher m = FILE_SIZE_UNIT_PATTERN.matcher(fileSize.trim());

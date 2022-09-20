@@ -183,7 +183,7 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 	}
 
 	public String getColumnsSql(String columnPrefix) {
-		String realPrefix = StringUtils.isEmpty(columnPrefix) ? "" : columnPrefix+".";
+		String realPrefix = StringUtils.isBlank(columnPrefix) ? "" : columnPrefix+".";
 		StringBuilder sb = new StringBuilder();
 		for(int i = 0; i < getColumns().size(); i++) {
 			Column c = getColumns().get(i);

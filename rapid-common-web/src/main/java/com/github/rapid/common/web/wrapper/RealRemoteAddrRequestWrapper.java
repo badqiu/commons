@@ -28,7 +28,7 @@ public class RealRemoteAddrRequestWrapper extends HttpServletRequestWrapper {
 	static String getRealIp(HttpServletRequest request) {
 
 		String ip = request.getHeader("X-Forwarded-For");
-		if (StringUtils.isEmpty(ip)) {
+		if (StringUtils.isBlank(ip)) {
 			return request.getRemoteAddr();
 		}
 
@@ -48,7 +48,7 @@ public class RealRemoteAddrRequestWrapper extends HttpServletRequestWrapper {
 	 * 是否合法IP地址 
 	 **/
 	static boolean isLicitIp(final String ip) {
-		if (StringUtils.isEmpty(ip)) {
+		if (StringUtils.isBlank(ip)) {
 			return false;
 		}
 

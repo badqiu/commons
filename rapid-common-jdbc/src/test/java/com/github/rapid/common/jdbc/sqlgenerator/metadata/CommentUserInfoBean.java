@@ -161,7 +161,7 @@ public class CommentUserInfoBean implements java.io.Serializable{
 	
 	@SuppressWarnings("unchecked")
 	public static <T extends java.util.Date> T parse(String dateString,String dateFormat,Class<T> targetResultType) {
-		if(StringUtils.isEmpty(dateString))
+		if(StringUtils.isBlank(dateString))
 			return null;
 		DateFormat df = new SimpleDateFormat(dateFormat);
 		try {

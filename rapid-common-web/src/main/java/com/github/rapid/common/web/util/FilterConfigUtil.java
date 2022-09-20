@@ -15,12 +15,12 @@ public class FilterConfigUtil {
 		if(config == null) return defaultValue;
 		
 		String v = config.getInitParameter(key);
-		return StringUtils.isEmpty(v) ? defaultValue : v;
+		return StringUtils.isBlank(v) ? defaultValue : v;
 	}
 
 	public static String[] getParameterArray(FilterConfig config,String key) {
 		String v = config.getInitParameter(key);
-		return StringUtils.isEmpty(v) ? new String[0] : org.springframework.util.StringUtils.tokenizeToStringArray(v, " \t\n,");
+		return StringUtils.isBlank(v) ? new String[0] : org.springframework.util.StringUtils.tokenizeToStringArray(v, " \t\n,");
 	}
 	
    public static boolean getBooleanParameter(FilterConfig config,String key,boolean defaultValue) {

@@ -154,7 +154,7 @@ public class MethodInvoker {
 //			throws Exception{
 //		Object[] parameters = new Object[method.getParameterTypes().length];
 //		Type[] parameterTypes = method.getGenericParameterTypes();
-//		JsonNode arrayNode = StringUtils.isEmpty(parametersStringValue) ? objectMapper.readTree(body) : objectMapper.readTree(parametersStringValue);
+//		JsonNode arrayNode = StringUtils.isBlank(parametersStringValue) ? objectMapper.readTree(body) : objectMapper.readTree(parametersStringValue);
 //		Iterator<JsonNode> elems = arrayNode.elements();
 //		int i = 0;
 //		for(JsonNode arg = null; elems.hasNext(); i++){
@@ -171,7 +171,7 @@ public class MethodInvoker {
 		Object[] parameters = new Object[method.getParameterTypes().length];
 		Type[] parameterTypes = method.getGenericParameterTypes();
 		
-		List<Object> arrayNode = StringUtils.isEmpty(parametersStringValue) ? JSON.parseArray(IOUtils.toString(body,"UTF-8"),parameterTypes) : JSON.parseArray(parametersStringValue,parameterTypes);
+		List<Object> arrayNode = StringUtils.isBlank(parametersStringValue) ? JSON.parseArray(IOUtils.toString(body,"UTF-8"),parameterTypes) : JSON.parseArray(parametersStringValue,parameterTypes);
 		
 		Iterator<Object> elems = arrayNode.iterator();
 		int i = 0;

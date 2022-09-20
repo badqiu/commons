@@ -75,11 +75,11 @@ public class FreemarkerInputStream extends InputStream {
 			
 			Map<String,Object> rootMap = newTemplateVariables();
 			
-			InputStreamReader reader = StringUtils.isEmpty(encoding) ? new InputStreamReader(input) : new InputStreamReader(input,encoding);
+			InputStreamReader reader = StringUtils.isBlank(encoding) ? new InputStreamReader(input) : new InputStreamReader(input,encoding);
 			Template template = new Template(""+input, reader, conf);
 			StringWriter cachedTemplateOutput = new StringWriter();
 			template.process(rootMap, cachedTemplateOutput);
-			return new ByteArrayInputStream(StringUtils.isEmpty(encoding) ? cachedTemplateOutput.toString().getBytes() : cachedTemplateOutput.toString().getBytes(encoding));
+			return new ByteArrayInputStream(StringUtils.isBlank(encoding) ? cachedTemplateOutput.toString().getBytes() : cachedTemplateOutput.toString().getBytes(encoding));
 		}catch(IOException e) {
 			throw new RuntimeException(e);
 		}catch(TemplateException e) {
