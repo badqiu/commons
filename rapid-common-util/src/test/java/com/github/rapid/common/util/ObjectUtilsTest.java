@@ -36,4 +36,12 @@ public class ObjectUtilsTest {
 	public void testIsEmptyWithIeelgalArgument() {
 		Assert.assertFalse(ObjectUtil.isEmpty(new Object()));
 	}
+	
+	@Test
+	public void isNumber() {
+		Object num = 1;
+		System.out.println(num.getClass());
+		System.out.println(num instanceof Number);
+	}
+	
 }
