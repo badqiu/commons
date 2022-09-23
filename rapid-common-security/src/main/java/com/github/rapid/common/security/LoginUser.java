@@ -146,10 +146,10 @@ public class LoginUser implements Serializable {
 //			this.userRoleSet = userRoleSet;
 //		}
 
-	public static Set<String> ignoreCheckActinoTypeList = new HashSet<String>();
+	public static Set<String> ignoreCheckActionTypeList = new HashSet<String>();
 	static {
 		//增加忽略权限检查的对象
-		//ignoreCheckActinoTypeList.add(toActionTypeString(TableDef.class));
+		//ignoreCheckActionTypeList.add(toActionTypeString(TableDef.class));
 	}
 	
 	protected boolean isIgnoreCheck(String actionType, String permission) {
@@ -157,7 +157,7 @@ public class LoginUser implements Serializable {
 		if(ActionSecurityUtil.READ.equals(permission)){
 			return true;
 		}
-		if(ignoreCheckActinoTypeList.contains(actionType)) {
+		if(ignoreCheckActionTypeList.contains(actionType)) {
 			return true;
 		}
 		
