@@ -25,7 +25,6 @@ public class Retry {
 	private Exception exception;
 	
 	public Retry(int retryTimes, long retryInterval,long retryTimeout,Callable cmd) {
-		super();
 		if(retryTimes > 0) {
 			Assert.isTrue(retryInterval > 0,"retryInterval > 0 must be true ");
 		}
