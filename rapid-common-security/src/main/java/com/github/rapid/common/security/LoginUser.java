@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
+
 /** 登录用户信息 */
 public class LoginUser implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -19,6 +21,7 @@ public class LoginUser implements Serializable {
 	private Set<String> userPermissionSet = new HashSet<String>(0); // 用户拥有的权限
 	private Set<String> userRoleSet = new HashSet<String>(0); //用户拥有的角色
 	private Set<String> userDeptSet = new HashSet<String>(0); //用户拥有的部门
+	private Set<String> userGroupSet = new HashSet<String>(0); //用户拥有的分组
 
 	public Long getUserId() {
 		return userId;
@@ -93,13 +96,21 @@ public class LoginUser implements Serializable {
 	}
 	
 	public boolean hasRole(String role) {
-		if(superAdmin) return true;
-		return userRoleSet.contains(role);
+		return hasData(role,userRoleSet);
 	}
 	
 	public boolean hasDept(String dept) {
+		return hasData(dept,userDeptSet);
+	}
+	
+	public boolean hasGroup(String group) {
+		return hasData(group,userGroupSet);
+	}
+	
+	private boolean hasData(String data,Set<String> set) {
 		if(superAdmin) return true;
-		return userDeptSet.contains(dept);
+		if(StringUtils.isBlank(data)) return false;
+		return set.contains(StringUtils.trim(data));
 	}
 	
 	public void checkRole(String role) {
@@ -111,6 +122,12 @@ public class LoginUser implements Serializable {
 	public void checkDept(String dept) {
 		if(!hasRole(dept)) {
 			throw new AccessControlException("not permission,must be has dept:"+dept);
+		}
+	}
+	
+	public void checkGroup(String group) {
+		if(!hasGroup(group)) {
+			throw new AccessControlException("not permission,must be has group:"+group);
 		}
 	}
 	
