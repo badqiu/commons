@@ -43,7 +43,7 @@ public class Timeout {
 
 	private boolean isTimeoutByTimeMills(long durationMills) {
 		long interval = SystemTimer.currentTimeMillis() - lastTime;
-		return interval >= durationMills;
+		return Math.abs(interval) >= durationMills;
 	}
 	
 }
