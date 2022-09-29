@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.ApplicationContext;
 
 import com.thoughtworks.xstream.converters.Converter;
@@ -24,7 +25,8 @@ import com.thoughtworks.xstream.mapper.Mapper;
  */
 public class CustomReferenceByIdUnmarshaller extends ReferenceByIdUnmarshaller {
 
-	private ApplicationContext applicationContext;
+	private BeanFactory beanFactory;
+	
 	private Map<Object,Object> beans = new HashMap<Object,Object>();
 	
 	public CustomReferenceByIdUnmarshaller(Object root,
@@ -38,7 +40,11 @@ public class CustomReferenceByIdUnmarshaller extends ReferenceByIdUnmarshaller {
 	}
 
 	public void setApplicationContext(ApplicationContext applicationContext) {
-		this.applicationContext = applicationContext;
+		this.beanFactory = applicationContext;
+	}
+	
+	public void setBeanFactory(BeanFactory beanFactory) {
+		this.beanFactory = beanFactory;
 	}
 
 	@Override
@@ -65,8 +71,8 @@ public class CustomReferenceByIdUnmarshaller extends ReferenceByIdUnmarshaller {
 	}
 
 	protected Object lookupObjectByKey(String beanName) {
-		if(applicationContext != null && applicationContext.containsBean(beanName)) {
-			return applicationContext.getBean(beanName);
+		if(beanFactory != null && beanFactory.containsBean(beanName)) {
+			return beanFactory.getBean(beanName);
 		}
 		if(beans != null && beans.containsKey(beanName)) {
 			return beans.get(beanName);
