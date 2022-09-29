@@ -1,6 +1,7 @@
 package com.github.rapid.common.util;
 
 import java.time.Duration;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -11,13 +12,19 @@ import java.util.concurrent.TimeUnit;
  */
 public class Timeout {
 
-	private long lastTime = 0;
+	private long lastTime = 0; //最后更新时间
+	private Duration timeoutDuration; //超时时间
 	
 	public Timeout() {
 		lastTime = SystemTimer.currentTimeMillis();
 	}
 	
-	public Timeout(long lastTime) {
+	public Timeout(Duration timeoutDuration) {
+		this(timeoutDuration,SystemTimer.currentTimeMillis());
+	}
+	
+	public Timeout(Duration timeoutDuration,long lastTime) {
+		this.timeoutDuration = timeoutDuration;
 		this.lastTime = lastTime;
 	}
 
@@ -39,6 +46,20 @@ public class Timeout {
 	
 	public boolean isTimeout(Duration duration) {
 		return isTimeoutByTimeMills(duration.toMillis());
+	}
+	
+	public boolean isTimeout() {
+		return isTimeoutByTimeMills(timeoutDuration.toMillis());
+	}
+	
+	public boolean isTimeoutAfterUpdateLastTime() {
+		Objects.requireNonNull(timeoutDuration,"timeoutDuration must be not null");
+		
+		boolean result = isTimeoutByTimeMills(timeoutDuration.toMillis());
+		if(result) {
+			updateLastTime();
+		}
+		return result;
 	}
 
 	private boolean isTimeoutByTimeMills(long durationMills) {
