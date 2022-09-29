@@ -24,6 +24,7 @@ public class Timeout {
 	}
 	
 	public Timeout(Duration timeoutDuration,long lastTime) {
+		Objects.requireNonNull(timeoutDuration,"timeoutDuration must be not null");
 		this.timeoutDuration = timeoutDuration;
 		this.lastTime = lastTime;
 	}
