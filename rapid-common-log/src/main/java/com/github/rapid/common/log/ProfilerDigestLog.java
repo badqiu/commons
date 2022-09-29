@@ -156,7 +156,7 @@ public class ProfilerDigestLog {
 	private static String getDigestLog(Step step) {
 		String appendDigestLog = getAppendDigestLog();
 		long printLoogCount = step.getLoopCount() <= 0 ? 0 : step.getLoopCount();
-		return new Timestamp(step.getStartTime()) + "," + step.getDuration() + "," + getInheritanceMessage(step,ARRAY_SEPERATOR) + "," + getErrorCode(step.getException())+ "," + printLoogCount + "," + step.getResultSize() + "," + appendDigestLog;
+		return new Timestamp(step.getStartTime()) + "," + step.getDuration()  + "," + printLoogCount + ","  + step.getResultSize()  + "," + getErrorCode(step.getException()) + "," + getInheritanceMessage(step,ARRAY_SEPERATOR) + "," + appendDigestLog;
 	}
 
 	/**
