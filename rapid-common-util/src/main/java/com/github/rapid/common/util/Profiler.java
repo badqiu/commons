@@ -2,10 +2,10 @@ package com.github.rapid.common.util;
 
 
 import java.text.DecimalFormat;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * 用来测试并统计线程执行时间的工具。
@@ -114,6 +114,21 @@ public final class Profiler {
 		}
 	}
 	
+	public static <T> T startRelease(String message,Supplier<T> cmd) {
+		return startRelease(message,0,cmd);
+	}
+	/**
+	 * 开始计时
+	 */
+	public static <T> T startRelease(String message,long loopCount,Supplier<T> cmd) {
+		start(message,loopCount);
+		try {
+			return cmd.get();
+		}finally {
+			release();
+		}
+	}
+	
     /**
      * 清除计时器。
      * 
@@ -162,6 +177,22 @@ public final class Profiler {
 		enter(message,loopCount);
 		try {
 			cmd.run();
+		}finally {
+			release();
+		}
+	}
+	
+	public static <T> T enterRelease(String message,Supplier<T> cmd) {
+		return enterRelease(message,0,cmd);
+	}
+	
+	/**
+	 * 开始一个新的step，并计时。
+	 */
+	public static <T> T enterRelease(String message,long loopCount,Supplier<T> cmd) {
+		enter(message,loopCount);
+		try {
+			return cmd.get();
 		}finally {
 			release();
 		}
@@ -620,6 +651,7 @@ public final class Profiler {
             buffer.append(prefix1);
 
             if (isReleased()) {
+            	
                 buffer.append("[totalCost:"+numberFormat.format(getDuration())+"ms");
 
                 if ((getDurationOfSelf() > 0) && (getDurationOfSelf() != getDuration())) {
@@ -630,20 +662,27 @@ public final class Profiler {
                 	buffer.append(", parent:").append(pecentageFormat.format(getPecentage()));
                 }
 
-                if (getPecentageOfAll() > 0) {
+                if (getPecentageOfAll() > 0 && getPecentageOfAll() < 1) {
                 	buffer.append(", all:").append(pecentageFormat.format(getPecentageOfAll()));
                 }
+                
                 if(loopCount > 0) {
                 	buffer.append(", loopCount:").append(numberFormat.format(getLoopCount()));
                 	buffer.append(", TPS:").append(numberFormat.format(getTps()));
                 }
+                
                 if(resultSize > 0) {
                 	buffer.append(", resultSize:").append(numberFormat.format(getResultSize()));
                 }
-                buffer.append(" start:"+numberFormat.format(getStartCostTime())+"ms ");
+                
+                if(getStartCostTime() > 0) {
+                	buffer.append(" start:"+numberFormat.format(getStartCostTime())+"ms ");
+                }
+                
                 if(getException() != null) {
                 	buffer.append(", "+ getException().getClass().getSimpleName());
                 }
+                
                 buffer.append("]");
             } else {
             	buffer.append("[UNRELEASED start:"+numberFormat.format(getStartCostTime())+"]ms");
