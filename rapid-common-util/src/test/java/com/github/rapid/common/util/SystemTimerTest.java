@@ -1,9 +1,8 @@
 package com.github.rapid.common.util;
 
-import org.junit.Test;
+import java.util.Date;
 
-import com.github.rapid.common.util.Profiler;
-import com.github.rapid.common.util.SystemTimer;
+import org.junit.Test;
 
 
 public class SystemTimerTest {
@@ -19,17 +18,32 @@ public class SystemTimerTest {
 	@Test
 	public void test_perf() throws InterruptedException {
 		long count = 1000000000;
-		Profiler.start("SystemTimer.currentTimeMillis",count);
+		Profiler.start("start time test");
+		
+		Profiler.enter("SystemTimer.currentTimeMillis",count);
 		for(long i = 0; i < count; i++) {
 			SystemTimer.currentTimeMillis();
 		}
 		Profiler.release();
-		System.out.println(Profiler.dump());
 		
-		Profiler.start("System.currentTimeMillis",count);
+		Profiler.enter("System.currentTimeMillis",count);
 		for(long i = 0; i < count; i++) {
 			System.currentTimeMillis();
 		}
+		Profiler.release();
+		
+		Profiler.enter("new java.util.Date()",count);
+		for(long i = 0; i < count; i++) {
+			new Date();
+		}
+		Profiler.release();
+		
+		Profiler.enter("new Object()",count);
+		for(long i = 0; i < count; i++) {
+			new Object();
+		}
+		Profiler.release();
+		
 		Profiler.release();
 		System.out.println(Profiler.dump());
 	}
