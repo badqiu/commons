@@ -2,7 +2,9 @@ package com.github.rapid.common.util;
 
 import java.time.Duration;
 import java.util.concurrent.Callable;
+import java.util.function.Predicate;
 
+import org.apache.poi.ss.formula.functions.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
@@ -17,12 +19,14 @@ public class Retry {
 	
 	private Callable cmd;
 	private int retryTimes;  // 重试次数
-	private long retryInterval;// 重试间隔
-	private long retryTimeout; //超时时间
+	private long retryInterval;// 重试间隔(毫秒)
+	private long retryTimeout; //超时时间(毫秒)
 	
 //	private int failovers; //failover retry次数
 	private int useRetryTimes;
 	private Exception exception;
+	
+	private Predicate<Exception> retryTestFunction; //是否重试,返回false不重试
 	
 	public Retry(int retryTimes, long retryInterval,long retryTimeout,Callable cmd) {
 		if(retryTimes > 0) {
@@ -38,14 +42,10 @@ public class Retry {
 		this(retryTimes,retryInterval,0,cmd);
 	}
 
-//	private boolean retryByIsNetworkException(Exception e) {
-//		return false;
-//	}
-//	
-//	private boolean shouldRetry(Exception e, int retries, int failovers) throws Exception {
-//		return false;
-//	}
-	
+	public void setRetryTestFunction(Predicate<Exception> retryTestFunction) {
+		this.retryTestFunction = retryTestFunction;
+	}
+
 	public Object exec() throws RetryException{
 		long start = 0;
 		if(retryTimeout > 0) {
@@ -58,6 +58,12 @@ public class Retry {
 				return result;
 			} catch (Exception e) {
 				logger.warn("occer error,retry execute: useRetryTimes:"+useRetryTimes+" retryTimes:"+retryTimes+" retryInterval:"+retryInterval,e);
+				
+				if(retryTestFunction != null) {
+					if(!retryTestFunction.test(e)) {
+						throw new RuntimeException(e);
+					}
+				}
 				
 				exception = e;
 				useRetryTimes++;
