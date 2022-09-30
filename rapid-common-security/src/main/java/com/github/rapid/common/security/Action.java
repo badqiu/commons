@@ -8,8 +8,8 @@ package com.github.rapid.common.security;
 public enum Action {
 	READ("r","读"),
 	WRITE("w","写"), 
-	ADMIN("a","管理");
-//	EXECUTE("e","执行");
+	ADMIN("a","管理"),
+	EXECUTE("e","执行");
 
 	private final String shortName;
 	private final String desc;
