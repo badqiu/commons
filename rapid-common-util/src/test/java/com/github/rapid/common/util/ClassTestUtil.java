@@ -3,9 +3,7 @@ package com.github.rapid.common.util;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import junit.framework.Test;
-
-import com.github.rapid.common.test.util.BeanDefaultValueUtils;
+import com.github.rapid.common.test.BeanDefaultValueUtils;
 
 public class ClassTestUtil {
 

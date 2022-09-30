@@ -1,4 +1,4 @@
-package com.github.rapid.common.test.util;
+package com.github.rapid.common.test;
 
 import java.util.concurrent.CountDownLatch;
 

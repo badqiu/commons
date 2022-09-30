@@ -1,4 +1,4 @@
-package com.github.rapid.common.test.util;
+package com.github.rapid.common.test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;

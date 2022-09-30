@@ -1,15 +1,10 @@
 package com.github.rapid.common.util;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Properties;
-
-import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import com.github.rapid.common.test.util.BeanDefaultValueUtils;
-import com.github.rapid.common.util.PropertiesHelper;
+import junit.framework.TestCase;
 
 public class PropertiesHelperTest extends TestCase {
 	
