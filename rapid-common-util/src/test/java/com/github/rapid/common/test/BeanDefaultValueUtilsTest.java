@@ -7,8 +7,6 @@ import junit.framework.TestCase;
 
 import org.apache.commons.lang.time.DateFormatUtils;
 
-import com.github.rapid.common.test.util.testbean.Bean1;
-import com.github.rapid.common.test.util.testbean.SexEnumBean;
 
 public class BeanDefaultValueUtilsTest extends TestCase {
 	 

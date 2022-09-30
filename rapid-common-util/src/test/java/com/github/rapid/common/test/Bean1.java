@@ -1,4 +1,5 @@
-package com.github.rapid.common.test.util.testbean;
+
+package com.github.rapid.common.test;
 
 import java.util.ArrayList;
 import java.util.Calendar;

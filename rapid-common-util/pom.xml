@@ -974,12 +974,6 @@
 			<optional>true</optional>
 		</dependency>
 		
-		<dependency>
-			<groupId>com.github.rapid.common</groupId>
-			<artifactId>rapid-common-test</artifactId>
-			<version>1.0.0</version>
-			<scope>test</scope>			
-		</dependency>					
 	</dependencies>
 	
 </project>

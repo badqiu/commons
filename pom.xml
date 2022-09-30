@@ -16,7 +16,6 @@
 		<module>rapid-common-jdbc</module>
 		<module>rapid-common-web</module>
 		<module>rapid-common-mvc</module>
-		<module>rapid-common-test</module>
 		<module>rapid-common-util</module>
 		<module>rapid-common-rest</module>
 		<module>rapid-common-log</module>

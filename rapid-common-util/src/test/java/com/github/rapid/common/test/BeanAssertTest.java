@@ -2,9 +2,6 @@ package com.github.rapid.common.test;
 
 import org.junit.Test;
 
-import com.github.rapid.common.test.util.testbean.Bean1;
-import com.github.rapid.common.test.util.testbean.CommontBean;
-
 import junit.framework.TestCase;
 
 public class BeanAssertTest extends TestCase {
