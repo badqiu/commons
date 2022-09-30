@@ -148,21 +148,26 @@ public class HttpRPCClientInterceptor extends RemoteAccessor implements MethodIn
 			}else {
 				returnType = new CustomParameterizedType(RPCResponse.class,null,new Type[]{methodInvocation.getMethod().getGenericReturnType()});
 			}
-			result = deserializeByContentType(response.getHeaders().get("Content-Type"),response.getBody(),returnType);
+			
+			String contentType = response.getHeaders().get("Content-Type");
+			result = deserializeByContentType(contentType,response.getBody(),returnType);
 		}
-		catch (Throwable ex) {
+		catch (Exception ex) {
 			throw convertHttpInvokerAccessException(ex,methodInvocation);
 		}
+		
 		if(StringUtils.isNotEmpty(result.getErrCode())) {
 			throw new WebServiceException(result.getErrCode(),result.getErrMsg(),getServiceUrl(),methodInvocation.getMethod().getName());
 		}
+		
 		if(methodInvocation.getMethod().getGenericReturnType().equals(void.class)) {
 			return null;
 		}
+		
 		try {
 			return recreateRemoteInvocationResult(result);
 		}
-		catch (Throwable ex) {
+		catch (Exception ex) {
 			throw new WebServiceException(WebServiceException.UNKNOW_ERROR,"Invocation of method [" + methodInvocation.getMethod() +
 					"] failed in HTTP invoker remote service at [" + getServiceUrl() + "]",getServiceUrl(),methodInvocation.getMethod().getName(), ex);
 		}

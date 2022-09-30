@@ -42,7 +42,10 @@ import com.github.rapid.common.rpc.util.StringUtil;
 public class RPCServiceExporter extends RemoteExporter implements HttpRequestHandler,HandlerMapping,ApplicationContextAware,InitializingBean {
 	
 	
+	private static final String TRACE_ID = "traceId";
+	
 	public static final String ENCODING = "UTF-8";
+	
 	private static Logger logger = LoggerFactory.getLogger(RPCServiceExporter.class);
 	private static final String DEFAULT_FORMAT = "json";
 	public static final String KEY_NO_WRAP = RPCConstants.KEY_NO_WRAP; 
@@ -93,7 +96,7 @@ public class RPCServiceExporter extends RemoteExporter implements HttpRequestHan
 		RPCContext.setRequest(request);
 		RPCContext.setResponse(response);
 		String traceId = RandomStringUtils.randomAlphanumeric(10);
-		MDC.put("traceId", traceId);
+		MDC.put(TRACE_ID, traceId);
 		
 		Map<String, Object> parameters = RequestParameterUtil.getParameters(request);
 		try {
@@ -117,7 +120,7 @@ public class RPCServiceExporter extends RemoteExporter implements HttpRequestHan
 			serializeResult(responseResult,request, response,parameters);
 		}finally {
 			RPCContext.clear();
-			MDC.remove("traceId");
+			MDC.remove(TRACE_ID);
 		}
 		
 	}

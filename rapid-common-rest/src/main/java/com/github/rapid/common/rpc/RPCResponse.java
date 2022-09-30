@@ -29,22 +29,30 @@ public class RPCResponse <T> implements Serializable{
 	 */
 	private String traceId;
 	
+	/**
+	 * 是否成功
+	 */
+	private boolean status;
+	
 	
 	public RPCResponse() {
 	}
 	
 	public RPCResponse(T result) {
 		this.result = result;
+		this.status = true;
 	}
 	
 	public RPCResponse(T result,String infoMsg) {
 		this.result = result;
 		this.infoMsg = infoMsg;
+		this.status = true;
 	}
 
 	public RPCResponse(String errorCode, String errorMessage) {
 		this.errCode = errorCode;
 		this.errMsg = errorMessage;
+		this.status = false;
 	}
 
 	public T getResult() {
@@ -86,8 +94,14 @@ public class RPCResponse <T> implements Serializable{
 	public void setTraceId(String traceId) {
 		this.traceId = traceId;
 	}
-	
-	
+
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
 	
 	
 }
