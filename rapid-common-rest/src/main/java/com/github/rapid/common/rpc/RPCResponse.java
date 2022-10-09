@@ -39,9 +39,9 @@ public class RPCResponse <T> implements Serializable{
 		this.result = result;
 	}
 
-	public RPCResponse(String errorCode, String errorMessage) {
+	public RPCResponse(String errorCode, String message) {
 		this.errorCode = errorCode;
-		this.message = errorMessage;
+		this.message = message;
 	}
 
 	public T getResult() {
