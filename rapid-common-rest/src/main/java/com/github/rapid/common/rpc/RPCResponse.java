@@ -14,7 +14,7 @@ public class RPCResponse <T> implements Serializable{
 	/**
 	 * 错误码
 	 */
-	private String errCode;
+	private String errorCode;
 	
 	/**
 	 * 具体消息(如错误消息)
@@ -22,7 +22,7 @@ public class RPCResponse <T> implements Serializable{
 	private String message;
 	
 	/**
-	 * 错误完整日志，可以用于在测试环境展示，方便快速查错
+	 * 错误完整错误堆栈日志，可以用于在测试环境展示，方便快速查错
 	 */
 	private String errorLog;
 
@@ -40,7 +40,7 @@ public class RPCResponse <T> implements Serializable{
 	}
 
 	public RPCResponse(String errorCode, String errorMessage) {
-		this.errCode = errorCode;
+		this.errorCode = errorCode;
 		this.message = errorMessage;
 	}
 
@@ -52,12 +52,12 @@ public class RPCResponse <T> implements Serializable{
 		this.result = result;
 	}
 
-	public String getErrCode() {
-		return errCode;
+	public String getErrorCode() {
+		return errorCode;
 	}
 
-	public void setErrCode(String errCode) {
-		this.errCode = errCode;
+	public void setErrorCode(String errorCode) {
+		this.errorCode = errorCode;
 	}
 
 	public String getMessage() {
@@ -85,7 +85,7 @@ public class RPCResponse <T> implements Serializable{
 	}
 
 	public boolean isSuccess() {
-		return StringUtils.isBlank(errCode);
+		return StringUtils.isBlank(errorCode);
 	}
 	
 }
