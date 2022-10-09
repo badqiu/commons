@@ -17,15 +17,15 @@ public class RPCResponse <T> implements Serializable{
 	private String errCode;
 	
 	/**
-	 * 具体错误消息
+	 * 具体消息(如错误消息)
 	 */
-	private String errMsg;
+	private String message;
 	
 	/**
-	 * 提示消息
+	 * 错误完整日志，可以用于在测试环境展示，方便快速查错
 	 */
-	private String infoMsg;
-	
+	private String errorLog;
+
 	/**
 	 * 请求跟踪ID
 	 */
@@ -38,15 +38,10 @@ public class RPCResponse <T> implements Serializable{
 	public RPCResponse(T result) {
 		this.result = result;
 	}
-	
-	public RPCResponse(T result,String infoMsg) {
-		this.result = result;
-		this.infoMsg = infoMsg;
-	}
 
 	public RPCResponse(String errorCode, String errorMessage) {
 		this.errCode = errorCode;
-		this.errMsg = errorMessage;
+		this.message = errorMessage;
 	}
 
 	public T getResult() {
@@ -61,24 +56,24 @@ public class RPCResponse <T> implements Serializable{
 		return errCode;
 	}
 
-	public void setErrCode(String errorCode) {
-		this.errCode = errorCode;
+	public void setErrCode(String errCode) {
+		this.errCode = errCode;
 	}
 
-	public String getErrMsg() {
-		return errMsg;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setErrMsg(String errorMessage) {
-		this.errMsg = errorMessage;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
-	public String getInfoMsg() {
-		return infoMsg;
+	public String getErrorLog() {
+		return errorLog;
 	}
 
-	public void setInfoMsg(String infoMsg) {
-		this.infoMsg = infoMsg;
+	public void setErrorLog(String errorLog) {
+		this.errorLog = errorLog;
 	}
 
 	public String getTraceId() {

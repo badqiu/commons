@@ -1,7 +1,6 @@
 package com.github.rapid.common.rpc.server;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -104,7 +103,8 @@ public class RPCServiceExporter extends RemoteExporter implements HttpRequestHan
 			if("true".equals(parameters.get(KEY_NO_WRAP))) {
 				serializeResult(result,request, response,parameters);
 			}else {
-				RPCResponse responseResult = new RPCResponse(result,RPCContext.getInfoMsg());
+				RPCResponse responseResult = new RPCResponse(result);
+				responseResult.setMessage(RPCContext.getInfoMsg());
 				responseResult.setTraceId(traceId);
 				serializeResult(responseResult,request, response,parameters);
 			}
