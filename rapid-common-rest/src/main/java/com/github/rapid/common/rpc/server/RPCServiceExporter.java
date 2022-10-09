@@ -104,7 +104,7 @@ public class RPCServiceExporter extends RemoteExporter implements HttpRequestHan
 				serializeResult(result,request, response,parameters);
 			}else {
 				RPCResponse responseResult = new RPCResponse(result);
-				responseResult.setMessage(RPCContext.getInfoMsg());
+				responseResult.setMessage(RPCContext.getMessage());
 				responseResult.setTraceId(traceId);
 				serializeResult(responseResult,request, response,parameters);
 			}

@@ -22,7 +22,7 @@ public class RPCContext {
 		return responseContext.get();
 	}
 	
-	public static String getInfoMsg() {
+	public static String getMessage() {
 		return msgContext.get();
 	}
 	
@@ -34,7 +34,7 @@ public class RPCContext {
 		responseContext.set(response);
 	}
 	
-	public static void setInfoMsg(String msg) {
+	public static void setMessage(String msg) {
 		msgContext.set(msg);
 	}
 	
