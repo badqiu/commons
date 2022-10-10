@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 
 public class FastConvertUtil {
@@ -40,7 +41,7 @@ public class FastConvertUtil {
 		if(value instanceof Number) {
 			date.setTime(((Number) value).longValue());
 		}else if(value instanceof String) {
-			date.setTime(Long.parseLong(String.valueOf(value)));
+			date.setTime(string2Timestamp((String)value));
 		}else if(value instanceof Date) {
 			date.setTime(((Date)value).getTime());
 		}else if(value instanceof Calendar) {
@@ -49,6 +50,39 @@ public class FastConvertUtil {
 			throw new IllegalStateException("cannot convert value:"+value+" to target date:"+targetClass);
 		}
 		return date;
+	}
+
+	
+	private static long string2Timestamp(String value) {
+		if(StringUtils.isBlank(value)) return 0;
+		
+		String dateFormat = "";
+		if(value.contains("-")) {
+			dateFormat = "yyyy-MM-dd";
+		}else if(value.contains("/")) {
+			dateFormat = "yyyy/MM/dd";
+		}
+		
+		String timeFormat = "";
+		if(value.contains(":")) {
+			timeFormat = "HH:mm:ss";
+		}
+		
+		String finalFormat = null;
+		if(StringUtils.isNotBlank(dateFormat) && StringUtils.isNotBlank(timeFormat)) {
+			finalFormat = dateFormat + " " + timeFormat;
+		}else {
+			finalFormat = dateFormat + timeFormat;
+		}
+		
+		if(StringUtils.isBlank(finalFormat)) {
+			Date date = DateConvertUtil.parse(value, finalFormat);
+			return date.getTime();
+		}else {
+			return Long.parseLong(value);
+		}
+		
+		
 	}
 
 	private static Object convert2FromString(Class<?> targetClass, String value) {
