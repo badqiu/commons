@@ -20,9 +20,9 @@ public class Timeout {
 	}
 	
 	public Timeout(Duration timeoutDuration) {
-		this(timeoutDuration,SystemTimer.currentTimeMillis());
+		this(timeoutDuration,systemCurrentTimeMillis());
 	}
-	
+
 	public Timeout(Duration timeoutDuration,long lastTime) {
 		Objects.requireNonNull(timeoutDuration,"timeoutDuration must be not null");
 		this.timeoutDuration = timeoutDuration;
@@ -38,7 +38,7 @@ public class Timeout {
 	}
 	
 	public void updateLastTime() {
-		lastTime = SystemTimer.currentTimeMillis();
+		lastTime = systemCurrentTimeMillis();
 	}
 
 	public boolean isTimeout(long duration,TimeUnit timeUnit) {
@@ -64,8 +64,11 @@ public class Timeout {
 	}
 
 	private boolean isTimeoutByTimeMills(long durationMills) {
-		long interval = SystemTimer.currentTimeMillis() - lastTime;
+		long interval = systemCurrentTimeMillis() - lastTime;
 		return Math.abs(interval) >= durationMills;
 	}
 	
+	private static long systemCurrentTimeMillis() {
+		return SystemTimer.currentTimeMillis();
+	}
 }
