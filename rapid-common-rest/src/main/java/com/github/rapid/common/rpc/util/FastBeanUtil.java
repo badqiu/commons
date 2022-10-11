@@ -25,6 +25,10 @@ import org.springframework.util.Assert;
 public class FastBeanUtil {
 
 	public static Map<String,Object> describe(Object obj) {
+		return describe(obj,false);
+	}
+	
+	public static Map<String,Object> describe(Object obj,boolean valueMustEmpty) {
 		if (obj instanceof Map)
 			return (Map<String,Object>) obj;
 		
@@ -37,6 +41,9 @@ public class FastBeanUtil {
 			if (readMethod != null) {
 				try {
 					Object value = readMethod.invoke(obj);
+					if(valueMustEmpty && value == null) {
+						continue;
+					}
 					map.put(name, value);
 				} catch (Exception e) {
 					throw new RuntimeException("error on read property:"+name+" on class:"+obj.getClass());
