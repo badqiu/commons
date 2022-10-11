@@ -16,7 +16,7 @@ public class Timeout {
 	private Duration timeoutDuration; //超时时间
 	
 	public Timeout() {
-		lastTime = SystemTimer.currentTimeMillis();
+		updateLastTime();
 	}
 	
 	public Timeout(Duration timeoutDuration) {
