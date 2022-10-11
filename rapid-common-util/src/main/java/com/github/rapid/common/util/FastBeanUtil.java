@@ -28,7 +28,7 @@ public class FastBeanUtil {
 		return describe(obj,false);
 	}
 	
-	public static Map<String,Object> describe(Object obj,boolean valueMustEmpty) {
+	public static Map<String,Object> describe(Object obj,boolean valueMustNotEmpty) {
 		if (obj instanceof Map)
 			return (Map<String,Object>) obj;
 		
@@ -41,7 +41,7 @@ public class FastBeanUtil {
 			if (readMethod != null) {
 				try {
 					Object value = readMethod.invoke(obj);
-					if(valueMustEmpty && ObjectUtil.isEmpty(value)) {
+					if(valueMustNotEmpty && ObjectUtil.isEmpty(value)) {
 						continue;
 					}
 					
