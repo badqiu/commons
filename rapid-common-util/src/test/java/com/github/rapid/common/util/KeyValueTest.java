@@ -16,9 +16,11 @@ public class KeyValueTest {
 
 		assertEquals("name=123",KeyValue.parse(" name = 123").toString());
 		assertEquals("name=",KeyValue.parse(" name = ").toString());
-		assertEquals("=",KeyValue.parse("  = ").toString());
+		assertEquals(null,KeyValue.parse("  = ").toString());
 		assertEquals("name=",KeyValue.parse("name= ").toString());
 		assertEquals(null,KeyValue.parse("="));
+		assertEquals(null,KeyValue.parse("= "));
+		assertEquals(null,KeyValue.parse(" = "));
 		assertEquals(null,KeyValue.parse("=123"));
 	}
 
