@@ -12,6 +12,7 @@ public class DateRangeTest {
 	public void test_isWithinRange() {
 		DateRange dr = new DateRange();
 		assertFalse(dr.isWithinRange(new Date()));
+		System.out.println(dr);
 	}
 
 }
