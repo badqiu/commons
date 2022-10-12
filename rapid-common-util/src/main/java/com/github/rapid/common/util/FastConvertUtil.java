@@ -54,8 +54,23 @@ public class FastConvertUtil {
 
 	
 	private static long string2Timestamp(String value) {
+		return smartParserForTimestamp(value);
+	}
+
+	private static long smartParserForTimestamp(String value) {
 		if(StringUtils.isBlank(value)) return 0;
 		
+		String finalFormat = guessDateFormat(value);
+		
+		if(StringUtils.isBlank(finalFormat)) {
+			Date date = DateConvertUtil.parse(value, finalFormat);
+			return date.getTime();
+		}else {
+			return Long.parseLong(value);
+		}
+	}
+
+	private static String guessDateFormat(String value) {
 		String dateFormat = "";
 		if(value.contains("-")) {
 			dateFormat = "yyyy-MM-dd";
@@ -68,21 +83,10 @@ public class FastConvertUtil {
 			timeFormat = "HH:mm:ss";
 		}
 		
-		String finalFormat = null;
 		if(StringUtils.isNotBlank(dateFormat) && StringUtils.isNotBlank(timeFormat)) {
-			finalFormat = dateFormat + " " + timeFormat;
-		}else {
-			finalFormat = dateFormat + timeFormat;
+			return dateFormat + " " + timeFormat;
 		}
-		
-		if(StringUtils.isBlank(finalFormat)) {
-			Date date = DateConvertUtil.parse(value, finalFormat);
-			return date.getTime();
-		}else {
-			return Long.parseLong(value);
-		}
-		
-		
+		return dateFormat + timeFormat;
 	}
 
 	private static Object convert2FromString(Class<?> targetClass, String value) {
