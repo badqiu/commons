@@ -8,6 +8,8 @@ public class KeyValue<K, V> implements Serializable{
 
 	private static final long serialVersionUID = -7863628178456494468L;
 	
+	private static String DEFAULT_KEY_VALUE_SEPERATOR = "=";
+	
 	private K key;
 	private V value;
 
@@ -67,7 +69,7 @@ public class KeyValue<K, V> implements Serializable{
 		return true;
 	}
 	
-	private static String DEFAULT_KEY_VALUE_SEPERATOR = "=";
+	
 	
 	public static KeyValue<String,String> parse(String text) {
 		return parse(text,DEFAULT_KEY_VALUE_SEPERATOR);
