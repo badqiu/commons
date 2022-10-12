@@ -2,6 +2,8 @@ package com.github.rapid.common.util;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class KeyValue<K, V> implements Serializable{
 
 	private static final long serialVersionUID = -7863628178456494468L;
@@ -22,16 +24,16 @@ public class KeyValue<K, V> implements Serializable{
 		return key;
 	}
 
-	public KeyValue<K,V> setKey(K key) {
-		return new KeyValue(key,this.value);
+	public void setKey(K key) {
+		this.key = key;
 	}
 
 	public V getValue() {
 		return value;
 	}
 
-	public KeyValue<K,V> setValue(V value) {
-		return new KeyValue(this.key,value);
+	public void setValue(V value) {
+		this.value = value;
 	}
 
 	@Override
@@ -64,10 +66,29 @@ public class KeyValue<K, V> implements Serializable{
 			return false;
 		return true;
 	}
+	
+	private static String DEFAULT_KEY_VALUE_SEPERATOR = "=";
+	
+	public static KeyValue<String,String> parse(String text) {
+		return parse(text,DEFAULT_KEY_VALUE_SEPERATOR);
+	}
+	
+	public static KeyValue<String,String> parse(String text,String seperator) {
+		if(StringUtils.isBlank(text)) return null;
+		
+		int index = text.indexOf(seperator);
+		if(index > 0) {
+			String key = StringUtils.trim(text.substring(0,index));
+			String value = StringUtils.trim(text.substring(index + 1, text.length()));
+			return new KeyValue<String,String>(key,value);
+		}
+		
+		return null;
+	}
 
 	@Override
 	public String toString() {
-		return "KeyValue [key=" + key + ", value=" + value + "]";
+		return key+"="+value;
 	}
 
 	
