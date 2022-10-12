@@ -79,8 +79,9 @@ public class KeyValue<K, V> implements Serializable{
 		int index = text.indexOf(seperator);
 		if(index > 0) {
 			String key = StringUtils.trim(text.substring(0,index));
-			String value = StringUtils.trim(text.substring(index + 1, text.length()));
 			if(StringUtils.isBlank(key)) return null;
+			
+			String value = StringUtils.trim(text.substring(index + 1, text.length()));
 			
 			return new KeyValue<String,String>(key,value);
 		}
