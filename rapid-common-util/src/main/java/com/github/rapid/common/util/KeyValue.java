@@ -91,7 +91,7 @@ public class KeyValue<K, V> implements Serializable{
 
 	@Override
 	public String toString() {
-		return key+"="+value;
+		return key + DEFAULT_KEY_VALUE_SEPERATOR + value;
 	}
 
 	
