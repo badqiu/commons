@@ -10,7 +10,7 @@
            http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-3.0.xsd"
 	   default-autowire="byName" default-lazy-init="false">
 
-	<bean id="stringBean" class="com.duowan.common.spring.ScriptFactoryBean">
+	<bean id="stringBean" class="com.github.rapid.common.spring.ScriptFactoryBean">
 		<property name="lang" value="groovy"></property>
 		<property name="script">
 			<value>
@@ -20,7 +20,7 @@
 		</property>
 	</bean>
 	
-	<bean id="stringBeanByJavascript" class="com.duowan.common.spring.ScriptFactoryBean">
+	<bean id="stringBeanByJavascript" class="com.github.rapid.common.spring.ScriptFactoryBean">
 		<property name="lang" value="javascript"></property>
 		<property name="script">
 			<value>
