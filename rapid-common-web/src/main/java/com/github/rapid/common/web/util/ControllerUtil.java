@@ -31,14 +31,14 @@ public class ControllerUtil {
 	}
 	
 	/**
-	 * 用items循环执行Consumer,执行成功数及失败数: [successCount,errorCount]
+	 * 用items循环执行Consumer,执行成功数及失败数
 	 * @param items
 	 * @param consumer
-	 * @return [successCount,errorCount]
 	 */
-	public static <T> int[] execForCounts(Consumer<T> consumer,List<T> items) {
+	public static <T> BatchStat execForCounts(Consumer<T> consumer,List<T> items) {
 		int successCount = 0;
 		int errorCount = 0;
+		Exception lastException = null;
 		for(T item : items) {
 			if(item == null) continue;
 			
@@ -48,10 +48,53 @@ public class ControllerUtil {
 			}catch(Exception e) {
 				errorCount++;
 				logger.info("accept_error,item:"+item,e);
+				lastException = e;
 			}
 		}
 		
-		return new int[]{successCount,errorCount};
+		BatchStat batchStat = new BatchStat(successCount,errorCount);
+		batchStat.setLastException(lastException);
+		
+		return batchStat;
+	}
+	
+	public static class BatchStat {
+		int successCount;
+		int errorCount;
+		Exception lastException;
+		
+		public BatchStat() {
+		}
+		
+		public BatchStat(int successCount, int errorCount) {
+			this.successCount = successCount;
+			this.errorCount = errorCount;
+		}
+
+		public int getSuccessCount() {
+			return successCount;
+		}
+		
+		public void setSuccessCount(int successCount) {
+			this.successCount = successCount;
+		}
+		
+		public int getErrorCount() {
+			return errorCount;
+		}
+		
+		public void setErrorCount(int errorCount) {
+			this.errorCount = errorCount;
+		}
+
+		public Exception getLastException() {
+			return lastException;
+		}
+
+		public void setLastException(Exception lastException) {
+			this.lastException = lastException;
+		}
+		
 	}
 	
 }
