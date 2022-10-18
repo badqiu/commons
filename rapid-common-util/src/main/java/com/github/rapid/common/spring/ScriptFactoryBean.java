@@ -24,6 +24,10 @@ public class ScriptFactoryBean implements FactoryBean{
 		this.lang = lang;
 	}
 
+	public void setLanguage(String lang) {
+		setLang(lang);
+	}
+	
 	public String getScript() {
 		return script;
 	}
