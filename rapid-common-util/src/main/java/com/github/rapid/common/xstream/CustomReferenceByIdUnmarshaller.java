@@ -67,10 +67,10 @@ public class CustomReferenceByIdUnmarshaller extends ReferenceByIdUnmarshaller {
 		if(StringUtils.isBlank(reference)) {
 			return null;
 		}
-		return lookupObjectByKey(reference);
+		return lookupObjectByBeanName(reference);
 	}
 
-	protected Object lookupObjectByKey(String beanName) {
+	protected Object lookupObjectByBeanName(String beanName) {
 		if(beanFactory != null && beanFactory.containsBean(beanName)) {
 			return beanFactory.getBean(beanName);
 		}
