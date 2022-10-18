@@ -4,11 +4,18 @@ import java.util.regex.Pattern;
 
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.github.rapid.common.util.RegexUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class RegexUtilsTest extends Assert {
+	
+	private static Logger logger = LoggerFactory.getLogger(RegexUtilsTest.class);
+	
+	@Test
+	public void print_log() {
+		logger.error("msg:{}, info:{}", "hello","info",new Exception());
+	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void test_findByRegexGroup() {
