@@ -29,13 +29,23 @@ public class KeyValue<K, V> implements Serializable{
 	public void setKey(K key) {
 		this.key = key;
 	}
-
+	
 	public V getValue() {
 		return value;
 	}
 
 	public void setValue(V value) {
 		this.value = value;
+	}
+	
+	public KeyValue<K,V> key(K key) {
+		setKey(key);
+		return this;
+	}
+	
+	public KeyValue<K,V> value(V value) {
+		setValue(value);
+		return this;
 	}
 
 	@Override
