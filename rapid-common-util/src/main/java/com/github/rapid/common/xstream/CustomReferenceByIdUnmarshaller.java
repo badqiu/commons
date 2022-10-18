@@ -62,15 +62,22 @@ public class CustomReferenceByIdUnmarshaller extends ReferenceByIdUnmarshaller {
 		if(StringUtils.isBlank(attributeKey)) {
 			return null;
 		}
+		
 		String attributeName = getMapper().aliasForSystemAttribute(attributeKey);
-		String reference = attributeName == null ? null : reader.getAttribute(attributeName);;
-		if(StringUtils.isBlank(reference)) {
+		if(StringUtils.isBlank(attributeName)) {
 			return null;
 		}
-		return lookupObjectByBeanName(reference);
+		
+		String referenceValue = reader.getAttribute(attributeName);;
+		
+		return lookupObjectByBeanName(referenceValue);
 	}
 
 	protected Object lookupObjectByBeanName(String beanName) {
+		if(StringUtils.isBlank(beanName)) {
+			return null;
+		}
+		
 		if(beanFactory != null && beanFactory.containsBean(beanName)) {
 			return beanFactory.getBean(beanName);
 		}
