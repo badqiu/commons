@@ -1,6 +1,7 @@
 package com.github.rapid.common.xstream;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -40,6 +41,8 @@ public class CustomMarshallingStrategyTest {
 		assertNotNull(testUser.getDs2());
 		assertNotNull(testUser.getDs3());
 		
+		assertNull(testUser.getDs4());
+		
 		input.close();
 	}
 	
@@ -56,6 +59,8 @@ public class CustomMarshallingStrategyTest {
 		assertNotNull(testUser.getDs1());
 		assertNotNull(testUser.getDs2());
 		assertNotNull(testUser.getDs3());
+		
+		assertNull(testUser.getDs4());
 		
 		input.close();
 	}
