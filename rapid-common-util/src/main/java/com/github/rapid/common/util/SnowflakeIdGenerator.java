@@ -1,15 +1,13 @@
 package com.github.rapid.common.util;
 
 import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.util.Enumeration;
 
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /** 
@@ -18,6 +16,8 @@ import org.apache.commons.lang3.SystemUtils;
  * */
 public class SnowflakeIdGenerator {
 
+	private static Logger logger = LoggerFactory.getLogger(SnowflakeIdGenerator.class);
+	
 	private final long twepoch = 1288834974657L;
 	private final long workerIdBits = 5L;
 	private final long datacenterIdBits = 5L;
@@ -46,6 +46,8 @@ public class SnowflakeIdGenerator {
 		
 		this.workerId = workerId;
 		this.datacenterId = datacenterId;
+		
+		logger.info("SnowflakeIdGenerator:"+ToStringBuilder.reflectionToString(this));
 	}
 
 	public synchronized long nextId() {
@@ -66,7 +68,8 @@ public class SnowflakeIdGenerator {
 
 		return ((timestamp - twepoch) << timestampLeftShift)
 				| (datacenterId << datacenterIdShift)
-				| (workerId << workerIdShift) | sequence;
+				| (workerId << workerIdShift) 
+				| sequence;
 	}
 
 	protected long tilNextMillis(long lastTimestamp) {
@@ -91,9 +94,9 @@ public class SnowflakeIdGenerator {
             String hostAddress = Inet4Address.getLocalHost().getHostAddress();
 
             int[] ints = StringUtils.toCodePoints(hostAddress);
-            int sums = sumInts(ints);
+            long sums = sumInts(ints);
             long workId = (long)(sums % 32);
-            System.out.println("SnowflakeIdGenerator.hostAddress: "+hostAddress+" for generate workId: "+workId);
+            logger.info("SnowflakeIdGenerator.hostAddress: "+hostAddress+" for generate workId: "+workId);
             return workId;
         } catch (Exception e) {
         	e.printStackTrace();
@@ -105,14 +108,14 @@ public class SnowflakeIdGenerator {
     private static Long getDataCenterId(){
         String hostName = SystemUtils.getHostName();
 		int[] ints = StringUtils.toCodePoints(hostName);
-        int sums = sumInts(ints);
+        long sums = sumInts(ints);
         long dataCenterId = (long)(sums % 32);
-        System.out.println("SnowflakeIdGenerator.hostName: "+hostName+" for generate dataCenterId: "+dataCenterId);
+        logger.info("SnowflakeIdGenerator.hostName: "+hostName+" for generate dataCenterId: "+dataCenterId);
         return dataCenterId;
     }
 
-	private static int sumInts(int[] ints) {
-		int sums = 0;
+	private static long sumInts(int[] ints) {
+		long sums = 0;
         for (int i: ints) {
             sums += i;
         }
