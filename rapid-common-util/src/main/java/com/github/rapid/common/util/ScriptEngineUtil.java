@@ -1,22 +1,19 @@
 package com.github.rapid.common.util;
 
-import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.script.Bindings;
 import javax.script.Compilable;
 import javax.script.CompiledScript;
-import javax.script.Invocable;
-import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
-import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 import org.apache.commons.lang.StringUtils;
 
 public class ScriptEngineUtil {
+	
 	public static ScriptEngineManager factory = new ScriptEngineManager();
 	
 	private static Map<String,ScriptEngine> scriptEngineCache = new HashMap<String,ScriptEngine>();
