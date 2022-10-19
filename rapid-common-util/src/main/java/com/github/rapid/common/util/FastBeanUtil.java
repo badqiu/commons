@@ -36,20 +36,25 @@ public class FastBeanUtil {
 		PropertyDescriptor[] descriptors = BeanUtils.getPropertyDescriptors(obj.getClass());
 		for(int i = 0; i < descriptors.length; i++ ) {
 			String name = descriptors[i].getName();
+			if("class".equals(name)) {
+				continue;
+			}
 			
             Method readMethod = descriptors[i].getReadMethod();
-			if (readMethod != null) {
-				try {
-					Object value = readMethod.invoke(obj);
-					if(valueMustNotEmpty && ObjectUtil.isEmpty(value)) {
-						continue;
-					}
-					
-					map.put(name, value);
-				} catch (Exception e) {
-					throw new RuntimeException("error on read property:"+name+" on class:"+obj.getClass());
-				}
+            if(readMethod == null) {
+            	continue;
             }
+            
+			try {
+				Object value = readMethod.invoke(obj);
+				if(valueMustNotEmpty && ObjectUtil.isEmpty(value)) {
+					continue;
+				}
+				
+				map.put(name, value);
+			} catch (Exception e) {
+				throw new RuntimeException("error on read property:"+name+" on class:"+obj.getClass(),e);
+			}
 		}
 		return map;
 	}
