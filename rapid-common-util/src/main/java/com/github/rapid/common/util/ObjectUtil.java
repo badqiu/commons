@@ -1,5 +1,6 @@
 package com.github.rapid.common.util;
 
+import java.io.Closeable;
 import java.io.Flushable;
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -89,6 +90,8 @@ public class ObjectUtil {
 		if(items == null) return;
 		
 		for(Object item : items) {
+			if(item == null) continue;
+			
 			if(item instanceof Flushable) {
 				((Flushable)item).flush();
 			}
@@ -99,8 +102,12 @@ public class ObjectUtil {
 		if(items == null) return;
 		
 		for(Object item : items) {
+			if(item == null) continue;
+			
 			if(item instanceof AutoCloseable) {
 				((AutoCloseable)item).close();
+			}else if(item instanceof Closeable) {
+				((Closeable)item).close();
 			}
 		}
 	}
@@ -109,6 +116,8 @@ public class ObjectUtil {
 		if(items == null) return;
 		
 		for(Object item : items) {
+			if(item == null) continue;
+			
 			if(item instanceof AutoCloseable) {
 				((InitializingBean)item).afterPropertiesSet();
 			}
@@ -119,6 +128,8 @@ public class ObjectUtil {
 		if(items == null) return;
 		
 		for(Object item : items) {
+			if(item == null) continue;
+			
 			if(item instanceof DisposableBean) {
 				((DisposableBean)item).destroy();
 			}
