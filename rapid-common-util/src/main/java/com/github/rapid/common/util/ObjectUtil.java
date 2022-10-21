@@ -112,6 +112,24 @@ public class ObjectUtil {
 		}
 	}
 	
+	public static void closeQuietlyAll(Object... items)  {
+		if(items == null) return;
+		
+		for(Object item : items) {
+			if(item == null) continue;
+			
+			try {
+				if(item instanceof AutoCloseable) {
+					((AutoCloseable)item).close();
+				}else if(item instanceof Closeable) {
+					((Closeable)item).close();
+				}
+			}catch(Exception e) {
+				//ignore
+			}
+		}
+	}
+	
 	public static void afterPropertiesSetAll(Object... items) throws Exception {
 		if(items == null) return;
 		
