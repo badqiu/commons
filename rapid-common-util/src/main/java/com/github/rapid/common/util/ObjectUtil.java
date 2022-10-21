@@ -1,10 +1,14 @@
 package com.github.rapid.common.util;
 
+import java.io.Flushable;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 
 /**
  * @author badqiu
@@ -79,6 +83,46 @@ public class ObjectUtil {
 	 */
 	public static boolean isNotEmpty(Object c) throws IllegalArgumentException{
 		return !isEmpty(c);
+	}
+	
+	public static void flushAll(Object... items) throws IOException {
+		if(items == null) return;
+		
+		for(Object item : items) {
+			if(item instanceof Flushable) {
+				((Flushable)item).flush();
+			}
+		}
+	}
+	
+	public static void closeAll(Object... items) throws Exception {
+		if(items == null) return;
+		
+		for(Object item : items) {
+			if(item instanceof AutoCloseable) {
+				((AutoCloseable)item).close();
+			}
+		}
+	}
+	
+	public static void afterPropertiesSetAll(Object... items) throws Exception {
+		if(items == null) return;
+		
+		for(Object item : items) {
+			if(item instanceof AutoCloseable) {
+				((InitializingBean)item).afterPropertiesSet();
+			}
+		}
+	}
+	
+	public static void destroyAll(Object... items) throws Exception {
+		if(items == null) return;
+		
+		for(Object item : items) {
+			if(item instanceof DisposableBean) {
+				((DisposableBean)item).destroy();
+			}
+		}
 	}
 	
 }
