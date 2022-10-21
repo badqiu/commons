@@ -56,8 +56,7 @@ public class RetryFunction<T,R> extends ProxyFunction<T,R> implements Function<T
 	@Override
 	public R apply(T t) {
 		return (R)Retry.retry(retryTimes, retryIntervalMills,retryTimeoutMills, () -> {
-			super.apply(t);
-			return null;
+			return super.apply(t);
 		});
 	}
 
