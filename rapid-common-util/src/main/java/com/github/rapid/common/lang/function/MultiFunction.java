@@ -119,7 +119,7 @@ public class MultiFunction <T,R> implements Function<T,R>,AutoCloseable,Flushabl
 		ALL,
 		RANDOM,
 		ROUND_ROBIN,
-		HASH
+		HASH // IP_HASH,URL_HASH
 //		WEIGHT,
 	}
 	
