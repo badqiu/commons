@@ -136,7 +136,7 @@ public class ObjectUtil {
 		for(Object item : items) {
 			if(item == null) continue;
 			
-			if(item instanceof AutoCloseable) {
+			if(item instanceof InitializingBean) {
 				((InitializingBean)item).afterPropertiesSet();
 			}
 		}
