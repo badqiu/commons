@@ -71,10 +71,6 @@ public class MultiFunction <T,R> implements Function<T,R>,AutoCloseable,Flushabl
 		int index = Math.abs(t.hashCode()) % length;
 		
 		Function<T,R> func = functions[index];
-		
-		if(count >= Long.MAX_VALUE) {
-			count = 0;
-		}
 		return func;
 	}
 
