@@ -47,7 +47,10 @@ public class LogTraceUtil {
 	 */
 	public static void trace(Runnable cmd) {
 		beginTrace();
-		cmd.run();
-		endTrace();
+		try {
+			cmd.run();
+		}finally {
+			endTrace();
+		}
 	}
 }
