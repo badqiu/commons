@@ -58,9 +58,24 @@ public class MultiFunction <T,R> implements Function<T,R>,AutoCloseable,Flushabl
 		}else if(loadBalancing == LoadBalancing.ROUND_ROBIN) {
 			Function<T, R> func = roundRobinOneFunction();
 			return func.apply(t);
+		}else if(loadBalancing == LoadBalancing.HASH) {
+			Function<T, R> func = hashOneFunction(t);
+			return func.apply(t);			
 		}else {
 			throw new RuntimeException("error loadBalancing:"+loadBalancing);
 		}
+	}
+
+	private Function<T, R> hashOneFunction(T t) {
+		int length = functions.length;
+		int index = Math.abs(t.hashCode()) % length;
+		
+		Function<T,R> func = functions[index];
+		
+		if(count >= Long.MAX_VALUE) {
+			count = 0;
+		}
+		return func;
 	}
 
 	private R toAll(T t) {
@@ -103,9 +118,9 @@ public class MultiFunction <T,R> implements Function<T,R>,AutoCloseable,Flushabl
 	public static enum LoadBalancing {
 		ALL,
 		RANDOM,
-		ROUND_ROBIN
+		ROUND_ROBIN,
+		HASH
 //		WEIGHT,
-//		HASH
 	}
 	
 }
