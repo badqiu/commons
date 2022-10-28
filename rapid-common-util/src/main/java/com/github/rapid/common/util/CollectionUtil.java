@@ -246,17 +246,17 @@ public class CollectionUtil {
 		}
 		
 		List results = new ArrayList();
-		List result = new ArrayList();
+		List row = new ArrayList(chunkSize);
 		for(int i = 0; i < list.size(); i++) {
 			Object v = list.get(i);
-			result.add(v);
+			row.add(v);
 			if(i % chunkSize == (chunkSize - 1)) {
-				results.add(result);
-				result = new ArrayList();
+				results.add(row);
+				row = new ArrayList();
 			}
 		}
-		if(!result.isEmpty()) {
-			results.add(result);
+		if(!row.isEmpty()) {
+			results.add(row);
 		}
 		
 		return results;
