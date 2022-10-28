@@ -82,6 +82,8 @@ public class CollectionHelperTest extends TestCase {
 		System.out.println(CollectionUtil.chunk(new ArrayList(), 3));
 		
 		assertEquals("[[1, 2, 3], [4, 5, 6], [7, 8, 9], [10]]",CollectionUtil.chunk(list, 3).toString());
+		assertEquals("[[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]",CollectionUtil.chunk(list, list.size()).toString());
+		assertEquals("[[1, 2, 3, 4, 5, 6, 7, 8, 9], [10]]",CollectionUtil.chunk(list, 9).toString());
 		
 		System.out.println(CollectionUtil.chunk(list, 3));
 		System.out.println(CollectionUtil.chunk(list, 2));

@@ -1,6 +1,7 @@
 package com.github.rapid.common.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -240,6 +241,9 @@ public class CollectionUtil {
 	public static List<List> chunk(List list,int chunkSize) {
 		if(list == null) return null;
 		if(list.isEmpty()) return Collections.EMPTY_LIST;
+		if(list.size() <= chunkSize) {
+			return Arrays.asList(list);
+		}
 		
 		List results = new ArrayList();
 		List result = new ArrayList();
