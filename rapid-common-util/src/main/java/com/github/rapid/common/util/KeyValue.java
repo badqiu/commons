@@ -1,10 +1,11 @@
 package com.github.rapid.common.util;
 
 import java.io.Serializable;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class KeyValue<K, V> implements Serializable{
+public class KeyValue<K, V> implements Entry<K, V>,Serializable{
 
 	private static final long serialVersionUID = -7863628178456494468L;
 	
@@ -34,8 +35,9 @@ public class KeyValue<K, V> implements Serializable{
 		return value;
 	}
 
-	public void setValue(V value) {
+	public V setValue(V value) {
 		this.value = value;
+		return value;
 	}
 	
 	public KeyValue<K,V> key(K key) {
