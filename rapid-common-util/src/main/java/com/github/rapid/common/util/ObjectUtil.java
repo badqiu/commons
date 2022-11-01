@@ -130,26 +130,34 @@ public class ObjectUtil {
 		}
 	}
 	
-	public static void afterPropertiesSetAll(Object... items) throws Exception {
+	public static void afterPropertiesSetAll(Object... items)  {
 		if(items == null) return;
 		
 		for(Object item : items) {
 			if(item == null) continue;
 			
 			if(item instanceof InitializingBean) {
-				((InitializingBean)item).afterPropertiesSet();
+				try {
+					((InitializingBean)item).afterPropertiesSet();
+				}catch(Exception e) {
+					throw new RuntimeException("afterPropertiesSet error on item:"+item,e);
+				}
 			}
 		}
 	}
 	
-	public static void destroyAll(Object... items) throws Exception {
+	public static void destroyAll(Object... items)  {
 		if(items == null) return;
 		
 		for(Object item : items) {
 			if(item == null) continue;
 			
 			if(item instanceof DisposableBean) {
-				((DisposableBean)item).destroy();
+				try {
+					((DisposableBean)item).destroy();
+				}catch(Exception e) {
+					throw new RuntimeException("destroy error on item:"+item,e);
+				}
 			}
 		}
 	}
