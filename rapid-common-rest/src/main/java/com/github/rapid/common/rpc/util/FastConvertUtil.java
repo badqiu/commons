@@ -45,6 +45,10 @@ public class FastConvertUtil {
 	}
 
 	private static Object convert2FromString(Class<?> targetClass, String value) {
+		if(targetClass.isEnum()) {
+			return Enum.valueOf((Class)targetClass, value);
+		}
+
 		if(targetClass == int.class || targetClass == Integer.class) {
 			return Integer.parseInt(String.valueOf(value));
 		}
