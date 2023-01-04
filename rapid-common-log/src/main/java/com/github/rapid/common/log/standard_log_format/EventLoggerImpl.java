@@ -51,30 +51,31 @@ public class EventLoggerImpl implements EventLogger {
 
 	@Override
 	public void trace(LoggerMsg msg) {
-		logger.trace(initAndToString(msg));
+		logger.trace(initAndToString(msg,"trace"));
 	}
 	
 	@Override
 	public void debug(LoggerMsg msg) {
-		logger.debug(initAndToString(msg));
+		logger.debug(initAndToString(msg,"debug"));
 	}
 
 	@Override
 	public void info(LoggerMsg msg) {
-		logger.info(initAndToString(msg));
+		logger.info(initAndToString(msg,"info"));
 	}
 
 	@Override
 	public void warn(LoggerMsg msg) {
-		logger.warn(initAndToString(msg));
+		logger.warn(initAndToString(msg,"warn"));
 	}
 
 	@Override
 	public void error(LoggerMsg msg) {
-		logger.error(initAndToString(msg));
+		logger.error(initAndToString(msg,"error"));
 	}
 	
-	private String initAndToString(LoggerMsg msg) {
+	private String initAndToString(LoggerMsg msg,String level) {
+		msg.setLevel(level);
 		if(msg.getEventType() == null) {
 			msg.setEventType(logger.getName());
 		}

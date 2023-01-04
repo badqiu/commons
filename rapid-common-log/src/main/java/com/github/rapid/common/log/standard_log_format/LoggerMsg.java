@@ -19,6 +19,7 @@ public class LoggerMsg {
 	private String fullLog; // 完整日志
 	private Throwable exception; // 错误原因
 	private String operator; // 日志操作人
+	private String level; //日志级别
 	//private Map params; //参数？？
 	
 	private long loopCount; // 循环执行大小，一般用于计算TPS
@@ -74,6 +75,14 @@ public class LoggerMsg {
 
 	public void setException(Throwable exception) {
 		this.exception = exception;
+	}
+	
+	public String getLevel() {
+		return level;
+	}
+
+	public void setLevel(String level) {
+		this.level = level;
 	}
 
 	public String getOperator() {
