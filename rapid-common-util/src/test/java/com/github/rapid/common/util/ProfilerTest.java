@@ -164,4 +164,16 @@ public class ProfilerTest {
 		}
 	}
 
+	@Test
+	public void startRelease() throws InterruptedException {
+		Profiler.startRelease("helloworld",50, () -> {
+			ThreadUtil.sleep(2000);
+			
+			Profiler.enterRelease("enter",100, () -> {
+				ThreadUtil.sleep(1000);
+				return 1;
+			});
+		});
+		Profiler.printDump();	
+	}
 }
