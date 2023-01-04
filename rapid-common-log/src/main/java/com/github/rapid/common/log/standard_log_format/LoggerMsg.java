@@ -25,7 +25,7 @@ public class LoggerMsg {
 	private long resultSize; // 结果集大小
 	private String resultStatus; //执行结果状态：success,fail
 	private Date startTime = new Date(); // 开始时间
-	private long duration; // 时长
+	private long duration; // 执行时长
 	private int retryTimes; //重试次数
 	
 	//环境信息
