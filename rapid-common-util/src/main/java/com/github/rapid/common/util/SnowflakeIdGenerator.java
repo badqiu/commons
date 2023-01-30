@@ -17,6 +17,10 @@ import org.slf4j.LoggerFactory;
  *  修改内容：将sequenceBits从12L => 4L,  生成的ID长度从19位 => 16位
  *  修改代价：一毫秒可以生成ID数量从 4096个 => 16个
  * 
+ * 性能:
+ * [totalCost:6,258ms, loopCount:100,000, TPS:15,979] - generateId_perf_test_by_sequenceBits=4
+ * [totalCost:2,442ms, loopCount:10,000,000, TPS:4,095,004] - generateId_perf_test_by_sequenceBits=12
+ * [totalCost:1,564ms, loopCount:100,000, TPS:63,938] - generateId_perf_test_by_sequenceBits=6
  * */
 public class SnowflakeIdGenerator {
 
@@ -59,6 +63,7 @@ public class SnowflakeIdGenerator {
 		if (timestamp < lastTimestamp) {
 			throw new RuntimeException(String.format("Clock moved backwards.  Refusing to generate id for %d milliseconds",lastTimestamp - timestamp));
 		}
+		
 		if (lastTimestamp == timestamp) {
 			sequence = (sequence + 1) & sequenceMask;
 			if (sequence == 0) {
@@ -70,7 +75,8 @@ public class SnowflakeIdGenerator {
 
 		lastTimestamp = timestamp;
 
-		return ((timestamp - twepoch) << timestampLeftShift)
+		long finalTimestamp = timestamp - twepoch;
+		return (finalTimestamp << timestampLeftShift)
 				| (datacenterId << datacenterIdShift)
 				| (workerId << workerIdShift) 
 				| sequence;
