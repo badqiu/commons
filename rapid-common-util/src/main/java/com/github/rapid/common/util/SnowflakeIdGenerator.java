@@ -26,16 +26,16 @@ public class SnowflakeIdGenerator {
 
 	private static Logger logger = LoggerFactory.getLogger(SnowflakeIdGenerator.class);
 	
-	private final long twepoch = 1288834974657L;
-	private final long workerIdBits = 5L;
-	private final long datacenterIdBits = 5L;
-	private final long maxWorkerId = -1L ^ (-1L << workerIdBits);
-	private final long maxDatacenterId = -1L ^ (-1L << datacenterIdBits);
-	public final long sequenceBits = 4L;
-	private final long workerIdShift = sequenceBits;
-	private final long datacenterIdShift = sequenceBits + workerIdBits;
-	private final long timestampLeftShift = sequenceBits + workerIdBits + datacenterIdBits;
-	public final long sequenceMask = -1L ^ (-1L << sequenceBits);
+	private static final long twepoch = 1288834974657L;
+	private static final long workerIdBits = 5L;
+	private static final long datacenterIdBits = 5L;
+	private static final long maxWorkerId = -1L ^ (-1L << workerIdBits);
+	private static final long maxDatacenterId = -1L ^ (-1L << datacenterIdBits);
+	public static final long sequenceBits = 4L;
+	private static final long workerIdShift = sequenceBits;
+	private static final long datacenterIdShift = sequenceBits + workerIdBits;
+	private static final long timestampLeftShift = sequenceBits + workerIdBits + datacenterIdBits;
+	public static final long sequenceMask = -1L ^ (-1L << sequenceBits);
 
 	private long workerId;
 	private long datacenterId;
@@ -55,7 +55,7 @@ public class SnowflakeIdGenerator {
 		this.workerId = workerId;
 		this.datacenterId = datacenterId;
 		
-		logger.info("SnowflakeIdGenerator:"+ToStringBuilder.reflectionToString(this));
+		logger.info("new SnowflakeIdGenerator, workerId:"+workerId+" datacenterId:"+datacenterId);
 	}
 
 	public synchronized long nextId() {
@@ -105,8 +105,8 @@ public class SnowflakeIdGenerator {
 
             int[] ints = StringUtils.toCodePoints(hostAddress);
             long sums = sumInts(ints);
-            long workId = (long)(sums % 32);
-            logger.info("SnowflakeIdGenerator.hostAddress: "+hostAddress+" for generate workId: "+workId);
+            long workId = (long)(sums % (maxWorkerId + 1));
+            logger.info("SnowflakeIdGenerator.hostAddress: "+hostAddress+" for generate workId: "+workId+" maxWorkerId:"+maxWorkerId);
             return workId;
         } catch (Exception e) {
         	e.printStackTrace();
@@ -119,8 +119,8 @@ public class SnowflakeIdGenerator {
         String hostName = SystemUtils.getHostName();
 		int[] ints = StringUtils.toCodePoints(hostName);
         long sums = sumInts(ints);
-        long dataCenterId = (long)(sums % 32);
-        logger.info("SnowflakeIdGenerator.hostName: "+hostName+" for generate dataCenterId: "+dataCenterId);
+        long dataCenterId = (long)(sums % (maxDatacenterId + 1));
+        logger.info("SnowflakeIdGenerator.hostName: "+hostName+" for generate dataCenterId: "+dataCenterId+" maxDatacenterId:"+maxDatacenterId);
         return dataCenterId;
     }
 
