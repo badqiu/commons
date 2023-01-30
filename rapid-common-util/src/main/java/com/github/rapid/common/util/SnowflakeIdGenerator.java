@@ -12,7 +12,11 @@ import org.slf4j.LoggerFactory;
 
 /** 
  * 雪花算法，用于数据库生成long类型 ID
- *  
+ *
+ *  修改目的：因为js不支持原生雪花算法生成的ID（原生19位长度），js只支持16长度的整型数字
+ *  修改内容：将sequenceBits从12L => 4L,  生成的ID长度从19位 => 16位
+ *  修改代价：一毫秒可以生成ID数量从 4096个 => 16个
+ * 
  * */
 public class SnowflakeIdGenerator {
 
@@ -23,11 +27,11 @@ public class SnowflakeIdGenerator {
 	private final long datacenterIdBits = 5L;
 	private final long maxWorkerId = -1L ^ (-1L << workerIdBits);
 	private final long maxDatacenterId = -1L ^ (-1L << datacenterIdBits);
-	private final long sequenceBits = 12L;
+	public final long sequenceBits = 4L;
 	private final long workerIdShift = sequenceBits;
 	private final long datacenterIdShift = sequenceBits + workerIdBits;
 	private final long timestampLeftShift = sequenceBits + workerIdBits + datacenterIdBits;
-	private final long sequenceMask = -1L ^ (-1L << sequenceBits);
+	public final long sequenceMask = -1L ^ (-1L << sequenceBits);
 
 	private long workerId;
 	private long datacenterId;
