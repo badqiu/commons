@@ -58,15 +58,15 @@ public class SpringNamedSqlGeneratorTest {
 	@Test
 	public void getSelectByPrimaryKeysSql() {
 		System.out.println(t.getSelectByMultiPkSql());
-		assertEquals("SELECT user_id userId,user_name userName,pwd pwd FROM user WHERE user_id = :userId", t.getSelectByMultiPkSql());
+		assertEquals("SELECT user_id userId,user_name userName,pwd pwd FROM user  WHERE user_id = :userId", t.getSelectByMultiPkSql());
 		
-		assertEquals("SELECT user_id userId,group_id groupId,user_name userName,pwd pwd FROM user WHERE user_id = :userId AND group_id = :groupId", multiKeySqlGenerator.getSelectByMultiPkSql());
+		assertEquals("SELECT user_id userId,group_id groupId,user_name userName,pwd pwd FROM user  WHERE user_id = :userId AND group_id = :groupId", multiKeySqlGenerator.getSelectByMultiPkSql());
 	}
 	
 	@Test
 	public void getSelectBySinglePkSql() {
 		System.out.println(t.getSelectBySinglePkSql());
-		assertEquals("SELECT user_id userId,user_name userName,pwd pwd FROM user WHERE user_id = ?", t.getSelectBySinglePkSql());
+		assertEquals("SELECT user_id userId,user_name userName,pwd pwd FROM user  WHERE user_id = ?", t.getSelectBySinglePkSql());
 		
 		try {
 			multiKeySqlGenerator.getSelectBySinglePkSql();

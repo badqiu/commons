@@ -28,15 +28,14 @@ public class PageQueryUtil {
 	 * 
 	 */
 	public static  void forEachPageQuery(int pageSize,Function<PageQuery,List> queryListFunction,Consumer<List> queryResultProcessFunction) {
-		PageQuery pageQuery = new PageQuery();
-		pageQuery.setPageSize(pageSize);
-		pageQuery.setPage(1);
-		
+		int page = 1;
+		PageQuery pageQuery = new PageQuery(page,pageSize);
 		List list = null;
 		do {
+			pageQuery.setPage(page);
 			list = queryListFunction.apply(pageQuery);
 			queryResultProcessFunction.accept(list);
-			pageQuery.setPage(pageQuery.getPage() + 1);
+			page++;
 		}while(CollectionUtils.isNotEmpty(list) && !(list.size() < pageSize));
 	}
 	
