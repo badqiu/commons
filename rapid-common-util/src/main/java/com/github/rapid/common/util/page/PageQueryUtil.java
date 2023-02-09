@@ -23,6 +23,17 @@ public class PageQueryUtil {
 	 * 遍历分页查询
 	 * 
 	 * @param pageSize	分页大小
+	 * @param queryAndProcessListFunction 生成查询结果的处理Function
+	 * 
+	 */
+	public static  void forEachPageQuery(int pageSize,Function<PageQuery,List> queryAndProcessListFunction) {
+		forEachPageQuery(pageSize,queryAndProcessListFunction,null);
+	}
+	
+	/**
+	 * 遍历分页查询
+	 * 
+	 * @param pageSize	分页大小
 	 * @param queryListFunction			生成查询结果的处理Function
 	 * @param queryResultProcessFunction 处理查询结果的Function
 	 * 
@@ -34,7 +45,11 @@ public class PageQueryUtil {
 		do {
 			pageQuery.setPage(page);
 			list = queryListFunction.apply(pageQuery);
-			queryResultProcessFunction.accept(list);
+			
+			if(queryResultProcessFunction != null) {
+				queryResultProcessFunction.accept(list);
+			}
+			
 			page++;
 		}while(CollectionUtils.isNotEmpty(list) && !(list.size() < pageSize));
 	}
