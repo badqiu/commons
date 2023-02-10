@@ -23,6 +23,16 @@ public class PageQueryUtilTest {
 		});
 		assertEquals(1,loopCount);
 	}
+	
+	@Test
+	public void test_one_function() {
+		PageQueryUtil.forEachPageQuery(1000, (pageQuery) -> {
+			loopCount++;
+			return Arrays.asList(1,2,3);
+		});
+		assertEquals(1,loopCount);
+	}
+	
 
 	private int loopCount = 0;
 	@Test
