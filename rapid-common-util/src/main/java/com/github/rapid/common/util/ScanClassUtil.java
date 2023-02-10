@@ -75,6 +75,10 @@ public class ScanClassUtil {
 		if(shortClassName.endsWith("Test") || shortClassName.startsWith("Test")) {
 			return true;
 		}
+		String lowerClassName = shortClassName.toLowerCase();
+		if(lowerClassName.endsWith("testcase") || lowerClassName.startsWith("testcase")) {
+			return true;
+		}
 		
 		return false;
 	}
