@@ -15,6 +15,10 @@ public class BeanValidatorHolderTest {
 		BeanValidatorHolder.validateWithException(new ValidBean());
 	}
 
+	@Test
+	public void test2() {
+		BeanValidatorHolder.validateWithException(new ValidBean());
+	}
 	
 	public static class ValidBean {
 		
