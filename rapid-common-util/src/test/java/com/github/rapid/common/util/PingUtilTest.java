@@ -33,7 +33,7 @@ public class PingUtilTest {
 		r = PingUtil.urlPing("https://wwww.baidu.com");
 		assertTrue(r);
 		
-		URI uri = new URI("redis://www.baidu.com:443");
+		URI uri = new URI("redis://www.baidu.com:443/echo?timeout=100&name=super");
 		System.out.println(BeanUtils.describe(uri));
 	}
 	
