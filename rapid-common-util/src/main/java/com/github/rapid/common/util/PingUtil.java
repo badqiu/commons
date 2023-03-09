@@ -2,6 +2,8 @@ package com.github.rapid.common.util;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.net.URL;
+import java.net.URLConnection;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -48,6 +50,19 @@ public class PingUtil {
 			} catch (IOException e) {
 				logger.warn("close socket error",e);
 			}
+		}
+	}
+	
+	public static boolean urlPing(String url) {
+		try {
+			URL urlObj = new URL(url);
+			URLConnection conn = urlObj.openConnection();
+			conn.setReadTimeout(defaultTimeout);
+			conn.setConnectTimeout(defaultTimeout);
+			conn.connect();
+			return true;
+		}catch(Exception e) {
+			throw new RuntimeException("connect error on url:"+url,e);
 		}
 	}
 
