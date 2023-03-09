@@ -37,4 +37,10 @@ public class PingUtilTest {
 		System.out.println(BeanUtils.describe(uri));
 	}
 	
+	@Test
+	public void test_uri_ping() throws URISyntaxException, Exception, InvocationTargetException, NoSuchMethodException {
+		boolean r = PingUtil.uriPing("redis://wwww.baidu.com:80");
+		assertTrue(r);
+	}
+	
 }

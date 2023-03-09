@@ -2,6 +2,8 @@ package com.github.rapid.common.util;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -53,7 +55,20 @@ public class PingUtil {
 		}
 	}
 	
+	public static boolean uriPing(String uri) {
+		Assert.hasText(uri,"uri must be not blank");
+		
+		try {
+			URI u = new URI(uri);
+			return socketPing(u.getHost(),u.getPort());
+		} catch (URISyntaxException e) {
+			throw new RuntimeException("error uri:"+uri,e);
+		}
+	}
+	
 	public static boolean urlPing(String url) {
+		Assert.hasText(url,"url must be not blank");
+		
 		try {
 			URL urlObj = new URL(url);
 			URLConnection conn = urlObj.openConnection();
