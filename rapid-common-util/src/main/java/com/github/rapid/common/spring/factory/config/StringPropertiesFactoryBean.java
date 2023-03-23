@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashMap;
+import java.util.InvalidPropertiesFormatException;
 import java.util.Map;
 import java.util.Properties;
 
@@ -26,17 +27,22 @@ public class StringPropertiesFactoryBean extends org.springframework.beans.facto
 		Properties p = super.createProperties();
 		
 		if(StringUtils.isNotBlank(content)) {
-			Properties custom = new Properties();
-			if(content.contains("<?xml")) {
-				custom.loadFromXML(new ByteArrayInputStream(content.getBytes()));
-			}else {
-				StringReader reader = new StringReader(content);
-				custom.load(reader);
-			}
+			Properties custom = loadFromContentString();
 			p.putAll(trim(custom));
 		}
 		
 		return p;
+	}
+
+	private Properties loadFromContentString() throws IOException, InvalidPropertiesFormatException {
+		Properties custom = new Properties();
+		if(content.contains("<?xml")) {
+			custom.loadFromXML(new ByteArrayInputStream(content.getBytes()));
+		}else {
+			StringReader reader = new StringReader(content);
+			custom.load(reader);
+		}
+		return custom;
 	}
 
 	private static Properties trim(Properties custom) {
