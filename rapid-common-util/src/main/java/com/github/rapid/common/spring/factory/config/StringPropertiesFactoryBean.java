@@ -27,14 +27,14 @@ public class StringPropertiesFactoryBean extends org.springframework.beans.facto
 		Properties p = super.createProperties();
 		
 		if(StringUtils.isNotBlank(content)) {
-			Properties custom = loadFromContentString();
+			Properties custom = loadFromString(content);
 			p.putAll(trim(custom));
 		}
 		
 		return p;
 	}
 
-	private Properties loadFromContentString() throws IOException, InvalidPropertiesFormatException {
+	private Properties loadFromString(String content) throws IOException, InvalidPropertiesFormatException {
 		Properties custom = new Properties();
 		if(content.contains("<?xml")) {
 			custom.loadFromXML(new ByteArrayInputStream(content.getBytes()));
