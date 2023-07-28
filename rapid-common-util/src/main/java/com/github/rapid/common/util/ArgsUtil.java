@@ -45,6 +45,7 @@ public class ArgsUtil {
 		String[] args = argsStr.trim().split("\\s+");
 		return fromArgs(args).get(key);
 	}
+	
 	public static Map<String,String> fromArgs(String[] args) {
 		final Map<String, String> map = new HashMap<>(args.length / 2);
 
