@@ -3,7 +3,6 @@ package com.github.rapid.common.util;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
 public class ArgsUtil {
