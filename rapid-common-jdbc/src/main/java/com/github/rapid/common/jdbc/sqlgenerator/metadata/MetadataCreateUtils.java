@@ -15,6 +15,8 @@ import java.util.Set;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+
+import org.apache.commons.lang.StringUtils;
 /**
  * 用于生成Table对象实例的工具类
  *
@@ -35,25 +37,31 @@ public class MetadataCreateUtils {
 			if("class".equals(pd.getName()))
 				continue;
 			Method readMethod = pd.getReadMethod();
-			if(readMethod == null || pd.getWriteMethod() == null){
+			Method writeMethod = pd.getWriteMethod();
+			if(readMethod == null || writeMethod == null){
 				continue;
 			}
-			if(isTransientProperty(readMethod,pd.getWriteMethod())) {
+			if(isTransientProperty(readMethod,writeMethod)) {
 				continue;
 			}
 			if(!isIncludeJavaType(readMethod.getReturnType())) {
 			    continue;
 			}
-			boolean isPrimaryKey = isPrimaryKeyColumn(readMethod);
-			boolean generatedValue = isGeneratedValueColumn(readMethod);
-			String sqlName = getColumnSqlName(pd,readMethod);
+			
+			String sqlName = getColumnSqlName(pd,readMethod,writeMethod);
+			boolean isPrimaryKey = isPrimaryKeyColumn(readMethod) || isPrimaryKeyColumn(writeMethod);
+			boolean generatedValue = isGeneratedValueColumn(readMethod) || isGeneratedValueColumn(writeMethod);
+			boolean insertable = getColumnInsertable(pd, readMethod) && getColumnInsertable(pd,writeMethod);
+			boolean updatable = getColumnUpdatable(pd, readMethod) && getColumnUpdatable(pd,writeMethod);
+			boolean unique = getColumnUnique(pd, readMethod) || getColumnUnique(pd,writeMethod);
+			boolean columnVersion = getColumnVersion(pd, readMethod)|| getColumnVersion(pd,writeMethod);
 			
 			Column column = new Column(sqlName,pd.getName(),isPrimaryKey);
-			column.setInsertable(getColumnInsertable(pd, readMethod));
-			column.setUpdatable(getColumnUpdatable(pd, readMethod));
-			column.setUnique(getColumnUnique(pd, readMethod));
+			column.setInsertable(insertable);
+			column.setUpdatable(updatable);
+			column.setUnique(unique);
 			column.setGeneratedValue(generatedValue);
-			column.setVersion(getColumnVersion(pd, readMethod));
+			column.setVersion(columnVersion);
 			
 			columns.add(column);
 		}
@@ -135,15 +143,21 @@ public class MetadataCreateUtils {
 		return result;
 	}
 
-	private static String getColumnSqlName(PropertyDescriptor pd, Method readMethod) {
+	private static String getColumnSqlName(PropertyDescriptor pd, Method readMethod,Method writeMethod) {
 		String sqlName = null;
 		if(isJPAClassAvaiable) {
-			javax.persistence.Column annColumn = (javax.persistence.Column)readMethod.getAnnotation(javax.persistence.Column.class);
-			if(annColumn != null) {
-				sqlName = annColumn.name();
+			javax.persistence.Column readAnnColumn = (javax.persistence.Column)readMethod.getAnnotation(javax.persistence.Column.class);
+			if(readAnnColumn != null) {
+				sqlName = readAnnColumn.name();
+			}
+			
+			javax.persistence.Column writeAnnColumn = (javax.persistence.Column)writeMethod.getAnnotation(javax.persistence.Column.class);
+			if(writeAnnColumn != null) {
+				sqlName = writeAnnColumn.name();
 			}
 		}
-		if(sqlName == null || sqlName.length() == 0) {
+		
+		if(StringUtils.isBlank(sqlName)) {
 			sqlName = toUnderscoreName(pd.getName());
 		}
 		return sqlName;
