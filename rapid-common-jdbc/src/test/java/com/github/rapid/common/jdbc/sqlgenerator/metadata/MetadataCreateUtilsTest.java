@@ -43,10 +43,15 @@ public class MetadataCreateUtilsTest {
     	
     	vefiryColumn(table.getPrimaryKeyColumns().get(0),"user_id",false,false,true,false);
     	
-    	vefiryColumn(table.getColumnBySqlName("dept_big_name"),"dept_big_name",true,false,true,false);
-    	vefiryColumn(table.getColumnBySqlName("username"),"username",true,false,true,false);
-    	vefiryColumn(table.getColumnBySqlName("version"),"version",true,false,true,true);
+    	vefiryColumn(table,"dept_big_name",true,false,true,false);
+    	vefiryColumn(table,"username",true,false,true,false);
+    	vefiryColumn(table,"version",true,false,true,true);
     }
+    
+    private void vefiryColumn(Table table, String sqlName, boolean inserable,boolean unique,boolean updatable,boolean version) {
+    	Column column = table.getColumnBySqlName(sqlName);
+    	vefiryColumn(column,sqlName,inserable,unique,updatable,version);
+	}
     
     private void vefiryColumn(Column column, String sqlName, boolean inserable,boolean unique,boolean updatable,boolean version) {
 		Assert.notNull(column,"not found column for sqlName:"+sqlName);
