@@ -35,9 +35,9 @@ public class MetadataCreateUtilsTest {
         assertFalse(MetadataCreateUtils.isIncludeJavaType(Collection.class));
         assertFalse(MetadataCreateUtils.isIncludeJavaType(new Integer[]{}.getClass()));
         
-        
+        System.out.println(int.class.isPrimitive());
         System.out.println(Integer.class.isPrimitive());
-        System.out.println(new Integer[]{}.getClass().getName());
+        System.out.println(new Integer[]{}.getClass().getComponentType().getName());
     }
     
     @Test

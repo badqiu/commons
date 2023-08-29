@@ -85,6 +85,15 @@ public class MetadataCreateUtils {
 
 	
 	public static Column buildColumnFromField(Class clazz,PropertyDescriptor pd) {
+		try {
+			return buildColumnFromField0(clazz, pd);
+		} catch (NoSuchFieldException e) {
+			return null;
+		}
+	}
+
+
+	private static Column buildColumnFromField0(Class clazz, PropertyDescriptor pd) throws NoSuchFieldException {
 		if(!isJPAClassAvaiable) {
 			return null;
 		}
@@ -123,19 +132,11 @@ public class MetadataCreateUtils {
 	}
 
 
-	private static Field getDeclaredField(Class clazz, PropertyDescriptor pd) {
+	private static Field getDeclaredField(Class clazz, PropertyDescriptor pd) throws NoSuchFieldException, SecurityException {
 		String name = pd.getName();
-		try {
-			Field field = clazz.getDeclaredField(name);
-			return field;
-		} catch (NoSuchFieldException e) {
-			throw new RuntimeException("not found field on class:"+clazz+" field:"+name,e);
-		} catch (SecurityException e) {
-			throw new RuntimeException("error on field on class:"+clazz+" field:"+name,e);
-		}
+		Field field = clazz.getDeclaredField(name);
+		return field;
 	}
-	
-
 
 	static boolean isIncludeJavaType(Class clazz) {
 	    if(clazz == null) return false;
