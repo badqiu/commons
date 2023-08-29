@@ -67,6 +67,8 @@ public class CommentUserInfoBean implements java.io.Serializable{
 	@Column
 	@Version
 	private int version;
+	
+	private byte[] bytesContent;
 
 	public CommentUserInfoBean(){
 	}
@@ -149,6 +151,14 @@ public class CommentUserInfoBean implements java.io.Serializable{
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+	
+	public byte[] getBytesContent() {
+		return bytesContent;
+	}
+
+	public void setBytesContent(byte[] bytesContent) {
+		this.bytesContent = bytesContent;
 	}
 
 	public String toString() {
