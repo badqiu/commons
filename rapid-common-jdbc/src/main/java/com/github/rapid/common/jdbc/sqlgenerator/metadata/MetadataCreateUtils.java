@@ -53,7 +53,11 @@ public class MetadataCreateUtils {
 			    continue;
 			}
 			
-			
+			Column c = buildColumnFromField(clazz,pd);
+			if(c != null) {
+				columns.add(c);
+				continue;
+			}
 			
 			String sqlName = getColumnSqlName(pd,readMethod,writeMethod);
 			boolean isPrimaryKey = isPrimaryKeyColumn(readMethod) || isPrimaryKeyColumn(writeMethod);
@@ -91,21 +95,28 @@ public class MetadataCreateUtils {
 		}
 		
 		javax.persistence.Column c = field.getAnnotation(javax.persistence.Column.class);
+		if(c == null) {
+			return null;
+		}
+		
 		boolean isPrimaryKey = field.isAnnotationPresent(Id.class);
 		boolean generatedValue = field.isAnnotationPresent(GeneratedValue.class);
 		boolean columnVersion = field.isAnnotationPresent(Version.class);
 		
 		String propertyName = pd.getName();
-		String sqlName = c.name();
+		String sqlName = c == null ? null : c.name();
 		if(StringUtils.isBlank(sqlName)) {
 			sqlName = toUnderscoreName(propertyName);
 		}
 		
 		Column result = new Column(sqlName,propertyName,isPrimaryKey);
-		result.setUnique(c.unique());
-		result.setUpdatable(c.updatable());
-		result.setInsertable(c.insertable());
-		result.setNullable(c.nullable());
+		if(c != null) {
+			result.setUnique(c.unique());
+			result.setUpdatable(c.updatable());
+			result.setInsertable(c.insertable());
+			result.setNullable(c.nullable());
+		}
+		
 		result.setGeneratedValue(generatedValue);
 		result.setVersion(columnVersion);
 		return result;
