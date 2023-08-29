@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
+import org.springframework.util.Assert;
 
 
 public class MetadataCreateUtilsTest {
@@ -41,10 +42,14 @@ public class MetadataCreateUtilsTest {
     	assertEquals(table.getTableName(),"comment_user_info_bean");
     	
     	vefiryColumn(table.getPrimaryKeyColumns().get(0),"user_id",false,false,true);
+    	
+    	vefiryColumn(table.getColumnBySqlName("dept_big_name"),"dept_big_name",true,false,true);
+    	vefiryColumn(table.getColumnBySqlName("username"),"username",true,false,true);
     }
     
     private void vefiryColumn(Column column, String sqlName, boolean inserable,boolean unique,boolean updatable) {
-		assertEquals(column.getSqlName(),sqlName);
+		Assert.notNull(column,"not found column for sqlName:"+sqlName);
+    	assertEquals(column.getSqlName(),sqlName);
 		assertEquals(column.isInsertable(),inserable);
 		assertEquals(column.isUnique(),unique);
 		assertEquals(column.isUpdatable(),updatable);

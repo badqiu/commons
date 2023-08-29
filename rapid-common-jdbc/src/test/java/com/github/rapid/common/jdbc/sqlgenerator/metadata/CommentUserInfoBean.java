@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 import javax.validation.constraints.Max;
 
 import org.apache.commons.lang.StringUtils;
@@ -60,6 +61,11 @@ public class CommentUserInfoBean implements java.io.Serializable{
 	private Integer age;
 	//columns END
 	
+	@Column(name="dept_big_name",nullable = false)
+	private String deptName;
+	
+	@Version
+	private int version;
 
 	public CommentUserInfoBean(){
 	}
@@ -128,6 +134,21 @@ public class CommentUserInfoBean implements java.io.Serializable{
 		this.age = value;
 	}
 	
+	public String getDeptName() {
+		return deptName;
+	}
+
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
+	}
+
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
+	}
 
 	public String toString() {
 		return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
