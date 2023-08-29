@@ -25,6 +25,7 @@ public class MetadataCreateUtilsTest {
         assertTrue(MetadataCreateUtils.isIncludeJavaType(Timestamp.class));
         assertTrue(MetadataCreateUtils.isIncludeJavaType(LocalTime.class));
         assertTrue(MetadataCreateUtils.isIncludeJavaType(Ref.class));
+        
         assertFalse(MetadataCreateUtils.isIncludeJavaType(null));
         assertFalse(MetadataCreateUtils.isIncludeJavaType(AAA.class));
         assertFalse(MetadataCreateUtils.isIncludeJavaType(List.class));
@@ -32,6 +33,7 @@ public class MetadataCreateUtilsTest {
         assertFalse(MetadataCreateUtils.isIncludeJavaType(Collection.class));
         assertFalse(MetadataCreateUtils.isIncludeJavaType(new Integer[]{}.getClass()));
         assertFalse(MetadataCreateUtils.isIncludeJavaType(new int[]{}.getClass()));
+        
         System.out.println(Integer.class.isPrimitive());
         System.out.println(new Integer[]{}.getClass().getName());
     }
