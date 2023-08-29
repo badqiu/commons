@@ -139,6 +139,7 @@ public class MetadataCreateUtils {
 
 	static boolean isIncludeJavaType(Class clazz) {
 	    if(clazz == null) return false;
+	    if(clazz.isArray() && clazz.getComponentType().isPrimitive()) return true; 
 	    if(clazz.isArray()) return false; //FIXME: byte[] 怎么办?
 	    
 	    if(clazz.isEnum()) return true;
