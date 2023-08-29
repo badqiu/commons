@@ -64,6 +64,7 @@ public class CommentUserInfoBean implements java.io.Serializable{
 	@Column(name="dept_big_name",nullable = false)
 	private String deptName;
 	
+	@Column
 	@Version
 	private int version;
 

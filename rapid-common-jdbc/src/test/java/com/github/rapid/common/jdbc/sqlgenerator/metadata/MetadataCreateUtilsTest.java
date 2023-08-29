@@ -41,18 +41,20 @@ public class MetadataCreateUtilsTest {
     	Table table = MetadataCreateUtils.createTable(CommentUserInfoBean.class);
     	assertEquals(table.getTableName(),"comment_user_info_bean");
     	
-    	vefiryColumn(table.getPrimaryKeyColumns().get(0),"user_id",false,false,true);
+    	vefiryColumn(table.getPrimaryKeyColumns().get(0),"user_id",false,false,true,false);
     	
-    	vefiryColumn(table.getColumnBySqlName("dept_big_name"),"dept_big_name",true,false,true);
-    	vefiryColumn(table.getColumnBySqlName("username"),"username",true,false,true);
+    	vefiryColumn(table.getColumnBySqlName("dept_big_name"),"dept_big_name",true,false,true,false);
+    	vefiryColumn(table.getColumnBySqlName("username"),"username",true,false,true,false);
+    	vefiryColumn(table.getColumnBySqlName("version"),"version",true,false,true,true);
     }
     
-    private void vefiryColumn(Column column, String sqlName, boolean inserable,boolean unique,boolean updatable) {
+    private void vefiryColumn(Column column, String sqlName, boolean inserable,boolean unique,boolean updatable,boolean version) {
 		Assert.notNull(column,"not found column for sqlName:"+sqlName);
     	assertEquals(column.getSqlName(),sqlName);
 		assertEquals(column.isInsertable(),inserable);
 		assertEquals(column.isUnique(),unique);
 		assertEquals(column.isUpdatable(),updatable);
+		assertEquals(column.isVersion(),version);
 	}
 
 	private static class AAA {}
