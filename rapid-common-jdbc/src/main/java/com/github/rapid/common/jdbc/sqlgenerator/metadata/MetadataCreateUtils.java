@@ -64,9 +64,9 @@ public class MetadataCreateUtils {
 			boolean generatedValue = isGeneratedValueColumn(readMethod) || isGeneratedValueColumn(writeMethod);
 			boolean insertable = getColumnInsertable(pd, readMethod) && getColumnInsertable(pd,writeMethod);
 			boolean updatable = getColumnUpdatable(pd, readMethod) && getColumnUpdatable(pd,writeMethod);
+			boolean nullable = getColumnNullable(pd, readMethod) && getColumnNullable(pd,writeMethod);
 			boolean unique = getColumnUnique(pd, readMethod) || getColumnUnique(pd,writeMethod);
 			boolean columnVersion = getColumnVersion(pd, readMethod)|| getColumnVersion(pd,writeMethod);
-			boolean nullable = getColumnNullable(pd, readMethod) && getColumnNullable(pd,writeMethod);
 			
 			Column column = new Column(sqlName,propertyName,isPrimaryKey);
 			column.setInsertable(insertable);
