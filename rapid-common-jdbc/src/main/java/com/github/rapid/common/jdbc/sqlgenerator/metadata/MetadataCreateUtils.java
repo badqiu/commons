@@ -4,7 +4,9 @@ import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,6 +17,7 @@ import java.util.Set;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 
 import org.apache.commons.lang.StringUtils;
 /**
@@ -34,7 +37,9 @@ public class MetadataCreateUtils {
 		List<Column> columns = new ArrayList();
 		boolean hasGeneratePk = false;
 		for(PropertyDescriptor pd : pds) {
-			if("class".equals(pd.getName()))
+			String propertyName = pd.getName();
+			
+			if("class".equals(propertyName))
 				continue;
 			Method readMethod = pd.getReadMethod();
 			Method writeMethod = pd.getWriteMethod();
@@ -48,6 +53,8 @@ public class MetadataCreateUtils {
 			    continue;
 			}
 			
+			
+			
 			String sqlName = getColumnSqlName(pd,readMethod,writeMethod);
 			boolean isPrimaryKey = isPrimaryKeyColumn(readMethod) || isPrimaryKeyColumn(writeMethod);
 			boolean generatedValue = isGeneratedValueColumn(readMethod) || isGeneratedValueColumn(writeMethod);
@@ -55,11 +62,13 @@ public class MetadataCreateUtils {
 			boolean updatable = getColumnUpdatable(pd, readMethod) && getColumnUpdatable(pd,writeMethod);
 			boolean unique = getColumnUnique(pd, readMethod) || getColumnUnique(pd,writeMethod);
 			boolean columnVersion = getColumnVersion(pd, readMethod)|| getColumnVersion(pd,writeMethod);
+			boolean nullable = getColumnNullable(pd, readMethod) && getColumnNullable(pd,writeMethod);
 			
-			Column column = new Column(sqlName,pd.getName(),isPrimaryKey);
+			Column column = new Column(sqlName,propertyName,isPrimaryKey);
 			column.setInsertable(insertable);
 			column.setUpdatable(updatable);
 			column.setUnique(unique);
+			column.setNullable(nullable);
 			column.setGeneratedValue(generatedValue);
 			column.setVersion(columnVersion);
 			
@@ -68,6 +77,51 @@ public class MetadataCreateUtils {
 
 		Table t = new Table(getTableName(clazz),columns);
 		return t;
+	}
+
+	
+	public static Column buildColumnFromField(Class clazz,PropertyDescriptor pd) {
+		if(!isJPAClassAvaiable) {
+			return null;
+		}
+		
+		Field field = getDeclaredField(clazz, pd);
+		if(field != null && Modifier.isTransient(field.getModifiers())) {
+			return null;
+		}
+		
+		javax.persistence.Column c = field.getAnnotation(javax.persistence.Column.class);
+		boolean isPrimaryKey = field.isAnnotationPresent(Id.class);
+		boolean generatedValue = field.isAnnotationPresent(GeneratedValue.class);
+		boolean columnVersion = field.isAnnotationPresent(Version.class);
+		
+		String propertyName = pd.getName();
+		String sqlName = c.name();
+		if(StringUtils.isBlank(sqlName)) {
+			sqlName = toUnderscoreName(propertyName);
+		}
+		
+		Column result = new Column(sqlName,propertyName,isPrimaryKey);
+		result.setUnique(c.unique());
+		result.setUpdatable(c.updatable());
+		result.setInsertable(c.insertable());
+		result.setNullable(c.nullable());
+		result.setGeneratedValue(generatedValue);
+		result.setVersion(columnVersion);
+		return result;
+	}
+
+
+	private static Field getDeclaredField(Class clazz, PropertyDescriptor pd) {
+		String name = pd.getName();
+		try {
+			Field field = clazz.getDeclaredField(name);
+			return field;
+		} catch (NoSuchFieldException e) {
+			throw new RuntimeException("not found field on class:"+clazz+" field:"+name,e);
+		} catch (SecurityException e) {
+			throw new RuntimeException("error on field on class:"+clazz+" field:"+name,e);
+		}
 	}
 	
 
@@ -151,9 +205,11 @@ public class MetadataCreateUtils {
 				sqlName = readAnnColumn.name();
 			}
 			
-			javax.persistence.Column writeAnnColumn = (javax.persistence.Column)writeMethod.getAnnotation(javax.persistence.Column.class);
-			if(writeAnnColumn != null) {
-				sqlName = writeAnnColumn.name();
+			if(StringUtils.isBlank(sqlName)) {
+				javax.persistence.Column writeAnnColumn = (javax.persistence.Column)writeMethod.getAnnotation(javax.persistence.Column.class);
+				if(writeAnnColumn != null) {
+					sqlName = writeAnnColumn.name();
+				}
 			}
 		}
 		
@@ -185,6 +241,17 @@ public class MetadataCreateUtils {
 		return updatable;
 	}
 
+	private static boolean getColumnNullable(PropertyDescriptor pd, Method method) {
+		boolean nullable = true;
+		if(isJPAClassAvaiable) {
+			javax.persistence.Column annColumn = (javax.persistence.Column)method.getAnnotation(javax.persistence.Column.class);
+			if(annColumn != null) {
+				nullable = annColumn.nullable();
+			}
+		}
+		return nullable;
+	}
+	
 	private static boolean getColumnUnique(PropertyDescriptor pd, Method method) {
 		boolean unique = false;
 		if(isJPAClassAvaiable) {

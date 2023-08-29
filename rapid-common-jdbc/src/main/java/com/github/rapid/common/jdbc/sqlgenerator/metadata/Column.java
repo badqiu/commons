@@ -13,6 +13,7 @@ public class Column {
 	private boolean unique = false;
 	private boolean generatedValue = false;
 	private boolean version = false; //是否乐观锁字段
+	private boolean nullable = false;
 	
 	public Column(String sqlName, String propertyName) {
 		this(sqlName,propertyName,false);
@@ -74,6 +75,14 @@ public class Column {
 
 	public void setUnique(boolean unique) {
 		this.unique = unique;
+	}
+	
+	public boolean isNullable() {
+		return nullable;
+	}
+
+	public void setNullable(boolean nullable) {
+		this.nullable = nullable;
 	}
 
 	public boolean isGeneratedValue() {
