@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.function.Function;
 
 public class ProxyFunction <T,R> implements Function<T,R>,AutoCloseable,Flushable{
-	private Function<T,R> proxy;
+	protected Function<T,R> proxy;
 
 	public ProxyFunction() {
 	}
