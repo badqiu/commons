@@ -130,12 +130,16 @@ public class MetadataCreateUtils {
 	    if(clazz == null) return false;
 	    if(clazz.isArray()) return false;
 	    
+	    if(clazz.isEnum()) return true;
+	    
 	    if(clazz.isPrimitive() || clazz.getName().startsWith("java.lang") || clazz.getName().startsWith("java.sql") || clazz.getName().startsWith("java.time") ) {
 	        return true;
 	    }
+	    
 	    if(includeType.contains(clazz)) {
 	        return true;
 	    }
+	    
 	    return false;
     }
 	
