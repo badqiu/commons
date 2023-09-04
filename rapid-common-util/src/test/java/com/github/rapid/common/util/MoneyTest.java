@@ -1,5 +1,10 @@
 package com.github.rapid.common.util;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.Currency;
+import java.util.Locale;
+
+import org.apache.commons.beanutils.BeanUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -8,10 +13,12 @@ import com.github.rapid.common.util.Money;
 
 public class MoneyTest extends Assert{
 	@Test
-	public void test_toString() {
+	public void test_toString() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		new Money();
 		System.out.println(new Money("19182182"));
 		System.out.println(new Money(Long.MAX_VALUE));
+		System.out.println(BeanUtils.describe(new Money(Long.MAX_VALUE)));
+		System.out.println(BeanUtils.describe(new Money(Long.MAX_VALUE,Currency.getInstance(Locale.JAPAN))));
 	}
 	
 	@Test public void tets() {
