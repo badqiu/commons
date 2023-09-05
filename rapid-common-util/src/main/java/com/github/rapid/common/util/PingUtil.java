@@ -21,7 +21,9 @@ public class PingUtil {
 	public static boolean socketPing(String server) {
 		Assert.hasText(server,"server must be not blank, example 192.168.0.1:8080");
 		String[] array = server.split(":");
-		return socketPing(array[0],Integer.parseInt(array[1]),defaultTimeout);
+		String host = array[0];
+		int port = Integer.parseInt(array[1]);
+		return socketPing(host,port,defaultTimeout);
 	}
 	
 	public static boolean socketPing(String host, int port) {
