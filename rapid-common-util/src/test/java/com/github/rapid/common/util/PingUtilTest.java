@@ -21,8 +21,12 @@ public class PingUtilTest {
 
 	@Test
 	public void test_error() {
+		long start = System.currentTimeMillis();
 		boolean r = PingUtil.socketPing("www.baidu.com", 12922);
 		assertFalse(r);
+		
+		long cost = System.currentTimeMillis() - start;
+		assertTrue(cost >= PingUtil.defaultTimeout);
 	}
 
 	@Test
