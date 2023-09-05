@@ -37,8 +37,9 @@ public class Timeout {
 		this.lastTime = lastTime;
 	}
 	
-	public void updateLastTime() {
+	public long updateLastTime() {
 		lastTime = systemCurrentTimeMillis();
+		return lastTime;
 	}
 
 	public boolean isTimeout(long duration,TimeUnit timeUnit) {
