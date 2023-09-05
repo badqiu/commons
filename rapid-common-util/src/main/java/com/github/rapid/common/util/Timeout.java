@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 public class Timeout {
 
 	private long lastTime = 0; //最后更新时间
-	private Duration timeoutDuration; //超时时间
+	private long timeoutDuration; //超时时间
 	
 	public Timeout() {
 		updateLastTime();
@@ -25,7 +25,7 @@ public class Timeout {
 
 	public Timeout(Duration timeoutDuration,long lastTime) {
 		Objects.requireNonNull(timeoutDuration,"timeoutDuration must be not null");
-		this.timeoutDuration = timeoutDuration;
+		this.timeoutDuration = timeoutDuration.toMillis();
 		this.lastTime = lastTime;
 	}
 
@@ -51,13 +51,13 @@ public class Timeout {
 	}
 	
 	public boolean isTimeout() {
-		return isTimeoutByTimeMills(timeoutDuration.toMillis());
+		return isTimeoutByTimeMills(timeoutDuration);
 	}
 	
 	public boolean isTimeoutAfterUpdateLastTime() {
 		Objects.requireNonNull(timeoutDuration,"timeoutDuration must be not null");
 		
-		boolean result = isTimeoutByTimeMills(timeoutDuration.toMillis());
+		boolean result = isTimeoutByTimeMills(timeoutDuration);
 		if(result) {
 			updateLastTime();
 		}
