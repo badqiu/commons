@@ -180,6 +180,18 @@ public class Asserter {
 		return text;
 	}
 
+	public static String notBlank(String text, String message) {
+		return hasText(text,message);
+	}
+	
+	public static String notBlank(String text) {
+		return hasText(text);
+	}
+
+	public static String notBlank(String text, RuntimeException throwIfAssertFail) {
+		return hasText(text,throwIfAssertFail);
+	}
+	
 	/**
 	 * Assert that the given text does not contain the given substring.
 	 * <pre class="code">Assert.doesNotContain(name, "rod", "Name must not contain 'rod'");</pre>
