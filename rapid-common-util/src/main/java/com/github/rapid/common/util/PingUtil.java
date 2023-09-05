@@ -1,13 +1,13 @@
 package com.github.rapid.common.util;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
@@ -36,8 +36,11 @@ public class PingUtil {
 		
 		Socket socket = null;
 		try {
-			socket = new Socket(StringUtils.trim(host), port);
+			socket = new Socket();
 			socket.setSoTimeout(timeout);
+			socket.connect(new InetSocketAddress(host,port), timeout);
+//			socket = new Socket(StringUtils.trim(host), port);
+			
 			return socket.isConnected();
 		} catch (IOException e) {
 			logger.warn("socketPing error host:"+host+" port:"+port+" timeout:"+timeout+" errorMsg:"+e,e);
