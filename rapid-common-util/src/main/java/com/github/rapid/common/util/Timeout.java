@@ -25,7 +25,7 @@ public class Timeout {
 
 	public Timeout(Duration timeoutDuration,long lastTime) {
 		Objects.requireNonNull(timeoutDuration,"timeoutDuration must be not null");
-		this.timeoutDuration = timeoutDuration.toMillis();
+		setTimeoutDuration(timeoutDuration);
 		this.lastTime = lastTime;
 	}
 
@@ -35,6 +35,10 @@ public class Timeout {
 
 	public void setLastTime(long lastTime) {
 		this.lastTime = lastTime;
+	}
+
+	public void setTimeoutDuration(Duration timeoutDuration) {
+		this.timeoutDuration = timeoutDuration.toMillis();
 	}
 	
 	public long updateLastTime() {
