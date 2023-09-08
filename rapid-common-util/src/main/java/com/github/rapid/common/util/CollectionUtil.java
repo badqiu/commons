@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.collections.comparators.ReverseComparator;
 import org.apache.commons.lang.StringUtils;
@@ -238,29 +239,17 @@ public class CollectionUtil {
 	 * @return
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static List<List> chunk(List list,int chunkSize) {
-		if(list == null) return null;
-		if(list.isEmpty()) return Collections.EMPTY_LIST;
-		if(list.size() <= chunkSize) {
-			return Arrays.asList(list);
-		}
-		
-		List results = new ArrayList();
-		List row = new ArrayList(chunkSize);
-		for(int i = 0; i < list.size(); i++) {
-			Object v = list.get(i);
-			row.add(v);
-			if(i % chunkSize == (chunkSize - 1)) {
-				results.add(row);
-				row = new ArrayList();
-			}
-		}
-		if(!row.isEmpty()) {
-			results.add(row);
-		}
-		
-		return results;
-	}
+    public static  List<List> chunk(List list, int chunkSize) {
+    	if(CollectionUtils.isEmpty(list)) return Collections.EMPTY_LIST;
+    	
+        List<List> splitLists = new ArrayList<>();
+        for (int i = 0; i < list.size(); i += chunkSize) {
+            int endIndex = Math.min(i + chunkSize, list.size());
+            List sublist = list.subList(i, endIndex);
+            splitLists.add(sublist);
+        }
+        return splitLists;
+    }
 	
 	public static <T> void sort(List<T> list,Function<T,Object> sortValueFunc,SortOrder sortOrder){
 		Assert.notNull(sortOrder,"sortOrder must be not null");
