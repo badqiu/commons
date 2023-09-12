@@ -1,7 +1,9 @@
 package com.github.rapid.common.util;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.StringReader;
+import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
@@ -17,15 +19,19 @@ public class PropertiesUtil {
 		
 		try {
 			Properties p = new Properties();
-			if(props.contains("<properties>")) {
-				p.loadFromXML(new ByteArrayInputStream(props.getBytes()));
-			}else {
-				p.load(new StringReader(props));
-			}
-			
+			smartLoadFromString(props,p);
 			return trimKeyValue(p);
 		}catch(Exception e) {
 			throw new RuntimeException(errorInfo,e);
+		}
+	}
+	
+	
+	private static void smartLoadFromString(String content, Properties custom) throws IOException, InvalidPropertiesFormatException {
+		if(content.contains("<properties>") && content.contains("</properties>")) {
+			custom.loadFromXML(new ByteArrayInputStream(content.getBytes()));
+		}else {
+			custom.load(new StringReader(content));
 		}
 	}
 	
