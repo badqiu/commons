@@ -34,7 +34,7 @@ public class ScanClassUtil {
 	public static List<String> scanPackages(String basePackages,boolean isIgnoreTestClass) throws IllegalArgumentException{
 		Assert.hasText(basePackages,"'basePakcages' must be not null");
 		
-		String[] arrayPackages = basePackages.split(",");
+		String[] arrayPackages = basePackages.trim().split("[,，\\s]+");
 		
 		return scanPackages(arrayPackages,isIgnoreTestClass);
 	}
