@@ -20,10 +20,18 @@ public class RegexUtil {
 	/**
 	 * 通过正则找到相匹配的字符串
 	 * 
+	 * <pre>
+	 * 示例：
+	 * input=abc123, regex=(a).*(123), group=0 => abc123  
+	 * input=abc123, regex=(a).*(123), group=1 => a
+	 * input=abc123, regex=(a).*(123), group=2 => 123
+	 * </pre>
 	 * @param input 输入字符串
 	 * @param regex 正则表达式
 	 * @param regexGroup 正则表达式的group
 	 * @return 返回匹配正则表达式的group字符串
+	 * 
+	 * 
 	 */
 	public static String findByRegexGroup(String input,String regex,int regexGroup) {
 		if(input == null) return null;
