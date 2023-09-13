@@ -34,13 +34,18 @@ public class ScanClassUtil {
 	public static List<String> scanPackages(String basePackages,boolean isIgnoreTestClass) throws IllegalArgumentException{
 		Assert.hasText(basePackages,"'basePakcages' must be not null");
 		
+		String[] arrayPackages = basePackages.split(",");
+		
+		return scanPackages(arrayPackages,isIgnoreTestClass);
+	}
+
+	private static List<String> scanPackages(String[] basePackages,boolean isIgnoreTestClass) {
 		ResourcePatternResolver rl = new PathMatchingResourcePatternResolver();
 		MetadataReaderFactory metadataReaderFactory = new CachingMetadataReaderFactory(rl); 
 		List result = new ArrayList();
-		String[] arrayPackages = basePackages.split(",");
 		try {
-			for(int j = 0; j < arrayPackages.length; j++) {
-				String packageToScan = StringUtils.trim(arrayPackages[j]);
+			for(int j = 0; j < basePackages.length; j++) {
+				String packageToScan = StringUtils.trim(basePackages[j]);
 				if(StringUtils.isBlank(packageToScan)) continue;
 				
 				String packagePart = packageToScan.replace('.', '/');
@@ -61,7 +66,7 @@ public class ScanClassUtil {
 				}
 			}
 		}catch(Exception e) {
-			throw new IllegalArgumentException("scan pakcage class error,pakcages:"+basePackages,e);
+			throw new IllegalArgumentException("scan pakcage class error,pakcages:"+StringUtils.join(basePackages,","),e);
 		}
 
 		return result;
