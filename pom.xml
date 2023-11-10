@@ -9,8 +9,6 @@
 
 	<description>rapid-common-parent parent</description>
 	
-
-
 	
 	<modules>
 		<module>rapid-common-jdbc</module>
