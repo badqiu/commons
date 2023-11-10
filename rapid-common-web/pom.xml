@@ -5,7 +5,7 @@
 	<artifactId>rapid-common-web</artifactId>
 	<name>rapid-common-web</name>
 	<packaging>jar</packaging>
-	<version>1.0.1</version>	
+	<version>1.0.0</version>	
 
 	<description>rapid-common-web core libs</description>
 	

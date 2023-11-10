@@ -3,7 +3,7 @@
 
 	<groupId>com.github.rapid.common</groupId>
 	<artifactId>rapid-common-redis</artifactId>
-	<version>1.0.6</version>	
+	<version>1.0.0</version>	
 	<name>rapid-common-redis</name>
 	<packaging>jar</packaging>
 

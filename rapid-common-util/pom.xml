@@ -4,7 +4,7 @@
 	<groupId>com.github.rapid.common</groupId>
 	<artifactId>rapid-common-util</artifactId>
 	<name>rapid-common-util</name>
-	<version>1.0.1</version>	
+	<version>1.0.0</version>	
 	<packaging>jar</packaging>
 
 	<description>rapid-common-util core libs</description>
