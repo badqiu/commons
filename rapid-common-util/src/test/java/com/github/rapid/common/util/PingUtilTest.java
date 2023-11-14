@@ -14,6 +14,12 @@ import org.junit.Test;
 public class PingUtilTest {
 	
 	@Test
+	public void test2() {
+		boolean r = PingUtil.socketPing("81.69.182.132:443");
+		assertTrue(r);
+	}
+	
+	@Test
 	public void test() {
 		boolean r = PingUtil.socketPing("www.baidu.com", 80);
 		assertTrue(r);
