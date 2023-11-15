@@ -14,8 +14,8 @@ public class PageQueryUtil {
 	public static String toOffsetLimit(PageQuery query) {
 		Assert.isTrue(query.getPageSize() >= 1,"pageSize >= 1 must be true");
 		
-		int page = Math.max(1, query.getPage());
-		int offset = (page - 1) * query.getPageSize();
+		long page = Math.max(1, query.getPage());
+		long offset = (page - 1) * query.getPageSize();
 		return offset+","+query.getPageSize();
 	}
 	
@@ -26,7 +26,7 @@ public class PageQueryUtil {
 	 * @param queryAndProcessListFunction 生成查询结果的处理Function
 	 * 
 	 */
-	public static  void forEachPageQuery(int pageSize,Function<PageQuery,List> queryAndProcessListFunction) {
+	public static  void forEachPageQuery(long pageSize,Function<PageQuery,List> queryAndProcessListFunction) {
 		forEachPageQuery(pageSize,queryAndProcessListFunction,null);
 	}
 	
@@ -38,8 +38,8 @@ public class PageQueryUtil {
 	 * @param queryResultProcessFunction 处理查询结果的Function
 	 * 
 	 */
-	public static  void forEachPageQuery(int pageSize,Function<PageQuery,List> queryListFunction,Consumer<List> queryResultProcessFunction) {
-		int page = 1;
+	public static  void forEachPageQuery(long pageSize,Function<PageQuery,List> queryListFunction,Consumer<List> queryResultProcessFunction) {
+		long page = 1;
 		PageQuery pageQuery = new PageQuery(page,pageSize);
 		List list = null;
 		do {

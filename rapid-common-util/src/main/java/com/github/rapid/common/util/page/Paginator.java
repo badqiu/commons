@@ -9,45 +9,45 @@ package com.github.rapid.common.util.page;
 public class Paginator implements java.io.Serializable {
 	private static final long serialVersionUID = 6089482156906595931L;
 	
-	private static final int DEFAULT_SLIDERS_COUNT = 7;
+	private static final long DEFAULT_SLIDERS_COUNT = 7;
 	
     /** 分页大小 */
-    private int               pageSize;
+    private long               pageSize;
     /** 页数  */
-    private int               page;
+    private long               page;
     /** 总记录数 */
-    private int               totalItems;
+    private long               totalItems;
 	
     public Paginator() {
     }
     
-	public Paginator(int page, int pageSize, int totalItems) {
+	public Paginator(long page, long pageSize, long totalItems) {
 		super();
 		this.pageSize = pageSize;
 		this.totalItems = totalItems;
 		this.page = computePageNo(page);
 	}
 
-	public int getPageSize() {
+	public long getPageSize() {
 		return pageSize;
 	}
 	
-    public void setPageSize(int pageSize) {
+    public void setPageSize(long pageSize) {
 		this.pageSize = pageSize;
 	}
 
-	public void setPage(int page) {
+	public void setPage(long page) {
 		this.page = page;
 	}
 
 	/**
      * 取得当前页。
      */
-	public int getPage() {
+	public long getPage() {
 		return page;
 	}
 	
-	public void setTotalItems(int totalItems) {
+	public void setTotalItems(long totalItems) {
 		this.totalItems = totalItems;
 	}
 
@@ -56,7 +56,7 @@ public class Paginator implements java.io.Serializable {
      *
      * @return 总项数
      */
-	public int getTotalItems() {
+	public long getTotalItems() {
 		return totalItems;
 	}
 
@@ -78,7 +78,7 @@ public class Paginator implements java.io.Serializable {
 		return page >= getTotalPages();
 	}
 	
-	public int getPrePage() {
+	public long getPrePage() {
 		if (isHasPrePage()) {
 			return page - 1;
 		} else {
@@ -86,7 +86,7 @@ public class Paginator implements java.io.Serializable {
 		}
 	}
 	
-	public int getNextPage() {
+	public long getNextPage() {
 		if (isHasNextPage()) {
 			return page + 1;
 		} else {
@@ -101,7 +101,7 @@ public class Paginator implements java.io.Serializable {
      *
      * @return boolean  是否为禁止的页码
      */
-    public boolean isDisabledPage(int page) {
+    public boolean isDisabledPage(long page) {
         return ((page < 1) || (page > getTotalPages()) || (page == this.page));
     }
     
@@ -125,7 +125,7 @@ public class Paginator implements java.io.Serializable {
 	/**
 	 * 开始行，可以用于oracle分页使用 (1-based)。
 	 **/
-	public int getStartRow() {
+	public long getStartRow() {
 		if(getPageSize() <= 0 || totalItems <= 0) return 0;
 		return page > 0 ? (page - 1) * getPageSize() + 1 : 0;
 	}
@@ -133,21 +133,21 @@ public class Paginator implements java.io.Serializable {
 	/**
      * 结束行，可以用于oracle分页使用 (1-based)。
      **/
-	public int getEndRow() {
+	public long getEndRow() {
 	    return page > 0 ? Math.min(pageSize * page, getTotalItems()) : 0; 
 	}
 	
     /**
      * offset，计数从0开始，可以用于mysql分页使用(0-based)
      **/	
-	public int getOffset() {
+	public long getOffset() {
 		return page > 0 ? (page - 1) * getPageSize() : 0;
 	}
 	
 	/**
      * limit，可以用于mysql分页使用(0-based)
      **/
-    public int getLimit() {
+    public long getLimit() {
         if (page > 0) {
             return Math.min(pageSize * page, getTotalItems()) - (pageSize * (page - 1));
         } else {
@@ -158,7 +158,7 @@ public class Paginator implements java.io.Serializable {
     /**
      * 结束offset，(0-based)
      **/
-    public int getEndOffset() {
+    public long getEndOffset() {
         return getOffset() + getLimit();
     }
     
@@ -166,7 +166,7 @@ public class Paginator implements java.io.Serializable {
 	 * 得到 总页数
 	 * @return
 	 */
-	public int getTotalPages() {
+	public long getTotalPages() {
 		if (totalItems <= 0) {
 			return 0;
 		}
@@ -174,14 +174,14 @@ public class Paginator implements java.io.Serializable {
 			return 0;
 		}
 
-		int count = totalItems / pageSize;
+		long count = totalItems / pageSize;
 		if (totalItems % pageSize > 0) {
 			count++;
 		}
 		return count;
 	}
 
-    protected int computePageNo(int page) {
+    protected long computePageNo(long page) {
         return computePageNumber(page,pageSize,totalItems);
     }
     /**
@@ -196,13 +196,13 @@ public class Paginator implements java.io.Serializable {
      * 注意:不可以使用 getSlider(1)方法名称，因为在JSP中会与 getSlider()方法冲突，报exception
      * @return
      */
-    public Integer[] slider(int slidersCount) {
+    public Integer[] slider(long slidersCount) {
     	return generateLinkPageNumbers(getPage(),(int)getTotalPages(), slidersCount);
     }
     
-    private static int computeLastPageNumber(int totalItems,int pageSize) {
+    private static long computeLastPageNumber(long totalItems,long pageSize) {
     	if(pageSize <= 0) return 1;
-        int result = (int)(totalItems % pageSize == 0 ? 
+        long result = (int)(totalItems % pageSize == 0 ? 
                 totalItems / pageSize 
                 : totalItems / pageSize + 1);
         if(result <= 1)
@@ -210,7 +210,7 @@ public class Paginator implements java.io.Serializable {
         return result;
     }
     
-    private static int computePageNumber(int page, int pageSize,int totalItems) {
+    private static long computePageNumber(long page, long pageSize,long totalItems) {
         if(page <= 1) {
             return 1;
         }
@@ -221,15 +221,15 @@ public class Paginator implements java.io.Serializable {
         return page;
     }
     
-    private static Integer[] generateLinkPageNumbers(int currentPageNumber,int lastPageNumber,int count) {
-        int avg = count / 2;
+    private static Integer[] generateLinkPageNumbers(long currentPageNumber,long lastPageNumber,long count) {
+        long avg = count / 2;
         
-        int startPageNumber = currentPageNumber - avg;
+        long startPageNumber = currentPageNumber - avg;
         if(startPageNumber <= 0) {
             startPageNumber = 1;
         }
         
-        int endPageNumber = startPageNumber + count - 1;
+        long endPageNumber = startPageNumber + count - 1;
         if(endPageNumber > lastPageNumber) {
             endPageNumber = lastPageNumber;
         }
@@ -241,9 +241,9 @@ public class Paginator implements java.io.Serializable {
             }
         }
         
-        java.util.List<Integer> result = new java.util.ArrayList<Integer>();
-        for(int i = startPageNumber; i <= endPageNumber; i++) {
-            result.add(new Integer(i));
+        java.util.List<Long> result = new java.util.ArrayList<Long>();
+        for(long i = startPageNumber; i <= endPageNumber; i++) {
+            result.add(new Long(i));
         }
         return result.toArray(new Integer[result.size()]);
     }
