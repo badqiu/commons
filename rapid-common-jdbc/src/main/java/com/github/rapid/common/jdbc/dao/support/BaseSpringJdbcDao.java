@@ -115,7 +115,7 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport {
 		return list;
 	}
 	
-	private <E> Page<E>  pageQuery(String sql, Map<String ,Object> paramMap, final int totalItems,int pageSize, int pageNumber, RowMapper<E> rowMapper) {
+	private <E> Page<E>  pageQuery(String sql, Map<String ,Object> paramMap, final long totalItems,long pageSize, long pageNumber, RowMapper<E> rowMapper) {
 		if(totalItems <= 0) {
 			return new Page<E>(new Paginator(pageNumber,pageSize,0));
 		}
@@ -137,7 +137,7 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport {
 	static final String LIMIT_PLACEHOLDER = ":__limit";
 	static final String OFFSET_PLACEHOLDER = ":__offset";
 	@SuppressWarnings("unchecked")
-	protected <E> List<E> queryForListByStartRowAndPageSize(String sql, final Map<String,Object> paramMap, int startRow,int pageSize, final RowMapper<E> rowMapper) {
+	protected <E> List<E> queryForListByStartRowAndPageSize(String sql, final Map<String,Object> paramMap, long startRow,long pageSize, final RowMapper<E> rowMapper) {
 		//支持limit查询
 		if(dialect.supportsLimit()) {
 			paramMap.put(LIMIT_PLACEHOLDER.substring(1), pageSize);
@@ -145,11 +145,11 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport {
 			//支持limit及offset.则完全使用数据库分页
 			if(dialect.supportsLimitOffset()) {
 				paramMap.put(OFFSET_PLACEHOLDER.substring(1), startRow);
-				sql = dialect.getLimitString(sql,startRow,OFFSET_PLACEHOLDER,pageSize,LIMIT_PLACEHOLDER);
+				sql = dialect.getLimitString(sql,(int)startRow,OFFSET_PLACEHOLDER,(int)pageSize,LIMIT_PLACEHOLDER);
 				startRow = 0;
 			}else {
 				//不支持offset,则在后面查询中使用游标配合limit分页
-				sql = dialect.getLimitString(sql, 0,null, pageSize,LIMIT_PLACEHOLDER);
+				sql = dialect.getLimitString(sql, 0,null, (int)pageSize,LIMIT_PLACEHOLDER);
 			}
 			
 			pageSize = Integer.MAX_VALUE;

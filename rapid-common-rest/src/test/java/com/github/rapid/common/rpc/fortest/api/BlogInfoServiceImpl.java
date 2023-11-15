@@ -324,7 +324,7 @@ public class BlogInfoServiceImpl implements BlogInfoService {
 			list.add(i);
 		}
 		Paginator p = new Paginator(page, pageSize, total);
-		return new Page(list.subList(p.getStartRow(),p.getEndRow()),p);
+		return new Page(list.subList((int)p.getStartRow(),(int)p.getEndRow()),p);
 	}
 
 	@Override

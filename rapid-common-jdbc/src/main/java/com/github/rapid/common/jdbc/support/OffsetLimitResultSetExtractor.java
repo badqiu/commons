@@ -27,11 +27,11 @@ public class OffsetLimitResultSetExtractor implements ResultSetExtractor {
 	private int offset;
 	private RowMapper rowMapper;
 	
-	public OffsetLimitResultSetExtractor(int offset,int limit,RowMapper rowMapper) {
+	public OffsetLimitResultSetExtractor(long offset,long limit,RowMapper rowMapper) {
 		Assert.notNull(rowMapper,"'rowMapper' must be not null");
 		this.rowMapper = rowMapper;
-		this.offset = offset;
-		this.limit = limit;
+		this.offset = (int)offset;
+		this.limit = (int)limit;
 	}
 
 	public Object extractData(ResultSet rs) throws SQLException,DataAccessException {
