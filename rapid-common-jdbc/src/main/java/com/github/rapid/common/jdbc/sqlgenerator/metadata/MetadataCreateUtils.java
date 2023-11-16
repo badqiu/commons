@@ -60,6 +60,8 @@ public class MetadataCreateUtils {
 			}
 			
 			String sqlName = getColumnSqlName(pd,readMethod,writeMethod);
+			
+			//TODO 增加field的支持
 			boolean isPrimaryKey = isPrimaryKeyColumn(readMethod) || isPrimaryKeyColumn(writeMethod);
 			boolean generatedValue = isGeneratedValueColumn(readMethod) || isGeneratedValueColumn(writeMethod);
 			boolean insertable = getColumnInsertable(pd, readMethod) && getColumnInsertable(pd,writeMethod);
