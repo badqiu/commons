@@ -64,16 +64,40 @@ public class ExtNamedJdbcTemplate extends NamedParameterJdbcTemplate {
 		return super.query(sql, newBeanPropertySqlParameterSource(paramSource), getBeanPropertyRowMapper(rowMappedClass));
 	}
 
+	public <T> T queryOne(String sql, Map paramMap,RowMapper<T> rowMapper,boolean throwExceptionIfNotFound) throws DataAccessException {
+		T r = DataAccessUtils.singleResult(super.query(sql, new MapSqlParameterSource(paramMap), rowMapper));
+		if(throwExceptionIfNotFound && r == null) {
+			throw new IllegalArgumentException("not found object by query,param:"+paramMap);
+		}
+		return r;
+	}
+	
+	public <T> T queryOne(String sql, Object paramSource,RowMapper<T> rowMapper,boolean throwExceptionIfNotFound) throws DataAccessException {
+		T r = DataAccessUtils.singleResult(super.query(sql, newBeanPropertySqlParameterSource(paramSource), rowMapper));
+		if(throwExceptionIfNotFound && r == null) {
+			throw new IllegalArgumentException("not found object by query,param:"+paramSource);
+		}
+		return r;
+	}
+	
+	public <T> T queryOne(String sql, Object paramSource,Class<?> rowMappedClass,boolean throwExceptionIfNotFound) throws DataAccessException {
+		T r = (T)DataAccessUtils.singleResult(super.query(sql, newBeanPropertySqlParameterSource(paramSource), getBeanPropertyRowMapper(rowMappedClass)));
+		if(throwExceptionIfNotFound && r == null) {
+			throw new IllegalArgumentException("not found "+rowMappedClass+" by query,param:"+paramSource);
+		}
+		return r;
+	}
+
 	public <T> T queryOne(String sql, Map paramMap,RowMapper<T> rowMapper) throws DataAccessException {
-		return DataAccessUtils.singleResult(super.query(sql, new MapSqlParameterSource(paramMap), rowMapper));
+		return queryOne(sql,paramMap,rowMapper,false);
 	}
 	
 	public <T> T queryOne(String sql, Object paramSource,RowMapper<T> rowMapper) throws DataAccessException {
-		return DataAccessUtils.singleResult(super.query(sql, newBeanPropertySqlParameterSource(paramSource), rowMapper));
+		return queryOne(sql,paramSource,rowMapper,false);
 	}
 	
 	public <T> T queryOne(String sql, Object paramSource,Class<?> rowMappedClass) throws DataAccessException {
-		return (T)DataAccessUtils.singleResult(super.query(sql, newBeanPropertySqlParameterSource(paramSource), getBeanPropertyRowMapper(rowMappedClass)));
+		return queryOne(sql,paramSource,rowMappedClass,false);
 	}
 	
 	public SqlRowSet queryForRowSet(String sql, Object paramSource)throws DataAccessException {
