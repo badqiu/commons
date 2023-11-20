@@ -28,7 +28,7 @@ public class CollectionUtil {
 	
 	public CollectionUtil(){}
 	
-	public static Object safeGet(List list,int index,Object defaultValue) {
+	public static <T> T safeGet(List<T> list,int index,T defaultValue) {
 		if(list == null) return defaultValue;
 		if(list.size() - 1 < index) {
 			return defaultValue;
@@ -36,15 +36,15 @@ public class CollectionUtil {
 		return list.get(index);
 	}
 	
-	public static LinkedHashSet asLinkedHashSet(Collection c) {
+	public static <T> LinkedHashSet<T> asLinkedHashSet(Collection<T> c) {
 		return (LinkedHashSet)asTargetTypeCollection(c,LinkedHashSet.class);
 	}
 	
-	public static HashSet asHashSet(Collection c) {
+	public static <T> HashSet<T> asHashSet(Collection<T> c) {
 		return (HashSet)asTargetTypeCollection(c,HashSet.class);
 	}
 	
-	public static ArrayList asArrayList(Collection c) {
+	public static <T> ArrayList<T> asArrayList(Collection<T> c) {
 		return (ArrayList)asTargetTypeCollection(c,ArrayList.class);
 	}
 	

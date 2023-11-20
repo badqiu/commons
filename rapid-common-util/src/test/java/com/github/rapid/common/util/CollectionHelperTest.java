@@ -27,7 +27,8 @@ public class CollectionHelperTest extends TestCase {
 		list.add("11");
 		
 		assertNull(CollectionUtil.safeGet(null, 10, null));
-		assertEquals(1,CollectionUtil.safeGet(null, 10, 1));
+		int safeGet = (Integer)CollectionUtil.safeGet(null, 10, 1);
+		assertEquals(1,safeGet);
 		
 		assertEquals("00",CollectionUtil.safeGet(list, 0, 1));
 		assertEquals("11",CollectionUtil.safeGet(list, 1, 1));
