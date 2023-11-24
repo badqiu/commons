@@ -3,6 +3,7 @@ package com.github.rapid.common.util;
 import java.util.Date;
 import java.util.UUID;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.MDC;
 
 /**
@@ -35,10 +36,9 @@ public class LogTraceUtil {
 	}
 
 	public static String newTraceId() {
-		String traceId;
-		traceId = UUID.randomUUID().toString().replace("-","");
+		String uuid = StringUtils.remove(UUID.randomUUID().toString(),'-');
 		String date = DateConvertUtil.format(new Date(), "MMddHHmmss");
-		return date + traceId;
+		return date + uuid;
 	}
 
 	/**
