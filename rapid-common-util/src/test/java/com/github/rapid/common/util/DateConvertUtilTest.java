@@ -1,8 +1,13 @@
 package com.github.rapid.common.util;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
 
-import com.github.rapid.common.util.DateConvertUtil;
+import org.junit.Test;
 
 import junit.framework.TestCase;
 /**
@@ -10,6 +15,7 @@ import junit.framework.TestCase;
  */
 public class DateConvertUtilTest extends TestCase {
 
+	@Test
 	public void testConvertString2Date() {
 		java.util.Date d = DateConvertUtil.parse("1999-09-09","yyyy-MM-dd",java.util.Date.class);
 		Timestamp t = DateConvertUtil.parse("1999-09-09","yyyy-MM-dd",Timestamp.class);
@@ -17,14 +23,26 @@ public class DateConvertUtilTest extends TestCase {
 		java.sql.Time st = DateConvertUtil.parse("1999-09-09","yyyy-MM-dd",java.sql.Time.class);
 	}
 	
+	@Test
 	public void test_parse() {
 		java.util.Date d = DateConvertUtil.parse("1999-01-02 12:13:14","yyyy-MM-dd HH:mm:ss",java.util.Date.class);
 		System.out.println(d);
 	}
 	
+	@Test
 	public void testFormat() {
 		java.util.Date d = DateConvertUtil.parse("1999-09-09","yyyy-MM-dd",java.util.Date.class);
 		String r = DateConvertUtil.format(d, "MM/dd/yy");
 		assertEquals(r,"09/09/99");
 	}
+	
+	@Test
+	public void testToDate() {
+		DateConvertUtil.toDate(LocalDateTime.now());
+		DateConvertUtil.toDate(LocalDate.now());
+		DateConvertUtil.toDate(LocalTime.now());
+		DateConvertUtil.toDate(OffsetDateTime.now());
+		DateConvertUtil.toDate(OffsetTime.now());
+	}
+	
 }

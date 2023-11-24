@@ -1,6 +1,13 @@
 package com.github.rapid.common.util;
 
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
@@ -50,4 +57,39 @@ public class DateConvertUtil {
 		
 		return DateConvertUtil.parse(DateConvertUtil.format(date, dateFormat),dateFormat);
 	}
+	
+	public static Date toDate(OffsetDateTime time) {
+		if(time == null) return null;
+		return Date.from(time.toInstant());
+	}
+	
+	public static java.sql.Time toDate(OffsetTime time) {
+		if(time == null) return null;
+		
+		return toDate(time.toLocalTime());
+	}
+	
+	public static Date toDate(LocalDateTime time) {
+		if(time == null) return null;
+		ZoneId zoneId = ZoneId.systemDefault();
+		return toDate(time, zoneId);
+	}
+
+	public static Date toDate(LocalDateTime time, ZoneId zoneId) {
+		if(time == null) return null;
+		ZonedDateTime zoneTime = time.atZone(zoneId);
+		Date date = Date.from(zoneTime.toInstant());
+		return date;
+	}
+	
+	public static java.sql.Date toDate(LocalDate time) {
+		if(time == null) return null;
+		return java.sql.Date.valueOf(time);
+	}
+	
+	public static java.sql.Time toDate(LocalTime time) {
+		if(time == null) return null;
+		return java.sql.Time.valueOf(time);
+	}
+
 }

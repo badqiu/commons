@@ -45,6 +45,10 @@ public class NumberUtil {
 		return toInteger(v,defaultValue);
 	}
 	
+	public static int toInt(Object v) {
+		return toInteger(v,0);
+	}
+	
 	public static Double toDouble(Object v) {
 		Number num = toNumber(v);
 		return v == null ? null : num.doubleValue();

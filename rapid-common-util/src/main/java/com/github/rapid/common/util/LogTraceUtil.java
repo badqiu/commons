@@ -1,5 +1,6 @@
 package com.github.rapid.common.util;
 
+import java.util.Date;
 import java.util.UUID;
 
 import org.apache.log4j.MDC;
@@ -27,10 +28,17 @@ public class LogTraceUtil {
 	public static String beginTrace() {
 		String traceId = (String)MDC.get(TRACE_ID_KEY);
 		if(traceId == null) {
-			traceId = UUID.randomUUID().toString().replace("-","");
+			traceId = newTraceId();
 			MDC.put(TRACE_ID_KEY, traceId);
 		}
 		return traceId;
+	}
+
+	public static String newTraceId() {
+		String traceId;
+		traceId = UUID.randomUUID().toString().replace("-","");
+		String date = DateConvertUtil.format(new Date(), "MMddHHmmss");
+		return date + traceId;
 	}
 
 	/**
