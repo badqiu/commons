@@ -28,7 +28,7 @@ public class MysqlPartitionGenerator {
 		}
 		sb.append("PARTITION p_other    VALUES LESS THAN (MAXVALUE));");
 		
-		System.out.println(sb);
+		printPartition(sb);
 	}
 	
 	@Test
@@ -45,7 +45,11 @@ public class MysqlPartitionGenerator {
 		}
 		sb.append("PARTITION p_other    VALUES LESS THAN (MAXVALUE));");
 		
-		System.out.println(sb);
+		printPartition(sb);
+	}
+
+	private void printPartition(StringBuilder sb) {
+		System.out.println("PARTITION BY RANGE (to_days(create_time))  \n" + sb);
 	}
 	
 	@Test
@@ -64,6 +68,6 @@ public class MysqlPartitionGenerator {
 		}
 		sb.append("PARTITION p_other    VALUES LESS THAN (MAXVALUE));");
 		
-		System.out.println(sb);
+		printPartition(sb);
 	}
 }
