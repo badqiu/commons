@@ -16,7 +16,8 @@ public class MysqlPartitionGenerator {
 	
 	@Test
 	public void generateByDays() {
-		int count = 720;
+		int count = 365 * 2;
+		System.out.println("gen_count:"+count);
 		
 		Date date = DateConvertUtil.extract(new Date(),"yyyyMM");
 		StringBuilder sb = new StringBuilder("(");
@@ -32,7 +33,8 @@ public class MysqlPartitionGenerator {
 	
 	@Test
 	public void generateByMonths() {
-		int count = 240;
+		int count = 120 * 3;
+		System.out.println("gen_count:"+count);
 		
 		Date date = DateConvertUtil.extract(new Date(),"yyyyMM");
 		StringBuilder sb = new StringBuilder("(");
@@ -48,7 +50,8 @@ public class MysqlPartitionGenerator {
 	
 	@Test
 	public void generateByWeek() {
-		int count = 520;
+		int count = 520 + 500;
+		System.out.println("gen_count:"+count);
 		
 		Date date = DateConvertUtil.extract(new Date(),"yyyyww");
 		date = DateUtils.addDays(date, 1); //加1天，改为周1
