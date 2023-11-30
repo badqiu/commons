@@ -49,7 +49,12 @@ public class MysqlPartitionGenerator {
 	}
 
 	private void printPartition(StringBuilder sb) {
-		System.out.println("PARTITION BY RANGE (to_days(create_time))  \n" + sb);
+		String createTable = "CREATE TABLE demo_table (\n"
+				+ "demo_id bigint(20) NOT NULL ,\n"
+				+ "create_time datetime NOT NULL,\n"
+				+ "PRIMARY KEY (demo_id,create_time) \n"
+				+ ") \n";
+		System.out.println(createTable + "PARTITION BY RANGE (to_days(create_time))  \n" + sb);
 	}
 	
 	@Test
