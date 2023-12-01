@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.MDC;
+import org.slf4j.MDC;
 
 /**
  * 系统运行时打印方便调试与追踪信息的工具类.
@@ -15,7 +15,6 @@ import org.apache.log4j.MDC;
  * 需要在log4j.properties中将ConversionPattern添加%X{traceId},如:
  * log4j.appender.stdout.layout.ConversionPattern=%d [%c] %X{traceId}-%m%n
  * 
- * @author calvin
  * @authro badqiu
  */
 public class LogTraceUtil {
@@ -47,6 +46,10 @@ public class LogTraceUtil {
 	 */
 	public static void endTrace() {
 		MDC.remove(TRACE_ID_KEY);
+	}
+	
+	public static String getTraceId() {
+		return MDC.get(TRACE_ID_KEY);
 	}
 	
 	/**
