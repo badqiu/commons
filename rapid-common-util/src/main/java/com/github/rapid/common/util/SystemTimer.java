@@ -52,6 +52,7 @@ public class SystemTimer {
 	};
 	
 	static {
+		systemTimerFreshThread.setDaemon(true);
 		systemTimerFreshThread.setPriority(6);
 		systemTimerFreshThread.start();
 	}
