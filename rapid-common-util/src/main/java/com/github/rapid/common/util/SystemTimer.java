@@ -14,7 +14,7 @@ public class SystemTimer {
 	
 	private static int refreshTimeInterval = 100;
 	
-	private static long cachedCurrentTimeMillis = System.currentTimeMillis();
+	private static volatile long cachedCurrentTimeMillis = System.currentTimeMillis();
 	
 	/**
 	 * 设置时间刷新间隔
