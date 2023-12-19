@@ -1,5 +1,6 @@
 package com.github.rapid.common.util;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,13 +14,26 @@ public class NotifyUtil {
 	 * @param intervalSeconds 间隔秒数
 	 * @return
 	 */
-	public static synchronized boolean isTooManySameNotify(String notifyIntervalKey,int intervalSeconds) {
+	public static synchronized boolean isTooManySameNotify(String notifyIntervalKey,long intervalMills) {
 		Long lastNotifyTime = notifyInterval.get(notifyIntervalKey);
-		if(lastNotifyTime != null && (System.currentTimeMillis() - lastNotifyTime) < 1000 * intervalSeconds) {
+		
+		long currentTimeMillis = System.currentTimeMillis();
+		if(lastNotifyTime == null) {
+			notifyInterval.put(notifyIntervalKey, currentTimeMillis);
+			return false;
+		}
+		
+		long costIntervalMills = currentTimeMillis - lastNotifyTime;
+		if(costIntervalMills <= intervalMills) {
 			return true;
 		}
-		notifyInterval.put(notifyIntervalKey, System.currentTimeMillis());
+		
+		notifyInterval.put(notifyIntervalKey, currentTimeMillis);
 		return false;
+	}
+	
+	public static synchronized boolean isTooManySameNotify(String notifyIntervalKey,Duration intervalDuration) {
+		return isTooManySameNotify(notifyIntervalKey,intervalDuration.toMillis());
 	}
 	
 }
