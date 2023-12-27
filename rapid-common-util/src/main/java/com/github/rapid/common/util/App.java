@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
  * @see #setContextProperties(Properties)
  * 
  */
+@Deprecated
 public class App {
 	private static Logger logger = LoggerFactory.getLogger(App.class);
 	private static PropertiesHelper properties;
