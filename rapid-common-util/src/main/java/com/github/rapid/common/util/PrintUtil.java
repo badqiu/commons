@@ -6,12 +6,14 @@ import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class PrintUtil {
 
+	public static String SEPERATOR = "=";
+	
 	public static String toString(Map map) {
 		if(map == null) return null;
 		
 		StringBuilder sb = new StringBuilder();
 		map.forEach((key,value) -> {
-			sb.append(key).append("=").append(value);
+			sb.append(key).append(SEPERATOR).append(value);
 			sb.append("\n");
 		});
 		
