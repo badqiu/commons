@@ -186,13 +186,15 @@ public class Paginator implements java.io.Serializable {
     protected long computePageNo(long page) {
         return computePageNumber(page,pageSize,totalItems);
     }
-    /**
-     * 页码滑动窗口，并将当前页尽可能地放在滑动窗口的中间部位。
-     * @return
-     */
-    public List<Long> getSlider() {
-    	return slider(DEFAULT_SLIDERS_COUNT);
-    }
+    
+//    /**
+//     * 页码滑动窗口，并将当前页尽可能地放在滑动窗口的中间部位。
+//     * @return
+//     */
+//    public List<Long> getSlider() {
+//    	return slider(DEFAULT_SLIDERS_COUNT);
+//    }
+    
     /**
      * 页码滑动窗口，并将当前页尽可能地放在滑动窗口的中间部位。
      * 注意:不可以使用 getSlider(1)方法名称，因为在JSP中会与 getSlider()方法冲突，报exception
