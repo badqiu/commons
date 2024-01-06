@@ -188,7 +188,7 @@ public class Paginator implements java.io.Serializable {
      * 页码滑动窗口，并将当前页尽可能地放在滑动窗口的中间部位。
      * @return
      */
-    public Integer[] getSlider() {
+    public Long[] getSlider() {
     	return slider(DEFAULT_SLIDERS_COUNT);
     }
     /**
@@ -196,7 +196,7 @@ public class Paginator implements java.io.Serializable {
      * 注意:不可以使用 getSlider(1)方法名称，因为在JSP中会与 getSlider()方法冲突，报exception
      * @return
      */
-    public Integer[] slider(long slidersCount) {
+    public Long[] slider(long slidersCount) {
     	return generateLinkPageNumbers(getPage(),(int)getTotalPages(), slidersCount);
     }
     
@@ -221,7 +221,7 @@ public class Paginator implements java.io.Serializable {
         return page;
     }
     
-    private static Integer[] generateLinkPageNumbers(long currentPageNumber,long lastPageNumber,long count) {
+    private static Long[] generateLinkPageNumbers(long currentPageNumber,long lastPageNumber,long count) {
         long avg = count / 2;
         
         long startPageNumber = currentPageNumber - avg;
@@ -245,7 +245,7 @@ public class Paginator implements java.io.Serializable {
         for(long i = startPageNumber; i <= endPageNumber; i++) {
             result.add(new Long(i));
         }
-        return result.toArray(new Integer[result.size()]);
+        return result.toArray(new Long[result.size()]);
     }
     
     public String toString() {

@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.github.rapid.common.util.PrintUtil;
+
 import junit.framework.TestCase;
 
 public class PaginatorTest extends TestCase {
@@ -180,6 +182,10 @@ public class PaginatorTest extends TestCase {
 		assertEquals(p.getTotalPages(),0);
 		assertEquals(p.getTotalItems(),10);
 
+	}
+	
+	public void test_getSlider() {
+		System.out.println(PrintUtil.toString(p.getSlider()));
 	}
 	
 	@Test
