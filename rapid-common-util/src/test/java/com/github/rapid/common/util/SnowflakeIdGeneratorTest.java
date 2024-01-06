@@ -26,5 +26,10 @@ public class SnowflakeIdGeneratorTest {
 		
 		Profiler.printDump();
 	}
+	
+	@Test
+	public void generateId2() {
+		SnowflakeIdGenerator.generateId();
+	}
 
 }
