@@ -4,7 +4,7 @@
 	<groupId>com.github.rapid.common</groupId>
 	<artifactId>rapid-common-security</artifactId>
 	<name>rapid-common-security</name>
-	<version>1.0.2-SNAPSHOT</version>	
+	<version>1.0.2-RELEASE</version>	
 	<packaging>jar</packaging>
 
 	<description>rapid-common-security</description>

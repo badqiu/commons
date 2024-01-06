@@ -184,9 +184,9 @@ public class PaginatorTest extends TestCase {
 
 	}
 	
-	public void test_getSlider() {
-		System.out.println(PrintUtil.toString(p.getSlider()));
-	}
+//	public void test_getSlider() {
+//		System.out.println(PrintUtil.toString(p.getSlider()));
+//	}
 	
 	@Test
 	public void test_page_for_list() {
