@@ -2,6 +2,7 @@ package com.github.rapid.common.util;
 
 import java.net.Inet4Address;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
@@ -117,6 +118,10 @@ public class SnowflakeIdGenerator {
 	
     private static Long getDataCenterId(){
         String hostName = SystemUtils.getHostName();
+        if(StringUtils.isBlank(hostName)) {
+        	hostName = "random-"+RandomStringUtils.random(20); //mac无法获得hostName
+        }
+        
 		int[] ints = StringUtils.toCodePoints(hostName);
         long sums = sumInts(ints);
         long dataCenterId = (long)(sums % (maxDatacenterId + 1));
