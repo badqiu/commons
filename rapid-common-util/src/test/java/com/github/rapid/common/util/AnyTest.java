@@ -9,6 +9,8 @@ public class AnyTest {
 	
 	@Test
 	public void test() {
+		System.out.println(1 == new Long(1));
+		
 //		String key = "aliyun-qiu-dockerkey-Zdf23XgfgFd";
 //		System.out.println(key.length());
 		// 1700702889244
