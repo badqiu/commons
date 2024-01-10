@@ -33,7 +33,7 @@ public class MysqlPartitionGenerator {
 	
 	@Test
 	public void generateByMonths() {
-		int count = 120 * 3;
+		int count = 120 * 4;
 		System.out.println("gen_count:"+count);
 		
 		Date date = DateConvertUtil.extract(new Date(),"yyyyMM");
