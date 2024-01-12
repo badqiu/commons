@@ -29,7 +29,6 @@ public class ReflectUtil {
                     try {
 	                    field.set(null, finalNewValue); // 根据Map中对应字段的新值修改静态变量的值
 	                    
-	                    System.out.println("Modified static variable " + field.getName() + " = " + field.get(null)); // 输出修改后的静态变量值
                     }catch(IllegalAccessException e) {
                     	throw new RuntimeException("modify static variable error,newValue:"+finalNewValue+" field:"+field.getName());
                     }
