@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.MDC;
 
 /**
@@ -26,7 +27,17 @@ public class LogTraceUtil {
 	 * @return traceId
 	 */
 	public static String beginTrace() {
-		String traceId = (String)MDC.get(TRACE_ID_KEY);
+		return beginTrace(null);
+	}
+	
+	/**
+	 * 开始Trace, 如果已经存在该traceId则返回,不存在则生成UUID并放入MDC.
+	 * @return traceId
+	 */
+	public static String beginTrace(String traceId) {
+		if(traceId == null) {
+			traceId = (String)MDC.get(TRACE_ID_KEY);
+		}
 		if(traceId == null) {
 			traceId = newTraceId();
 			MDC.put(TRACE_ID_KEY, traceId);
@@ -36,7 +47,7 @@ public class LogTraceUtil {
 
 	public static String newTraceId() {
 		String uuid = StringUtils.remove(UUID.randomUUID().toString(),'-');
-		String date = DateConvertUtil.format(new Date(), "MMddHHmmss");
+		String date = DateFormatUtils.format(new Date(), "MMddHHmmss");
 		return date + uuid;
 	}
 
