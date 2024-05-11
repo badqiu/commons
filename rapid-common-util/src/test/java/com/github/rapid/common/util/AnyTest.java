@@ -23,5 +23,7 @@ public class AnyTest {
 		Timestamp end = new Timestamp(1703836615531L);
 		System.out.println(end);
 		System.out.println(end.getTime() - start.getTime());
+		
+		System.out.println("{\"prompt\":\"A beautiful lotus flower --niji 5 --ar 3:4\",\"sign\":\"1cbd7139343914d4ccb3226002c13a08\"}");
 	}
 }
