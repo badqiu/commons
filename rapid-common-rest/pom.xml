@@ -3,7 +3,7 @@
 
 	<groupId>com.github.rapid.common</groupId>
 	<artifactId>rapid-common-rest</artifactId>
-	<version>1.0.2-RELEASE</version>
+	<version>1.0.3-RELEASE</version>
 		
 	<name>rapid-common-rest</name>
 	<packaging>jar</packaging>
@@ -92,7 +92,7 @@
 			<dependency>
 				<groupId>com.github.rapid.common</groupId>
 				<artifactId>rapid-common-util</artifactId>
-				<version>1.0.2-RELEASE</version>
+				<version>1.0.3-RELEASE</version>
 				<scope>test</scope>
 			</dependency>
 			
