@@ -1,9 +1,12 @@
 package com.github.rapid.common.util;
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,6 +15,29 @@ public class ReflectUtil {
 	
 	public static void modifyAllStaticVariables(Class<?> clazz, Map<String, Object> newValues) {
 		modifyAllStaticVariables(clazz,newValues,false);
+	}
+	
+	public static void modifyAllStaticVariables(Class<?> clazz, Class newValues) {
+		Map<String,Object> fieldValues = getAllFieldsMap(newValues);
+		
+		modifyAllStaticVariables(clazz,fieldValues);
+	}
+
+	private static Map<String,Object> getAllFieldsMap(Class clazz)  {
+		if(clazz == null) return null;
+		
+		List<Field> fields = FieldUtils.getAllFieldsList(clazz);
+		Map<String,Object> map = new HashMap<String,Object>();
+		for(Field field : fields) {
+			field.setAccessible(true);
+			
+			try {
+				map.put(field.getName(), field.get(clazz));
+			} catch (Exception e) {
+				throw new RuntimeException("read field error:"+field+" on class:"+clazz,e);
+			} 
+		}
+		return map;
 	}
 	/**
 	 *  修改一个类的常量
