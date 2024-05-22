@@ -66,7 +66,7 @@ public class ReflectUtil {
                     	if(ignoreError) {
                     		logger.warn("ignore field set error,msg:"+message);
                     	}else {
-							throw new RuntimeException(message);
+							throw new RuntimeException(message,e);
                     	}
                     }
                 }
