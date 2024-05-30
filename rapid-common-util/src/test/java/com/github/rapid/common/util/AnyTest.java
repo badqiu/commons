@@ -9,6 +9,7 @@ public class AnyTest {
 	
 	@Test
 	public void test() {
+		System.out.println(System.currentTimeMillis());
 		System.out.println(Math.ceil(1.1));
 		System.out.println(Math.floor(1.1));
 		System.out.println(1 == new Long(1));
