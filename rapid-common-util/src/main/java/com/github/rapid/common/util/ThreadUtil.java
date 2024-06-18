@@ -19,6 +19,10 @@ public class ThreadUtil {
 		sleep(seconds * 1000);
 	}
 	
+	public static void sleepMinutes(long minutes) {
+		sleep(minutes * 1000 * 60);
+	}
+	
 	public static void sleep(Duration duration) {
 		sleep(duration.toMillis());
 	}
