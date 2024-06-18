@@ -15,7 +15,7 @@ public class PingUtilTest {
 	
 	@Test
 	public void test2() {
-		boolean r = PingUtil.socketPing("81.69.182.132:443");
+		boolean r = PingUtil.socketPing("39.156.66.10:443");
 		assertTrue(r);
 	}
 	

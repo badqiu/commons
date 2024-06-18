@@ -22,11 +22,13 @@ public class ObjectUtilsTest {
 	public void testIsEmpty() {
 		Assert.assertTrue(ObjectUtil.isEmpty(null));
 		Assert.assertTrue(ObjectUtil.isEmpty(""));
+		Assert.assertTrue(ObjectUtil.isEmpty(" "));
+		Assert.assertTrue(ObjectUtil.isEmpty("    \n   "));
 		Assert.assertTrue(ObjectUtil.isEmpty(new ArrayList()));
 		Assert.assertTrue(ObjectUtil.isEmpty(new HashMap()));
 		Assert.assertTrue(ObjectUtil.isEmpty(new Object[]{}));
 		
-		Assert.assertTrue(!ObjectUtil.isEmpty(" "));
+		
 		Assert.assertTrue(!ObjectUtil.isEmpty(Arrays.asList(1,2,3)));
 		Assert.assertTrue(!ObjectUtil.isEmpty(NOT_EMPTY_MAP));
 		Assert.assertTrue(!ObjectUtil.isEmpty(new Object[]{1,2,3}));

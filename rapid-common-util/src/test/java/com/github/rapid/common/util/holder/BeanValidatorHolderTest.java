@@ -15,7 +15,7 @@ public class BeanValidatorHolderTest {
 		BeanValidatorHolder.validateWithException(new ValidBean());
 	}
 
-	@Test
+	@Test(expected = ConstraintViolationException.class)
 	public void test2() {
 		BeanValidatorHolder.validateWithException(new ValidBean());
 	}

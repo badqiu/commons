@@ -20,7 +20,7 @@ public class FreemarkerInputStreamTest extends Assert {
 		Map map = new HashMap();
 		map.put("name", "jjyy");
 		FreemarkerInputStream input = new FreemarkerInputStream(new ByteArrayInputStream(content.getBytes()),map);
-		assertEquals(IOUtils.toString(input),"1.0 jjyy");
+		assertEquals(IOUtils.toString(input),"1.8 jjyy");
 		
 		input = new FreemarkerInputStream(new ByteArrayInputStream("${java_vm_specification_version}".getBytes()),(Map)null);
 	}

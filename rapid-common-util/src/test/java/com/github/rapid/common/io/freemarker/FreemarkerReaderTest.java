@@ -20,7 +20,7 @@ public class FreemarkerReaderTest extends Assert{
 		Map map = new HashMap();
 		map.put("name", "jjyy");
 		FreemarkerReader input = new FreemarkerReader(new StringReader(content),map);
-		assertEquals(IOUtils.toString(input),"1.0 jjyy");
+		assertEquals(IOUtils.toString(input),"1.8 jjyy");
 		
 		input =  new FreemarkerReader(new StringReader("${java_vm_specification_version}"),(Map)null);
 	}
