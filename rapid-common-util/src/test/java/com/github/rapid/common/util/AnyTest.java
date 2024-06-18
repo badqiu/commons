@@ -1,6 +1,8 @@
 package com.github.rapid.common.util;
 
 import java.sql.Timestamp;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.junit.Test;
 
@@ -26,5 +28,16 @@ public class AnyTest {
 		System.out.println(end.getTime() - start.getTime());
 		
 		System.out.println("{\"prompt\":\"A beautiful lotus flower --niji 5 --ar 3:4\",\"sign\":\"1cbd7139343914d4ccb3226002c13a08\"}");
+		
+		ExecutorService executorService = Executors.newFixedThreadPool(200);
+		for(int i = 0; i < 10000; i++) {
+			final int finalI = i;
+			executorService.submit(() -> {
+				ThreadUtil.sleep(1000 * 5);
+				System.out.println(finalI);
+			});
+		}
+		
+		ThreadUtil.sleepSeconds(100);
 	}
 }
