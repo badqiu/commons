@@ -17,20 +17,21 @@ public class ScanClassUtilsTest extends TestCase {
 			assertTrue(true);
 		}
 		
-		clazzes = ScanClassUtil.scanPackages("com.duowan.common.util");
+		clazzes = ScanClassUtil.scanPackages("com.github.rapid.common.util");
+		System.out.println(clazzes);
 		assertFalse(clazzes.isEmpty());
-		assertTrue(contains(clazzes, "com.duowan.common.util"));
+		assertTrue(contains(clazzes, "com.github.rapid.common.util"));
 		System.out.println(clazzes);
 		
-		clazzes = ScanClassUtil.scanPackages("com.duowan.common.util.**.*");
+		clazzes = ScanClassUtil.scanPackages("com.github.rapid.common.util.**.*");
 		assertFalse(clazzes.isEmpty());
-		assertTrue(contains(clazzes, "com.duowan.common.util"));
-		assertTrue(contains(clazzes, "com.duowan.common.util.fortest"));
+		assertTrue(contains(clazzes, "com.github.rapid.common.util"));
+		assertTrue(contains(clazzes, "com.github.rapid.common.util.fortest"));
 		System.out.println(clazzes);
 		
-		clazzes = ScanClassUtil.scanPackages("javacommon.**.*,com.duowan.*");
+		clazzes = ScanClassUtil.scanPackages("javacommon.**.*,com.github.rapid.*");
 		assertFalse(clazzes.isEmpty());
-		assertTrue(contains(clazzes, "com.duowan.common"));
+		assertTrue(contains(clazzes, "com.github.rapid"));
 		System.out.println(clazzes);
 	}
 	

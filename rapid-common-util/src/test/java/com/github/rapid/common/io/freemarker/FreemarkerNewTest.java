@@ -8,13 +8,14 @@ import org.junit.Test;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import freemarker.core.TemplateClassResolver;
+import freemarker.core._MiscTemplateException;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 public class FreemarkerNewTest {
 
-	@Test
+	@Test(expected=_MiscTemplateException.class)
 	public void test() throws IOException, TemplateException {
 		String template = "<#assign objectConstructor = \"freemarker.template.utility.ObjectConstructor\"?new()> "
 				+ "<#assign nowObj2 = objectConstructor(\"java.util.Date\")> ${nowObj2?string('yyyy')}";
