@@ -12,7 +12,7 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
 public class SimpleRedisServer {
-	public static int DEFAULT_PORT = 6000;
+	public static int DEFAULT_PORT = 6379;
 	
 	private int port = DEFAULT_PORT;
 	

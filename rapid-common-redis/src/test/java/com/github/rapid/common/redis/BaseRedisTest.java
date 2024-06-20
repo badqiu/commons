@@ -11,8 +11,8 @@ public class BaseRedisTest {
 	RedisServer redisServer = null;
 	@Before
 	public void startRedisServer() throws Exception {
-//		redisServer = new RedisServer(6379);
-//		redisServer.start();
+		redisServer = new RedisServer(6379);
+		redisServer.start();
 	}
 	
 	@After
@@ -24,7 +24,7 @@ public class BaseRedisTest {
 	
 	@Test
 	public void empty() throws InterruptedException {
-		Thread.sleep(1000 * 1000);
+		Thread.sleep(5 * 1000);
 	}
 	
 }
