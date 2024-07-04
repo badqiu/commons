@@ -137,9 +137,20 @@ public final class Profiler {
      * </p>
      */
     public static void reset() {
+    	clear();
+    }
+    
+    /**
+     * 清除计时器。
+     * 
+     * <p>
+     * 清除以后必须再次调用<code>start</code>方可重新计时。
+     * </p>
+     */
+    public static void clear() {
         stepThreadLocal.set(null);
     }
-
+    
     /**
      * 开始一个新的step，并计时。
      *
