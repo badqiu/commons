@@ -35,8 +35,6 @@ public class Page<T> implements Iterable<T>,Serializable{
 	}
 
 	public void setItemList(List<T> itemList) {
-		if(itemList == null) 
-			throw new IllegalArgumentException("'itemList' must be not null");
 		this.itemList = itemList;
 	}
 
@@ -45,8 +43,6 @@ public class Page<T> implements Iterable<T>,Serializable{
 	}
 
 	public void setPaginator(Paginator paginator) {
-		if(paginator == null) 
-			throw new IllegalArgumentException("'paginator' must be not null");
 		this.paginator = paginator;
 	}
 	
