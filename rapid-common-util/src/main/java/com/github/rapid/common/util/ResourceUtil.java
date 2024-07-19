@@ -21,4 +21,17 @@ public class ResourceUtil {
 		}
 	}
 	
+	public static byte[] getResourceAsByteArray(String path) {
+		if(StringUtils.isBlank(path)) return null;
+		
+		InputStream input = ResourceUtil.class.getResourceAsStream(path);
+		try {
+			return IOUtils.toByteArray(input);
+		}catch(IOException e) {
+			throw new RuntimeException("error on read classpath path:"+path,e);
+		}finally {
+			IOUtils.closeQuietly(input);
+		}
+	}
+	
 }
