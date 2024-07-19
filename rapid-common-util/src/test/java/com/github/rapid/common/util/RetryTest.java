@@ -39,5 +39,17 @@ public class RetryTest {
 		long cost = System.currentTimeMillis() - start;
 		assertTrue(cost > 2000 && cost < 2100);
 	}
+	
+	@Test
+	public void test_timeout() {
+		long start = System.currentTimeMillis();
+		try {
+			Retry.retry(1000, 100, 1000 * 5, errorCmd);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		long cost = System.currentTimeMillis() - start;
+		assertTrue(cost > 5000 && cost < 5500);
+	}
 
 }

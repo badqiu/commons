@@ -74,7 +74,7 @@ public class Retry {
 				if(retryTimeout > 0) {
 					long costTime = System.currentTimeMillis() - start;
 					if(costTime > retryTimeout) {
-						break;
+						throw new RetryException(useRetryTimes,"retry timeout error,retryTimeout:"+retryTimeout,exception);
 					}
 				}
 				
