@@ -627,12 +627,6 @@
 			
 
 			<dependency>
-			  <groupId>org.extremecomponents</groupId>
-			  <artifactId>extremecomponents</artifactId>
-			  <version>1.0.1</version>
-			</dependency>
-
-			<dependency>
 				<groupId>com.adobe.blazeds</groupId>
 				<artifactId>blazeds-core</artifactId>
 				<version>3.2.0.3978</version>
@@ -723,11 +717,6 @@
 		</dependency>
 
 
-		<dependency>
-			<groupId>org.extremecomponents</groupId>
-			<artifactId>extremecomponents</artifactId>
-			<optional>true</optional>
-		</dependency>
 
 		<dependency>
 			<groupId>javax.servlet</groupId>
