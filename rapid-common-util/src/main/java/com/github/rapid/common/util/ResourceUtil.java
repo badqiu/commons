@@ -12,6 +12,8 @@ public class ResourceUtil {
 		if(StringUtils.isBlank(path)) return null;
 		
 		InputStream input = ResourceUtil.class.getResourceAsStream(path);
+		if(input == null) return null;
+		
 		try {
 			return IOUtils.toString(input,"UTF-8");
 		}catch(IOException e) {
@@ -25,6 +27,8 @@ public class ResourceUtil {
 		if(StringUtils.isBlank(path)) return null;
 		
 		InputStream input = ResourceUtil.class.getResourceAsStream(path);
+		if(input == null) return null;
+		
 		try {
 			return IOUtils.toByteArray(input);
 		}catch(IOException e) {
