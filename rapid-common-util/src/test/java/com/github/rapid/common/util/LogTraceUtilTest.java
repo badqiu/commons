@@ -11,7 +11,7 @@ public class LogTraceUtilTest {
 		for(int i = 0; i <100; i++) {
 			String traceId = LogTraceUtil.newTraceId();
 			System.out.println(traceId+"-"+traceId.length());
-			ThreadUtil.sleep(1000);
+			ThreadUtil.sleep(100);
 		}
 	}
 

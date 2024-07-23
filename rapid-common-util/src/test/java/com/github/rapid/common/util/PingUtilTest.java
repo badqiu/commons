@@ -37,10 +37,10 @@ public class PingUtilTest {
 
 	@Test
 	public void test_urlPing() throws URISyntaxException, Exception, InvocationTargetException, NoSuchMethodException {
-		boolean r = PingUtil.urlPing("http://wwww.baidu.com");
+		boolean r = PingUtil.urlPing("http://www.baidu.com");
 		assertTrue(r);
 		
-		r = PingUtil.urlPing("https://wwww.baidu.com");
+		r = PingUtil.urlPing("https://www.baidu.com");
 		assertTrue(r);
 		
 		URI uri = new URI("redis://www.baidu.com:443/echo?timeout=100&name=super");
