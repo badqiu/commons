@@ -47,7 +47,7 @@ public class LogTraceUtil {
 
 	public static String newTraceId() {
 		String uuid = StringUtils.remove(UUID.randomUUID().toString(),'-');
-		String date = DateFormatUtils.format(new Date(), "MMddHHmmss");
+		String date = DateFormatUtils.format(new Date(), "yyMMddHHmmss");
 		return date + uuid;
 	}
 
