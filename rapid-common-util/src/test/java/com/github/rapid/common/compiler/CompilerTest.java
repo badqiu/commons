@@ -14,7 +14,7 @@ import javax.tools.ToolProvider;
 
 //编译器类只有jdk6里面才有
 public class CompilerTest {
-	static String filename="D:/JavaTest.java";
+	static String filename="c:/JavaTest.java";
 	
 	//window下面的换行是\r\t 回车换行
 	public static void main(String[] args) throws IOException, ClassNotFoundException, Exception {
@@ -37,7 +37,7 @@ public class CompilerTest {
 		t.call();
 		javafile.close();
 		
-		URL[] urls=new URL[]{new URL("file:/d:/")};
+		URL[] urls=new URL[]{new URL("file:/c:/")};
 		URLClassLoader classload=new URLClassLoader(urls);
 		Class clazz=classload.loadClass("JavaTest");
 		Method method=clazz.getMethod("main", String[].class);
