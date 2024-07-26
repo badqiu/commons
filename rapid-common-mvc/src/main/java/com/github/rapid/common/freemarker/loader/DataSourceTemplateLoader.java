@@ -37,19 +37,19 @@ import freemarker.cache.TemplateLoader;
  * //select template_content from template where template_name=?
  * DataSourceTemplateLoader loader = new DataSourceTemplateLoader();
  * loader.setDataSource(ds);
- * loader.setTableName("template");
+ * loader.setTableName("freemarker_template");
  * loader.setTemplateNameColumn("template_name");
  * loader.setTemplateContentColumn("template_content");
- * loader.setTimestampColumn("last_modified");
+ * loader.setTimestampColumn("update_time");
  * </pre>
  * 
  * mysql的表创建语句:
  * <pre>
- * CREATE TABLE template (
- *  id bigint(20) PRIMARY KEY,
+ * CREATE TABLE freemarker_template (
+ *  id bigint PRIMARY KEY,
  *  template_name varchar(255) ,
  *  template_content text ,
- *  last_modified timestamp 
+ *  update_time timestamp 
  *)
  * </pre>
  * @author badqiu
@@ -87,6 +87,15 @@ public class DataSourceTemplateLoader implements TemplateLoader,InitializingBean
 	
 	public JdbcTemplate getJdbcTemplate() {
 		return jdbcTemplate;
+	}
+	
+	public static DataSourceTemplateLoader buildDefault() {
+		DataSourceTemplateLoader r = new DataSourceTemplateLoader();
+		r.setTableName("freemarker_template");
+		r.setTemplateNameColumn("template_name");
+		r.setTemplateContentColumn("template_content");
+		r.setTimestampColumn("update_time");
+		return r;
 	}
 	
 	public void afterPropertiesSet() throws Exception {
@@ -129,6 +138,7 @@ public class DataSourceTemplateLoader implements TemplateLoader,InitializingBean
 						throw new FreemarkerTemplateException("load template from dataSource with templateName:"+templateName+" occer UnsupportedEncodingException",e);
 					}
 				}
+				
 				throw new FreemarkerTemplateException("not found template from dataSource with templateName:"+templateName);
 			}
 		});
