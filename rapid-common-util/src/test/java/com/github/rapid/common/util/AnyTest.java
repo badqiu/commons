@@ -18,6 +18,9 @@ public class AnyTest {
 	
 	@Test
 	public void test() throws Exception, JsonMappingException, IOException {
+		
+		System.out.println(new Timestamp(System.currentTimeMillis()));
+		
 		System.out.println(DigestUtils.md5Hex("?r???啈h#i鸧VIgR5??疹?齫? 砸蝵?p;?癚][ $呕o$謜o]#Y仍? 4菺阃$瘔??z#? E??m瓉?H釒秶ni??凗?N胣蕇啋ijFq?"));
 		System.out.println(DigestUtils.md5Hex("wang xiao yun cracked MD5"));
 		
