@@ -1,13 +1,15 @@
 package com.github.rapid.common.util;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLConnection;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
@@ -76,11 +78,29 @@ public class PingUtil {
 		
 		try {
 			URL urlObj = new URL(url);
-			URLConnection conn = urlObj.openConnection();
-			conn.setReadTimeout(defaultTimeout);
-			conn.setConnectTimeout(defaultTimeout);
-			conn.connect();
-			return true;
+			HttpURLConnection conn = (HttpURLConnection) urlObj.openConnection();
+            conn.setReadTimeout(defaultTimeout);
+            conn.setConnectTimeout(defaultTimeout);
+            conn.setRequestMethod("GET");
+            conn.setDoInput(true);
+            conn.connect();
+
+            // 检查响应代码
+            int responseCode = conn.getResponseCode();
+            if (responseCode >= 200 && responseCode < 300) {
+                // 请求成功，处理响应
+                try (InputStream input = conn.getInputStream()) {
+                    String response = IOUtils.toString(input, "UTF-8");
+                    return true;
+                }
+            } else {
+                // 请求失败，处理错误响应
+                try (InputStream errorStream = conn.getErrorStream()) {
+                    String errorResponse = IOUtils.toString(errorStream, "UTF-8");
+                    throw new RuntimeException("error response:"+errorResponse);
+                }
+            }
+            
 		}catch(Exception e) {
 			throw new RuntimeException("connect error on url:"+url,e);
 		}
