@@ -76,6 +76,7 @@ public class PingUtil {
 	public static boolean urlPing(String url) {
 		Assert.hasText(url,"url must be not blank");
 		
+		InputStream input = null;
 		try {
 			URL urlObj = new URL(url);
 			HttpURLConnection conn = (HttpURLConnection) urlObj.openConnection();
@@ -87,20 +88,15 @@ public class PingUtil {
 
             // 检查响应代码
             int responseCode = conn.getResponseCode();
-            if (responseCode >= 200 && responseCode < 300) {
-                // 请求成功，处理响应
-                try (InputStream input = conn.getInputStream()) {
-                    String response = IOUtils.toString(input, "UTF-8");
-                    return true;
-                }
-            } else {
-                // 请求失败，处理错误响应
-                try (InputStream errorStream = conn.getErrorStream()) {
-                    String errorResponse = IOUtils.toString(errorStream, "UTF-8");
-                    throw new RuntimeException("error response:"+errorResponse);
-                }
-            }
+            input = conn.getInputStream();
+            String response = IOUtils.toString(input, "UTF-8");
             
+            boolean isSuccess = responseCode >= 200 && responseCode < 300;
+			if (isSuccess) {
+                return true;
+            } else {
+                throw new RuntimeException("error response:"+response+" url:"+url);
+            }
 		}catch(Exception e) {
 			throw new RuntimeException("connect error on url:"+url,e);
 		}
