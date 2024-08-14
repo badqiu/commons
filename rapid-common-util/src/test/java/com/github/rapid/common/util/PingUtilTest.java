@@ -53,4 +53,15 @@ public class PingUtilTest {
 		assertTrue(r);
 	}
 	
+	@Test(expected = RuntimeException.class)
+	public void urlPing_error() throws URISyntaxException, Exception, InvocationTargetException, NoSuchMethodException {
+		boolean r = PingUtil.urlPing("http://www.163.com");
+		assertTrue(r);
+	}
+	@Test
+	public void urlPing_success() throws URISyntaxException, Exception, InvocationTargetException, NoSuchMethodException {
+		boolean r = PingUtil.urlPing("https://www.163.com");
+		assertTrue(r);
+	}
+	
 }

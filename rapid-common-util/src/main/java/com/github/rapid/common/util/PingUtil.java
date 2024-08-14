@@ -95,7 +95,7 @@ public class PingUtil {
 			if (isSuccess) {
                 return true;
             } else {
-                throw new RuntimeException("error response:"+response+" url:"+url);
+                throw new RuntimeException("error on url:"+ url + " response:" + response);
             }
 		}catch(Exception e) {
 			throw new RuntimeException("connect error on url:"+url,e);
