@@ -2,7 +2,8 @@ package com.github.rapid.common.util;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -10,7 +11,6 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class AnyTest {
 
@@ -18,7 +18,12 @@ public class AnyTest {
 	
 	@Test
 	public void test() throws Exception, JsonMappingException, IOException {
-		
+        LocalDate today = LocalDate.now();  
+        LocalDateTime localtime = LocalDateTime.now();  
+        
+        // 打印当前日期  
+        System.out.println("today:"+today+" localtime:"+localtime);  
+        
 		System.out.println(new Timestamp(System.currentTimeMillis()));
 		
 		System.out.println(DigestUtils.md5Hex("?r???啈h#i鸧VIgR5??疹?齫? 砸蝵?p;?癚][ $呕o$謜o]#Y仍? 4菺阃$瘔??z#? E??m瓉?H釒秶ni??凗?N胣蕇啋ijFq?"));
