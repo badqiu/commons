@@ -73,7 +73,7 @@ public class PingUtil {
 		}
 	}
 	
-	public static boolean urlPing(String url) {
+	public static String urlPing(String url) {
 		Assert.hasText(url,"url must be not blank");
 		
 		InputStream input = null;
@@ -93,7 +93,7 @@ public class PingUtil {
             
             boolean isSuccess = responseCode >= 200 && responseCode < 300;
 			if (isSuccess) {
-                return true;
+                return response;
             } else {
                 throw new RuntimeException("error on url:"+ url + " response:" + response);
             }
