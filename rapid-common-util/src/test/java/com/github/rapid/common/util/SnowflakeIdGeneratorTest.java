@@ -1,7 +1,5 @@
 package com.github.rapid.common.util;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 public class SnowflakeIdGeneratorTest {
@@ -10,7 +8,7 @@ public class SnowflakeIdGeneratorTest {
 	public void generateId() {
 		for(int i = 0 ; i < 5000; i++) {
 			long generateId = SnowflakeIdGenerator.generateId();
-			System.out.println(generateId+"-"+String.valueOf(generateId).length());
+			System.out.println(generateId+" => size:"+String.valueOf(generateId).length()+" "+(Long.MAX_VALUE - generateId));
 		}
 		
 		SnowflakeIdGenerator id = new SnowflakeIdGenerator(1,1);
