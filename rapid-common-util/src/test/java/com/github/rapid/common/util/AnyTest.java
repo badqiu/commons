@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -22,7 +23,7 @@ public class AnyTest {
         LocalDateTime localtime = LocalDateTime.now();  
         
         // 打印当前日期  
-        System.out.println("today:"+today+" localtime:"+localtime);  
+        System.out.println("LocalDate:"+today+" LocalDateTime:"+localtime+" LocalTime:"+LocalTime.now());  
         
 		System.out.println(new Timestamp(System.currentTimeMillis()));
 		
