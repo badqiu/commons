@@ -2,6 +2,7 @@ package com.github.rapid.common.util;
 
 import java.util.Date;
 import java.util.UUID;
+import java.util.concurrent.Callable;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -74,6 +75,19 @@ public class LogTraceUtil {
 		beginTrace();
 		try {
 			cmd.run();
+		}finally {
+			endTrace();
+		}
+	}
+	
+	/**
+	 * 结束一次Trace.
+	 * 清除traceId.
+	 */
+	public static <V> V trace(Callable<V> cmd) throws Exception {
+		beginTrace();
+		try {
+			return cmd.call();
 		}finally {
 			endTrace();
 		}
