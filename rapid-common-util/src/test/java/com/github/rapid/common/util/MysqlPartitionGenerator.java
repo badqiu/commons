@@ -48,6 +48,40 @@ public class MysqlPartitionGenerator {
 		printPartition(sb);
 	}
 
+	@Test
+	public void generateByQuarters() {
+		int count = 4 * 50;
+		System.out.println("gen_count:"+count);
+		
+		Date date = DateConvertUtil.extract(new Date(),"yyyy");
+		StringBuilder sb = new StringBuilder("(");
+		for(int i = 0; i < count; i++) {
+			Date newDate = DateUtils.addMonths(date, i * 3);
+			String sql = generateDay(newDate);
+			sb.append(sql).append("\n");
+		}
+		sb.append("PARTITION p_other    VALUES LESS THAN (MAXVALUE));");
+		
+		printPartition(sb);
+	}
+	
+	@Test
+	public void generateByYears() {
+		int count = 50;
+		System.out.println("gen_count:"+count);
+		
+		Date date = DateConvertUtil.extract(new Date(),"yyyy");
+		StringBuilder sb = new StringBuilder("(");
+		for(int i = 0; i < count; i++) {
+			Date newDate = DateUtils.addYears(date, i);
+			String sql = generateDay(newDate);
+			sb.append(sql).append("\n");
+		}
+		sb.append("PARTITION p_other    VALUES LESS THAN (MAXVALUE));");
+		
+		printPartition(sb);
+	}
+	
 	private void printPartition(StringBuilder sb) {
 		String alterTable = "ALTER TABLE test_demo_partition_table; \n";
 		String createTable = "CREATE TABLE test_demo_partition_table (\n"
