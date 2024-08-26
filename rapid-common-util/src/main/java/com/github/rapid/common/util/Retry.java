@@ -4,7 +4,6 @@ import java.time.Duration;
 import java.util.concurrent.Callable;
 import java.util.function.Predicate;
 
-import org.apache.poi.ss.formula.functions.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
@@ -21,12 +20,12 @@ public class Retry<T>{
 	private int retryTimes;  // 重试次数
 	private long retryInterval;// 重试间隔(毫秒)
 	private long retryTimeout; //超时时间(毫秒)
-	
-//	private int failovers; //failover retry次数
-	private int useRetryTimes;
-	private Exception exception;
-	
 	private Predicate<Exception> retryTestFunction; //是否重试,返回false不重试
+
+	
+	private int useRetryTimes;
+	private Exception lastException;
+	
 	
 	public Retry(int retryTimes, long retryInterval,long retryTimeout,Callable<T> cmd) {
 		if(retryTimes > 0) {
@@ -44,6 +43,14 @@ public class Retry<T>{
 
 	public void setRetryTestFunction(Predicate<Exception> retryTestFunction) {
 		this.retryTestFunction = retryTestFunction;
+	}
+	
+	public int getUseRetryTimes() {
+		return useRetryTimes;
+	}
+
+	public Exception getLastException() {
+		return lastException;
 	}
 
 	public T exec() throws RetryException{
@@ -65,7 +72,7 @@ public class Retry<T>{
 					}
 				}
 				
-				exception = e;
+				lastException = e;
 				useRetryTimes++;
 				if(useRetryTimes > retryTimes) {
 					break;
@@ -74,7 +81,7 @@ public class Retry<T>{
 				if(retryTimeout > 0) {
 					long costTime = System.currentTimeMillis() - start;
 					if(costTime > retryTimeout) {
-						throw new RetryException(useRetryTimes,"retry timeout error,retryTimeout:"+retryTimeout,exception);
+						throw new RetryException(useRetryTimes,"retry timeout error,retryTimeout:"+retryTimeout,lastException);
 					}
 				}
 				
@@ -88,23 +95,23 @@ public class Retry<T>{
 			}
 		}
 		
-		throw new RetryException(useRetryTimes,"retry error",exception);
+		throw new RetryException(useRetryTimes,"retry error",lastException);
 	}
 	
 	public static <T> T retry(int retryTimes,long retryInterval,Callable<T> cmd) {
-		return (T)new Retry(retryTimes,retryInterval,cmd).exec();
+		return new Retry<T>(retryTimes,retryInterval,cmd).exec();
 	}
 	
 	public static <T> T retry(int retryTimes,Duration retryInterval,Callable<T> cmd) {
-		return (T)new Retry(retryTimes,retryInterval.toMillis(),cmd).exec();
+		return new Retry<T>(retryTimes,retryInterval.toMillis(),cmd).exec();
 	}
 	
 	public static <T> T retry(int retryTimes,long retryInterval,long retryTimeout,Callable<T> cmd) {
-		return (T)new Retry(retryTimes,retryInterval,retryTimeout,cmd).exec();
+		return new Retry<T>(retryTimes,retryInterval,retryTimeout,cmd).exec();
 	}
 	
 	public static <T> T retry(int retryTimes,Duration retryInterval,Duration retryTimeout,Callable<T> cmd) {
-		return (T)new Retry(retryTimes,retryInterval.toMillis(),retryTimeout.toMillis(),cmd).exec();
+		return new Retry<T>(retryTimes,retryInterval.toMillis(),retryTimeout.toMillis(),cmd).exec();
 	}
 	
 	
