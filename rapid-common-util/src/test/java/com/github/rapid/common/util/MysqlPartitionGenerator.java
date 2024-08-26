@@ -3,10 +3,21 @@ package com.github.rapid.common.util;
 import java.util.Date;
 
 import org.apache.commons.lang.time.DateUtils;
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 
 public class MysqlPartitionGenerator {
 
+	@Rule public TestName testName = new TestName();
+	
+	@Before
+	public void before() {
+		System.out.println("------------------ " + testName.getMethodName() + "() ----------------------\n");
+	}
+	
+	
 	public String generateDay(Date date) {
 		String yyyyMMdd = DateConvertUtil.format(date, "yyyyMMdd");
 		String longDate = DateConvertUtil.format(date, "yyyy-MM-dd");
