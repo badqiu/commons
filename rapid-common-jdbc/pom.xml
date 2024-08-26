@@ -5,7 +5,7 @@
 	<artifactId>rapid-common-jdbc</artifactId>
 	<name>rapid-common-jdbc</name>
 	<packaging>jar</packaging>
-	<version>1.0.5-RELEASE</version>	
+	<version>1.0.6-RELEASE</version>	
 
 	<description>rapid-common-jdbc</description>
 	
@@ -588,7 +588,7 @@
 		<dependency>
 			<groupId>com.github.rapid.common</groupId>
 			<artifactId>rapid-common-util</artifactId>
-			<version>1.0.5-RELEASE</version>
+			<version>1.0.6-RELEASE</version>
 			<optional>true</optional>
 		</dependency>
 		
