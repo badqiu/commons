@@ -14,10 +14,10 @@ import org.springframework.util.Assert;
  * @author badqiu
  *
  */
-public class Retry {
+public class Retry<T>{
 	private static Logger logger = LoggerFactory.getLogger(Retry.class);
 	
-	private Callable cmd;
+	private Callable<T> cmd;
 	private int retryTimes;  // 重试次数
 	private long retryInterval;// 重试间隔(毫秒)
 	private long retryTimeout; //超时时间(毫秒)
@@ -28,7 +28,7 @@ public class Retry {
 	
 	private Predicate<Exception> retryTestFunction; //是否重试,返回false不重试
 	
-	public Retry(int retryTimes, long retryInterval,long retryTimeout,Callable cmd) {
+	public Retry(int retryTimes, long retryInterval,long retryTimeout,Callable<T> cmd) {
 		if(retryTimes > 0) {
 			Assert.isTrue(retryInterval > 0,"retryInterval > 0 must be true ");
 		}
@@ -38,7 +38,7 @@ public class Retry {
 		this.retryTimeout = retryTimeout;
 	}
 
-	public Retry(int retryTimes, long retryInterval, Callable cmd) {
+	public Retry(int retryTimes, long retryInterval, Callable<T> cmd) {
 		this(retryTimes,retryInterval,0,cmd);
 	}
 
@@ -46,7 +46,7 @@ public class Retry {
 		this.retryTestFunction = retryTestFunction;
 	}
 
-	public Object exec() throws RetryException{
+	public T exec() throws RetryException{
 		long start = 0;
 		if(retryTimeout > 0) {
 			start = System.currentTimeMillis();
@@ -54,7 +54,7 @@ public class Retry {
 		
 		while(true) {
 			try {
-				Object result = cmd.call();
+				T result = cmd.call();
 				return result;
 			} catch (Exception e) {
 				logger.warn("occer error,retry execute: useRetryTimes:"+useRetryTimes+" retryTimes:"+retryTimes+" retryInterval:"+retryInterval,e);
@@ -91,20 +91,20 @@ public class Retry {
 		throw new RetryException(useRetryTimes,"retry error",exception);
 	}
 	
-	public static Object retry(int retryTimes,long retryInterval,Callable cmd) {
-		return new Retry(retryTimes,retryInterval,cmd).exec();
+	public static <T> T retry(int retryTimes,long retryInterval,Callable<T> cmd) {
+		return (T)new Retry(retryTimes,retryInterval,cmd).exec();
 	}
 	
-	public static Object retry(int retryTimes,Duration retryInterval,Callable cmd) {
-		return new Retry(retryTimes,retryInterval.toMillis(),cmd).exec();
+	public static <T> T retry(int retryTimes,Duration retryInterval,Callable<T> cmd) {
+		return (T)new Retry(retryTimes,retryInterval.toMillis(),cmd).exec();
 	}
 	
-	public static Object retry(int retryTimes,long retryInterval,long retryTimeout,Callable cmd) {
-		return new Retry(retryTimes,retryInterval,retryTimeout,cmd).exec();
+	public static <T> T retry(int retryTimes,long retryInterval,long retryTimeout,Callable<T> cmd) {
+		return (T)new Retry(retryTimes,retryInterval,retryTimeout,cmd).exec();
 	}
 	
-	public static Object retry(int retryTimes,Duration retryInterval,Duration retryTimeout,Callable cmd) {
-		return new Retry(retryTimes,retryInterval.toMillis(),retryTimeout.toMillis(),cmd).exec();
+	public static <T> T retry(int retryTimes,Duration retryInterval,Duration retryTimeout,Callable<T> cmd) {
+		return (T)new Retry(retryTimes,retryInterval.toMillis(),retryTimeout.toMillis(),cmd).exec();
 	}
 	
 	
