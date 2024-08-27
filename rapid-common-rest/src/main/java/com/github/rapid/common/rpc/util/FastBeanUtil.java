@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -17,6 +18,8 @@ import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.util.Assert;
+
+import com.github.rapid.common.util.ObjectUtil;
 
 /**
  * 与apache commons BeanUtils相比，这个类的速度更快
@@ -30,6 +33,8 @@ public class FastBeanUtil {
 	}
 	
 	public static Map<String,Object> describe(Object obj,boolean valueMustNotEmpty) {
+		if(obj == null) return Collections.EMPTY_MAP;
+		
 		if (obj instanceof Map)
 			return (Map<String,Object>) obj;
 		
@@ -42,12 +47,11 @@ public class FastBeanUtil {
 			if (readMethod != null) {
 				try {
 					Object value = readMethod.invoke(obj);
-					if(valueMustNotEmpty && value == null) {
+					
+					if(valueMustNotEmpty && ObjectUtil.isEmpty(value)) {
 						continue;
 					}
-					if(valueMustNotEmpty && value instanceof String && (StringUtils.isBlank((String)value))) {
-						continue;
-					}
+					
 					map.put(name, value);
 				} catch (Exception e) {
 					throw new RuntimeException("error on read property:"+name+" on class:"+obj.getClass());
