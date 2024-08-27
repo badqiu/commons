@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeansException;
@@ -42,6 +43,9 @@ public class FastBeanUtil {
 				try {
 					Object value = readMethod.invoke(obj);
 					if(valueMustNotEmpty && value == null) {
+						continue;
+					}
+					if(valueMustNotEmpty && value instanceof String && (StringUtils.isBlank((String)value))) {
 						continue;
 					}
 					map.put(name, value);

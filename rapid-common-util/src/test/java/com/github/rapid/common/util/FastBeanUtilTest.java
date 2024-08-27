@@ -115,7 +115,7 @@ public class FastBeanUtilTest {
 		
 		Profiler.enter("FastBeanUtil.describe",loopCount);
 		for(int i = 0; i < loopCount; i++) {
-			FastBeanUtil.describe(source);
+			FastBeanUtil.describe(source,true);
 		}
 		Profiler.release();
 		
