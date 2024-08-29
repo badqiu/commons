@@ -1,5 +1,6 @@
 package com.github.rapid.common.util;
 
+import java.time.DateTimeException;
 import java.time.Duration;
 import java.time.format.DateTimeParseException;
 
@@ -18,7 +19,7 @@ public class DurationUtil {
 			Duration duration = Duration.parse(isoFormatText);
 			return duration;
 		}catch(DateTimeParseException e) {
-			throw new IllegalArgumentException("parse error,input:"+value+ " isoFormatText:"+isoFormatText+" exception:"+e,e);
+			throw new DateTimeException("parse error,input:"+value+ " isoFormatText:"+isoFormatText+" exception:"+e,e);
 		}
 	}
 

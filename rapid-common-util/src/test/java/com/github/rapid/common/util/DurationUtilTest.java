@@ -2,6 +2,7 @@ package com.github.rapid.common.util;
 
 import static org.junit.Assert.assertEquals;
 
+import java.time.DateTimeException;
 import java.time.Duration;
 
 import org.junit.Test;
@@ -39,4 +40,10 @@ public class DurationUtilTest {
 		assertEquals("PT1M2S", duration.toString());
 	}
 
+	@Test(expected=DateTimeException.class)
+	public void parseDurationError() {
+		Duration duration = DurationUtil.parseDuration("2D1s");
+		System.out.println(duration);
+		assertEquals("PT1S", duration.toString());
+	}
 }
