@@ -12,12 +12,13 @@ public class DurationUtil {
 		
 		value = value.trim();
 		
+		String text = null;
 		try {
-			String text = toIsoFormatDurationText(value);
+			text = toIsoFormatDurationText(value);
 			Duration duration = Duration.parse(text);
 			return duration;
 		}catch(DateTimeParseException e) {
-			throw new DateTimeParseException("parse error,value:"+value+" exception:"+e, value, 0);
+			throw new IllegalArgumentException("parse error,input:"+value+ " ios format_text:"+text+" exception:"+e,e);
 		}
 	}
 
@@ -34,6 +35,8 @@ public class DurationUtil {
 				text = "PT"+value;
 			}
 		}
+		
+		
 		return text;
 	}
 
