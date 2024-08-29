@@ -12,13 +12,13 @@ public class DurationUtil {
 		
 		value = value.trim();
 		
-		String text = null;
+		String isoFormatText = null;
 		try {
-			text = toIsoFormatDurationText(value);
-			Duration duration = Duration.parse(text);
+			isoFormatText = toIsoFormatDurationText(value);
+			Duration duration = Duration.parse(isoFormatText);
 			return duration;
 		}catch(DateTimeParseException e) {
-			throw new IllegalArgumentException("parse error,input:"+value+ " ios format_text:"+text+" exception:"+e,e);
+			throw new IllegalArgumentException("parse error,input:"+value+ " isoFormatText:"+isoFormatText+" exception:"+e,e);
 		}
 	}
 
