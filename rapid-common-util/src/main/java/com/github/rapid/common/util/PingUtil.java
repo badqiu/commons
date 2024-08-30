@@ -62,11 +62,15 @@ public class PingUtil {
 	}
 	
 	public static boolean uriPing(String uri) {
+		return uriPing(uri,defaultTimeoutMills);
+	}
+	
+	public static boolean uriPing(String uri,int timeoutMills) {
 		Assert.hasText(uri,"uri must be not blank");
 		
 		try {
 			URI u = new URI(uri);
-			return socketPing(u.getHost(),u.getPort());
+			return socketPing(u.getHost(),u.getPort(),timeoutMills);
 		} catch (URISyntaxException e) {
 			throw new RuntimeException("error uri:"+uri,e);
 		}
