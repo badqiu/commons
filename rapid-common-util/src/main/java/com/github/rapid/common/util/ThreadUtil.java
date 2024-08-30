@@ -1,6 +1,7 @@
 package com.github.rapid.common.util;
 
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 import com.github.rapid.common.exception.RuntimeInterruptedException;
 
@@ -25,6 +26,10 @@ public class ThreadUtil {
 	
 	public static void sleep(Duration duration) {
 		sleep(duration.toMillis());
+	}
+	
+	public static void sleep(int time,TimeUnit timeUnit) {
+		sleep(timeUnit.toMillis(time));
 	}
 	
 }
