@@ -21,7 +21,7 @@ public class Retry<T>{
 	private long retryInterval;// 重试间隔(毫秒)
 	private long retryTimeout; //超时时间(毫秒)
 	private Predicate<Exception> retryTestFunction; //是否重试,返回false不重试
-
+	private Class<? extends Exception> retryFor;
 	
 	private int useRetryTimes;
 	private Exception lastException;
@@ -45,6 +45,10 @@ public class Retry<T>{
 		this.retryTestFunction = retryTestFunction;
 	}
 	
+	public void setRetryFor(Class<? extends Exception> retryFor) {
+		this.retryFor = retryFor;
+	}
+
 	public int getUseRetryTimes() {
 		return useRetryTimes;
 	}
@@ -68,6 +72,12 @@ public class Retry<T>{
 				
 				if(retryTestFunction != null) {
 					if(!retryTestFunction.test(e)) {
+						throw new RuntimeException(e);
+					}
+				}
+				
+				if(retryFor != null) {
+					if(!retryFor.equals(e.getClass())) {
 						throw new RuntimeException(e);
 					}
 				}
