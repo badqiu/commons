@@ -27,6 +27,10 @@ public class Retry<T>{
 	private Exception lastException;
 	
 	
+	public Retry(int retryTimes, long retryInterval,long retryTimeout) {
+		this(retryTimes,retryInterval,retryTimeout,null);
+	}
+	
 	public Retry(int retryTimes, long retryInterval,long retryTimeout,Callable<T> cmd) {
 		if(retryTimes > 0) {
 			Assert.isTrue(retryInterval > 0,"retryInterval > 0 must be true ");
@@ -58,6 +62,10 @@ public class Retry<T>{
 	}
 
 	public T exec() throws RetryException{
+		return exec(cmd);
+	}
+	
+	public T exec(Callable<T> cmd) throws RetryException{
 		long start = 0;
 		if(retryTimeout > 0) {
 			start = System.currentTimeMillis();
