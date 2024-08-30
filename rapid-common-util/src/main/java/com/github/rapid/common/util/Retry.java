@@ -107,13 +107,20 @@ public class Retry<T>{
 	}
 
 	public static <T> T retry(int retryTimes,Duration retryInterval,Callable<T> cmd) {
-		return new Retry<T>(retryTimes,retryInterval.toMillis(),cmd).exec();
+		return retry(retryTimes,retryInterval.toMillis(),cmd);
 	}
 	
 	public static <T> T retry(int retryTimes,Duration retryInterval,Duration retryTimeout,Callable<T> cmd) {
-		return new Retry<T>(retryTimes,retryInterval.toMillis(),retryTimeout.toMillis(),cmd).exec();
+		return retry(retryTimes,retryInterval.toMillis(),retryTimeout.toMillis(),cmd);
 	}
 	
+	public static <T> T retry(int retryTimes,String retryInterval,Callable<T> cmd) {
+		return retry(retryTimes,DurationUtil.parseDuration(retryInterval),cmd);
+	}
+	
+	public static <T> T retry(int retryTimes,String retryInterval,String retryTimeout,Callable<T> cmd) {
+		return retry(retryTimes,DurationUtil.parseDuration(retryInterval),DurationUtil.parseDuration(retryTimeout),cmd);
+	}
 	
 	public static class RetryException extends RuntimeException {
 		private static final long serialVersionUID = 7417563344396226320L;
