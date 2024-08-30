@@ -34,7 +34,7 @@ public class PingUtilTest {
 		assertFalse(r);
 		
 		long cost = System.currentTimeMillis() - start;
-		assertTrue(cost >= PingUtil.defaultTimeout);
+		assertTrue(cost >= PingUtil.defaultTimeoutMills);
 	}
 
 	@Test

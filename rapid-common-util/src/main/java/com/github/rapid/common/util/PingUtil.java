@@ -18,34 +18,34 @@ public class PingUtil {
 	
 	private static Logger logger = LoggerFactory.getLogger(PingUtil.class);
 
-	public static int defaultTimeout = 1000 * 10;
+	public static int defaultTimeoutMills = 1000 * 10;
 	
 	public static boolean socketPing(String server) {
 		Assert.hasText(server,"server must be not blank, example 192.168.0.1:8080");
 		String[] array = server.split(":");
 		String host = array[0];
 		int port = Integer.parseInt(array[1]);
-		return socketPing(host,port,defaultTimeout);
+		return socketPing(host,port,defaultTimeoutMills);
 	}
 	
 	public static boolean socketPing(String host, int port) {
-		return socketPing(host,port,defaultTimeout);
+		return socketPing(host,port,defaultTimeoutMills);
 	}
 	
-	public static boolean socketPing(String host, int port,int timeout) {
+	public static boolean socketPing(String host, int port,int timeoutMills) {
 		Assert.hasText(host,"host must be not blank");
 		Assert.isTrue(port >= 0,"port >= 0 must be true");
 		
 		Socket socket = null;
 		try {
 			socket = new Socket();
-			socket.setSoTimeout(timeout);
-			socket.connect(new InetSocketAddress(host,port), timeout);
+			socket.setSoTimeout(timeoutMills);
+			socket.connect(new InetSocketAddress(host,port), timeoutMills);
 //			socket = new Socket(StringUtils.trim(host), port);
 			
 			return socket.isConnected();
 		} catch (IOException e) {
-			logger.warn("socketPing error host:"+host+" port:"+port+" timeout:"+timeout+" errorMsg:"+e,e);
+			logger.warn("socketPing error host:"+host+" port:"+port+" timeoutMills:"+timeoutMills+" errorMsg:"+e,e);
 			return false;
 		} finally {
 			close(socket);
@@ -74,14 +74,18 @@ public class PingUtil {
 	}
 	
 	public static String urlPing(String url) {
+		return urlPing(url,defaultTimeoutMills);
+	}
+	
+	public static String urlPing(String url,int timeoutMills) {
 		Assert.hasText(url,"url must be not blank");
 		
 		InputStream input = null;
 		try {
 			URL urlObj = new URL(url);
 			HttpURLConnection conn = (HttpURLConnection) urlObj.openConnection();
-            conn.setReadTimeout(defaultTimeout);
-            conn.setConnectTimeout(defaultTimeout);
+            conn.setReadTimeout(timeoutMills);
+            conn.setConnectTimeout(timeoutMills);
             conn.setRequestMethod("GET");
             conn.setDoInput(true);
             conn.connect();
