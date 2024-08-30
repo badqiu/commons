@@ -4,6 +4,8 @@ package com.github.rapid.common.hadoop;
  */
 public class HdfsIOException extends RuntimeException{
 
+	private static final long serialVersionUID = 1L;
+
 	public HdfsIOException() {
 		super();
 	}
