@@ -11,7 +11,7 @@ public class XStreamUtil {
 
 	public static XStream newXStream() {
 		
-		// PureJavaReflectionProvider可以使用默认值
+		// PureJavaReflectionProvider可以使用类定义的默认值,原生默认值无法生效
 		XStream xstream = new XStream(new PureJavaReflectionProvider(),new DomDriver());
 		
 		xstream.useAttributeFor(int.class);
