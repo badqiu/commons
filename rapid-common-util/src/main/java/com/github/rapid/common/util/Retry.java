@@ -98,16 +98,16 @@ public class Retry<T>{
 		throw new RetryException(useRetryTimes,"retry error",lastException);
 	}
 	
-	public static <T> T retry(int retryTimes,long retryInterval,Callable<T> cmd) {
-		return new Retry<T>(retryTimes,retryInterval,cmd).exec();
+	public static <T> T retry(int retryTimes,long retryIntervalMills,Callable<T> cmd) {
+		return new Retry<T>(retryTimes,retryIntervalMills,cmd).exec();
 	}
 	
+	public static <T> T retry(int retryTimes,long retryIntervalMills,long retryTimeoutMills,Callable<T> cmd) {
+		return new Retry<T>(retryTimes,retryIntervalMills,retryTimeoutMills,cmd).exec();
+	}
+
 	public static <T> T retry(int retryTimes,Duration retryInterval,Callable<T> cmd) {
 		return new Retry<T>(retryTimes,retryInterval.toMillis(),cmd).exec();
-	}
-	
-	public static <T> T retry(int retryTimes,long retryInterval,long retryTimeout,Callable<T> cmd) {
-		return new Retry<T>(retryTimes,retryInterval,retryTimeout,cmd).exec();
 	}
 	
 	public static <T> T retry(int retryTimes,Duration retryInterval,Duration retryTimeout,Callable<T> cmd) {
