@@ -65,7 +65,7 @@ public class Retry<T>{
 		return exec(cmd);
 	}
 	
-	public T exec(Callable<T> cmd) throws RetryException{
+	public T exec(Callable<T> command) throws RetryException{
 		long start = 0;
 		if(retryTimeout > 0) {
 			start = System.currentTimeMillis();
@@ -73,7 +73,7 @@ public class Retry<T>{
 		
 		while(true) {
 			try {
-				T result = cmd.call();
+				T result = command.call();
 				return result;
 			} catch (Exception e) {
 				logger.warn("occer error,retry execute: useRetryTimes:"+useRetryTimes+" retryTimes:"+retryTimes+" retryInterval:"+retryInterval,e);
