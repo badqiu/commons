@@ -41,7 +41,6 @@ public class PingUtil {
 			socket = new Socket();
 			socket.setSoTimeout(timeoutMills);
 			socket.connect(new InetSocketAddress(host,port), timeoutMills);
-//			socket = new Socket(StringUtils.trim(host), port);
 			
 			return socket.isConnected();
 		} catch (IOException e) {
