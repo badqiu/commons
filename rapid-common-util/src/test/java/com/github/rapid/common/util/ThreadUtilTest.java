@@ -1,6 +1,7 @@
 package com.github.rapid.common.util;
 
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
 
@@ -18,4 +19,11 @@ public class ThreadUtilTest {
 		System.out.println(Profiler.dump());
 	}
 
+	@Test
+	public void sleepByUnit() {
+		Profiler.start("sleep");
+		ThreadUtil.sleep(2, TimeUnit.SECONDS);
+		Profiler.release();
+		System.out.println(Profiler.dump());
+	}
 }
