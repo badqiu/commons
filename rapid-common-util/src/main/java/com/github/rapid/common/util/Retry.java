@@ -21,7 +21,7 @@ public class Retry<T>{
 	private long retryInterval;// 重试间隔(毫秒)
 	private long retryTimeout; //超时时间(毫秒)
 	private Predicate<Exception> retryTestFunction; //是否重试,返回false不重试
-	private Class<? extends Exception> retryFor;
+	private Class<? extends Exception> retryFor; //批量的异常才重试
 	
 	private int useRetryTimes;
 	private Exception lastException;
