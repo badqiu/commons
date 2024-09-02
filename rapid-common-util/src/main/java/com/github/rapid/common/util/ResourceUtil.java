@@ -5,6 +5,8 @@ import java.io.InputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 public class ResourceUtil {
 	
@@ -38,4 +40,17 @@ public class ResourceUtil {
 		}
 	}
 	
+	public static Resource getResource(String location) {
+		PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+		return resolver.getResource(location);
+	}
+	
+	public static Resource[] getResources(String location) {
+		PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+		try {
+			return resolver.getResources(location);
+		} catch (IOException e) {
+			throw new RuntimeException("error location:"+location,e);
+		}
+	}
 }
