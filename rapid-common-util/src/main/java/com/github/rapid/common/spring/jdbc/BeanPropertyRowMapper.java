@@ -40,6 +40,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.JdbcUtils;
 import org.springframework.util.Assert;
 
+import com.github.rapid.common.spring.beans.propertyeditors.DefaultValueCustomBooleanEditor;
 import com.github.rapid.common.spring.beans.propertyeditors.DefaultValueCustomNumberEditor;
 
 /**
@@ -318,7 +319,10 @@ public class BeanPropertyRowMapper<T> implements RowMapper<T> {
 		bw.registerCustomEditor(BigDecimal.class, new DefaultValueCustomNumberEditor(BigDecimal.class, true));
 		bw.registerCustomEditor(BigInteger.class, new DefaultValueCustomNumberEditor(BigInteger.class, true));
 		
+		
 		//TODO boolean 为null还会报错，没有默认值为    false
+		bw.registerCustomEditor(boolean.class, new DefaultValueCustomBooleanEditor(true));
+		bw.registerCustomEditor(Boolean.class, new DefaultValueCustomBooleanEditor(true));
 		
 	}
 
