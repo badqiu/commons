@@ -7,7 +7,8 @@ package com.github.rapid.common.util.page;
 public class PageQuery implements java.io.Serializable{
     private static final long serialVersionUID = -8000900575354501298L;
     
-    public static final long DEFAULT_PAGE_SIZE = 10;
+    public static long DEFAULT_PAGE_SIZE = 10;
+    
     /** 页数  */
     private long    page;
     /** 分页大小 */
