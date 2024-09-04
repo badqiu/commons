@@ -8,7 +8,9 @@ import java.util.Map;
 import org.apache.commons.lang.text.StrSubstitutor;
 import org.junit.Test;
 
-import com.github.rapid.common.util.Profiler;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.rapid.common.util.Profiler.Step;
 
 public class ProfilerTest {
 
@@ -164,8 +166,10 @@ public class ProfilerTest {
 		}
 	}
 
+//	ObjectMapper objectMapper = new ObjectMapper();
+	
 	@Test
-	public void startRelease() throws InterruptedException {
+	public void startRelease() throws InterruptedException, JsonProcessingException {
 		Profiler.startRelease("helloworld",50, () -> {
 			ThreadUtil.sleep(2000);
 			
@@ -175,5 +179,9 @@ public class ProfilerTest {
 			});
 		});
 		Profiler.printDump();	
+		
+		Step step = Profiler.getStep();
+		System.out.println("-------------------------------");
+//		System.out.println("JSON.toString(step): "+objectMapper.writeValueAsString(step));
 	}
 }
