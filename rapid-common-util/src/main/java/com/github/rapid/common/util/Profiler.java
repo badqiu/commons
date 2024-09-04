@@ -394,7 +394,7 @@ public final class Profiler {
          * @param firstStep 第一个step，可以是<code>null</code>
          */
         private Step(String message, Step parentStep, Step firstStep,long loopCount) {
-            this.message     = message;
+            this.message     = isEmptyString(message) ? null : message;
             this.startTime   = System.currentTimeMillis();
             this.parentStep = parentStep;
             this.firstStep  = (Step) firstStep == null ? this : firstStep;
@@ -407,7 +407,11 @@ public final class Profiler {
          * 取得step的信息。
          */
         public String getMessage() {
-            return message == null || message.isEmpty() ? null : message;
+            return message;
+        }
+        
+        private static boolean isEmptyString(final CharSequence cs) {
+            return cs == null || cs.length() == 0;
         }
         
         /**
