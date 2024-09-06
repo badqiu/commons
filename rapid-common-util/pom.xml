@@ -914,6 +914,20 @@
 			<scope>test</scope>  		
 		</dependency>
 		
+		
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>easyexcel</artifactId>
+			<version>3.3.4</version>
+			<optional>true</optional>
+		</dependency>
+      	<dependency>
+		    <groupId>org.thingsboard</groupId>
+		    <artifactId>springfox-boot-starter</artifactId>
+		    <version>3.0.4</version>
+		    <optional>true</optional>
+		</dependency>
+		      
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>

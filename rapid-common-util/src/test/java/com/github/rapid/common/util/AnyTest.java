@@ -20,7 +20,7 @@ public class AnyTest {
 	
 	@Test
 	public void test() throws Exception, JsonMappingException, IOException {
-		System.out.println(StandardSystemProperty.JAVA_IO_TMPDIR.value());
+		System.out.println("83c266f8260c4540b4f4480199a63003".length());
 		
 		AtomicReference<Object> ref = new AtomicReference<Object>(null);
 		System.out.println("ref:"+ref);
