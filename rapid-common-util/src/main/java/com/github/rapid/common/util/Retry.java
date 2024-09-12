@@ -70,6 +70,8 @@ public class Retry<T>{
 	}
 	
 	public <R> R exec(Callable<R> command) throws RetryException{
+		Assert.notNull(command,"Callable command must be null");
+		
 		long start = 0;
 		if(retryTimeout > 0) {
 			start = System.currentTimeMillis();
