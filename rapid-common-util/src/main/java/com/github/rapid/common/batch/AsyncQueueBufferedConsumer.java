@@ -170,8 +170,8 @@ public class AsyncQueueBufferedConsumer<T> implements Consumer<T>,InitializingBe
 			} catch (InterruptedException e) {
 				throw new RuntimeException("queue drain InterruptedException", e);
 			} catch(Exception e) {
-				ThreadUtil.sleep(bufferTimeoutMills);
 				logger.error("task error on name:"+name+" error:"+e,e);
+				ThreadUtil.sleep(bufferTimeoutMills);
 			}
 		}
 	}
