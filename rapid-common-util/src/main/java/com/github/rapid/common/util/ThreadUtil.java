@@ -7,10 +7,14 @@ import com.github.rapid.common.exception.RuntimeInterruptedException;
 
 public class ThreadUtil {
 
-	public static void sleep(long millis) {
+	public static boolean sleep(long millis) {
 		try {
-			if(millis > 0)
+			if(millis > 0) {
 				Thread.sleep(millis);
+				return true;
+			}
+			
+			return false;
 		} catch (InterruptedException e) {
 			throw new RuntimeInterruptedException("InterruptedException",e);
 		}

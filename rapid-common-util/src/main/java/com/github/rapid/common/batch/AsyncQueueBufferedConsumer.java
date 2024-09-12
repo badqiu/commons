@@ -15,6 +15,7 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
+import com.github.rapid.common.util.ThreadUtil;
 import com.google.common.collect.Queues;
 
 /**
@@ -169,6 +170,7 @@ public class AsyncQueueBufferedConsumer<T> implements Consumer<T>,InitializingBe
 			} catch (InterruptedException e) {
 				throw new RuntimeException("queue drain InterruptedException", e);
 			} catch(Exception e) {
+				ThreadUtil.sleep(bufferTimeoutMills);
 				logger.error("task error on name:"+name+" error:"+e,e);
 			}
 		}
