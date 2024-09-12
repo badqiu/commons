@@ -44,6 +44,10 @@ public class Retry<T>{
 	public Retry(int retryTimes, long retryInterval, Callable<T> cmd) {
 		this(retryTimes,retryInterval,0,cmd);
 	}
+	
+	public Retry(int retryTimes, long retryInterval) {
+		this(retryTimes,retryInterval,0,null);
+	}
 
 	public void setRetryTestFunction(Predicate<Exception> retryTestFunction) {
 		this.retryTestFunction = retryTestFunction;
