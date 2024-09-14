@@ -12,7 +12,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.google.common.base.StandardSystemProperty;
 
 public class AnyTest {
 
@@ -20,6 +19,8 @@ public class AnyTest {
 	
 	@Test
 	public void test() throws Exception, JsonMappingException, IOException {
+		System.out.println(new Timestamp(946684800000L));
+		
 		System.out.println("83c266f8260c4540b4f4480199a63003".length());
 		
 		AtomicReference<Object> ref = new AtomicReference<Object>(null);
