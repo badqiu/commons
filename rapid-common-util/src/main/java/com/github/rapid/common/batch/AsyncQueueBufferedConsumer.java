@@ -1,5 +1,6 @@
 package com.github.rapid.common.batch;
 
+import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -33,7 +34,7 @@ import com.google.common.collect.Queues;
  * 
  * @author badqiu
  */
-public class AsyncQueueBufferedConsumer<T> implements Consumer<T>,InitializingBean,AutoCloseable,DisposableBean {
+public class AsyncQueueBufferedConsumer<T> implements Consumer<T>,InitializingBean,Closeable,DisposableBean {
 	private static Logger logger = LoggerFactory.getLogger(AsyncQueueBufferedConsumer.class);
 
 	private static final int DEFAULT_BUFFER_TIMEOUT_MILLS = 200;
