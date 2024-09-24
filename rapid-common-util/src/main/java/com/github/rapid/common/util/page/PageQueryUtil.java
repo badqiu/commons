@@ -26,7 +26,7 @@ public class PageQueryUtil {
 	 * @param queryAndProcessListFunction 生成查询结果的处理Function
 	 * 
 	 */
-	public static  void forEachPageQuery(long pageSize,Function<PageQuery,List> queryAndProcessListFunction) {
+	public static <T> void forEachPageQuery(long pageSize,Function<PageQuery,List<T>> queryAndProcessListFunction) {
 		forEachPageQuery(pageSize,queryAndProcessListFunction,null);
 	}
 	
@@ -38,10 +38,10 @@ public class PageQueryUtil {
 	 * @param queryResultProcessFunction 处理查询结果的Function
 	 * 
 	 */
-	public static  void forEachPageQuery(long pageSize,Function<PageQuery,List> queryListFunction,Consumer<List> queryResultProcessFunction) {
+	public static <T> void forEachPageQuery(long pageSize,Function<PageQuery,List<T>> queryListFunction,Consumer<List<T>> queryResultProcessFunction) {
 		long page = 1;
 		PageQuery pageQuery = new PageQuery(page,pageSize);
-		List list = null;
+		List<T> list = null;
 		do {
 			pageQuery.setPage(page);
 			list = queryListFunction.apply(pageQuery);
