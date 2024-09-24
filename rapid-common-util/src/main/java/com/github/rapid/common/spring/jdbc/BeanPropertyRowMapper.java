@@ -42,6 +42,7 @@ import org.springframework.util.Assert;
 
 import com.github.rapid.common.spring.beans.propertyeditors.DefaultValueCustomBooleanEditor;
 import com.github.rapid.common.spring.beans.propertyeditors.DefaultValueCustomNumberEditor;
+import com.github.rapid.common.util.StringUtil;
 
 /**
  * <pre>
@@ -178,21 +179,7 @@ public class BeanPropertyRowMapper<T> implements RowMapper<T> {
 	 * @return the converted name
 	 */
 	private String underscoreName(String name) {
-		StringBuilder result = new StringBuilder();
-		if (name != null && name.length() > 0) {
-			result.append(name.substring(0, 1).toLowerCase());
-			for (int i = 1; i < name.length(); i++) {
-				char c = name.charAt(i);
-				if (Character.isUpperCase(c) && !Character.isDigit(c)) {
-					result.append("_");
-					result.append(Character.toLowerCase(c));
-				}
-				else {
-					result.append(c);
-				}
-			}
-		}
-		return result.toString();
+		return StringUtil.underscore(name);
 	}
 
 	/**
