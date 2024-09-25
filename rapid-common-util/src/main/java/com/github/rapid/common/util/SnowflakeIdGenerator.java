@@ -140,9 +140,13 @@ public class SnowflakeIdGenerator {
 	
     // 提取时间戳部分  
     public static long extractTimestamp(long snowflakeId) {  
-        // 由于时间戳占用41位，左移22位（数据中心ID+机器ID+序列号=12位）后，再右移12位（序列号部分）  
-        return (snowflakeId >> 22) + twepoch;  
-    }  
+        return extractTimestampFromBaidu(snowflakeId);  
+    }
+
+	private static long extractTimestampFromBaidu(long snowflakeId) {
+		// 由于时间戳占用41位，左移22位（数据中心ID+机器ID+序列号=12位）后，再右移12位（序列号部分）  
+        return (snowflakeId >> 22) + twepoch;
+	}  
   
     // 将时间戳转换为可读的日期时间字符串  
     public static Timestamp convertToTimestamp(long snowflakeId) {  
