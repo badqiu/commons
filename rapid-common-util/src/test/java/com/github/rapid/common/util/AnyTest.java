@@ -19,7 +19,7 @@ public class AnyTest {
 	
 	@Test
 	public void test() throws Exception, JsonMappingException, IOException {
-		System.out.println(new Timestamp(1727167953 * 1000L));
+		System.out.println("bigdata-large-language-model".length());
 		
 		System.out.println("83c266f8260c4540b4f4480199a63003".length());
 		

@@ -1,5 +1,7 @@
 package com.github.rapid.common.util;
 
+import java.sql.Timestamp;
+
 import org.junit.Test;
 
 public class SnowflakeIdGeneratorTest {
@@ -8,7 +10,8 @@ public class SnowflakeIdGeneratorTest {
 	public void generateId() {
 		for(int i = 0 ; i < 5000; i++) {
 			long generateId = SnowflakeIdGenerator.generateId();
-			System.out.println(generateId+" => size:"+String.valueOf(generateId).length()+" "+(Long.MAX_VALUE - generateId));
+			Timestamp timestamp = SnowflakeIdGenerator.convertToTimestamp(generateId);
+			System.out.println(generateId+" => size:"+String.valueOf(generateId).length()+" "+(Long.MAX_VALUE - generateId) +" timestamp:"+timestamp);
 		}
 		
 		SnowflakeIdGenerator id = new SnowflakeIdGenerator(1,1);
