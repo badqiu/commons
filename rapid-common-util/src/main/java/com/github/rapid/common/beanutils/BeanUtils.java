@@ -4,6 +4,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.Map;
 
+import org.apache.commons.beanutils.BeanUtilsBean;
+import org.apache.commons.beanutils.ConvertUtilsBean;
+import org.apache.commons.beanutils.PropertyUtilsBean;
+
 /**
  * apache BeanUtils的等价类，修改如下:
  * 1. 将check exception改为uncheck exception
@@ -12,6 +16,8 @@ import java.util.Map;
  *
  */
 public class BeanUtils {
+	
+	public static BeanUtilsBean beanUtilsBean = new BeanUtilsBean();
 	
 	/**
 	 * Handle the given reflection exception. Should only be called if no
@@ -71,7 +77,7 @@ public class BeanUtils {
 	
 	public static Object cloneBean(Object bean){
 		try {
-			return org.apache.commons.beanutils.BeanUtils.cloneBean(bean);
+			return beanUtilsBean.cloneBean(bean);
 		} catch (Exception e) {
 			handleReflectionException(e);
 			return null;
@@ -91,7 +97,7 @@ public class BeanUtils {
 	
 	public static void copyProperties(Object dest, Object orig) {
 		try {
-			org.apache.commons.beanutils.BeanUtils.copyProperties(dest, orig);
+			beanUtilsBean.copyProperties(dest, orig);
 		} catch (Exception e) {
 			handleReflectionException(e);
 		}
@@ -99,7 +105,7 @@ public class BeanUtils {
 
 	public static void copyProperty(Object bean, String name, Object value) {
 		try {
-			org.apache.commons.beanutils.BeanUtils.copyProperty(bean, name, value);
+			beanUtilsBean.copyProperty(bean, name, value);
 		} catch (Exception e) {
 			handleReflectionException(e);
 		}
@@ -107,7 +113,7 @@ public class BeanUtils {
 
 	public static Map describe(Object bean) {
 		try {
-			return org.apache.commons.beanutils.BeanUtils.describe(bean);
+			return beanUtilsBean.describe(bean);
 		} catch (Exception e) {
 			handleReflectionException(e);
 			return null;
@@ -116,7 +122,7 @@ public class BeanUtils {
 
 	public static String[] getArrayProperty(Object bean, String name){
 		try {
-			return org.apache.commons.beanutils.BeanUtils.getArrayProperty(bean, name);
+			return beanUtilsBean.getArrayProperty(bean, name);
 		} catch (Exception e) {
 			handleReflectionException(e);
 			return null;
@@ -125,7 +131,7 @@ public class BeanUtils {
 
 	public static String getIndexedProperty(Object bean, String name, int index){
 		try {
-			return org.apache.commons.beanutils.BeanUtils.getIndexedProperty(bean, name, index);
+			return beanUtilsBean.getIndexedProperty(bean, name, index);
 		} catch (Exception e) {
 			handleReflectionException(e);
 			return null;
@@ -134,7 +140,7 @@ public class BeanUtils {
 
 	public static String getIndexedProperty(Object bean, String name){
 		try {
-			return org.apache.commons.beanutils.BeanUtils.getIndexedProperty(bean, name);
+			return beanUtilsBean.getIndexedProperty(bean, name);
 		} catch (Exception e) {
 			handleReflectionException(e);
 			return null;
@@ -143,7 +149,7 @@ public class BeanUtils {
 
 	public static String getMappedProperty(Object bean, String name, String key){
 		try {
-			return org.apache.commons.beanutils.BeanUtils.getMappedProperty(bean, name, key);
+			return beanUtilsBean.getMappedProperty(bean, name, key);
 		} catch (Exception e) {
 			handleReflectionException(e);
 			return null;
@@ -152,7 +158,7 @@ public class BeanUtils {
 
 	public static String getMappedProperty(Object bean, String name){
 		try {
-			return org.apache.commons.beanutils.BeanUtils.getMappedProperty(bean, name);
+			return beanUtilsBean.getMappedProperty(bean, name);
 		} catch (Exception e) {
 			handleReflectionException(e);
 			return null;
@@ -161,7 +167,7 @@ public class BeanUtils {
 
 	public static String getNestedProperty(Object bean, String name){
 		try {
-			return org.apache.commons.beanutils.BeanUtils.getNestedProperty(bean, name);
+			return beanUtilsBean.getNestedProperty(bean, name);
 		} catch (Exception e) {
 			handleReflectionException(e);
 			return null;
@@ -175,7 +181,7 @@ public class BeanUtils {
 				Object value = ((Map)bean).get(name);
 				return value == null ? null : String.valueOf(value);
 			} else {
-				return org.apache.commons.beanutils.BeanUtils.getProperty(bean, name);
+				return beanUtilsBean.getProperty(bean, name);
 			}
 		} catch (Exception e) {
 			handleReflectionException(e);
@@ -190,7 +196,7 @@ public class BeanUtils {
 				Object value = ((Map)bean).get(name);
 				return value == null ? null : String.valueOf(value);
 			} else {
-				return org.apache.commons.beanutils.BeanUtils.getSimpleProperty(bean, name);
+				return beanUtilsBean.getSimpleProperty(bean, name);
 			}
 		} catch (Exception e) {
 			handleReflectionException(e);
@@ -200,7 +206,7 @@ public class BeanUtils {
 
 	public static void populate(Object bean, Map properties) {
 		try {
-			org.apache.commons.beanutils.BeanUtils.populate(bean, properties);
+			beanUtilsBean.populate(bean, properties);
 		} catch (Exception e) {
 			handleReflectionException(e);
 		}
@@ -208,10 +214,20 @@ public class BeanUtils {
 
 	public static void setProperty(Object bean, String name, Object value) {
 		try {
-			org.apache.commons.beanutils.BeanUtils.setProperty(bean, name, value);
+			beanUtilsBean.setProperty(bean, name, value);
 		} catch (Exception e) {
 			handleReflectionException(e);
 		}
 	}
+
+	public static ConvertUtilsBean getConvertUtils() {
+		return beanUtilsBean.getConvertUtils();
+	}
+
+	public static PropertyUtilsBean getPropertyUtils() {
+		return beanUtilsBean.getPropertyUtils();
+	}
+	
+	
 
 }

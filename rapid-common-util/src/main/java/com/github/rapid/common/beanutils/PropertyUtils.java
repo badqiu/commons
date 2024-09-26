@@ -4,6 +4,8 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+import org.apache.commons.beanutils.PropertyUtilsBean;
+
 /**
  * apache PropertyUtils的等价类，修改如下:
  * 1. 将check exception改为uncheck exception
@@ -13,17 +15,19 @@ import java.util.Map;
  */
 public class PropertyUtils {
 
+	public static PropertyUtilsBean propertyUtilsBean = BeanUtils.getPropertyUtils();
+	
 	private static void handleException(Exception e) {
 		BeanUtils.handleReflectionException(e);
 	}
 	
 	public static void clearDescriptors() {
-		org.apache.commons.beanutils.PropertyUtils.clearDescriptors();
+		propertyUtilsBean.clearDescriptors();
 	}
 
 	public static void copyProperties(Object dest, Object orig){
 		try {
-			org.apache.commons.beanutils.PropertyUtils.copyProperties(dest, orig);
+			propertyUtilsBean.copyProperties(dest, orig);
 		}catch(Exception e) {
 			handleException(e);
 		}
@@ -31,7 +35,7 @@ public class PropertyUtils {
 
 	public static Map describe(Object bean) {
 		try {
-			return org.apache.commons.beanutils.PropertyUtils.describe(bean);
+			return propertyUtilsBean.describe(bean);
 		}catch(Exception e) {
 			handleException(e);
 			return null;
@@ -40,7 +44,7 @@ public class PropertyUtils {
 
 	public static Object getIndexedProperty(Object bean, String name, int index){
 		try {
-			return org.apache.commons.beanutils.PropertyUtils.getIndexedProperty(bean, name, index);
+			return propertyUtilsBean.getIndexedProperty(bean, name, index);
 		}catch(Exception e) {
 			handleException(e);
 			return null;
@@ -49,7 +53,7 @@ public class PropertyUtils {
 
 	public static Object getIndexedProperty(Object bean, String name) {
 		try {
-			return org.apache.commons.beanutils.PropertyUtils.getIndexedProperty(bean, name);
+			return propertyUtilsBean.getIndexedProperty(bean, name);
 		}catch(Exception e) {
 			handleException(e);
 			return null;
@@ -58,7 +62,7 @@ public class PropertyUtils {
 
 	public static Object getMappedProperty(Object bean, String name, String key) {
 		try {
-			return org.apache.commons.beanutils.PropertyUtils.getMappedProperty(bean, name, key);
+			return propertyUtilsBean.getMappedProperty(bean, name, key);
 		}catch(Exception e) {
 			handleException(e);
 			return null;
@@ -67,7 +71,7 @@ public class PropertyUtils {
 
 	public static Object getMappedProperty(Object bean, String name) {
 		try {
-			return org.apache.commons.beanutils.PropertyUtils.getMappedProperty(bean, name);
+			return propertyUtilsBean.getMappedProperty(bean, name);
 		}catch(Exception e) {
 			handleException(e);
 			return null;
@@ -76,7 +80,7 @@ public class PropertyUtils {
 
 	public static Object getNestedProperty(Object bean, String name) {
 		try {
-			return org.apache.commons.beanutils.PropertyUtils.getNestedProperty(bean, name);
+			return propertyUtilsBean.getNestedProperty(bean, name);
 		}catch(Exception e) {
 			handleException(e);
 			return null;
@@ -89,7 +93,7 @@ public class PropertyUtils {
 			if(bean instanceof Map) {
 				return ((Map)bean).get(name);
 			} else {
-				return org.apache.commons.beanutils.PropertyUtils.getProperty(bean, name);
+				return propertyUtilsBean.getProperty(bean, name);
 			}
 		}catch(Exception e) {
 			handleException(e);
@@ -99,7 +103,7 @@ public class PropertyUtils {
 
 	public static PropertyDescriptor getPropertyDescriptor(Object bean, String name) {
 		try {
-			return org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptor(bean, name);
+			return propertyUtilsBean.getPropertyDescriptor(bean, name);
 		}catch(Exception e) {
 			handleException(e);
 			return null;
@@ -107,16 +111,16 @@ public class PropertyUtils {
 	}
 
 	public static PropertyDescriptor[] getPropertyDescriptors(Class beanClass) {
-		return org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors(beanClass);
+		return propertyUtilsBean.getPropertyDescriptors(beanClass);
 	}
 
 	public static PropertyDescriptor[] getPropertyDescriptors(Object bean) {
-		return org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors(bean);
+		return propertyUtilsBean.getPropertyDescriptors(bean);
 	}
 
 	public static Class getPropertyEditorClass(Object bean, String name) {
 		try {
-			return org.apache.commons.beanutils.PropertyUtils.getPropertyEditorClass(bean, name);
+			return propertyUtilsBean.getPropertyEditorClass(bean, name);
 		}catch(Exception e) {
 			handleException(e);
 			return null;
@@ -125,7 +129,7 @@ public class PropertyUtils {
 
 	public static Class getPropertyType(Object bean, String name) {
 		try {
-			return org.apache.commons.beanutils.PropertyUtils.getPropertyType(bean, name);
+			return propertyUtilsBean.getPropertyType(bean, name);
 		}catch(Exception e) {
 			handleException(e);
 			return null;
@@ -133,7 +137,7 @@ public class PropertyUtils {
 	}
 
 	public static Method getReadMethod(PropertyDescriptor descriptor) {
-		return org.apache.commons.beanutils.PropertyUtils.getReadMethod(descriptor);
+		return propertyUtilsBean.getReadMethod(descriptor);
 	}
 
 	public static Object getSimpleProperty(Object bean, String name){
@@ -142,7 +146,7 @@ public class PropertyUtils {
 			if(bean instanceof Map) {
 				return ((Map)bean).get(name);
 			} else {
-				return org.apache.commons.beanutils.PropertyUtils.getSimpleProperty(bean, name);
+				return propertyUtilsBean.getSimpleProperty(bean, name);
 			}
 		}catch(Exception e) {
 			handleException(e);
@@ -151,21 +155,21 @@ public class PropertyUtils {
 	}
 
 	public static Method getWriteMethod(PropertyDescriptor descriptor) {
-		return org.apache.commons.beanutils.PropertyUtils.getWriteMethod(descriptor);
+		return propertyUtilsBean.getWriteMethod(descriptor);
 	}
 
 
 	public static boolean isReadable(Object bean, String name) {
-		return org.apache.commons.beanutils.PropertyUtils.isReadable(bean, name);
+		return propertyUtilsBean.isReadable(bean, name);
 	}
 
 	public static boolean isWriteable(Object bean, String name) {
-		return org.apache.commons.beanutils.PropertyUtils.isWriteable(bean, name);
+		return propertyUtilsBean.isWriteable(bean, name);
 	}
 
 	public static void setIndexedProperty(Object bean, String name, int index,Object value) {
 		try {
-		org.apache.commons.beanutils.PropertyUtils.setIndexedProperty(bean, name, index, value);
+			propertyUtilsBean.setIndexedProperty(bean, name, index, value);
 		}catch(Exception e) {
 			handleException(e);
 		}
@@ -173,7 +177,7 @@ public class PropertyUtils {
 
 	public static void setIndexedProperty(Object bean, String name, Object value){
 		try {
-		org.apache.commons.beanutils.PropertyUtils.setIndexedProperty(bean, name, value);
+			propertyUtilsBean.setIndexedProperty(bean, name, value);
 		}catch(Exception e) {
 			handleException(e);
 		}
@@ -181,7 +185,7 @@ public class PropertyUtils {
 
 	public static void setMappedProperty(Object bean, String name, Object value){
 		try {
-		org.apache.commons.beanutils.PropertyUtils.setMappedProperty(bean, name, value);
+			propertyUtilsBean.setMappedProperty(bean, name, value);
 		}catch(Exception e) {
 			handleException(e);
 		}
@@ -189,7 +193,7 @@ public class PropertyUtils {
 
 	public static void setMappedProperty(Object bean, String name, String key,Object value) {
 		try{
-		org.apache.commons.beanutils.PropertyUtils.setMappedProperty(bean, name, key, value);
+			propertyUtilsBean.setMappedProperty(bean, name, key, value);
 		}catch(Exception e) {
 			handleException(e);
 		}
@@ -197,7 +201,7 @@ public class PropertyUtils {
 
 	public static void setNestedProperty(Object bean, String name, Object value){
 		try {
-		org.apache.commons.beanutils.PropertyUtils.setNestedProperty(bean, name, value);
+			propertyUtilsBean.setNestedProperty(bean, name, value);
 		}catch(Exception e) {
 			handleException(e);
 		}
@@ -205,7 +209,7 @@ public class PropertyUtils {
 
 	public static void setProperty(Object bean, String name, Object value){
 		try {
-		org.apache.commons.beanutils.PropertyUtils.setProperty(bean, name, value);
+			propertyUtilsBean.setProperty(bean, name, value);
 		}catch(Exception e) {
 			handleException(e);
 		}
@@ -213,7 +217,7 @@ public class PropertyUtils {
 
 	public static void setSimpleProperty(Object bean, String name, Object value){
 		try {
-		org.apache.commons.beanutils.PropertyUtils.setSimpleProperty(bean, name, value);
+			propertyUtilsBean.setSimpleProperty(bean, name, value);
 		}catch(Exception e) {
 			handleException(e);
 		}
