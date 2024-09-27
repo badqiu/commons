@@ -15,6 +15,7 @@ public class NumberUtilTest {
 		assertEquals(100L,NumberUtil.toNumber(100L));
 		assertEquals(1.11,NumberUtil.toNumber(1.11));
 		
+		assertEquals(null,NumberUtil.toNumber("abc"));
 		assertEquals(1.0,NumberUtil.toNumber("abc1"));
 		assertEquals(-1.1,NumberUtil.toNumber("-1.10"));
 		assertEquals(1.0,NumberUtil.toNumber("1abc1"));

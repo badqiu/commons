@@ -27,10 +27,13 @@ public class NumberUtil {
 		}
 		
 		if(extractNumberFromString) {
-			return Double.parseDouble(extractNumber(str));
-		}else {
-			return Double.parseDouble(str);
+			str = extractNumber(str);
 		}
+		
+		if(StringUtils.isBlank(str)) {
+			return null;
+		}
+		return Double.parseDouble(str);
 	}
 	
     /**
