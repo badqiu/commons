@@ -92,4 +92,42 @@ public class DateConvertUtil {
 		return java.sql.Time.valueOf(time);
 	}
 
+	public static String smartGuessDateTimeFormat(String value) {
+		if(StringUtils.isBlank(value)) {
+			return null;
+		}
+		
+		String dateFormat = smartGuessDateFormat(value);
+		String timeFormat = smartGuessTimeFormat(value);
+		
+		if(StringUtils.isNotBlank(dateFormat) && StringUtils.isNotBlank(timeFormat)) {
+			return dateFormat + " " + timeFormat;
+		}
+		return dateFormat + timeFormat;
+	}
+
+	public static String smartGuessTimeFormat(String value) {
+		if(StringUtils.isBlank(value)) {
+			return null;
+		}
+		String timeFormat = "";
+		if(value.contains(":")) {
+			timeFormat = "HH:mm:ss";
+		}
+		return timeFormat;
+	}
+
+	public static String smartGuessDateFormat(String value) {
+		if(StringUtils.isBlank(value)) {
+			return null;
+		}
+		String dateFormat = "";
+		if(value.contains("-")) {
+			dateFormat = "yyyy-MM-dd";
+		}else if(value.contains("/")) {
+			dateFormat = "yyyy/MM/dd";
+		}
+		return dateFormat;
+	}
+	
 }
