@@ -34,19 +34,26 @@ public class ArrayUtil {
 		return m;
 	}
 	
-	
+	/**
+	 * 根据传递的clazz的fields顺序,自动填充array数据进Bean
+	 * 
+	 * 注意: 不使用PropertyDescriptor,因为这个无序.
+	 */
 	public static <T> T toBean(Object[] array,Class<T> clazz) {
 		if(array == null) return null;
 		
 		try {
-			T result = clazz.newInstance();
-			return toBean(array,result);
+			return toBean(array,clazz.newInstance());
 		}catch(Exception e) {
 			throw new RuntimeException("toBean error,class:"+clazz+" array:"+ArrayUtils.toString(array),e);
 		}
 	}
 
-
+	/**
+	 * 根据传递的clazz的fields顺序,自动填充array数据进Bean
+	 * 
+	 * 注意: 不使用PropertyDescriptor,因为这个无序.
+	 */
 	public static <T> T toBean(Object[] array, T result) throws IllegalAccessException, InvocationTargetException {
 		if(array == null || result == null) {
 			return result;
