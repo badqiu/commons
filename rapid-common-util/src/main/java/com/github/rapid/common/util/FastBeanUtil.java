@@ -187,7 +187,7 @@ public class FastBeanUtil {
 		}
 	}
 
-	private static void setProperty(Object target, PropertyDescriptor targetPd,
+	public static void setProperty(Object target, PropertyDescriptor targetPd,
 			Object value) throws IllegalAccessException,
 			InvocationTargetException {
 		Method writeMethod = targetPd.getWriteMethod();
