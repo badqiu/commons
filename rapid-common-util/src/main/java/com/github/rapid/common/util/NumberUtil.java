@@ -46,7 +46,7 @@ public class NumberUtil {
             return null;
         }
 
-        StringBuilder number = new StringBuilder();
+        StringBuilder number = new StringBuilder(str.length());
         boolean foundNumber = false;
         boolean hasDot = false;
 
