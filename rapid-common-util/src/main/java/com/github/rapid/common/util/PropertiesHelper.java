@@ -14,6 +14,9 @@ import java.util.InvalidPropertiesFormatException;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Map.Entry;
 
 /**
@@ -485,7 +488,7 @@ public class PropertiesHelper {
 	}
 
 	private static boolean isBlankString(String value) {
-		return value == null || "".equals(value.trim());
+		return StringUtils.isBlank(value);
 	}
 	
 	private static int[] toIntArray(String[] array) {
