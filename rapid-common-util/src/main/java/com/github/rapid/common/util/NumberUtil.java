@@ -27,7 +27,7 @@ public class NumberUtil {
 		}
 		
 		if(extractNumberFromString) {
-			return Double.parseDouble(extractNumberFromString(str));
+			return Double.parseDouble(extractNumber(str));
 		}else {
 			return Double.parseDouble(str);
 		}
@@ -38,7 +38,7 @@ public class NumberUtil {
      * @param str 输入的字符串
      * @return 第一个出现的数字作为字符串，如果没有数字则返回null
      */
-    private static String extractNumberFromString(String str) {
+    public static String extractNumber(String str) {
         if (StringUtils.isBlank(str)) {
             return null;
         }
