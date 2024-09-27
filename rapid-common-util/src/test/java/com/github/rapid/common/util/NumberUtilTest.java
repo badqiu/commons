@@ -14,6 +14,13 @@ public class NumberUtilTest {
 		assertEquals(1.1,NumberUtil.toNumber("1.10"));
 		assertEquals(100L,NumberUtil.toNumber(100L));
 		assertEquals(1.11,NumberUtil.toNumber(1.11));
+		
+		assertEquals(1.0,NumberUtil.toNumber("abc1"));
+		assertEquals(-1.1,NumberUtil.toNumber("-1.10"));
+		assertEquals(1.0,NumberUtil.toNumber("1abc1"));
+		assertEquals(-1.1,NumberUtil.toNumber("yyy-1.10ddd"));
+		assertEquals(-1.01,NumberUtil.toNumber("-1.01abc2.1"));
+		assertEquals(-1.1056,NumberUtil.toNumber("yyy-1.1056ddd"));
 	}
 	
 	@Test
@@ -43,6 +50,6 @@ public class NumberUtilTest {
 	
 	public static void assertEquals(Object o1,Object o2) {
 		if(o1 == o2) return;
-		Assert.isTrue(o1.equals(o2));
+		Assert.isTrue(o1.equals(o2),"error must equals,v1="+o1+" v2="+o2);
 	}
 }

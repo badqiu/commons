@@ -5,22 +5,80 @@ import org.apache.commons.lang3.StringUtils;
 public class NumberUtil {
 
 	public static Number toNumber(Object v) {
+		return toNumber(v,true);
+	}
+	
+	public static Number toNumber(Object v,boolean extractNumberFromString) {
 		if(v == null) {
 			return null;
 		}else if(v instanceof Number) {
 			return (Number)v;
 		}else if(v instanceof String) {
 			String str = (String)v;
-			if(StringUtils.isBlank(str)) {
-				return null;
-			}
-			return Double.parseDouble(str);
+			return toNumberFromString(extractNumberFromString, str);
 		}else {
-			String str = v.toString();
+			return toNumberFromString(extractNumberFromString, v.toString());
+		}
+	}
+
+	private static Number toNumberFromString(boolean extractNumberFromString, String str) {
+		if(StringUtils.isBlank(str)) {
+			return null;
+		}
+		
+		if(extractNumberFromString) {
+			return Double.parseDouble(extractNumberFromString(str));
+		}else {
 			return Double.parseDouble(str);
 		}
 	}
 	
+    /**
+     * 提取字符串中的第一个出现的数字（支持负号和小数点）并返回作为字符串
+     * @param str 输入的字符串
+     * @return 第一个出现的数字作为字符串，如果没有数字则返回null
+     */
+    private static String extractNumberFromString(String str) {
+        if (StringUtils.isBlank(str)) {
+            return null;
+        }
+
+        StringBuilder number = new StringBuilder();
+        boolean foundNumber = false;
+        boolean hasDot = false;
+
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+
+            // 处理负号
+            if (c == '-' && !foundNumber) {
+                number.append(c);
+                continue;
+            }
+
+            // 处理数字
+            if (Character.isDigit(c)) {
+                number.append(c);
+                foundNumber = true;
+            } else if (c == '.' && !hasDot) {
+                // 处理小数点
+                number.append(c);
+                hasDot = true;
+                foundNumber = true;
+            } else if (foundNumber) {
+                // 一旦找到过数字并且遇到了非数字和非小数点字符，结束记录
+                break;
+            }
+        }
+
+        // 如果只有负号部分（例如："-"），或者没有数字
+        if (number.length() == 0 || (number.length() == 1 && number.charAt(0) == '-')) {
+            return null;
+        }
+
+        return number.toString();
+    }
+
 	public static Long toLong(Object v) {
 		Number num = toNumber(v);
 		return v == null ? null : num.longValue();
