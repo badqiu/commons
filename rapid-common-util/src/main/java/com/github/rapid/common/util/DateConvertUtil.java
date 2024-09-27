@@ -38,6 +38,10 @@ public class DateConvertUtil {
 		}
 	}
 	
+	public static Date smartParse(String value) {
+		return smartParserForDate(value);
+	}
+	
 	public static String format(java.util.Date date,String dateFormat) {
 		 if(date == null)
 			 return null;
@@ -92,6 +96,22 @@ public class DateConvertUtil {
 		return java.sql.Time.valueOf(time);
 	}
 
+
+	private static Date smartParserForDate(String value) {
+		if(StringUtils.isBlank(value)) {
+			return null;
+		}
+		
+		String finalFormat = DateConvertUtil.smartGuessDateTimeFormat(value);
+		
+		if(StringUtils.isBlank(finalFormat)) {
+			return new Date(Long.parseLong(value));
+		}else {
+			Date date = DateConvertUtil.parse(value, finalFormat);
+			return date;
+		}
+	}
+	
 	public static String smartGuessDateTimeFormat(String value) {
 		if(StringUtils.isBlank(value)) {
 			return null;
@@ -106,7 +126,7 @@ public class DateConvertUtil {
 		return dateFormat + timeFormat;
 	}
 
-	public static String smartGuessTimeFormat(String value) {
+	private static String smartGuessTimeFormat(String value) {
 		if(StringUtils.isBlank(value)) {
 			return null;
 		}
@@ -117,7 +137,7 @@ public class DateConvertUtil {
 		return timeFormat;
 	}
 
-	public static String smartGuessDateFormat(String value) {
+	private static String smartGuessDateFormat(String value) {
 		if(StringUtils.isBlank(value)) {
 			return null;
 		}

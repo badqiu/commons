@@ -8,6 +8,7 @@ import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 
 import org.junit.Test;
+import org.springframework.util.Assert;
 
 import junit.framework.TestCase;
 /**
@@ -26,6 +27,16 @@ public class DateConvertUtilTest extends TestCase {
 	@Test
 	public void test_parse() {
 		java.util.Date d = DateConvertUtil.parse("1999-01-02 12:13:14","yyyy-MM-dd HH:mm:ss",java.util.Date.class);
+		System.out.println(d);
+	}
+	
+	@Test
+	public void test_smart_parse() {
+		java.util.Date d = DateConvertUtil.smartParse("1999-01-02 12:13:14");
+		Assert.notNull(d);
+		
+		d = DateConvertUtil.smartParse(" ");
+		Assert.isNull(d);
 		System.out.println(d);
 	}
 	
