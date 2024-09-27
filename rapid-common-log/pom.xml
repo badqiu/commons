@@ -91,7 +91,7 @@
 		<dependency>
 			<groupId>com.github.rapid.common</groupId>
 			<artifactId>rapid-common-util</artifactId>
-			<version>1.0.7-RELEASE</version>
+			<version>1.0.8-RELEASE</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.slf4j</groupId>

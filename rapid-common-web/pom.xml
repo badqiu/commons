@@ -5,7 +5,7 @@
 	<artifactId>rapid-common-web</artifactId>
 	<name>rapid-common-web</name>
 	<packaging>jar</packaging>
-	<version>1.0.7-RELEASE</version>	
+	<version>1.0.8-RELEASE</version>	
 
 	<description>rapid-common-web core libs</description>
 	
@@ -593,7 +593,7 @@
 		<dependency>
 			<groupId>com.github.rapid.common</groupId>
 			<artifactId>rapid-common-util</artifactId>
-			<version>1.0.7-RELEASE</version>
+			<version>1.0.8-RELEASE</version>
 		</dependency>
 		
 		<dependency>
