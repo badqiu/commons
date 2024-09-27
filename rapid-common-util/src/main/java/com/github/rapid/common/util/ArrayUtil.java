@@ -1,5 +1,6 @@
 package com.github.rapid.common.util;
 
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -8,6 +9,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.beans.BeanUtils;
 
 
 public class ArrayUtil {
@@ -33,19 +35,19 @@ public class ArrayUtil {
 	}
 	
 	
-	public static <T> T toBeanByFields(Object[] array,Class<T> clazz) {
+	public static <T> T toBean(Object[] array,Class<T> clazz) {
 		if(array == null) return null;
 		
 		try {
 			T result = clazz.newInstance();
-			return toBeanByFields(array,result);
+			return toBean(array,result);
 		}catch(Exception e) {
 			throw new RuntimeException("toBean error,class:"+clazz+" array:"+ArrayUtils.toString(array),e);
 		}
 	}
 
 
-	public static <T> T toBeanByFields(Object[] array, T result) throws IllegalAccessException, InvocationTargetException {
+	public static <T> T toBean(Object[] array, T result) throws IllegalAccessException, InvocationTargetException {
 		if(array == null || result == null) {
 			return result;
 		}
@@ -61,11 +63,14 @@ public class ArrayUtil {
 			Field field = fields[i];
 			String name = field.getName();
 			Object value = array[i];
-			Class type = field.getType();
-			Object targetValue = FastConvertUtil.convert(type,value);
+			
+			PropertyDescriptor pd = BeanUtils.getPropertyDescriptor(clazz, name);
 			try {
-				field.setAccessible(true);
-				field.set(result, targetValue);
+//				Class type = field.getType();
+//				Object targetValue = FastConvertUtil.convert(type,value);
+//				field.setAccessible(true);
+//				field.set(result, targetValue);
+				FastBeanUtil.setProperty(result, pd, value);
 			}catch(Exception e) {
 				throw new RuntimeException("setValue error on field:"+name+" clazz:"+clazz+" value:"+value,e);
 			}

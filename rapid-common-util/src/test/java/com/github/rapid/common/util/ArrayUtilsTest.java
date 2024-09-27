@@ -6,10 +6,10 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.util.Map;
 
-import org.eclipse.jetty.util.ajax.JSON;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.springframework.beans.BeanUtils;
 
-import com.github.rapid.common.test.Bean1;
+import com.github.rapid.common.testbean.TestBeanForArrayUtil;
 
 import junit.framework.TestCase;
 
@@ -51,20 +51,27 @@ public class ArrayUtilsTest extends TestCase {
 	}
 	
 	public void testToMapBeanClass(){
-		Bean1 map = ArrayUtil.toBeanByFields(array, Bean1.class);
-		assertNotNull(map);
-		System.out.println(JSON.toString(map));
+		try {
+			TestBeanForArrayUtil map = ArrayUtil.toBean(array, TestBeanForArrayUtil.class);
+			assertNotNull(map);
+			String reflectionToString = ToStringBuilder.reflectionToString(map);
+			System.out.println(reflectionToString);
+			assertTrue(reflectionToString.contains("[name=1,age=2,money=3.0,salary=<null>,sex=<null>]"));
+		}catch(Exception e) {
+			e.printStackTrace();
+			fail(e.toString());
+		}
 	}
 	
 	public void testPropertyDescriptor() throws IntrospectionException{
-		PropertyDescriptor[] targetPds = BeanUtils.getPropertyDescriptors(Bean1.class);
+		PropertyDescriptor[] targetPds = BeanUtils.getPropertyDescriptors(TestBeanForArrayUtil.class);
 		printArrays(targetPds);
 		
 		System.out.println("getBeanInfo getPropertyDescriptors:---------------------------");
-		printArrays(Introspector.getBeanInfo(Bean1.class).getPropertyDescriptors());
+		printArrays(Introspector.getBeanInfo(TestBeanForArrayUtil.class).getPropertyDescriptors());
 		
 		System.out.println("fields:---------------------------");
-		Field[] fields = Bean1.class.getDeclaredFields();
+		Field[] fields = TestBeanForArrayUtil.class.getDeclaredFields();
 		for(Field pd : fields) {
 			System.out.println(pd);
 		}
