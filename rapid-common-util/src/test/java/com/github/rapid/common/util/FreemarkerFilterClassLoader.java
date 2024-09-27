@@ -19,7 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.AntPathMatcher;
 
-import com.github.rapid.common.io.freemarker.FreemarkerInputStream;
+import com.github.rapid.common.freemarker.io.FreemarkerInputStream;
 
 /**
  * 扩展ClassLoader,getResource()将返回通过Freemarker处理过的resource

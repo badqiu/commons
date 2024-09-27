@@ -1,4 +1,4 @@
-package com.github.rapid.common.io.freemarker;
+package com.github.rapid.common.freemarker.io;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

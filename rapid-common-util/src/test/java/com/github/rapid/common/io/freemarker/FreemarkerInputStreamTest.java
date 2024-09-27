@@ -9,7 +9,7 @@ import org.apache.cxf.helpers.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.github.rapid.common.io.freemarker.FreemarkerInputStream;
+import com.github.rapid.common.freemarker.io.FreemarkerInputStream;
 
 
 public class FreemarkerInputStreamTest extends Assert {

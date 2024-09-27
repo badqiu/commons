@@ -9,7 +9,7 @@ import org.apache.cxf.helpers.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.github.rapid.common.io.freemarker.FreemarkerReader;
+import com.github.rapid.common.freemarker.io.FreemarkerReader;
 
 
 public class FreemarkerReaderTest extends Assert{
