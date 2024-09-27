@@ -59,15 +59,8 @@ public class FastConvertUtil {
 
 	private static long smartParserForTimestamp(String value) {
 		if(StringUtils.isBlank(value)) return 0;
-		
-		String finalFormat = DateConvertUtil.smartGuessDateTimeFormat(value);
-		
-		if(StringUtils.isBlank(finalFormat)) {
-			return Long.parseLong(value);
-		}else {
-			Date date = DateConvertUtil.parse(value, finalFormat);
-			return date.getTime();
-		}
+		Date date = DateConvertUtil.smartParse(value);
+		return date == null ? 0 : date.getTime();
 	}
 
 
