@@ -15,13 +15,13 @@ public class NumberUtil {
 			return (Number)v;
 		}else if(v instanceof String) {
 			String str = (String)v;
-			return toNumberFromString(extractNumberFromString, str);
+			return toNumberFromString(str, extractNumberFromString);
 		}else {
-			return toNumberFromString(extractNumberFromString, v.toString());
+			return toNumberFromString(v.toString(), extractNumberFromString);
 		}
 	}
 
-	private static Number toNumberFromString(boolean extractNumberFromString, String str) {
+	private static Number toNumberFromString(String str, boolean extractNumberFromString) {
 		if(StringUtils.isBlank(str)) {
 			return null;
 		}

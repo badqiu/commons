@@ -15,14 +15,14 @@ public class NumberUtilTest {
 		assertEquals(100L,NumberUtil.toNumber(100L));
 		assertEquals(1.11,NumberUtil.toNumber(1.11));
 		
-		assertEquals(null,NumberUtil.toNumber("abc"));
-		assertEquals(1.0,NumberUtil.toNumber("abc1"));
-		assertEquals(-1.1,NumberUtil.toNumber("-1.10"));
-		assertEquals(1.0,NumberUtil.toNumber("1abc1"));
-		assertEquals(-1.1,NumberUtil.toNumber("yyy-1.10ddd"));
-		assertEquals(-1.01,NumberUtil.toNumber("-1.01abc2.1"));
-		assertEquals(-1.1056,NumberUtil.toNumber("yyy-1.1056ddd"));
-		assertEquals(-12.0,NumberUtil.toNumber("yyy--12..10..56ddd"));
+		assertEquals(null,NumberUtil.toNumber("abc",true));
+		assertEquals(1.0,NumberUtil.toNumber("abc1",true));
+		assertEquals(-1.1,NumberUtil.toNumber("-1.10",true));
+		assertEquals(1.0,NumberUtil.toNumber("1abc1",true));
+		assertEquals(-1.1,NumberUtil.toNumber("yyy-1.10ddd",true));
+		assertEquals(-1.01,NumberUtil.toNumber("-1.01abc2.1",true));
+		assertEquals(-1.1056,NumberUtil.toNumber("yyy-1.1056ddd",true));
+		assertEquals(-12.0,NumberUtil.toNumber("yyy--12..10..56ddd",true));
 	}
 	
 	@Test
