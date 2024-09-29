@@ -8,8 +8,8 @@ public class NumberUtil {
 		return toNumber(v,false);
 	}
 	
-	public static Number toNumber(Object v,Number defaultValue) {
-		Number r = toNumber(v,false);
+	public static Number toNumber(Object v,Number defaultValue,boolean extractNumberFromString) {
+		Number r = toNumber(v,extractNumberFromString);
 		if(r == null) {
 			return defaultValue;
 		}
