@@ -49,13 +49,15 @@ public class NumberUtil {
         StringBuilder number = new StringBuilder(str.length());
         boolean foundNumber = false;
         boolean hasDot = false;
+        boolean hasNegativeSign = false;
 
         for (int i = 0; i < str.length(); i++) {
             char c = str.charAt(i);
 
             // 处理负号
-            if (c == '-' && !foundNumber) {
+            if (c == '-' && !foundNumber && !hasNegativeSign) {
                 number.append(c);
+                hasNegativeSign = true;
                 continue;
             }
 

@@ -22,6 +22,7 @@ public class NumberUtilTest {
 		assertEquals(-1.1,NumberUtil.toNumber("yyy-1.10ddd"));
 		assertEquals(-1.01,NumberUtil.toNumber("-1.01abc2.1"));
 		assertEquals(-1.1056,NumberUtil.toNumber("yyy-1.1056ddd"));
+		assertEquals(-12.0,NumberUtil.toNumber("yyy--12..10..56ddd"));
 	}
 	
 	@Test
