@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 public class NumberUtil {
 
 	public static Number toNumber(Object v) {
-		return toNumber(v,true);
+		return toNumber(v,false);
 	}
 	
 	public static Number toNumber(Object v,boolean extractNumberFromString) {
