@@ -25,6 +25,29 @@ public class PageQueryUtilTest {
 	}
 	
 	@Test
+	public void testForEachPage() {
+		PageQueryUtil.forEachPage(1000, (page) -> {
+			return Arrays.asList(1,2,3);
+		}, (queryResultList) -> {
+			System.out.println("queryResultList:"+queryResultList);
+			loopCount++;
+		});
+		assertEquals(1,loopCount);
+		
+		
+		
+		loopCount = 0;
+		PageQueryUtil.forEachPage(3, (pageQuery) -> {
+			loopCount++;
+			if(loopCount > 10) return null;
+			return Arrays.asList(1,2,3);
+		}, (queryResultList) -> {
+			System.out.println("queryResultList:"+queryResultList);
+		});
+		assertEquals(11,loopCount);
+	}
+	
+	@Test
 	public void test_one_function() {
 		PageQueryUtil.forEachPageQuery(1000, (pageQuery) -> {
 			loopCount++;

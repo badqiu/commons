@@ -54,4 +54,26 @@ public class PageQueryUtil {
 		}while(CollectionUtils.isNotEmpty(list) && !(list.size() < pageSize));
 	}
 	
+	
+	/**
+	 * 遍历分页查询
+	 * 
+	 * @param pageSize	分页大小
+	 * @param queryListFunction			生成查询结果的处理Function
+	 * @param queryResultProcessFunction 处理查询结果的Function
+	 * 
+	 */
+	public static <T> void forEachPage(long pageSize,Function<Long,List<T>> queryListFunction,Consumer<List<T>> queryResultProcessFunction) {
+		long page = 1;
+		List<T> list = null;
+		do {
+			list = queryListFunction.apply(page);
+			
+			if(queryResultProcessFunction != null) {
+				queryResultProcessFunction.accept(list);
+			}
+			
+			page++;
+		}while(CollectionUtils.isNotEmpty(list) && !(list.size() < pageSize));
+	}
 }
