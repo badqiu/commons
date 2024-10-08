@@ -73,10 +73,7 @@ public class ArrayUtil {
 			
 			PropertyDescriptor pd = BeanUtils.getPropertyDescriptor(clazz, name);
 			try {
-//				Class type = field.getType();
-//				Object targetValue = FastConvertUtil.convert(type,value);
-//				field.setAccessible(true);
-//				field.set(result, targetValue);
+//				setFieldValue(result, field, value);
 				FastBeanUtil.setProperty(result, pd, value);
 			}catch(Exception e) {
 				throw new RuntimeException("setValue error on field:"+name+" clazz:"+clazz+" value:"+value,e);
@@ -84,5 +81,12 @@ public class ArrayUtil {
 		}
 		
 		return result;
+	}
+
+	private static <T> void setFieldValue(T result, Field field, Object value) throws IllegalAccessException {
+		Class type = field.getType();
+		Object targetValue = FastConvertUtil.convert(type,value);
+		field.setAccessible(true);
+		field.set(result, targetValue);
 	}
 }
