@@ -63,7 +63,7 @@ public class PageQueryUtilTest {
 	public void test_ever_loop() {
 		PageQueryUtil.forEachPageQuery(3, (pageQuery) -> {
 			loopCount++;
-			if(loopCount > 10) return null;
+			if(pageQuery.getPage() > 10) return null;
 			return Arrays.asList(1,2,3);
 		}, (queryResultList) -> {
 			System.out.println("queryResultList:"+queryResultList);
@@ -73,7 +73,7 @@ public class PageQueryUtilTest {
 		loopCount = 0;
 		PageQueryUtil.forEachPageQuery(3, (pageQuery) -> {
 			loopCount++;
-			if(loopCount > 1) return null;
+			if(pageQuery.getPage() > 1) return null;
 			return Arrays.asList(1,2,3);
 		}, (queryResultList) -> {
 			System.out.println("queryResultList:"+queryResultList);
