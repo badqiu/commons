@@ -54,6 +54,16 @@ public class PageQueryUtil {
 		}while(CollectionUtils.isNotEmpty(list) && !(list.size() < pageSize));
 	}
 	
+	/**
+	 * 遍历分页查询
+	 * 
+	 * @param pageSize	分页大小
+	 * @param queryAndProcessListFunction 生成查询结果的处理Function
+	 * 
+	 */	
+	public static <T> void forEachPage(long pageSize,Function<Long,List<T>> queryAndProcessListFunction) {
+		forEachPage(pageSize,queryAndProcessListFunction,null);
+	}
 	
 	/**
 	 * 遍历分页查询
