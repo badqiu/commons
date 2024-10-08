@@ -37,7 +37,7 @@ public class CompressTest extends Assert{
 		System.out.println("------------Inflate, compress tps--------------");
 		byte[] bytes = input.getBytes();
 		for(int level = 1; level <= 9; level++) {
-			Profiler.start("compress-"+level+" length:"+compress(level,input.length(),bytes).length,10000);
+			Profiler.start("compress-level:"+level+" length:"+compress(level,input.length(),bytes).length,10000);
 			for(int i = 1; i < 10000; i++) {
 				compress(level,input.length(),bytes);
 			}
