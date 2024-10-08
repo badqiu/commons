@@ -26,7 +26,7 @@ public class ArrayUtil {
 		
 		Map m = new LinkedHashMap();
 		for(int i = 0; i < keys.length; i++) {
-			if(array.length == i ) {
+			if(i >= array.length) {
 				break;
 			}
 			m.put(StringUtils.trim(keys[i]), array[i]);
@@ -61,7 +61,7 @@ public class ArrayUtil {
 		Field[] fields = clazz.getDeclaredFields();
 		
 		for(int i = 0; i < fields.length; i++) {
-			if(array.length == i ) {
+			if(i >= array.length) {
 				break;
 			}
 			Field field = fields[i];
