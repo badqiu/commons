@@ -37,9 +37,10 @@ public class PageQueryUtilTest {
 		
 		
 		loopCount = 0;
-		PageQueryUtil.forEachPage(3, (pageQuery) -> {
+		PageQueryUtil.forEachPage(3, (page) -> {
 			loopCount++;
-			if(loopCount > 10) return null;
+			System.out.println("page:"+page);
+			if(page > 10) return null;
 			return Arrays.asList(1,2,3);
 		}, (queryResultList) -> {
 			System.out.println("queryResultList:"+queryResultList);
