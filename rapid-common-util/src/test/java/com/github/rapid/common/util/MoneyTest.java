@@ -5,6 +5,7 @@ import java.util.Currency;
 import java.util.Locale;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -29,5 +30,11 @@ public class MoneyTest extends Assert{
 		assertTrue(new Money(0.01).lessThanEquals(new Money(0.011)));
 		assertFalse(new Money(0.01).lessThan(new Money(0.011)));
 		assertTrue(new Money(0.01).lessThan(new Money(0.02)));
+	}
+	
+	@Test public void allocate() {
+		Money m = new Money(10);
+		Money[] array = m.allocate(3);
+		assertEquals(StringUtils.join(array,","),"");
 	}
 }

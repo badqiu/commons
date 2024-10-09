@@ -1,5 +1,8 @@
 package com.github.rapid.common.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 
 public class NumberUtil {
@@ -178,4 +181,30 @@ public class NumberUtil {
 		return r == null ? defaultValue : r;
 	}
 	
+	
+	/**
+	 * 将数字分成N份整数
+	 * 假如数字是10,N=3,输出结果是3,3,4。
+	 * 假如数字是10,N=4,输出结果是:2,2,3,3
+	 * 
+	 * @param number
+	 * @param n
+	 * @return
+	 */
+    public static List<Long> divideNumber(long number, int n) {  
+        List<Long> result = new ArrayList<>();  
+        long base = number / n;  // 基本分配  
+        long remainder = number % n;  // 剩余部分  
+  
+        for (int i = 0; i < n; i++) {  
+            if (remainder > 0) {  
+                result.add(base + 1);  
+                remainder--;  
+            } else {  
+                result.add(base);  
+            }  
+        }  
+  
+        return result;  
+    } 
 }

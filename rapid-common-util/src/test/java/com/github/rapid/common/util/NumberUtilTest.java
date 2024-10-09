@@ -1,9 +1,8 @@
 package com.github.rapid.common.util;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 import org.springframework.util.Assert;
+
 
 public class NumberUtilTest {
 
@@ -53,5 +52,14 @@ public class NumberUtilTest {
 	public static void assertEquals(Object o1,Object o2) {
 		if(o1 == o2) return;
 		Assert.isTrue(o1.equals(o2),"error must equals,v1="+o1+" v2="+o2);
+	}
+	
+	
+	@Test
+	public void divideNumber() {
+		assertEquals("[4, 3, 3]",NumberUtil.divideNumber(10, 3).toString());
+		assertEquals("[3, 3, 2, 2]",NumberUtil.divideNumber(10, 4).toString());
+		assertEquals("[2, 2, 2, 2, 2]",NumberUtil.divideNumber(10, 5).toString());
+		assertEquals("[0, 0, 0, 0, 0]",NumberUtil.divideNumber(0, 5).toString());
 	}
 }
