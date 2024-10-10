@@ -33,8 +33,15 @@ public class NumberUtilTest {
 		assertEquals(1L,NumberUtil.toLong(1.11));
 		assertEquals(Long.MAX_VALUE,NumberUtil.toLong(Long.MAX_VALUE+".111110000"));
 		assertEquals(Long.MAX_VALUE,NumberUtil.toLong(Double.MAX_VALUE));
+		assertEquals(Long.MAX_VALUE,NumberUtil.toLong(""+Double.MAX_VALUE));
+		assertEquals(Long.MAX_VALUE,NumberUtil.toLong("1111"+Double.MAX_VALUE));
 	}
 
+	@Test
+	public void toDouble() {
+		assertEquals(Double.MAX_VALUE,NumberUtil.toDouble(""+Double.MAX_VALUE));
+	}
+	
 	@Test
 	public void toBoolean() {
 		assertEquals(null,NumberUtil.toBoolean(null));
