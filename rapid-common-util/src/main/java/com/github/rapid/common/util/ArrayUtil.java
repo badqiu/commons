@@ -2,13 +2,15 @@ package com.github.rapid.common.util;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.BeanUtils;
 
 
@@ -58,7 +60,9 @@ public class ArrayUtil {
 		
 		Class clazz = result.getClass();
 		
-		Field[] fields = clazz.getDeclaredFields();
+//		Field[] fields = clazz.getDeclaredFields();
+//		Field[] fields = FieldUtils.getAllFields(clazz);
+		Field[] fields = getAllFieldsFromSuperToChildOrder(clazz);
 		
 		for(int i = 0; i < fields.length; i++) {
 			if(i >= array.length) {
@@ -80,6 +84,28 @@ public class ArrayUtil {
 		return result;
 	}
 
+    public static Field[] getAllFieldsFromSuperToChildOrder(final Class<?> cls) {
+    	 List<Field> fieldList = new ArrayList<>();
+    	for(Class clazz : getAllSuperClassBy(cls)) {
+    		Field[] declaredFields = clazz.getDeclaredFields();
+    		fieldList.addAll(Arrays.asList(declaredFields));
+    	}
+        return fieldList.toArray(new Field[fieldList.size()]);
+    }
+    
+    public static List<Class> getAllSuperClassBy(Class<?> clazz) {  
+        List<Class> result = new ArrayList<>();  
+        Class<?> currentClass = clazz;  
+  
+        // 遍历类的继承树，从父类到子类收集字段  
+        while (currentClass != null && currentClass != Object.class) { // 可以选择是否包括Object类的字段  
+        	result.add(currentClass);
+            currentClass = currentClass.getSuperclass();  
+        }  
+        Collections.reverse(result);
+        return result;  
+    }  
+    
 	private static <T> void setFieldValue(T result, Field field, Object value) throws IllegalAccessException {
 		Class type = field.getType();
 		Object targetValue = FastConvertUtil.convert(type,value);

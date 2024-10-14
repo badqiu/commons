@@ -10,6 +10,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.springframework.beans.BeanUtils;
 
 import com.github.rapid.common.testbean.TestBeanForArrayUtil;
+import com.github.rapid.common.testbean.TestBeanForArrayUtil2;
 
 import junit.framework.TestCase;
 
@@ -57,6 +58,19 @@ public class ArrayUtilsTest extends TestCase {
 			String reflectionToString = ToStringBuilder.reflectionToString(map);
 			System.out.println(reflectionToString);
 			assertTrue(reflectionToString.contains("[name=1,age=2,money=3.0,salary=<null>,sex=<null>]"));
+		}catch(Exception e) {
+			e.printStackTrace();
+			fail(e.toString());
+		}
+	}
+	
+	public void testToMapBeanClass2(){
+		try {
+			TestBeanForArrayUtil2 map = ArrayUtil.toBean(array, TestBeanForArrayUtil2.class);
+			assertNotNull(map);
+			String reflectionToString = ToStringBuilder.reflectionToString(map);
+			System.out.println(reflectionToString);
+			assertTrue(reflectionToString.contains("[name=2,age=3,money=<null>,salary=<null>,sex=<null>,diy=1]"));
 		}catch(Exception e) {
 			e.printStackTrace();
 			fail(e.toString());
