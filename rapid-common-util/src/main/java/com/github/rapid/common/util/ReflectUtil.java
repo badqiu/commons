@@ -1,5 +1,8 @@
 package com.github.rapid.common.util;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +77,31 @@ public class ReflectUtil {
         }
     }
 
+    
+    public static Field[] getAllFieldsFromSuperToChildOrder(final Class<?> cls) {
+   	 List<Field> fieldList = new ArrayList<>();
+   	for(Class clazz : getAllSuperClassBy(cls)) {
+   		Field[] declaredFields = clazz.getDeclaredFields();
+   		if(declaredFields != null) {
+   			fieldList.addAll(Arrays.asList(declaredFields));
+   		}
+   	}
+       return fieldList.toArray(new Field[fieldList.size()]);
+   }
+   
+	public static List<Class> getAllSuperClassBy(Class<?> clazz) {
+		List<Class> result = new ArrayList<>();
+		Class<?> currentClass = clazz;
+
+		// 遍历类的继承树，从父类到子类收集字段
+		while (currentClass != null && currentClass != Object.class) { // 可以选择是否包括Object类的字段
+			result.add(currentClass);
+			currentClass = currentClass.getSuperclass();
+		}
+		Collections.reverse(result);
+		return result;
+	}
+   
     public static void main(String[] args) throws IllegalAccessException {
         Map<String, Object> newStaticValues = MapUtil.newMap("staticInt", "999", "staticString", "new value","staticNull",null);
         modifyAllStaticVariables(TestClass.class, newStaticValues);
