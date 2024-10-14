@@ -23,6 +23,7 @@ public class ApplicationContextHolder implements ApplicationContextAware{
 	
 	private static Log log = LogFactory.getLog(ApplicationContextHolder.class);
 	private static ApplicationContext applicationContext;
+	
 	@SuppressWarnings("all")
 	public void setApplicationContext(ApplicationContext context) throws BeansException {
 		this.applicationContext = context;
