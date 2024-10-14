@@ -28,6 +28,23 @@ public class CollectionUtil {
 	
 	public CollectionUtil(){}
 	
+    public static <T> T getLast(List<T> list) {
+        if (list == null || list.isEmpty()) {
+            return null; 
+        }
+        
+        // 返回列表的最后一个元素
+        return list.get(list.size() - 1);
+    }
+    
+    public static <T> T getFirst(List<T> list) {
+        if (list == null || list.isEmpty()) {
+            return null; 
+        }
+        
+        return list.get(0);
+    }
+    
 	public static <T> T safeGet(List<T> list,int index,T defaultValue) {
 		if(list == null) return defaultValue;
 		if(list.size() - 1 < index) {
