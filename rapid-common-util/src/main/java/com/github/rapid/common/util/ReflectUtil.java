@@ -78,16 +78,16 @@ public class ReflectUtil {
     }
 
     
-    public static Field[] getAllFieldsFromSuperToChildOrder(final Class<?> cls) {
-   	 List<Field> fieldList = new ArrayList<>();
-   	for(Class clazz : getAllSuperClassBy(cls)) {
-   		Field[] declaredFields = clazz.getDeclaredFields();
-   		if(declaredFields != null) {
-   			fieldList.addAll(Arrays.asList(declaredFields));
-   		}
-   	}
-       return fieldList.toArray(new Field[fieldList.size()]);
-   }
+	public static Field[] getAllFieldsFromSuperToChildOrder(final Class<?> cls) {
+		List<Field> fieldList = new ArrayList<>();
+		for (Class clazz : getAllSuperClassBy(cls)) {
+			Field[] declaredFields = clazz.getDeclaredFields();
+			if (declaredFields != null) {
+				fieldList.addAll(Arrays.asList(declaredFields));
+			}
+		}
+		return fieldList.toArray(new Field[fieldList.size()]);
+	}
    
 	public static List<Class> getAllSuperClassBy(Class<?> clazz) {
 		List<Class> result = new ArrayList<>();
