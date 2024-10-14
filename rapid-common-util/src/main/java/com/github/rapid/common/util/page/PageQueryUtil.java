@@ -84,14 +84,10 @@ public class PageQueryUtil {
 			}
 			
 			page++;
-		}while(isNotEndPageList(pageSize, list));
+		}while(isNotLastPageList(pageSize, list));
 	}
 
-//	private static <T> boolean isNotEndPage(long pageSize, List<T> list) {
-//		return CollectionUtils.isNotEmpty(list) && !(list.size() < pageSize);
-//	}
-	
-    public static <T> boolean isEndPageList(long pageSize, List<T> list) {
+    public static <T> boolean isLastPageList(long pageSize, List<T> list) {
         if (CollectionUtils.isEmpty(list)) {
             return true;
         }
@@ -101,8 +97,8 @@ public class PageQueryUtil {
         return false;
     }
     
-    public static <T> boolean isNotEndPageList(long pageSize, List<T> list) {
-        return !isEndPageList(pageSize,list);
+    public static <T> boolean isNotLastPageList(long pageSize, List<T> list) {
+        return !isLastPageList(pageSize,list);
     }
     
 }
