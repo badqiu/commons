@@ -84,10 +84,10 @@ public class PageQueryUtil {
 			}
 			
 			page++;
-		}while(isEndPage(pageSize, list));
+		}while(isNotEndPage(pageSize, list));
 	}
 
-	private static <T> boolean isEndPage(long pageSize, List<T> list) {
+	private static <T> boolean isNotEndPage(long pageSize, List<T> list) {
 		return CollectionUtils.isNotEmpty(list) && !(list.size() < pageSize);
 	}
 }
