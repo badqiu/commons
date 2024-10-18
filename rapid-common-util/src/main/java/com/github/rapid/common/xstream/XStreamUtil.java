@@ -6,6 +6,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.thoughtworks.xstream.security.NoTypePermission;
 import com.thoughtworks.xstream.security.NullPermission;
 import com.thoughtworks.xstream.security.PrimitiveTypePermission;
+import com.thoughtworks.xstream.security.TypeHierarchyPermission;
 
 public class XStreamUtil {
 
@@ -30,6 +31,8 @@ public class XStreamUtil {
 		
 		xstream.addPermission(NoTypePermission.NONE); //forbid everything
 		xstream.addPermission(NullPermission.NULL);   // allow "null"
+		xstream.addPermission(new TypeHierarchyPermission(java.util.Map.class));  
+		xstream.addPermission(new TypeHierarchyPermission(java.util.Collection.class));  
 		xstream.addPermission(PrimitiveTypePermission.PRIMITIVES); // allow primitive types
 
 		return xstream;
