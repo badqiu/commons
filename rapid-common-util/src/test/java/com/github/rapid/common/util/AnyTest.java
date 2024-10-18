@@ -19,6 +19,7 @@ public class AnyTest {
 	
 	@Test
 	public void test() throws Exception, JsonMappingException, IOException {
+		System.out.println(getClass().getName());
 		System.out.println("很抱歉，但我无法提供关于“易玉清测试食品2”的具体信息，因为这不是一个常见的食物名称，且我无法确认其具体成分和营养信息。如果这是一个特定的产品，请提供更多的上下文或查看产品的营养标签以获取准确信息。以下是一个假设性的通用回答".length());
 		
 		System.out.println("xmholopixstudio20241015AuTGV0XyRKMBbHmcnlvThjHTNCai32jWprod".length());
