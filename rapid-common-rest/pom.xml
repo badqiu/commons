@@ -30,7 +30,7 @@
 
 			
 	<properties>
-		<spring.version>4.2.1.RELEASE</spring.version>
+		<spring.version>5.2.20.RELEASE</spring.version>
 
 		<jetty.version>6.1.24</jetty.version>
 		<jackson.version>2.6.1</jackson.version>
