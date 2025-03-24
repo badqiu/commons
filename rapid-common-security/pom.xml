@@ -851,7 +851,7 @@
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-webapp</artifactId>
 			<scope>compile</scope>
-			<version>7.2.2.v20101205</version>
+			<version>9.4.34.v20201102</version>
 			<optional>true</optional>
 		</dependency>
 
