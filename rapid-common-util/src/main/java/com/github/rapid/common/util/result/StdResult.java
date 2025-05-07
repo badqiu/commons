@@ -1,7 +1,15 @@
 package com.github.rapid.common.util.result;
-	
+
+
+/**
+ * 本类在关注性能时使用，用于代替异常时使用
+ * 
+ * @param <TResult>
+ * @param <TError>
+ */
 public class StdResult<TResult, TError> {
 	private static String DEFAULT_ERROR_MSG = "StdResult has error, check getError()";
+	
     private final TResult result;
     private final TError error;
     private final String errorMsg;
