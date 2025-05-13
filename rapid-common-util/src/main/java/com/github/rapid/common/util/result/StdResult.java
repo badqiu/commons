@@ -8,14 +8,14 @@ package com.github.rapid.common.util.result;
  * @param <TError>
  */
 public class StdResult<TResult, TError> {
-	private static String DEFAULT_ERROR_MSG = "StdResult has error, check getError()";
+	private static final String DEFAULT_ERROR_MSG = "";
 	
     private final TResult result;
     private final TError error;
     private final String errorMsg;
     private final boolean success;
 
-    StdResult(TResult result, TError error, boolean success,String errorMsg) {
+    private StdResult(TResult result, TError error, boolean success,String errorMsg) {
         this.result = result;
         this.error = error;
         this.success = success;
@@ -54,12 +54,9 @@ public class StdResult<TResult, TError> {
 	}
 
 	public void throwExceptionIfError() {
-    	if (isError()) {
-            throw new StdResultException(
-                error,
-                errorMsg
-            );
-        }
+		if (isError()) {
+			throw new StdResultException(error, errorMsg);
+		}
     }
     
     public TResult getResultOrThrowException() {
