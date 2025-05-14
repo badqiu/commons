@@ -2,8 +2,10 @@ package com.github.rapid.common.lang.function;
 
 import java.io.Flushable;
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.math.RandomUtils;
 
 import com.github.rapid.common.util.ObjectUtil;
@@ -50,6 +52,10 @@ public class MultiFunction <T,R> implements Function<T,R>,AutoCloseable,Flushabl
 
 	@Override
 	public R apply(T t) {
+		if(ArrayUtils.isEmpty(functions)) {
+			return null;
+		}
+		
 		if(loadBalancing == LoadBalancing.ALL) {
 			return toAll(t);
 		}else if(loadBalancing == LoadBalancing.RANDOM) {
@@ -82,16 +88,16 @@ public class MultiFunction <T,R> implements Function<T,R>,AutoCloseable,Flushabl
 		return last;
 	}
 	
-	private long count = 0;
-	private static final long LONG_MAX_COUNT = Long.MAX_VALUE / 2;
+	private AtomicInteger count = new AtomicInteger(0);
+	private static final int MAX_COUNT = Integer.MAX_VALUE - (10000 * 10000);
 	private Function<T, R> roundRobinOneFunction() {
 		int length = functions.length;
-		int index = (int)(count++ % length);
-		
+		int countNum = count.getAndIncrement();
+		int index = Math.abs(countNum % length);
 		Function<T,R> func = functions[index];
 		
-		if(count >= LONG_MAX_COUNT) {
-			count = 0;
+		if(countNum > MAX_COUNT) {
+			count.set(0);
 		}
 		return func;
 	}
