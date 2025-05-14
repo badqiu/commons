@@ -92,11 +92,15 @@ public class MultiFunction <T,R> implements Function<T,R>,AutoCloseable,Flushabl
 	private static final int MAX_COUNT = Integer.MAX_VALUE - (10000 * 10000);
 	private Function<T, R> roundRobinOneFunction() {
 		int length = functions.length;
-		int countNum = count.getAndIncrement();
-		int index = Math.abs(countNum % length);
+		int currentCount = count.getAndIncrement();
+		int index = (int) (currentCount % length);
+        // 处理负索引
+        if (index < 0) {
+            index += length;
+        }
 		Function<T,R> func = functions[index];
 		
-		if(countNum > MAX_COUNT) {
+		if(currentCount > MAX_COUNT) {
 			count.set(0);
 		}
 		return func;
