@@ -82,14 +82,15 @@ public class MultiFunction <T,R> implements Function<T,R>,AutoCloseable,Flushabl
 		return last;
 	}
 	
-	long count = 0;
+	private long count = 0;
+	private static final long LONG_MAX_COUNT = Long.MAX_VALUE / 2;
 	private Function<T, R> roundRobinOneFunction() {
 		int length = functions.length;
 		int index = (int)(count++ % length);
 		
 		Function<T,R> func = functions[index];
 		
-		if(count >= Long.MAX_VALUE) {
+		if(count >= LONG_MAX_COUNT) {
 			count = 0;
 		}
 		return func;
