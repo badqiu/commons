@@ -92,6 +92,16 @@ public class DateRange {
 		this.endDate = endDate;
 	}
 
+//    public boolean overlaps(DateRange other) {
+//    	if(other == null) return false;
+//    	
+//        return !this.startDate.after(other.endDate) && !this.endDate.before(other.startDate);
+//    }
+    
+    public boolean contains(Date date) {
+        return isWithinRange(date);
+    }
+    
 	/**
 	 * Return true if the given Date is after the start date and before the end
 	 * date. If either date is null then that part of the test will
