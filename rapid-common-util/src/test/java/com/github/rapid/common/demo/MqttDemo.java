@@ -87,6 +87,8 @@ public class MqttDemo {
 				​​QoS 2​​（精确一次）：四次握手确保唯一性，用于支付等高可靠性场景         
 	         */
 	        message.setQos(QOS_2_VERY_SAFE);
+	        message.setRetained(true);
+	        message.setId(5000 + i);
 	        client.publish(TOPIC, message);
 	        System.out.println("Message published!");
         }
