@@ -16,6 +16,9 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 public class MqttDemo {
     private static final String ECLIPSE_BROKER_SERVER_URI = "tcp://mqtt.eclipseprojects.io:1883"; // 公共测试服务器
     private static final String HIVEMQ_BROKER_SERVER_URI = "tcp://broker.hivemq.com:1883"; // 公共测试服务器
+    private static final String MOSQUITTO_BROKER_SERVER_URI = "tcp://test.mosquitto.org:1883"; // 公共测试服务器
+    
+    
     private static final String CLIENT_ID = "JavaMqttClient";
     private static final String TOPIC = "demo/topic";
     
@@ -26,6 +29,7 @@ public class MqttDemo {
     public static void main(String[] args) throws Exception {
         testWithBrokerAddress(ECLIPSE_BROKER_SERVER_URI);
         testWithBrokerAddress(HIVEMQ_BROKER_SERVER_URI);
+        testWithBrokerAddress(MOSQUITTO_BROKER_SERVER_URI);
     }
 
 	private static void testWithBrokerAddress(String serverURI)
@@ -47,6 +51,10 @@ public class MqttDemo {
         client.connect(options);
         System.out.println("Connected!");
 
+        if (!client.isConnected()) {
+            throw new MqttException(MqttException.REASON_CODE_CLIENT_NOT_CONNECTED);
+        }
+        
         // 4. 订阅主题（QoS=1）
         client.subscribe(TOPIC, 1);
         System.out.println("Subscribed to topic: " + TOPIC);
