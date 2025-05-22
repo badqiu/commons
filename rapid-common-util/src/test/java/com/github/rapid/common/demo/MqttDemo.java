@@ -14,13 +14,25 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
  * tcp://mqtt.eclipseprojects.io:1883
  */
 public class MqttDemo {
-    private static final String BROKER = "tcp://mqtt.eclipseprojects.io:1883"; // 公共测试服务器
+    private static final String ECLIPSE_BROKER_SERVER_URI = "tcp://mqtt.eclipseprojects.io:1883"; // 公共测试服务器
+    private static final String HIVEMQ_BROKER_SERVER_URI = "tcp://broker.hivemq.com:1883"; // 公共测试服务器
     private static final String CLIENT_ID = "JavaMqttClient";
     private static final String TOPIC = "demo/topic";
+    
+    static int QOS_0_FAST_AND_LOST_DATA = 0;
+    static int QOS_1_SAFE = 1;
+    static int QOS_2_VERY_SAFE = 2;
 
     public static void main(String[] args) throws Exception {
-        // 1. 创建MQTT客户端
-        MqttClient client = new MqttClient(BROKER, CLIENT_ID, new MemoryPersistence());
+        testWithBrokerAddress(ECLIPSE_BROKER_SERVER_URI);
+        testWithBrokerAddress(HIVEMQ_BROKER_SERVER_URI);
+    }
+
+	private static void testWithBrokerAddress(String serverURI)
+			throws MqttException, MqttSecurityException, MqttPersistenceException, InterruptedException {
+		System.out.println("\n\n--------------------------------------------------------------------------");
+		// 1. 创建MQTT客户端
+        MqttClient client = new MqttClient(serverURI, CLIENT_ID, new MemoryPersistence());
         
         // 2. 设置连接选项
         MqttConnectOptions options = new MqttConnectOptions();
@@ -31,7 +43,7 @@ public class MqttDemo {
         options.setWill("device/status", "offline".getBytes(), 1, true);
 
         // 3. 连接服务器
-        System.out.println("Connecting to broker: " + BROKER);
+        System.out.println("Connecting to broker: " + serverURI);
         client.connect(options);
         System.out.println("Connected!");
 
@@ -43,7 +55,8 @@ public class MqttDemo {
         client.setCallback(new MqttCallback() {
             @Override
             public void messageArrived(String topic, MqttMessage message) {
-                System.out.println("messageArrived() Received: Topic=" + topic + ", Payload=" + new String(message.getPayload()));
+                String payload = new String(message.getPayload());
+				System.out.println("MqttCallback.messageArrived() Received: Topic=" + topic + ", Payload=" + payload+" messageId:"+message.getId()+" isRetained:"+message.isRetained());
             }
 
             @Override
@@ -55,22 +68,24 @@ public class MqttDemo {
             public void deliveryComplete(IMqttDeliveryToken token) {}
         });
 
-        // 6. 发布消息（QoS=1）
-        MqttMessage message = new MqttMessage("Hello MQTT!".getBytes());
+        for(int i = 0; i < 10; i++) {
+	        // 6. 发布消息（QoS=1）
+	        MqttMessage message = new MqttMessage( (i + " Hello MQTT!").getBytes());
+	        
+	        /*
+	         * 
+				​​QoS 0​​（最多一次）：快速传输但可能丢失，适用于传感器数据采集；
+				​​QoS 1​​（至少一次）：通过ACK确认保证必达，适合设备控制指令；
+				​​QoS 2​​（精确一次）：四次握手确保唯一性，用于支付等高可靠性场景         
+	         */
+	        message.setQos(QOS_2_VERY_SAFE);
+	        client.publish(TOPIC, message);
+	        System.out.println("Message published!");
+        }
         
-        /*
-         * 
-			​​QoS 0​​（最多一次）：快速传输但可能丢失，适用于传感器数据采集；
-			​​QoS 1​​（至少一次）：通过ACK确认保证必达，适合设备控制指令；
-			​​QoS 2​​（精确一次）：四次握手确保唯一性，用于支付等高可靠性场景         
-         */
-        message.setQos(1);
-        client.publish(TOPIC, message);
-        System.out.println("Message published!");
 
         // 7. 保持程序运行以接收消息
         Thread.sleep(5000);
         client.disconnect();
-
-    }
+	}
 }
