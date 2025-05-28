@@ -1,11 +1,12 @@
 package com.github.rapid.common.util;
 
+// Aggr => Stat
 public class Aggr {
 
-	double sum;
-	long count;
-	double min;
-	double max;
+	private double sum;
+	private long count;
+	private double min = Double.NaN;
+	private double max = Double.NaN;
 	
 	public void addNumber(double num) {
 		
@@ -42,6 +43,14 @@ public class Aggr {
 		}
 		
 		return sum / count;
+	}
+	
+	
+	public void reset() {
+		sum = 0;
+		count = 0;
+		min = Double.NaN;
+		max = Double.NaN;		
 	}
 	
 }
