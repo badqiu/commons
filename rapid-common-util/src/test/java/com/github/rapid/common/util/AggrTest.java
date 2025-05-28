@@ -19,8 +19,8 @@ public class AggrTest {
     public void testInitialState() {
         assertEquals(0.0, aggr.getSum(), 0.001);
         assertEquals(0, aggr.getCount());
-        assertNull(aggr.getMin());
-        assertNull(aggr.getMax());
+        assertEquals(0,aggr.getMin(), 0.001);
+        assertEquals(0,aggr.getMax(), 0.001);
     }
 
     // 单个数值测试

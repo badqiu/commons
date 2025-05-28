@@ -4,26 +4,27 @@ public class Aggr {
 
 	double sum;
 	long count;
-	Double min;
-	Double max;
+	double min;
+	double max;
 	
 	public void addNumber(double num) {
-		sum += num;
-		count++;
-		if(min == null || num < min) {
+		
+		if(count == 0 || num < min) {
 			min = num;
 		}
-		if(max == null || num > max) {
+		if(count == 0 || num > max) {
 			max = num;
 		}
+		
+		sum += num;
+		count++;
 	}
 
-	public Double getMin() {
+	public double getMin() {
 		return min;
 	}
 
-
-	public Double getMax() {
+	public double getMax() {
 		return max;
 	}
 
@@ -36,6 +37,10 @@ public class Aggr {
 	}
 	
 	public double getAvg() {
+		if(count == 0) {
+			return Double.NaN;
+		}
+		
 		return sum / count;
 	}
 	
