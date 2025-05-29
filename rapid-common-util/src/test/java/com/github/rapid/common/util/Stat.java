@@ -1,12 +1,11 @@
 package com.github.rapid.common.util;
 
-// Aggr => Stat
 public class Stat {
 
 	private double sum;
 	private long count;
-	private double min = Double.NaN;
-	private double max = Double.NaN;
+    private double min = Double.POSITIVE_INFINITY;
+    private double max = Double.NEGATIVE_INFINITY;
 
 	public void addNumber(Integer num) {
 		if(num == null) return;
@@ -71,11 +70,21 @@ public class Stat {
 	
 	public double getAvg() {
 		if(count == 0) {
-			return Double.NaN;
+			return 0.0;
 		}
 		
 		return sum / count;
 	}
 	
-	
+    @Override
+    public String toString() {
+        return String.format(
+            "%s{count=%d, sum=%f, min=%f, avg=%f, max=%f}",
+            this.getClass().getSimpleName(),
+            getCount(),
+            getSum(),
+            getMin(),
+            getAvg(),
+            getMax());
+    }
 }

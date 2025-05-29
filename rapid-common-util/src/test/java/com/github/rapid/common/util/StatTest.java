@@ -19,8 +19,8 @@ public class StatTest {
     public void testInitialState() {
         assertEquals(0.0, aggr.getSum(), 0.001);
         assertEquals(0, aggr.getCount());
-        assertEquals(0,aggr.getMin(), 0.001);
-        assertEquals(0,aggr.getMax(), 0.001);
+        assertEquals(Double.POSITIVE_INFINITY,aggr.getMin(), 0.001);
+        assertEquals(Double.NEGATIVE_INFINITY,aggr.getMax(), 0.001);
     }
 
     // 单个数值测试
@@ -101,6 +101,6 @@ public class StatTest {
         Stat emptyAggr = new Stat();
         double avg = emptyAggr.getAvg(); // 应该抛出 ArithmeticException
         System.out.println("testAverageWithZeroCount, avg="+avg);
-        assertEquals(String.valueOf(avg),"NaN");
+        assertEquals(String.valueOf(avg),"0.0");
     }
 }
