@@ -76,8 +76,16 @@ public class Stat {
 		return sum / count;
 	}
 	
+	public boolean empty() {
+		return count == 0;
+	}
+	
     @Override
     public String toString() {
+    	if(empty()) {
+    		return "";
+    	}
+    	
         return String.format(
             "%s{count=%d, sum=%f, min=%f, avg=%f, max=%f}",
             this.getClass().getSimpleName(),
