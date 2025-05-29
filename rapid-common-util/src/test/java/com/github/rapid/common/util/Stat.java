@@ -88,12 +88,23 @@ public class Stat implements DoubleConsumer{
     		return "Stat{}";
     	}
     	
-        return String.format(
-            "Stat{count=%d, sum=%f, min=%f, avg=%f, max=%f}",
+    	String format = "Stat{count=%d, sum=%.4f, min=%.4f, avg=%.4f, max=%.4f}";
+    	double avg = getAvg();
+    	if(avg > 1000) {
+    		format = "Stat{count=%d, sum=%.0f, min=%.0f, avg=%.0f, max=%.0f}";
+    	}else if(avg > 100) {
+    		format = "Stat{count=%d, sum=%.1f, min=%.1f, avg=%.1f, max=%.1f}";
+    	}else if(avg > 10) {
+    		format = "Stat{count=%d, sum=%.2f, min=%.2f, avg=%.2f, max=%.2f}";
+    	}else if(avg > 1) {
+    		format = "Stat{count=%d, sum=%.3f, min=%.3f, avg=%.3f, max=%.3f}";
+    	}
+    	
+        return String.format(format,
             getCount(),
             getSum(),
             getMin(),
-            getAvg(),
+            avg,
             getMax());
     }
 
