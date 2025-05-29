@@ -5,13 +5,13 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-public class AggrTest {
+public class StatTest {
 
-    private Aggr aggr;
+    private Stat aggr;
 
     @Before
     public void setUp() {
-        aggr = new Aggr();
+        aggr = new Stat();
     }
 
     // 初始状态测试
@@ -84,7 +84,7 @@ public class AggrTest {
     // 边界测试：空数据时的平均值处理
     @Test
     public void testAverageWithZeroCount() {
-        Aggr emptyAggr = new Aggr();
+        Stat emptyAggr = new Stat();
         double avg = emptyAggr.getAvg(); // 应该抛出 ArithmeticException
         System.out.println("testAverageWithZeroCount, avg="+avg);
         assertEquals(String.valueOf(avg),"NaN");

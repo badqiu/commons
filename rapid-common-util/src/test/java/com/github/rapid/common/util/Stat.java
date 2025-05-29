@@ -1,7 +1,7 @@
 package com.github.rapid.common.util;
 
 // Aggr => Stat
-public class Aggr {
+public class Stat {
 
 	private double sum;
 	private long count;
@@ -45,12 +45,5 @@ public class Aggr {
 		return sum / count;
 	}
 	
-	
-	public void reset() {
-		sum = 0;
-		count = 0;
-		min = Double.NaN;
-		max = Double.NaN;		
-	}
 	
 }
