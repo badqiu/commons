@@ -1,6 +1,8 @@
 package com.github.rapid.common.util;
 
-public class Stat {
+import java.util.function.DoubleConsumer;
+
+public class Stat implements DoubleConsumer{
 
 	private double sum;
 	private long count;
@@ -94,4 +96,9 @@ public class Stat {
             getAvg(),
             getMax());
     }
+
+	@Override
+	public void accept(double value) {
+		addNumber(value);
+	}
 }
