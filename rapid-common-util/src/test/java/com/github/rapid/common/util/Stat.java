@@ -83,12 +83,11 @@ public class Stat {
     @Override
     public String toString() {
     	if(empty()) {
-    		return "";
+    		return "Stat{}";
     	}
     	
         return String.format(
-            "%s{count=%d, sum=%f, min=%f, avg=%f, max=%f}",
-            this.getClass().getSimpleName(),
+            "Stat{count=%d, sum=%f, min=%f, avg=%f, max=%f}",
             getCount(),
             getSum(),
             getMin(),
