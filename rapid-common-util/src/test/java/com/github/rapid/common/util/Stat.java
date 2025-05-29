@@ -7,7 +7,39 @@ public class Stat {
 	private long count;
 	private double min = Double.NaN;
 	private double max = Double.NaN;
+
+	public void addNumber(Integer num) {
+		if(num == null) return;
+		addNumber(num.doubleValue());
+	}
 	
+	public void addNumber(int num) {
+		addNumber((double)num);
+	}
+	
+	public void addNumber(Long num) {
+		if(num == null) return;
+		addNumber(num.doubleValue());
+	}
+	
+	public void addNumber(long num) {
+		addNumber((double)num);
+	}
+
+	public void addNumber(Float num) {
+		if(num == null) return;
+		addNumber(num.doubleValue());
+	}
+	
+	public void addNumber(float num) {
+		addNumber((double)num);
+	}
+	
+	public void addNumber(Double num) {
+		if(num == null) return;
+		addNumber(num.doubleValue());
+	}
+
 	public void addNumber(double num) {
 		
 		if(count == 0 || num < min) {

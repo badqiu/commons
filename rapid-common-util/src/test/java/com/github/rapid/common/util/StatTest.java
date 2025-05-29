@@ -72,6 +72,20 @@ public class StatTest {
         assertEquals(10.0, aggr.getAvg(), 0.001);
     }
 
+    @Test
+    public void testNullNumbers() {
+    	Long nullNum = null;
+    	long v = 10;
+        aggr.addNumber(nullNum);
+        aggr.addNumber(nullNum);
+        aggr.addNumber(v);
+        
+        assertEquals(10.0, aggr.getMin(), 0.001);
+        assertEquals(10.0, aggr.getMax(), 0.001);
+        assertEquals(10.0, aggr.getAvg(), 0.001);
+        assertEquals(1, aggr.getCount());
+    }
+    
     // 浮点数精度测试
     @Test
     public void testPrecision() {
