@@ -3,8 +3,6 @@ package com.github.rapid.common.web.util;
 import java.util.List;
 import java.util.function.Consumer;
 
-import javax.validation.ConstraintViolationException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindingResult;
@@ -12,6 +10,8 @@ import org.springframework.validation.BindingResult;
 import com.github.rapid.common.exception.MessageException;
 import com.github.rapid.common.util.ValidationErrorsUtil;
 import com.github.rapid.common.web.scope.Flash;
+
+import jakarta.validation.ConstraintViolationException;
 
 public class ControllerUtil {
 

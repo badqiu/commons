@@ -319,18 +319,7 @@
 				<version>1.1.2</version>
 			</dependency>
 
-			<!-- email begin -->
-			<dependency>
-				<groupId>javax.mail</groupId>
-				<artifactId>mail</artifactId>
-				<version>1.4.3</version>
-			</dependency>
-			<dependency>
-				<groupId>javax.activation</groupId>
-				<artifactId>activation</artifactId>
-				<version>1.1.1</version>
-			</dependency>
-			<!-- email end -->
+
 
 			<!-- xml begin -->
 			<dependency>
@@ -416,24 +405,6 @@
 			</dependency>						
 			<!-- hibernate END-->
 
-			<dependency>
-				<groupId>org.apache.poi</groupId>
-				<artifactId>poi</artifactId>
-				<version>3.6</version>
-			</dependency>
-			
-			<!-- JSR303 bean validation begin -->
-			<dependency>
-			    <groupId>javax.validation</groupId>
-			    <artifactId>validation-api</artifactId>
-			    <version>1.0.0.GA</version>
-			</dependency>			
-			<dependency>
-			    <groupId>org.hibernate</groupId>
-			    <artifactId>hibernate-validator</artifactId>
-			    <version>${hibernate.validator.version}</version>
-			</dependency>
-			<!-- JSR303 bean validation end -->
 			
 			<!-- struts2 -->
 			<dependency>
@@ -651,11 +622,6 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.ibatis</groupId>
 			<artifactId>ibatis-sqlmap</artifactId>
 			<optional>true</optional>
@@ -728,16 +694,7 @@
 		</dependency>
 
 
-		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>mail</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>javax.activation</groupId>
-			<artifactId>activation</artifactId>
-			<optional>true</optional>
-		</dependency>
+
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -837,11 +794,6 @@
 			<version>2.3.1</version>
 			<optional>true</optional>
 		</dependency>		
-		<dependency>
-			<groupId>javax.activation</groupId>
-			<artifactId>activation</artifactId>
-			<optional>true</optional>
-		</dependency>
 		<!-- soap end -->
 			
 

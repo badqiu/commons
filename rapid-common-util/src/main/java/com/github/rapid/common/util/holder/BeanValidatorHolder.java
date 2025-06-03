@@ -2,13 +2,13 @@ package com.github.rapid.common.util.holder;
 
 import java.util.Set;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.metadata.BeanDescriptor;
-
 import org.springframework.beans.factory.InitializingBean;
+
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.metadata.BeanDescriptor;
 /**
  * 用于持有JSR303 Validator(Hibernate Validator),使调用Validator可以当静态方法使用.
  * 

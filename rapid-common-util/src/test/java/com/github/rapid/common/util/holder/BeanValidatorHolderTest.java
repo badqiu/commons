@@ -1,12 +1,12 @@
 package com.github.rapid.common.util.holder;
 
-import javax.validation.ConstraintViolationException;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.junit.Test;
+
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 
 public class BeanValidatorHolderTest {
 

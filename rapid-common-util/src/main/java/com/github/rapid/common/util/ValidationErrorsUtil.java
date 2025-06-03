@@ -8,14 +8,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import javax.validation.metadata.ConstraintDescriptor;
-
 import org.springframework.beans.NotReadablePropertyException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
+
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.metadata.ConstraintDescriptor;
 /**
  * 
  * 将Set:ConstraintViolation进行转换的工具类

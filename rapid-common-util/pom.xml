@@ -259,18 +259,7 @@
 			</dependency>
 			<!--  apache-commons END -->
 
-			<!-- excel 2003 -->
-			<dependency>
-				<groupId>org.apache.poi</groupId>
-				<artifactId>poi</artifactId>
-				<version>3.13</version>
-			</dependency>
-			<!-- excel 2007 -->
-			<dependency>
-				<groupId>org.apache.poi</groupId>
-				<artifactId>poi-ooxml</artifactId>
-				<version>3.13</version>
-			</dependency>
+
 				
 			<!-- test BEGIN -->
 			<dependency>
@@ -314,18 +303,7 @@
 			<!-- logging end-->
 			
 
-			<!-- email begin -->
-			<dependency>
-				<groupId>javax.mail</groupId>
-				<artifactId>mail</artifactId>
-				<version>1.4.3</version>
-			</dependency>
-			<dependency>
-				<groupId>javax.activation</groupId>
-				<artifactId>activation</artifactId>
-				<version>1.1.1</version>
-			</dependency>
-			<!-- email end -->
+
 
 			<!-- xml begin -->
 			<dependency>
@@ -411,24 +389,9 @@
 			</dependency>						
 			<!-- hibernate END-->
 
-			<dependency>
-				<groupId>org.apache.poi</groupId>
-				<artifactId>poi</artifactId>
-				<version>3.6</version>
-			</dependency>
+
 			
-			<!-- JSR303 bean validation begin -->
-			<dependency>
-			    <groupId>javax.validation</groupId>
-			    <artifactId>validation-api</artifactId>
-			    <version>1.0.0.GA</version>
-			</dependency>			
-			<dependency>
-			    <groupId>org.hibernate</groupId>
-			    <artifactId>hibernate-validator</artifactId>
-			    <version>${hibernate.validator.version}</version>
-			</dependency>
-			<!-- JSR303 bean validation end -->
+
 			
 			<!-- struts2 -->
 			<dependency>
@@ -565,6 +528,17 @@
 		</dependencies>
 	</dependencyManagement>
 
+
+
+
+
+
+
+
+
+
+
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -582,7 +556,11 @@
 		    <artifactId>spring-boot-starter-web</artifactId>
 		    <version>3.2.5</version> 
 		</dependency>
-
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-validation</artifactId>
+		    <version>3.2.5</version> 
+		</dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
@@ -660,11 +638,6 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.ibatis</groupId>
 			<artifactId>ibatis-sqlmap</artifactId>
 			<optional>true</optional>
@@ -721,17 +694,6 @@
 
 
 		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>mail</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>javax.activation</groupId>
-			<artifactId>activation</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 			<optional>true</optional>
@@ -785,19 +747,7 @@
 	        <optional>true</optional>
     	</dependency>
     	
-   		<!-- excel 2003 -->
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<!-- excel 2007 -->
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-ooxml</artifactId>
-			<optional>true</optional>
-		</dependency>
-	
+
     	<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
@@ -837,11 +787,6 @@
 			<optional>true</optional>
 			<version>2.3.1</version>
 		</dependency>		
-		<dependency>
-			<groupId>javax.activation</groupId>
-			<artifactId>activation</artifactId>
-			<optional>true</optional>
-		</dependency>
 		<!-- soap end -->
 			
 		<dependency>

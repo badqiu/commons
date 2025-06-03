@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,8 +15,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import com.github.rapid.common.util.MapUtil;
 /**
  * 读取excel文件工具类，
  * 读取时支持注释，以#号开头，会忽略该行数据
@@ -123,27 +120,27 @@ public class ExcelUtil {
 
 	private static Object getCellValue(Cell cell) {
 		if(cell == null) return null;
-		
-		switch (cell.getCellType()) {
-		case Cell.CELL_TYPE_STRING:
-			return cell.getStringCellValue();
-		case Cell.CELL_TYPE_NUMERIC:
-			return cell.getNumericCellValue();
-		case Cell.CELL_TYPE_BLANK:
-			return null;
-		case Cell.CELL_TYPE_BOOLEAN:
-			return cell.getBooleanCellValue();
-		case Cell.CELL_TYPE_ERROR:
-//			return cell.getErrorCellValue();
-			return null;
-		case Cell.CELL_TYPE_FORMULA:
-			try {
-				return cell.getNumericCellValue();
-			}catch(Exception e) {
-				return null;
-			}
-		}
 		return cell.toString();
+//		switch (cell.getCellType()) {
+//		case Cell.:
+//			return cell.getStringCellValue();
+//		case Cell.CELL_TYPE_NUMERIC:
+//			return cell.getNumericCellValue();
+//		case Cell.CELL_TYPE_BLANK:
+//			return null;
+//		case Cell.CELL_TYPE_BOOLEAN:
+//			return cell.getBooleanCellValue();
+//		case Cell.CELL_TYPE_ERROR:
+////			return cell.getErrorCellValue();
+//			return null;
+//		case Cell.CELL_TYPE_FORMULA:
+//			try {
+//				return cell.getNumericCellValue();
+//			}catch(Exception e) {
+//				return null;
+//			}
+//		}
+//		return cell.toString();
 	}  
 	
 }

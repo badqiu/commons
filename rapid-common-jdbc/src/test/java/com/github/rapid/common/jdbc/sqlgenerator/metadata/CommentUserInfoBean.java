@@ -15,7 +15,6 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 import javax.persistence.Version;
-import javax.validation.constraints.Max;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -24,6 +23,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
+
+import jakarta.validation.constraints.Max;
 
 
 /**

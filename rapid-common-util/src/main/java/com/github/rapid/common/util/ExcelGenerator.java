@@ -153,7 +153,7 @@ public class ExcelGenerator {
 
 	private HSSFCellStyle createHeadCellStyle() {
 		HSSFCellStyle style = workbook.createCellStyle();
-		style.setAlignment(HSSFCellStyle.ALIGN_CENTER);  //居中
+//		style.setAlignment(HSSFCellStyle.ALIGN_CENTER);  //居中
 		HSSFFont font = workbook.createFont();
 		font.setBold(true);
 		style.setFont(font);
