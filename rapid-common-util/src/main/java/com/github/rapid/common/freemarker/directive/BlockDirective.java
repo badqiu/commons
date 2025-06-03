@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.github.rapid.common.freemarker.directive.OverrideDirective.TemplateDirectiveBodyOverrideWraper;
 
+import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateDirectiveModel;
 import freemarker.template.TemplateException;
