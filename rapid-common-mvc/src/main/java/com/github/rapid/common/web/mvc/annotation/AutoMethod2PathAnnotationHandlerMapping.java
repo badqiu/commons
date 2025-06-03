@@ -21,6 +21,12 @@ public class AutoMethod2PathAnnotationHandlerMapping extends RequestMappingHandl
         // 1. 优先调用父类逻辑
         RequestMappingInfo info = super.getMappingForMethod(method, handlerType);
         
+        if(handlerType.getName().contains("springdoc")) {
+        	pringInfoLog(method, handlerType, info);
+        	return info;
+        }
+        
+        
         // 2. 实现约定逻辑：无显式路径时使用方法名
         RequestMapping methodAnnotation = AnnotationUtils.findAnnotation(method, RequestMapping.class);
         if (methodAnnotation != null && methodAnnotation.value().length == 0) {
@@ -42,11 +48,15 @@ public class AutoMethod2PathAnnotationHandlerMapping extends RequestMappingHandl
             info = (info != null) ? info.combine(conventionInfo) : conventionInfo;
         }
         
-        if(info != null) {
-        	log.info("getMappingForMethod() "+handlerType.getSimpleName()+"."+method.getName()+"() ==> "+info);
-        }
+        pringInfoLog(method, handlerType, info);
         return info;
     }
+
+	private void pringInfoLog(Method method, Class<?> handlerType, RequestMappingInfo info) {
+		if(info == null) return;
+		
+		log.info("getMappingForMethod() "+handlerType.getSimpleName()+"."+method.getName()+"() ==> "+info);
+	}
 
     // 5. 注册映射（Spring 5.3+ 要求）
     @Override
