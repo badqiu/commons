@@ -2,14 +2,17 @@ package com.github.rapid.common.web.mvc.annotation;
 
 import java.lang.reflect.Method;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-public class ConventionAnnotationHandlerMapping extends RequestMappingHandlerMapping {
-
-    public ConventionAnnotationHandlerMapping() {
+public class AutoMethod2PathAnnotationHandlerMapping extends RequestMappingHandlerMapping {
+	static Logger log = LoggerFactory.getLogger(AutoMethod2PathAnnotationHandlerMapping.class);
+	
+    public AutoMethod2PathAnnotationHandlerMapping() {
         setUseSuffixPatternMatch(false); // 替代 setUseDefaultSuffixPattern(false)
     }
 
@@ -37,6 +40,10 @@ public class ConventionAnnotationHandlerMapping extends RequestMappingHandlerMap
             
             // 4. 与父类路径合并
             info = (info != null) ? info.combine(conventionInfo) : conventionInfo;
+        }
+        
+        if(info != null) {
+        	log.info("getMappingForMethod() "+handlerType.getSimpleName()+"."+method.getName()+"() ==> "+info);
         }
         return info;
     }
