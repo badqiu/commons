@@ -2,8 +2,8 @@ package com.github.rapid.common.security;
 
 import java.util.Date;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 /**
  * 用户管理权限检查，检查某类动作的读写权限

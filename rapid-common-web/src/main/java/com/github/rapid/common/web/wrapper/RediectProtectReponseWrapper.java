@@ -4,15 +4,15 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import javax.servlet.FilterConfig;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
 
 import com.github.rapid.common.web.filter.RequestResponseWrapperFilter.FilterConfiger;
 import com.github.rapid.common.web.util.FilterConfigUtil;
+
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponseWrapper;
 /**
  * 通过白名单的方式，保护重定向的链接是可信的 <br/>
  * 
@@ -71,4 +71,5 @@ public class RediectProtectReponseWrapper extends HttpServletResponseWrapper imp
 		Assert.noNullElements(safeHosts,"'safe_host_white_list' FilterConfig parameter must be not empty");
 	}
 
+	
 }

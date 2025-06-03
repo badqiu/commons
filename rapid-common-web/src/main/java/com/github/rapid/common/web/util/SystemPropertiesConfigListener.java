@@ -2,11 +2,9 @@ package com.github.rapid.common.web.util;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
-
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -17,7 +15,8 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.util.PropertyPlaceholderHelper;
 import org.springframework.util.PropertyPlaceholderHelper.PlaceholderResolver;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
 
 /**
  * 用于实现将配置文件加载进 System.properties

@@ -2,8 +2,6 @@ package com.github.rapid.common.web.filter.xss;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockFilterChain;
@@ -12,7 +10,8 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 import com.github.rapid.common.util.XssException;
-import com.github.rapid.common.web.filter.xss.XSSFilter;
+
+import jakarta.servlet.ServletException;
 
 
 public class XSSFilterTest {

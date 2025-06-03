@@ -3,9 +3,9 @@ package com.github.rapid.common.web.scope;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 /**
  * 实现Flash Scope,存储在Flash中的数据可以在下一次http请求时获得.
  * 

@@ -21,7 +21,7 @@ public class GraphTest {
 		
 		graph.init();
 		
-		Assert.notEmpty(graph.getEdges());
+		Assert.notEmpty(graph.getEdges(),"must be not empty");
 		
 		printNodes(graph.getNoDependNodes(),"");
 		for(GraphNode n : graph.getNoDependNodes()) {

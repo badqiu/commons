@@ -3,8 +3,6 @@
 
 package com.github.rapid.common.web.filter;
 
-import javax.servlet.ServletContext;
-
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -16,7 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.mock.web.MockFilterConfig;
 
-import com.github.rapid.common.web.filter.PerformanceFilter;
+import jakarta.servlet.ServletContext;
 
 @RunWith(JMock.class)
 public class PerformanceFilterTest{

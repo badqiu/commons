@@ -17,7 +17,7 @@ public class JedisPoolFactoryBeanTest extends BaseRedisTest {
 		f.afterPropertiesSet();
 		
 		JedisPool pool = (JedisPool)f.getObject();
-		Assert.notNull(pool);
+		Assert.notNull(pool,"must not null");
 		
 		JedisTemplate template = new JedisTemplate();
 		template.setJedisPool(pool);

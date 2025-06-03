@@ -4,15 +4,13 @@
 package com.github.rapid.common.web.util;
 
 
-import javax.servlet.ServletContextEvent;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockServletContext;
 
-import com.github.rapid.common.web.util.SystemPropertiesConfigListener;
+import jakarta.servlet.ServletContextEvent;
 
 /**
  * @author Administrator

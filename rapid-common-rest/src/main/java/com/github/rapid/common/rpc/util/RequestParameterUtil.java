@@ -4,9 +4,9 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.ServletRequest;
-
 import org.springframework.util.Assert;
+
+import jakarta.servlet.ServletRequest;
 
 public class RequestParameterUtil {
 

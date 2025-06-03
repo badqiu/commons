@@ -30,10 +30,9 @@
 	</developers>
 		
 	<properties>
-		<spring.version>4.2.1.RELEASE</spring.version>
+		<spring.version>6.1.6</spring.version>
 		<struts2.version>2.1.8.1</struts2.version>
 
-		<jetty.version>6.1.24</jetty.version>
 		<h2.version>1.2.135</h2.version>
 		<jackson.version>1.9.3</jackson.version>
 		<slf4j.version>1.7.3</slf4j.version>
@@ -508,19 +507,7 @@
 			</dependency>
 			<!-- web end -->
 
-			<!-- jetty -->
-			<dependency>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>jetty</artifactId>
-				<version>${jetty.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>jsp-2.1-jetty</artifactId>
-				<version>${jetty.version}</version>
-				<scope>test</scope>
-			</dependency>
+			
 			<!-- jdbc drivers begin -->			
 			<dependency>
 				<groupId>com.h2database</groupId>
@@ -591,7 +578,14 @@
 			<version>1.0.8-RELEASE</version>
 			<optional>true</optional>
 		</dependency>
-		
+
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-web</artifactId>
+		    <version>3.2.5</version> 
+		</dependency>
+				
+						
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -668,11 +662,7 @@
 		</dependency>
 
 
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
+
 
 		<dependency>
 			<groupId>org.apache.struts</groupId>
@@ -817,15 +807,6 @@
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-		<!-- jetty-webapp -->
-		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-webapp</artifactId>
-			<scope>compile</scope>
-			<version>7.2.2.v20101205</version>
 			<optional>true</optional>
 		</dependency>
 

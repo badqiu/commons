@@ -5,18 +5,14 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-
-import junit.framework.TestCase;
-
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockRequestDispatcher;
 
-import com.github.rapid.common.web.httpinclude.HttpInclude;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import junit.framework.TestCase;
 
 
 public class HttpIncludeTest extends TestCase {

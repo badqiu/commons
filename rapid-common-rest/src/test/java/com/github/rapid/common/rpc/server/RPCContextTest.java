@@ -1,7 +1,5 @@
 package com.github.rapid.common.rpc.server;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 

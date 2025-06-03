@@ -29,7 +29,6 @@ import org.apache.commons.beanutils.converters.SqlDateConverter;
 import org.apache.commons.beanutils.converters.SqlTimeConverter;
 import org.apache.commons.beanutils.converters.SqlTimestampConverter;
 import org.apache.commons.lang.StringUtils;
-import org.apache.struts2.views.util.ResourceUtil;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.ResourceUtils;
 

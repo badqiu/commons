@@ -22,7 +22,7 @@ public class SqlRemoveUtil {
 	 * @return
 	 */
     public static String removeSelect(String sql) {
-        Assert.hasText(sql);
+        Assert.hasText(sql,"sql must be not blank");
         int beginPos = indexOfByRegex(sql.toLowerCase(),"\\sfrom\\s");
         Assert.isTrue(beginPos != -1, " sql : " + sql + " must has a keyword 'from'");
         return sql.substring(beginPos);
@@ -34,7 +34,7 @@ public class SqlRemoveUtil {
      * @return
      */
     public static String removeOrders(String sql) {
-        Assert.hasText(sql);
+        Assert.hasText(sql,"sql must be not blank");
         Pattern p = Pattern.compile("order\\s*by[\\w|\\W|\\s|\\S]*", Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(sql);
         StringBuffer sb = new StringBuffer();
@@ -50,7 +50,7 @@ public class SqlRemoveUtil {
     }
 
 	public static String removeXsqlBuilderOrders(String string) {
-        Assert.hasText(string);
+        Assert.hasText(string,"string must be not blank");
         Pattern p = Pattern.compile("/~.*order\\s*by[\\w|\\W|\\s|\\S]*~/", Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(string);
         StringBuffer sb = new StringBuffer();

@@ -2,11 +2,6 @@ package com.github.rapid.common.web.filter;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletResponse;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,8 +10,12 @@ import org.springframework.mock.web.MockFilterConfig;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-import com.github.rapid.common.web.filter.RequestResponseWrapperFilter;
 import com.github.rapid.common.web.wrapper.UnsafeRedirectException;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 
 public class RequestResponseWrapperFilterTest {

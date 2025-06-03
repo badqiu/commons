@@ -1,8 +1,8 @@
 package com.github.rapid.common.web.util;
 
-import javax.servlet.FilterConfig;
-
 import org.apache.commons.lang.StringUtils;
+
+import jakarta.servlet.FilterConfig;
 /**
  * FilterConfig用于得到参数的工具类
  * 

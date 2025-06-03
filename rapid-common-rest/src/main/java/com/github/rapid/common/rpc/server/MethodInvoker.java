@@ -14,8 +14,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.core.ParameterNameDiscoverer;
+import org.springframework.core.StandardReflectionParameterNameDiscoverer;
 import org.springframework.util.Assert;
 
 import com.alibaba.fastjson.JSON;
@@ -45,7 +45,7 @@ public class MethodInvoker {
 	public static final String PROTOCOL_JAVA = RPCConstants.PROTOCOL_JAVA;  //  __params=["param1Value",param2Value]
 	
 	
-	private ParameterNameDiscoverer parameterNameDiscoverer = new LocalVariableTableParameterNameDiscoverer();
+	private ParameterNameDiscoverer parameterNameDiscoverer = new StandardReflectionParameterNameDiscoverer();
 	private Map<String,Object> serviceMapping = new HashMap<String,Object>();
 	
 	public Object invoke(String serviceId,String methodName,Map<String,Object> params) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, InstantiationException, SecurityException, NoSuchMethodException{

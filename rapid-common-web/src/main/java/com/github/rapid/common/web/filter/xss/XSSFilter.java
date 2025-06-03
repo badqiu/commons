@@ -3,18 +3,18 @@ package com.github.rapid.common.web.filter.xss;
 import java.io.IOException;
 import java.util.HashMap;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.github.rapid.common.util.XssUtil;
+
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * XSS攻击保护filter,如果检查失败，将会抛出XssException
@@ -54,7 +54,7 @@ public class XSSFilter extends OncePerRequestFilter implements Filter {
 			return;
 		}
 		
-		XssUtil.checkXSS(request.getParameterMap());
+		XssUtil.checkXSS(request.getParameterMap().toString());
 		filterChain.doFilter(request, response);
 	}
 	

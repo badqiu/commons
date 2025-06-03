@@ -19,7 +19,6 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.jdbc.support.incrementer.AbstractSequenceMaxValueIncrementer;
-import org.springframework.jdbc.support.incrementer.DB2SequenceMaxValueIncrementer;
 import org.springframework.jdbc.support.incrementer.OracleSequenceMaxValueIncrementer;
 
 import com.github.rapid.common.beanutils.BeanUtils;
@@ -185,9 +184,9 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport {
 		return getNamedParameterJdbcTemplate().update(insertSql, new BeanPropertySqlParameterSource(entity));
 	}
 	
-	public int insertWithDB2Sequence(Object entity,String sequenceName,String insertSql) {
-		return insertWithSequence(entity, new DB2SequenceMaxValueIncrementer(getDataSource(),sequenceName), insertSql);
-	}
+//	public int insertWithDB2Sequence(Object entity,String sequenceName,String insertSql) {
+//		return insertWithSequence(entity, new DB2SequenceMaxValueIncrementer(getDataSource(),sequenceName), insertSql);
+//	}
 	
 	public int insertWithOracleSequence(Object entity,String sequenceName,String insertSql) {
 		return insertWithSequence(entity, new OracleSequenceMaxValueIncrementer(getDataSource(),sequenceName), insertSql);

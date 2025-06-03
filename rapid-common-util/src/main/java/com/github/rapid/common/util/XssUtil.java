@@ -3,9 +3,9 @@ package com.github.rapid.common.util;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringUtils;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 防范XSS攻击的攻击类

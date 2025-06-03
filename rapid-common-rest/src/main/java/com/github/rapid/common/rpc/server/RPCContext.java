@@ -1,7 +1,7 @@
 package com.github.rapid.common.rpc.server;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * RPC应用上下文，可以通过ThreadLocal的方式得到HttpServletRequest,HttpServletResponse

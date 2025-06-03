@@ -5,10 +5,6 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
@@ -20,7 +16,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationContextException;
-import org.springframework.remoting.support.RemoteExporter;
 import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.HttpRequestHandler;
@@ -38,7 +33,11 @@ import com.github.rapid.common.rpc.serde.JsonpSerDeImpl;
 import com.github.rapid.common.rpc.util.RequestParameterUtil;
 import com.github.rapid.common.rpc.util.StringUtil;
 
-public class RPCServiceExporter extends RemoteExporter implements HttpRequestHandler,HandlerMapping,ApplicationContextAware,InitializingBean {
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+public class RPCServiceExporter  implements HttpRequestHandler,HandlerMapping,ApplicationContextAware,InitializingBean {
 	
 	
 	private static final String TRACE_ID = "traceId";
@@ -265,6 +264,23 @@ public class RPCServiceExporter extends RemoteExporter implements HttpRequestHan
 		}
 
 
+	}
+	
+	private Class serviceInterface;
+	public Class getServiceInterface() {
+		return serviceInterface;
+	}
+	public void setServiceInterface(Class clazz) {
+		this.serviceInterface = clazz;
+	}
+	private Object service;
+
+	public Object getService() {
+		return service;
+	}
+
+	public void setService(Object service) {
+		this.service = service;
 	}
 	
 	

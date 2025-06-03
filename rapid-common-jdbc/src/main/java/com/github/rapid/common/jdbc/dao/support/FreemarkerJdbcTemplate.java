@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.stream.Stream;
 
 import javax.sql.DataSource;
 
@@ -256,6 +257,33 @@ public class FreemarkerJdbcTemplate extends PropertiesLoaderSupport implements N
 
 	private Properties createProperties() throws IOException {
 		return mergeProperties();
+	}
+
+	@Override
+	public <T> Stream<T> queryForStream(String sql, SqlParameterSource paramSource, RowMapper<T> rowMapper)
+			throws DataAccessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <T> Stream<T> queryForStream(String sql, Map<String, ?> paramMap, RowMapper<T> rowMapper)
+			throws DataAccessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int[] batchUpdate(String sql, SqlParameterSource[] batchArgs, KeyHolder generatedKeyHolder) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int[] batchUpdate(String sql, SqlParameterSource[] batchArgs, KeyHolder generatedKeyHolder,
+			String[] keyColumnNames) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -2,10 +2,10 @@ package com.github.rapid.common.web.wrapper;
 
 import java.util.regex.Matcher;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-
 import org.apache.commons.lang.StringUtils;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
 
 /**
  * 将HttpServletRequest.getRemoteAdd()能够获取真实的IP地址，通过nginx代理服务器代理请求的IP地址会存放在X-

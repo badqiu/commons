@@ -30,9 +30,8 @@
 
 			
 	<properties>
-		<spring.version>4.2.1.RELEASE</spring.version>
+		<spring.version>6.1.6</spring.version>
 
-		<jetty.version>6.1.24</jetty.version>
 		<jackson.version>2.6.1</jackson.version>
 		<slf4j.version>1.7.3</slf4j.version>
 
@@ -89,6 +88,14 @@
 	</build>
 
 	<dependencies>
+	
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-web</artifactId>
+		    <version>3.2.5</version> 
+		</dependency>
+				
+					
 			<dependency>
 				<groupId>com.github.rapid.common</groupId>
 				<artifactId>rapid-common-util</artifactId>
@@ -328,55 +335,10 @@
 			</dependency>
 			<!-- logging end-->
 			
-			<!-- j2ee web spec -->
-			<dependency>
-				<groupId>javax.servlet.jsp</groupId>
-				<artifactId>jsp-api</artifactId>
-				<scope>provided</scope>
-				<version>2.2</version>
-			</dependency>
-			<!-- 
-			<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>servlet-api</artifactId>
-				<version>2.5</version>
-				<scope>provided</scope>
-			</dependency>
-			 -->
-			<dependency>
-			    <groupId>javax.servlet</groupId>
-			    <artifactId>javax.servlet-api</artifactId>
-			    <version>3.1.0</version>
-			    <scope>provided</scope>
-		   </dependency>
-			<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>jstl</artifactId>
-				<version>1.1.2</version>
-				<optional>true</optional>
-			</dependency>
+
 
 													
-			<!-- jetty -->
-			<dependency>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>jetty</artifactId>
-				<version>${jetty.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>jsp-2.1-jetty</artifactId>
-				<version>${jetty.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-webapp</artifactId>
-				<scope>compile</scope>
-				<version>7.2.2.v20101205</version>
-				<optional>true</optional>
-			</dependency>
+
 								
 	</dependencies>
 	

@@ -3,7 +3,7 @@ package com.github.rapid.common.web.util;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 
 public class CookieUtil {
 	

@@ -9,8 +9,6 @@ import javax.validation.Validator;
 import javax.validation.metadata.BeanDescriptor;
 
 import org.springframework.beans.factory.InitializingBean;
-
-import com.opensymphony.xwork2.validator.ValidatorFactory;
 /**
  * 用于持有JSR303 Validator(Hibernate Validator),使调用Validator可以当静态方法使用.
  * 

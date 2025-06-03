@@ -74,7 +74,7 @@ public class ConventionRequestMappingHandlerMapping extends RequestMappingHandle
 	@Override
 	public void afterPropertiesSet() {
 		this.config = new RequestMappingInfo.BuilderConfiguration();
-		this.config.setPathHelper(getUrlPathHelper());
+//		this.config.setPathHelper(getUrlPathHelper());
 		this.config.setPathMatcher(getPathMatcher());
 		this.config.setSuffixPatternMatch(useSuffixPatternMatch());
 		this.config.setTrailingSlashMatch(useTrailingSlashMatch());

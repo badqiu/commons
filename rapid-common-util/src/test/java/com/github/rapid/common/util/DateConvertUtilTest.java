@@ -33,10 +33,10 @@ public class DateConvertUtilTest extends TestCase {
 	@Test
 	public void test_smart_parse() {
 		java.util.Date d = DateConvertUtil.smartParse("1999-01-02 12:13:14");
-		Assert.notNull(d);
+		Assert.notNull(d,"not null");
 		
 		d = DateConvertUtil.smartParse(" ");
-		Assert.isNull(d);
+		Assert.isNull(d,"must is null");
 		System.out.println(d);
 	}
 	

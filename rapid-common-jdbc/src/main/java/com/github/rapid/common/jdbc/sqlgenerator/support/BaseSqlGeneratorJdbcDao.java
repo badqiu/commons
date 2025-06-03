@@ -15,7 +15,6 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.jdbc.support.incrementer.AbstractSequenceMaxValueIncrementer;
-import org.springframework.jdbc.support.incrementer.DB2SequenceMaxValueIncrementer;
 import org.springframework.jdbc.support.incrementer.OracleSequenceMaxValueIncrementer;
 
 import com.github.rapid.common.jdbc.sqlgenerator.CacheSqlGenerator;
@@ -116,16 +115,16 @@ public abstract class BaseSqlGeneratorJdbcDao<E,PK extends Serializable> extends
 		setIdentifierProperty(entity, id);
 		return getNamedParameterJdbcTemplate().update(getSqlGenerator().getInsertSql(), new BeanPropertySqlParameterSource(entity));
 	}
-	/**
-	 * 根据db2 sequence生成ID插入数据,生成的ID会返回在entity属性中
-	 * @param entity
-	 * @param sequenceName
-	 * @param insertSql
-	 * @return the number of rows affected
-	 */
-	protected int insertWithDB2Sequence(Object entity,String sequenceName) {
-		return insertWithSequence(entity, new DB2SequenceMaxValueIncrementer(getDataSource(),sequenceName));
-	}
+//	/**
+//	 * 根据db2 sequence生成ID插入数据,生成的ID会返回在entity属性中
+//	 * @param entity
+//	 * @param sequenceName
+//	 * @param insertSql
+//	 * @return the number of rows affected
+//	 */
+//	protected int insertWithDB2Sequence(Object entity,String sequenceName) {
+//		return insertWithSequence(entity, new DB2SequenceMaxValueIncrementer(getDataSource(),sequenceName));
+//	}
 	
 	/**
 	 * 根据oracle sequence生成ID插入数据,生成的ID会返回在entity属性中

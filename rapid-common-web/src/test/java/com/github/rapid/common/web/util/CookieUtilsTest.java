@@ -2,12 +2,10 @@ package com.github.rapid.common.web.util;
 
 import java.util.Map;
 
-import javax.servlet.http.Cookie;
-
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.github.rapid.common.web.util.CookieUtil;
+import jakarta.servlet.http.Cookie;
 
 
 public class CookieUtilsTest {
