@@ -15,7 +15,7 @@ public class AutoMethod2PathAnnotationHandlerMapping extends RequestMappingHandl
     public AutoMethod2PathAnnotationHandlerMapping() {
         setUseSuffixPatternMatch(false); // 替代 setUseDefaultSuffixPattern(false)
     }
-
+    
     @Override
     protected RequestMappingInfo getMappingForMethod(Method method, Class<?> handlerType) {
         // 1. 优先调用父类逻辑
