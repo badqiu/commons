@@ -1,7 +1,6 @@
 package com.github.rapid.common.util;
 
-import static org.junit.Assert.*;
-
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
 public class ThreadBusyTest {
@@ -15,8 +14,12 @@ public class ThreadBusyTest {
 				while(true) {
 					count++;
 					long maxCount = Integer.MAX_VALUE * 1000L;
+					String str = RandomStringUtils.randomAlphabetic(100);
 					if(count > maxCount) {
 						count = 0;
+					}
+					if(str.contains("111111111111111111")) {
+						count++;
 					}
 				}
 			}
