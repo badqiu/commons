@@ -352,6 +352,19 @@ public final class Profiler {
     }
 
     /**
+     * 取得第一个step.selfToString();
+     *
+     * @return 第一个step，如果不存在，则返回<code>null</code>
+     */
+    public static String getStepSelfToString() {
+        Step s = getStep();
+        if(s == null) {
+        	return null;
+        }
+        return s.selfToString();
+    }
+    
+    /**
      * 取得最近的一个step。
      *
      * @return 最近的一个step，如果不存在，则返回<code>null</code>
@@ -382,7 +395,7 @@ public final class Profiler {
         private final long   startTime; //开始时间
         private long         endTime; //结束时间
         
-        private long 		 loopCount; //循环执行次数
+        private long 		 loopCount; //循环执行次数,计算tps使用
         private Throwable exception; //是否异常
         private int resultSize; //结果集大小
         
@@ -654,6 +667,15 @@ public final class Profiler {
         }
 
         /**
+         * 只显示当前阶段step的耗时字符串表示。
+         */
+        public String selfToString() {
+        	StringBuilder buffer = new StringBuilder();
+        	selfToString(buffer,"");
+        	return buffer.toString();
+        }
+        
+        /**
          * 将step转换成字符串的表示。
          *
          * @param buffer 字符串buffer
@@ -663,7 +685,25 @@ public final class Profiler {
         static DecimalFormat pecentageFormat = new DecimalFormat("##.#%");
         static DecimalFormat numberFormat = new DecimalFormat("##,###,###");
         private void toString(StringBuilder buffer, String prefix1, String prefix2) {
-            buffer.append(prefix1);
+            selfToString(buffer, prefix1);
+            
+            for (int i = 0; i < subStepList.size(); i++) {
+                Step subStep = (Step) subStepList.get(i);
+
+                buffer.append('\n');
+
+                if (i == (subStepList.size() - 1)) {
+                    subStep.toString(buffer, prefix2 + "`---", prefix2 + "    "); // 最后一项
+                } else if (i == 0) {
+                    subStep.toString(buffer, prefix2 + "+---", prefix2 + "|   "); // 第一项
+                } else {
+                    subStep.toString(buffer, prefix2 + "+---", prefix2 + "|   "); // 中间项
+                }
+            }
+        }
+
+		private void selfToString(StringBuilder buffer, String prefix1) {
+			buffer.append(prefix1);
 
             if (isReleased()) {
             	
@@ -706,21 +746,7 @@ public final class Profiler {
             if (getMessage() != null) {
             	buffer.append(" - ").append(getMessage());
             }
-            
-            for (int i = 0; i < subStepList.size(); i++) {
-                Step subStep = (Step) subStepList.get(i);
-
-                buffer.append('\n');
-
-                if (i == (subStepList.size() - 1)) {
-                    subStep.toString(buffer, prefix2 + "`---", prefix2 + "    "); // 最后一项
-                } else if (i == 0) {
-                    subStep.toString(buffer, prefix2 + "+---", prefix2 + "|   "); // 第一项
-                } else {
-                    subStep.toString(buffer, prefix2 + "+---", prefix2 + "|   "); // 中间项
-                }
-            }
-        }
+		}
         
         
     }

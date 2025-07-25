@@ -56,6 +56,19 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
+  <distributionManagement>
+    <repository>
+      <id>releases</id>
+      <name>Internal Releases</name>
+      <url>https://nexus.modo5.com/nexus/repository/maven-releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>snapshots</id>
+      <name>Internal snapshots</name>
+      <url>https://nexus.modo5.com/nexus/repository/maven-snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+  
 
 	<build>
 		<plugins>

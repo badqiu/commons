@@ -16,7 +16,7 @@ public class ProfilerTest {
 
 	public static void main(String[] args) throws InterruptedException {
 		
-		Profiler.start("start-" + 1);
+		Profiler.start("main() start");
 
 		messageFormatPerf();
 		javaQuery();
@@ -24,6 +24,7 @@ public class ProfilerTest {
 		Profiler.release();
 		
 		System.out.println(Profiler.dump() + "\n\n");
+		System.out.println("getStepSelfToString(): "+Profiler.getStepSelfToString() + "\n\n");
 	}
 
 	private static void javaQuery() throws InterruptedException {
