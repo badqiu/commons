@@ -91,7 +91,14 @@ public class DataSourceRouter implements DataSource,InitializingBean{
 	}
 
 	public DataSource getRealDataSource() {
-		String name = DataSourceContextHolder.peek();
+		return getRealDataSource(null);
+	}
+
+	public DataSource getRealDataSource(String name) {
+		if(name == null) {
+			name = DataSourceContextHolder.peek();
+		}
+		
 		if(name == null) {
 			return masterDataSource;
 		}
