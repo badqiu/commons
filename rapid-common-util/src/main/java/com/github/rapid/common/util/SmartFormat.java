@@ -3,6 +3,7 @@ package com.github.rapid.common.util;
 import java.text.DecimalFormat;
 
 public class SmartFormat {
+	static DecimalFormat formatAll = new DecimalFormat("#.#####################");
 	static DecimalFormat format5 = new DecimalFormat("#.#####");
 	static DecimalFormat format4 = new DecimalFormat("#.####");
 	static DecimalFormat format3 = new DecimalFormat("#.###");
@@ -40,7 +41,7 @@ public class SmartFormat {
 		}else if(value > 0.001) {
 			return format5.format(value);			
 		}else {
-			return String.valueOf(value);
+			return formatAll.format(value);
 		}
 	}
 }
