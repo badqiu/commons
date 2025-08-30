@@ -26,7 +26,7 @@ public class MultiGroupLockManager {
         new ConcurrentHashMap<>();
     
     // 定时清理服务
-    private final ScheduledExecutorService cleanupScheduler = Executors.newScheduledThreadPool(1);
+    private ScheduledExecutorService cleanupScheduler = null;
     
     // 默认锁过期时间（1天）
     private long defaultLockExpiryMs = TimeUnit.DAYS.toMillis(1);
@@ -49,6 +49,7 @@ public class MultiGroupLockManager {
      * 启动定时清理任务
      */
     private void startCleanupTask() {
+    	cleanupScheduler = Executors.newScheduledThreadPool(1);
         cleanupScheduler.scheduleAtFixedRate(() -> {
             cleanupExpiredLocks();
         }, defaultCleanupIntervalMs, defaultCleanupIntervalMs, TimeUnit.MILLISECONDS);
@@ -150,7 +151,7 @@ public class MultiGroupLockManager {
      */
     public void unlock(String groupId, String lockName) {
         LockWrapper lockWrapper = getLockWrapperNullable(groupId, lockName);
-        if (lockWrapper != null) {
+        if (lockWrapper != null && lockWrapper.lock.isHeldByCurrentThread()) {
             lockWrapper.unlock();
         }
     }
@@ -189,7 +190,7 @@ public class MultiGroupLockManager {
     /**
      * 安全获取锁对象（可能返回null）
      */
-    private ReentrantLock getLockNullable(String groupId, String lockName) {
+    ReentrantLock getLockNullable(String groupId, String lockName) {
         LockWrapper wrapper = getLockWrapperNullable(groupId, lockName);
         return (wrapper != null) ? wrapper.getLock() : null;
     }
