@@ -32,8 +32,12 @@ public class PageList<T> extends ArrayList<T> {
 		this.pageSize = pageSize;
 		this.totalItems = totalItems;
 	}
+
+	public PageList(Collection<T> list,long totalItems) {
+		this(list,totalItems,0,0);
+	}
 	
-	public PageList(Collection<T> list,long page, long pageSize, long totalItems) {
+	public PageList(Collection<T> list,long totalItems,long page, long pageSize) {
 		super(list);
 		this.page = page;
 		this.pageSize = pageSize;
