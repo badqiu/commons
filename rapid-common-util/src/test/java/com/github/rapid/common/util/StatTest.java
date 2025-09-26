@@ -11,7 +11,7 @@ public class StatTest {
 
     @Before
     public void setUp() {
-        stat = new Stat();
+        stat = new Stat(true);
     }
 
     // 初始状态测试
@@ -103,6 +103,30 @@ public class StatTest {
         double avg = emptyAggr.getAvg(); // 应该抛出 ArithmeticException
         System.out.println("testAverageWithZeroCount, avg="+avg);
         assertEquals(String.valueOf(avg),"0.0");
+    }
+    
+    @Test
+    public void getAvgNumberPerSecond() {
+    	for(long i = 0; i < 10000000000L; i++) {
+    		stat.addNumber(1);
+//    		System.out.println(stat);
+    	}
+    	System.out.println((long)stat.getAvgNumberPerSecond());
+    }
+    
+    @Test
+    public void getAvgNumberPerDay() {
+    	for(long i = 0; i < 10; i++) {
+    		stat.addNumber(1);
+    		ThreadUtil.sleep(100);
+    	}
+    	System.out.println((long)stat.getAvgNumberPerDay());
+    	
+    	for(long i = 0; i < 1000; i++) {
+    		stat.addNumber(1);
+//    		ThreadUtil.sleep(100);
+    	}
+    	System.out.println((long)stat.getAvgNumberPerDay());
     }
     
     @Test

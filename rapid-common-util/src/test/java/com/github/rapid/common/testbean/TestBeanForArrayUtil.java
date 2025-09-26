@@ -1,6 +1,6 @@
 package com.github.rapid.common.testbean;
 
-public class TestBeanForArrayUtil {
+public class TestBeanForArrayUtil implements Cloneable {
 	private String name;
 	private Integer age;
 	private Double money;
@@ -38,4 +38,12 @@ public class TestBeanForArrayUtil {
 		this.sex = sex;
 	}
 	
+	@Override
+	public TestBeanForArrayUtil clone() {
+		try {
+			return (TestBeanForArrayUtil)super.clone();
+		} catch (CloneNotSupportedException e) {
+			throw new RuntimeException(e);
+		}
+	}
 }

@@ -2,13 +2,36 @@ package com.github.rapid.common.util;
 
 import java.util.function.DoubleConsumer;
 
+/**
+ * 统计工具类，可以方便的统计:min,max,count,sum,avg等值。
+ */
 public class Stat implements DoubleConsumer{
 
+	public long startTime = 0;
+	
 	private double sum;
 	private long count;
     private double min = Double.POSITIVE_INFINITY;
     private double max = Double.NEGATIVE_INFINITY;
 
+    public Stat() {
+    }
+    
+    public Stat(boolean useStartTime) {
+    	if(useStartTime) {
+    		startTime = System.currentTimeMillis();
+    	}
+    }
+    
+    /**
+     * 计数+1
+     * @return
+     */
+    public Stat increment() {
+    	addNumber(1);
+    	return this;
+    }
+    
 	public void addNumber(Integer num) {
 		if(num == null) return;
 		addNumber(num.doubleValue());
@@ -80,6 +103,67 @@ public class Stat implements DoubleConsumer{
 	
 	public boolean empty() {
 		return count == 0;
+	}
+	
+	public long getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(long startTime) {
+		this.startTime = startTime;
+	}
+	
+	public void clean() {
+		this.startTime = System.currentTimeMillis();
+		this.count = 0;
+		this.sum = 0;
+	    min = Double.POSITIVE_INFINITY;
+	    max = Double.NEGATIVE_INFINITY;
+	}
+
+	/**
+	 * 统计每毫秒的平均值
+	 * @return
+	 */
+	public double getAvgNumberPerMills() {
+		if(count == 0) {
+			return 0.0;
+		}
+		double intervalMills = (System.currentTimeMillis() - startTime);
+		return sum / intervalMills;
+	}
+	
+	
+	/**
+	 * 统计每秒的平均值
+	 * @return
+	 */
+	public double getAvgNumberPerSecond() {
+		return getAvgNumberPerMills() * 1000;
+	}
+	
+	/**
+	 * 统计每分钟的平均值
+	 * @return
+	 */
+	public double getAvgNumberPerMinute() {
+		return getAvgNumberPerSecond() * 60;
+	}
+	
+	/**
+	 * 统计每小时的平均值
+	 * @return
+	 */
+	public double getAvgNumberPerHour() {
+		return getAvgNumberPerMinute() * 60;
+	}
+
+	/**
+	 * 统计每天的平均值
+	 * @return
+	 */
+	public double getAvgNumberPerDay() {
+		return getAvgNumberPerHour() * 24;
 	}
 	
     @Override
