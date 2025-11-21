@@ -11,7 +11,11 @@ import org.springframework.util.StringUtils;
  * 主要增加
  * appendNotNull(),
  * appendNotBlank(),
- * appendNotZero()
+ * appendNotBlankAndTrim(),
+ * appendNotZero().
+ * 
+ * @author badqiu
+ * 
  */
 public class StringBuilderHelper {
     
@@ -33,6 +37,20 @@ public class StringBuilderHelper {
     public StringBuilderHelper appendNotBlank(String str) {
         if(StringUtils.hasText(str)) {
         	builder.append(str);
+        }
+        return this;
+    }
+    
+    public StringBuilderHelper appendNotBlankAndTrim(Object obj) {
+        if(obj == null) return this;
+        
+        appendNotBlankAndTrim(String.valueOf(obj));
+        return this;
+    }
+    
+    public StringBuilderHelper appendNotBlankAndTrim(String str) {
+        if(StringUtils.hasText(str)) {
+        	builder.append(str.trim());
         }
         return this;
     }
