@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
  * appendNotNull(),
  * appendNotBlank(),
  * appendNotBlankAndTrim(),
+ * appendNotBlankIfTrue(),
  * appendNotZero().
  * 
  * @author badqiu
@@ -37,6 +38,20 @@ public class StringBuilderHelper {
     public StringBuilderHelper appendNotBlank(String str) {
         if(StringUtils.hasText(str)) {
         	builder.append(str);
+        }
+        return this;
+    }
+    
+    public StringBuilderHelper appendNotBlankIfTrue(Object obj,boolean condition) {
+        if(condition) {
+        	appendNotBlank(obj);
+        }
+        return this;
+    }
+    
+    public StringBuilderHelper appendNotBlankIfTrue(String str,boolean condition) {
+        if(condition) {
+        	appendNotBlank(str);
         }
         return this;
     }
