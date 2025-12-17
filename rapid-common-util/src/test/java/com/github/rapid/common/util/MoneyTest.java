@@ -35,6 +35,6 @@ public class MoneyTest extends Assert{
 	@Test public void allocate() {
 		Money m = new Money(10);
 		Money[] array = m.allocate(3);
-		assertEquals(StringUtils.join(array,","),"");
+		assertEquals(StringUtils.join(array,","),"3.34,3.33,3.33");
 	}
 }
