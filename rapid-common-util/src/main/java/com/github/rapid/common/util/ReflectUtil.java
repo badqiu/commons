@@ -12,14 +12,27 @@ import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+/**
+ * 反射工具类，主要修改类的静态变量的值
+ */
 public class ReflectUtil {
+	
 	private static Logger logger = LoggerFactory.getLogger(ReflectUtil.class);
 	
+	/**
+	 * 修改类静态变量的值。
+	 * @param clazz
+	 * @param newValues
+	 */
 	public static void modifyAllStaticVariables(Class<?> clazz, Map<String, Object> newValues) {
 		modifyAllStaticVariables(clazz,newValues,false);
 	}
 	
+	/**
+	 * 修改类静态变量的值。
+	 * @param clazz
+	 * @param newValues
+	 */
 	public static void modifyAllStaticVariables(Class<?> clazz, Class newValues) {
 		Map<String,Object> fieldValues = getAllFieldsMap(newValues);
 		
@@ -42,6 +55,7 @@ public class ReflectUtil {
 		}
 		return map;
 	}
+	
 	/**
 	 *  修改一个类的常量
 	 * @param clazz

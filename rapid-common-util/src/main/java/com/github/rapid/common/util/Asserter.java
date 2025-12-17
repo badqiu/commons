@@ -310,7 +310,7 @@ public class Asserter {
 	 * @param message the exception message to use if the assertion fails
 	 * @throws IllegalArgumentException if the collection is <code>null</code> or has no elements
 	 */
-	public static Collection notEmpty(Collection collection, String message) {
+	public static <T> Collection<T> notEmpty(Collection<T> collection, String message) {
 		if (CollectionUtils.isEmpty(collection)) {
 			throw new IllegalArgumentException(message);
 		}
@@ -324,12 +324,12 @@ public class Asserter {
 	 * @param collection the collection to check
 	 * @throws IllegalArgumentException if the collection is <code>null</code> or has no elements
 	 */
-	public static Collection notEmpty(Collection collection) {
+	public static <T> Collection<T> notEmpty(Collection<T> collection) {
 		return notEmpty(collection,
 				"[Assertion failed] - this collection must not be empty: it must contain at least 1 element");
 	}
 
-	public static Collection notEmpty(Collection collection, RuntimeException throwIfAssertFail) {
+	public static <T> Collection<T> notEmpty(Collection<T> collection, RuntimeException throwIfAssertFail) {
 		if (CollectionUtils.isEmpty(collection)) {
 			throw throwIfAssertFail;
 		}
@@ -344,7 +344,7 @@ public class Asserter {
 	 * @param message the exception message to use if the assertion fails
 	 * @throws IllegalArgumentException if the map is <code>null</code> or has no entries
 	 */
-	public static Map notEmpty(Map map, String message) {
+	public static <K,V> Map<K,V> notEmpty(Map<K,V> map, String message) {
 		if (CollectionUtils.isEmpty(map)) {
 			throw new IllegalArgumentException(message);
 		}
@@ -359,11 +359,11 @@ public class Asserter {
 	 * @param map the map to check
 	 * @throws IllegalArgumentException if the map is <code>null</code> or has no entries
 	 */
-	public static Map notEmpty(Map map) {
+	public static <K,V> Map<K,V> notEmpty(Map<K,V> map) {
 		return notEmpty(map, "[Assertion failed] - this map must not be empty; it must contain at least one entry");
 	}
 
-	public static Map notEmpty(Map map, RuntimeException throwIfAssertFail) {
+	public static <K,V> Map<K,V> notEmpty(Map<K,V> map, RuntimeException throwIfAssertFail) {
 		if (CollectionUtils.isEmpty(map)) {
 			throw throwIfAssertFail;
 		}
