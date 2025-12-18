@@ -44,7 +44,7 @@ public class SystemTimer {
 				try {
 					Thread.sleep(refreshTimeInterval);
 				} catch (InterruptedException e) {
-					logger.error("SystemTimer refresh thread exit",e);
+					logger.info("WARN SystemTimer refresh thread exit by InterruptedException",e);
 					throw new RuntimeException(e);
 				}
 			}
