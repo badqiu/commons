@@ -19,6 +19,15 @@ public class JVMUtilTest {
 	}
 
 	@Test
+	public void lockFileForOnlyProcess_n_times() {
+		JVMUtil.lockFileForOnlyProcess(JVMUtilTest.class);
+		JVMUtil.lockFileForOnlyProcess(JVMUtilTest.class);
+		JVMUtil.lockFileForOnlyProcess(JVMUtilTest.class);
+		JVMUtil.lockFileForOnlyProcess(JVMUtilTest.class);
+		System.out.println("end");
+	}
+	
+	@Test
 	public void getPid() {
 		System.out.println("pid:"+JVMUtil.getPid());
 	}

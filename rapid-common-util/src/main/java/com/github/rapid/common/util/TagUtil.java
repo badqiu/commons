@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 public class TagUtil {
@@ -28,6 +29,32 @@ public class TagUtil {
 		
 		String[] tagsArray = StringUtils.split(tags, ',');
 		return trimArray(tagsArray);
+	}
+	
+	/**
+	 * 是否有某个标签
+	 * @param tags
+	 * @param searchTags
+	 * @return
+	 */
+	public static boolean hasAnyTags(String tags,String searchTags) {
+		Set tagsSet = parseTags(tags);
+		Set searchTagsSet = parseTags(searchTags);
+		Collection intersection = CollectionUtils.intersection(tagsSet, searchTagsSet);
+		return !intersection.isEmpty();
+	}
+	
+	/**
+	 * 是否有某个标签
+	 * @param tags
+	 * @param searchTags
+	 * @return
+	 */
+	public static boolean hasAllTags(String tags,String searchTags) {
+		Set tagsSet = parseTags(tags);
+		Set searchTagsSet = parseTags(searchTags);
+		Collection intersection = CollectionUtils.intersection(tagsSet, searchTagsSet);
+		return !intersection.isEmpty() && intersection.size() == searchTagsSet.size();
 	}
 
 	private static Set<String> trimArray(String[] tagsArray) {
