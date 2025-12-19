@@ -2,7 +2,9 @@ package com.github.rapid.common.spring.factory.config;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Properties;
@@ -27,6 +29,7 @@ public class LoadDirPropertiesFactoryBean extends PropertiesFactoryBean implemen
 	
     private String autoSearchDir;
     private static final String PROPERTIES_EXT = "properties";
+    private static final String XML_EXT = "xml";
 
     @Override
     protected Properties createProperties() throws IOException {
@@ -51,19 +54,31 @@ public class LoadDirPropertiesFactoryBean extends PropertiesFactoryBean implemen
         
         log.info("loadPropertiesFromDirectory() searchPath:"+searchPath);
         
-        Collection<File> files = FileUtils.listFiles(new File(searchPath), new String[] {PROPERTIES_EXT}, true);
+        Collection<File> files = FileUtils.listFiles(new File(searchPath), new String[] {PROPERTIES_EXT,XML_EXT}, true);
         
         for (File file : files) {
             if (file.exists()) {
             	log.info("loadPropertiesFromDirectory() auto load config:"+file);
                 Properties prop = new Properties();
-                FileInputStream fileInputStream = null;
+                
+                FileReader reader = null;
+                InputStream inputStream = null;
+                
                 try {
-                	fileInputStream = new FileInputStream(file);
-                	prop.load(fileInputStream);
+                	if(file.getName().endsWith(XML_EXT)) {
+                		inputStream = new FileInputStream(file);
+                		prop.loadFromXML(inputStream);
+                	}else if(file.getName().endsWith(PROPERTIES_EXT)) {
+                		reader = new FileReader(file);
+                		prop.load(reader);
+                	}else {
+                		throw new RuntimeException("unsupport file extension:"+file);
+                	}
+                	
                 	combinedProps.putAll(prop);
                 }finally {
-                	IOUtils.closeQuietly(fileInputStream);
+                	IOUtils.closeQuietly(reader);
+                	IOUtils.closeQuietly(inputStream);
                 }
             }
         }
