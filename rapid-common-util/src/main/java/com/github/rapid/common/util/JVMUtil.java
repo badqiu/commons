@@ -9,7 +9,9 @@ import java.lang.management.RuntimeMXBean;
 import java.net.ServerSocket;
 import java.nio.channels.FileLock;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +20,7 @@ public class JVMUtil {
 	static Logger logger = LoggerFactory.getLogger(JVMUtil.class);
 	
 	static List<FileLock> jvmFile = new ArrayList<FileLock>();
+	static Set<String> lockedNames = new HashSet<String>();
 	static List<ServerSocket> jvmSockets = new ArrayList<ServerSocket>();
 	
 	/**
@@ -48,6 +51,9 @@ public class JVMUtil {
 	 * @param lockName 临时文件名称,不要带目录名称
 	 */
 	public static void lockFileForOnlyProcess(String lockName) {
+		if(lockedNames.contains(lockName)) {
+			return;
+		}
 		File file = new File(System.getProperty("java.io.tmpdir"),lockName+".lock");
 		try {
 			FileOutputStream output = new FileOutputStream(file);
@@ -62,6 +68,7 @@ public class JVMUtil {
 			printStream.flush();
 			
 			jvmFile.add(fileLock);
+			lockedNames.add(lockName);
 			logger.info("成功lock文件:'"+file+"',用以避免程序被多次启动,pid:"+getPid());
 		}catch(IOException e) {
 			logger.warn("获得文件lock时异常:'"+file+"',系统退出",e);
