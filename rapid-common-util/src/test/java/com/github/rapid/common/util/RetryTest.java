@@ -17,7 +17,7 @@ public class RetryTest {
 		}
 	};
 	
-	int execCount = 0;
+	volatile int execCount = 0;
 	@Test
 	public void testTimes() {
 		try {

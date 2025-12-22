@@ -18,8 +18,8 @@ public class Retry<T>{
 	
 	private Callable<T> cmd;
 	private int retryTimes;  // 重试次数
-	private long retryInterval;// 重试间隔(毫秒)
-	private long retryTimeout; //超时时间(毫秒)
+	private long retryIntervalMills;// 重试间隔(毫秒)
+	private long retryTimeoutMills; //超时时间(毫秒)
 	private Predicate<Exception> retryTestFunction; //是否重试,返回false不重试
 	private Class<? extends Exception> retryFor; //批量的异常才重试
 	
@@ -27,18 +27,18 @@ public class Retry<T>{
 	private Exception lastException;
 	
 	
-	public Retry(int retryTimes, long retryInterval,long retryTimeout) {
-		this(retryTimes,retryInterval,retryTimeout,null);
+	public Retry(int retryTimes, long retryIntervalMills,long retryTimeoutMills) {
+		this(retryTimes,retryIntervalMills,retryTimeoutMills,null);
 	}
 	
-	public Retry(int retryTimes, long retryInterval,long retryTimeout,Callable<T> cmd) {
+	public Retry(int retryTimes, long retryIntervalMills,long retryTimeoutMills,Callable<T> cmd) {
 		if(retryTimes > 0) {
-			Assert.isTrue(retryInterval > 0,"retryInterval > 0 must be true ");
+			Assert.isTrue(retryIntervalMills > 0,"retryIntervalMills > 0 must be true ");
 		}
 		this.cmd = cmd;
 		this.retryTimes = retryTimes;
-		this.retryInterval = retryInterval;
-		this.retryTimeout = retryTimeout;
+		this.retryIntervalMills = retryIntervalMills;
+		this.retryTimeoutMills = retryTimeoutMills;
 	}
 
 	public Retry(int retryTimes, long retryInterval, Callable<T> cmd) {
@@ -73,7 +73,7 @@ public class Retry<T>{
 		Assert.notNull(command,"Callable command must be null");
 		
 		long start = 0;
-		if(retryTimeout > 0) {
+		if(retryTimeoutMills > 0) {
 			start = System.currentTimeMillis();
 		}
 		
@@ -82,7 +82,10 @@ public class Retry<T>{
 				R result = command.call();
 				return result;
 			} catch (Exception e) {
-				logger.warn("occer error,retry execute: useRetryTimes:"+useRetryTimes+" retryTimes:"+retryTimes+" retryInterval:"+retryInterval,e);
+				lastException = e;
+				useRetryTimes++;
+				
+				logger.warn("occer error,retry execute: useRetryTimes:"+useRetryTimes+" retryTimes:"+retryTimes+" retryInterval:"+retryIntervalMills,e);
 				
 				if(retryTestFunction != null) {
 					if(!retryTestFunction.test(e)) {
@@ -96,22 +99,21 @@ public class Retry<T>{
 					}
 				}
 				
-				lastException = e;
-				useRetryTimes++;
+
 				if(useRetryTimes > retryTimes) {
 					break;
 				}
 				
-				if(retryTimeout > 0) {
+				if(retryTimeoutMills > 0) {
 					long costTime = System.currentTimeMillis() - start;
-					if(costTime > retryTimeout) {
-						throw new RetryException(useRetryTimes,"retry timeout error,retryTimeout:"+retryTimeout,lastException);
+					if(costTime > retryTimeoutMills) {
+						throw new RetryException(useRetryTimes,"retry timeout error,retryTimeout:"+retryTimeoutMills+" useRetryTimes:"+useRetryTimes,lastException);
 					}
 				}
 				
-				Assert.isTrue(retryInterval > 0 ,"retryInterval must be true");
+				Assert.isTrue(retryIntervalMills > 0 ,"retryInterval must be true");
 				try {
-					Thread.sleep(retryInterval);
+					Thread.sleep(retryIntervalMills);
 				} catch (InterruptedException e1) {
 					throw new RetryException(useRetryTimes,"sleep InterruptedException",e1);
 				}
