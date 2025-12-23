@@ -211,7 +211,8 @@ public class HdfsFile extends File{
 	@Override
 	public boolean isFile() {
 		try {
-			return fs.isFile(path);
+			return fs.getFileStatus(path).isFile();
+//			return fs.isFile(path);
 		} catch (IOException e) {
 			handleIOException(e);
 			return false;
