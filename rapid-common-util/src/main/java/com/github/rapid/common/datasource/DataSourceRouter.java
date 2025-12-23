@@ -17,7 +17,8 @@ import org.springframework.util.Assert;
  */
 public class DataSourceRouter implements DataSource,InitializingBean{
 
-	private DataSource masterDataSource;
+	private DataSource masterDataSource; //托底的数据源，没有查找到数据源时，使用
+	
 	private Map<String,DataSource> dataSourceMap;
 	
 	private String masterName = "master";
