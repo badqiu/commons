@@ -5,6 +5,8 @@ import org.apache.commons.lang3.StringUtils;
 public class StringUtil {
 	
 	/**
+	 * 名字转成下划线，如 camelCase => camel_case
+	 * 
 	 * Convert a name in camelCase to an underscored name in lower case.
 	 * Any upper case letters are converted to lower case with a preceding underscore.
 	 * @param name the string containing original name
@@ -32,6 +34,9 @@ public class StringUtil {
 		return result.toString();
 	}
 	
+	/**
+	 * 下划线名字转成驼峰，如 camel_case => camelCase
+	 */
 	public static String camelCase(String name) {
 		if(StringUtils.isBlank(name)) {
 			return name;
@@ -59,4 +64,13 @@ public class StringUtil {
 		}
 		return result.toString();
 	}
+	
+	
+	/**
+     * 按通用分隔符分隔字符串
+     * 如输入: a,b c 返回: [a,b,c]
+     */
+    public static String[] splitByCommonSeparators(String str) {
+    	return org.springframework.util.StringUtils.tokenizeToStringArray(str,",，  \t\n");
+    }
 }
