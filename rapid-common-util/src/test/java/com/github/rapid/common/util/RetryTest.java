@@ -29,6 +29,16 @@ public class RetryTest {
 	}
 	
 	@Test
+	public void testTimesDuration() {
+		try {
+			Retry.retry(2, "0.1s",errorCmd);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		assertEquals(execCount,3);
+	}
+	
+	@Test
 	public void testTimesSimple() {
 		Retry.retry(2, 10,()->{
 			int sum = 2/0;
