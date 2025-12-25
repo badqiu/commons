@@ -29,6 +29,14 @@ public class RetryTest {
 	}
 	
 	@Test
+	public void testTimesSimple() {
+		Retry.retry(2, 10,()->{
+			int sum = 2/0;
+			return sum;
+		});
+	}
+	
+	@Test
 	public void test_interval() {
 		long start = System.currentTimeMillis();
 		try {

@@ -15,6 +15,18 @@ public class DurationUtilTest {
 		System.out.println(duration);
 		assertEquals("PT1S", duration.toString());
 		
+		duration = DurationUtil.parseDuration("10s");
+		System.out.println(duration);
+		assertEquals("PT10S", duration.toString());
+		
+		duration = DurationUtil.parseDuration("601s");
+		System.out.println(duration);
+		assertEquals("PT10M1S", duration.toString());
+		
+		duration = DurationUtil.parseDuration("1h20m50s");
+		System.out.println(duration);
+		assertEquals("PT1H20M50S", duration.toString());
+		
 		duration = DurationUtil.parseDuration("PT1s");
 		System.out.println(duration);
 		assertEquals("PT1S", duration.toString());

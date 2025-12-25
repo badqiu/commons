@@ -127,33 +127,33 @@ public abstract class AbstractHttpInvokerRequestExecutor
 	}
 
 	public final HttpResponse executeRequest(
-			String serviceUrl, RPCRequest invocation) throws Exception {
+			String serviceUrl, RPCRequest request) throws Exception {
 
 		
-		String method = invocation.getMethod();
+		String method = request.getMethod();
 		SerDe serDe = SerDeMapping.DEFAULT_MAPPING.getSerDeByContentType(getContentType());
 		if(serDe == null) {
 			throw new RuntimeException("not found http request serialize SerDe by contentType:"+getContentType());
 		}
-		invocation.setFormat(SerDeMapping.extractFormat(serDe.getContentType()));
+		request.setFormat(SerDeMapping.extractFormat(serDe.getContentType()));
 		
-		String urlParamsString = URLParamUtil.serial2UrlParams(buildUrlParams(invocation));
+		String urlParamsString = URLParamUtil.serial2UrlParams(buildUrlParams(request));
 		String url = serviceUrl +"/"+method + "?" + urlParamsString;
 		
 		ByteArrayOutputStream output = new ByteArrayOutputStream(300);
-		serDe.serialize((Object)invocation.getArguments(), output, null);
+		serDe.serialize((Object)request.getArguments(), output, null);
 		byte[] parameters = output.toByteArray();
 		if (logger.isDebugEnabled()) {
 			logger.debug("Sending HTTP invoker request for service at [" + url +
-					"], with parameters: " + parameters+" headers:"+invocation.getHeaders());
+					"], with parameters: " + parameters+" headers:"+request.getHeaders());
 		}
-		return doExecuteRequest(url,parameters,invocation.getHeaders());
+		return doExecuteRequest(url,parameters,request.getHeaders());
 	}
 
-	private Map buildUrlParams(RPCRequest invocation) {
+	private Map buildUrlParams(RPCRequest request) {
 		Map<String,String> localParamsMap = new HashMap<String,String>();
-		localParamsMap.put(MethodInvoker.KEY_PROTOCOL, invocation.getFormat());
-		localParamsMap.put(MethodInvoker.KEY_FORMAT, invocation.getFormat());
+		localParamsMap.put(MethodInvoker.KEY_PROTOCOL, request.getFormat());
+		localParamsMap.put(MethodInvoker.KEY_FORMAT, request.getFormat());
 		
 		Map<String, String> globalParams = RPCClientContext.getGlobalParams();
 		if(globalParams != null) {

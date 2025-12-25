@@ -123,27 +123,80 @@ public class Retry<T>{
 		
 		throw new RetryException(useRetryTimes,"retry error",lastException);
 	}
+
 	
+	
+	/**
+	 * 重试方法
+	 * @param <T>
+	 * @param retryTimes 重试次数
+	 * @param retryIntervalMills 重试间隔(毫秒)
+	 * @param cmd 要执行命令
+	 * @return
+	 */
 	public static <T> T retry(int retryTimes,long retryIntervalMills,Callable<T> cmd) {
 		return new Retry<T>(retryTimes,retryIntervalMills,cmd).exec();
 	}
 	
+	/**
+	 * 重试方法
+	 * @param <T>
+	 * @param retryTimes 重试次数
+	 * @param retryIntervalMills 重试间隔(毫秒)
+	 * @param retryTimeoutMills  重试超时时间(毫秒)
+	 * @param cmd 要执行命令
+	 * @return
+	 */
 	public static <T> T retry(int retryTimes,long retryIntervalMills,long retryTimeoutMills,Callable<T> cmd) {
 		return new Retry<T>(retryTimes,retryIntervalMills,retryTimeoutMills,cmd).exec();
 	}
 
+	/**
+	 * 重试方法
+	 * @param <T>
+	 * @param retryTimes 重试次数
+	 * @param retryInterval 重试间隔
+	 * @param cmd 要执行命令
+	 * @return
+	 */
 	public static <T> T retry(int retryTimes,Duration retryInterval,Callable<T> cmd) {
 		return retry(retryTimes,retryInterval.toMillis(),cmd);
 	}
 	
+	/**
+	 * 重试方法
+	 * @param <T>
+	 * @param retryTimes 重试次数
+	 * @param retryInterval 重试间隔
+	 * @param retryTimeout 重试超时时间
+	 * @param cmd 要执行命令
+	 * @return
+	 */
 	public static <T> T retry(int retryTimes,Duration retryInterval,Duration retryTimeout,Callable<T> cmd) {
 		return retry(retryTimes,retryInterval.toMillis(),retryTimeout.toMillis(),cmd);
 	}
 	
+	/**
+	 * 重试方法
+	 * @param <T>
+	 * @param retryTimes 重试次数
+	 * @param retryInterval 重试间隔,示例值:2s
+	 * @param cmd 要执行命令
+	 * @return
+	 */
 	public static <T> T retry(int retryTimes,String retryInterval,Callable<T> cmd) {
 		return retry(retryTimes,DurationUtil.parseDuration(retryInterval),cmd);
 	}
 	
+	/**
+	 * 重试方法
+	 * @param <T>
+	 * @param retryTimes 重试次数
+	 * @param retryInterval 重试间隔,示例值:2s
+	 * @param retryTimeout 重试超时时间,示例值:2s
+	 * @param cmd 要执行命令
+	 * @return
+	 */
 	public static <T> T retry(int retryTimes,String retryInterval,String retryTimeout,Callable<T> cmd) {
 		return retry(retryTimes,DurationUtil.parseDuration(retryInterval),DurationUtil.parseDuration(retryTimeout),cmd);
 	}

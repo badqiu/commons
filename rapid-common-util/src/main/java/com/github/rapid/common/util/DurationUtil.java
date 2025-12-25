@@ -8,6 +8,12 @@ import org.apache.commons.lang3.StringUtils;
 
 public class DurationUtil {
 
+	/**
+	 * 可以解析数据: 5s=5秒, 1m1s=61秒 2d1h20m1s=2天1小时20分1秒
+	 * 
+	 * @param value
+	 * @return
+	 */
 	public static Duration parseDuration(String value) {
 		if(StringUtils.isBlank(value)) return null;
 		
