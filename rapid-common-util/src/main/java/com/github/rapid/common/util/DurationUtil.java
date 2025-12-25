@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 public class DurationUtil {
 
 	/**
-	 * 可以解析数据: 0.5s=500毫秒 5s=5秒, 1m1s=61秒 2d1h20m1s=2天1小时20分1秒
+	 * 可以解析数据: 5.1s=5.1秒, 1m1s=61秒 2d1h20m1s=2天1小时20分1秒
 	 * 
 	 * @param value
 	 * @return
