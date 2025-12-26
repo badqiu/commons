@@ -29,22 +29,30 @@ public class DurationUtil {
 		}
 	}
 
+	/**
+	 * 变成ISO格式。 日期要有前缀P， 时间部分用前缀T
+	 * @param value
+	 * @return
+	 */
 	private static String toIsoFormatDurationText(String value) {
 		String valueLower = value.toLowerCase();
 		String text = valueLower;
 		boolean isIsoFormat = valueLower.contains("p");
 		if (isIsoFormat) {
-			text = value;
-		} else {
-			if(valueLower.contains("t")) {
-				text = "P"+value;
-			}else {
-				text = "PT"+value;
-			}
+			return value;
+		} 
+		if(valueLower.contains("t")) {
+			return "P"+value;
 		}
 		
+		//有时间部分，需要T
+		if(valueLower.contains("s") || valueLower.contains("m")  || valueLower.contains("h") ) {
+			return "PT"+value;
+		}
 		
-		return text;
+		//P覆盖日期
+		return "P"+value;
+		
 	}
 
 }
