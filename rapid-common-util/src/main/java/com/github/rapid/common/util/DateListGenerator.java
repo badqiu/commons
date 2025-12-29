@@ -22,11 +22,11 @@ public class DateListGenerator {
 	 * 
 	 * @param startTime 开始时间，格式：yyyy-MM-dd 或 yyyy-MM-dd HH:mm:ss
 	 * @param interval  时间间隔，支持：d(天)、h(小时)、m(分钟)、s(秒)
-	 * @param num         生成的数量
+	 * @param generateCount         生成的数量
 	 * @return 日期字符串列表
 	 */
-	public static List<Date> generateDateList(Date startTime, String interval, int num) {
-		Assert.isTrue(num>0,"num > 0 must be true");
+	public static List<Date> generateDateList(Date startTime, String interval, int generateCount) {
+		Assert.isTrue(generateCount>0,"generateCount > 0 must be true");
 		Assert.hasText(interval,"interval must be not blank");
 		Assert.notNull(startTime,"startTime must be not null");
 		
@@ -34,7 +34,7 @@ public class DateListGenerator {
 
 		// 解析时间间隔
 		Duration timeInterval = parseInterval(interval);
-		for (int i = 0; i < num; i++) {
+		for (int i = 0; i < generateCount; i++) {
 			long mills = i * timeInterval.toMillis();
 			long newTime = startTime.getTime() + mills;
 			dateList.add(new Date(newTime));
@@ -66,11 +66,11 @@ public class DateListGenerator {
 		return dateList;
 	}
 	
-	public static List<Date> generateDateList(Date startTime, Date endTime, String interval,int num) {
+	public static List<Date> generateDateList(Date startTime, Date endTime, String interval,int generateCount) {
 		if(endTime != null) {
 			return generateDateList(startTime,endTime,interval);
 		}
-		return generateDateList(startTime, interval, num);
+		return generateDateList(startTime, interval, generateCount);
 	}
 
 	/**
