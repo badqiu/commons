@@ -5,12 +5,16 @@ import org.slf4j.LoggerFactory;
 /**
  * 主要功能: 通过缓存系统时间,提升System.currentTimeMillis()的效率
  * 通过设置时间刷新间隔可以提升系统时间精度
+ * 
+ * 应用场景：耗时统计，timeout时间计算
  *
  * 性能对比数据: 
  * [totalCost:589ms, all:5.7%, loopCount:1,000,000,000, TPS:1,697,792,869] - SystemTimer.currentTimeMillis
  * [totalCost:4,534ms, all:43.9%, loopCount:1,000,000,000, TPS:220,555,800] - System.currentTimeMillis
  * 
  * 性能提升7.6倍
+ * 
+ * 
  * 
  * @author badqiu
  *
