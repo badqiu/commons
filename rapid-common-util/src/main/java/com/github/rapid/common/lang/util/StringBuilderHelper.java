@@ -22,6 +22,9 @@ public class StringBuilderHelper {
     
     private StringBuilder builder = new StringBuilder();
     
+    public StringBuilderHelper() {
+    }
+    
     public StringBuilderHelper(String str) {
     	builder = new StringBuilder(str);
     }
