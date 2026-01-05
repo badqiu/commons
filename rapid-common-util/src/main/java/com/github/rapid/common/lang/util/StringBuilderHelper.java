@@ -22,6 +22,19 @@ public class StringBuilderHelper {
     
     private StringBuilder builder = new StringBuilder();
     
+    public StringBuilderHelper(String str) {
+    	builder = new StringBuilder(str);
+    }
+    
+    public StringBuilderHelper(CharSequence str) {
+    	builder = new StringBuilder(str);
+    }
+    
+    public StringBuilderHelper(int capacity) {
+    	builder = new StringBuilder(capacity);
+    }
+    
+    
     public StringBuilderHelper appendNotNull(Object obj) {
         if(obj == null) return this;
         append(obj);
