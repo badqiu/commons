@@ -13,6 +13,7 @@ public class FileSizeUtilsTest extends TestCase {
 		assertEquals("1GB",FileSizeUtil.getHumanReadableFileSize(1024*1024*1024));
 		long tb = (long)1024*1024*1024*1024*5;
 		assertEquals("5TB",FileSizeUtil.getHumanReadableFileSize(tb+8));
+		assertEquals("5.15TB",FileSizeUtil.getHumanReadableFileSize(tb+(tb/33)));
 		assertEquals("8192PB",FileSizeUtil.getHumanReadableFileSize(Long.MAX_VALUE));
 		
 		assertEquals("-1",FileSizeUtil.getHumanReadableFileSize(-1));
