@@ -12,11 +12,11 @@ import org.apache.commons.lang.StringUtils;
  * @author badqiu
  */
 public class FileSizeUtil {
-	public static long ONE_KB = 1024L;
-	public static long ONE_MB = ONE_KB * 1024L;
-	public static long ONE_GB = ONE_MB * 1024L;
-	public static long ONE_TB = ONE_GB * 1024L;
-	public static long ONE_PB = ONE_TB * 1024L;
+	public static final long ONE_KB = 1024L;
+	public static final long ONE_MB = ONE_KB * 1024L;
+	public static final long ONE_GB = ONE_MB * 1024L;
+	public static final long ONE_TB = ONE_GB * 1024L;
+	public static final long ONE_PB = ONE_TB * 1024L;
 	
 	/**
 	 * 解析带有单位的文件单位为long型的文件大小
