@@ -79,8 +79,12 @@ public class MapUtil {
 		return map;
 	}
 	
-	public static Map toMap(Object[] array,String...keys) {
+	public static <V> Map<String,V> toMap(V[] array,String...keys) {
 		return ArrayUtil.toMap(array, keys);
+	}
+	
+	public static <T> List<T> fromMap(Map<String,T> map,String...keys) {
+		return ArrayUtil.fromMap(map, keys);
 	}
 	
 	/**

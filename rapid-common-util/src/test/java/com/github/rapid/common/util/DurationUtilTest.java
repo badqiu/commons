@@ -10,7 +10,7 @@ import org.junit.Test;
 public class DurationUtilTest {
 
 	@Test
-	public void parseDuration() {
+	public void parseDurationSuccess() {
 		Duration duration = DurationUtil.parseDuration("1s");
 		System.out.println(duration);
 		assertEquals("PT1S", duration.toString());
@@ -68,6 +68,13 @@ public class DurationUtilTest {
 	@Test(expected=DateTimeException.class)
 	public void parseDurationError() {
 		Duration duration = DurationUtil.parseDuration("2D1s");
+		System.out.println(duration);
+		assertEquals("PT1S", duration.toString());
+	}
+	
+	@Test(expected=DateTimeException.class)
+	public void parseDurationWeekMonth() {
+		Duration duration = DurationUtil.parseDuration("2w");
 		System.out.println(duration);
 		assertEquals("PT1S", duration.toString());
 	}

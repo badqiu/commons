@@ -2,8 +2,10 @@ package com.github.rapid.common.util;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -19,7 +21,7 @@ public class ArrayUtil {
 	 * @return
 	 */
 	@SuppressWarnings("all")
-	public static Map toMap(Object[] array,String...keys) {
+	public static <V> Map<String,V> toMap(V[] array,String...keys) {
 		if(array == null) return new HashMap();
 		
 		Map m = new LinkedHashMap();
@@ -27,9 +29,25 @@ public class ArrayUtil {
 			if(i >= array.length) {
 				break;
 			}
-			m.put(StringUtils.trim(keys[i]), array[i]);
+			String trimKey = StringUtils.trim(keys[i]);
+			V value = array[i];
+			m.put(trimKey, value);
 		}
 		return m;
+	}
+	
+	public static <T> List<T> fromMap(Map<String,T> map,String...keys) {
+	    if (map == null || keys == null || keys.length == 0) {
+	        return new ArrayList<>();
+	    }
+	    
+	    List<T> result = new ArrayList<>(keys.length);
+	    for (String key : keys) {
+	        String trimmedKey = StringUtils.trim(key);
+	        T value = map.get(trimmedKey);
+			result.add(value);
+	    }
+	    return result;		
 	}
 	
 	/**
