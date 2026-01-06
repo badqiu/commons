@@ -73,6 +73,6 @@ public class StringUtil {
      * 支持json数组的解释: ["helloworld","my-name",'my.name','my_name'] => [helloworld,myname,my.name,my_name]
      */
     public static String[] splitByCommonSeparators(String str) {
-    	return org.springframework.util.StringUtils.tokenizeToStringArray(str,",，  \t\n[]\"\'");
+    	return org.springframework.util.StringUtils.tokenizeToStringArray(str,",，  \t\n（）(){}[]\"\'");
     }
 }
