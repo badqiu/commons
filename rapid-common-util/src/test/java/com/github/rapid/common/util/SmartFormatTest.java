@@ -20,7 +20,9 @@ public class SmartFormatTest {
     	System.out.println(SmartFormat.format(100.12345));
     	System.out.println(SmartFormat.format(999.12345));
     	System.out.println(SmartFormat.format(1000.12345));
+    	System.out.println(SmartFormat.format(9999.12345));
     	System.out.println(SmartFormat.format(10000.12345));
+    	System.out.println(SmartFormat.format(99999.12345));
     	System.out.println(SmartFormat.format(100000.12345));
 	}
 
