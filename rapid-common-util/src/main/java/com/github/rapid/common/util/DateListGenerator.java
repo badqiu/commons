@@ -30,12 +30,20 @@ public class DateListGenerator {
 		Assert.hasText(interval,"interval must be not blank");
 		Assert.notNull(startTime,"startTime must be not null");
 		
-		List<Date> dateList = new ArrayList<>();
-
 		// 解析时间间隔
 		Duration timeInterval = parseInterval(interval);
+		long intervalMills = timeInterval.toMillis();
+		
+		return generateDateList(startTime, intervalMills, generateCount);
+	}
+
+	public static List<Date> generateDateList(Date startTime, long intervalMills, int generateCount) {
+		Assert.isTrue(intervalMills>0,"intervalMills>0 must be true");
+		Assert.isTrue(generateCount>0,"generateCount > 0 must be true");
+		
+		List<Date> dateList = new ArrayList<>();
 		for (int i = 0; i < generateCount; i++) {
-			long mills = i * timeInterval.toMillis();
+			long mills = i * intervalMills;
 			long newTime = startTime.getTime() + mills;
 			dateList.add(new Date(newTime));
 		}
@@ -47,14 +55,18 @@ public class DateListGenerator {
 		Assert.hasText(interval,"interval must be not blank");
 		Assert.notNull(startTime,"startTime must be not null");
 		Assert.notNull(endTime,"endTime must be not null");
-		
-		
-		List<Date> dateList = new ArrayList<>();
-
 		// 解析时间间隔
 		Duration timeInterval = parseInterval(interval);
+		long intervalMills = timeInterval.toMillis();
+		return generateDateList(startTime, endTime, intervalMills);
+	}
+
+	public static List<Date> generateDateList(Date startTime, Date endTime, long intervalMills) {
+		Assert.isTrue(intervalMills>0,"intervalMills>0 must be true");
+		List<Date> dateList = new ArrayList<>();
+
 		for (long i = 0; i < Long.MAX_VALUE; i++) {
-			long mills = i * timeInterval.toMillis();
+			long mills = i * intervalMills;
 			long newTime = startTime.getTime() + mills;
 			if(newTime > endTime.getTime()) {
 				break;
