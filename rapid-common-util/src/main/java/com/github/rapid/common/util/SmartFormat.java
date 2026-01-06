@@ -26,10 +26,12 @@ public class SmartFormat {
 	}
 	
 	public static String format(double value) {
-		if(value > 1000) {
+		if(value > 10000) {
 			return format0.format(value);
-		}else if(value > 100) {
+		}if(value > 1000) {
 			return format1.format(value);
+		}else if(value > 100) {
+			return format2.format(value);
 		}else if(value > 10) {
 			return format2.format(value);
 		}else if(value > 1) {
