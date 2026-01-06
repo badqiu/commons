@@ -37,7 +37,7 @@ public class IpUtil {
 	 * @param request
 	 * @return
 	 */
-	public static String getIpAddr(HttpServletRequest request) {
+	public static String getClientIp(HttpServletRequest request) {
 		String ipAddress = null;
 		try {
 			ipAddress = request.getHeader("x-forwarded-for");
@@ -50,20 +50,7 @@ public class IpUtil {
 			}
 			if (isEmptyOrUnknow(ipAddress)) {
 				ipAddress = request.getRemoteAddr();
-				if (ipAddress.equals("127.0.0.1")) {
-					// 根据网卡取本机配置的IP
-					InetAddress inet = null;
-					try {
-						inet = InetAddress.getLocalHost();
-					} catch (UnknownHostException e) {
-						e.printStackTrace();
-					}
-					if (inet != null) {
-						ipAddress = inet.getHostAddress();
-					}
-				}
 			}
-			
 			ipAddress = getFirstIp(ipAddress);
 		} catch (Exception e) {
 			ipAddress = "";
