@@ -198,5 +198,20 @@ public class StringUtilTest {
 		// 注意：-、_、@不会被分割
 		assertArrayEquals(new String[] { "a-b", "c_d", "e@f" }, result);
 	}
+	
+	@Test
+	public void testSplitByCommonSeparators_SpecialCharacters2() {
+		// 测试特殊字符
+		String input = "[\"helloworld\",\"my-name\",'my.name','my_name']";
+		String[] result = StringUtil.splitByCommonSeparators(input);
+		assertNotNull(result);
+		assertEquals(4, result.length);
+		
+		for(Object item : result) {
+			System.out.println(item);
+		}
+		// 注意：-、_、@不会被分割
+		assertArrayEquals(new String[] { "helloworld", "my-name", "my.name","my_name" }, result);
+	}
 
 }

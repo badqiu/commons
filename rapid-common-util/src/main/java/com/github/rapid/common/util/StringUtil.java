@@ -69,8 +69,10 @@ public class StringUtil {
 	/**
      * 按通用分隔符分隔字符串
      * 如输入: a,b c 返回: [a,b,c]
+     * 
+     * 支持json数组的解释: ["helloworld","my-name",'my.name','my_name'] => [helloworld,myname,my.name,my_name]
      */
     public static String[] splitByCommonSeparators(String str) {
-    	return org.springframework.util.StringUtils.tokenizeToStringArray(str,",，  \t\n");
+    	return org.springframework.util.StringUtils.tokenizeToStringArray(str,",，  \t\n[]\"\'");
     }
 }
