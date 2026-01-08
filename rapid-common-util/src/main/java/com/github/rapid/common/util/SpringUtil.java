@@ -1,9 +1,19 @@
 package com.github.rapid.common.util;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
 public class SpringUtil {
+	
+	public static <T> void initializing(Collection<T> list) {
+		if(list == null) return;
+		
+		for(Object obj : list) {
+			SpringUtil.initializing(obj);
+		}
+	}
 	
 	public static void initializing(Object[] array) {
 		if(array == null) return;
@@ -22,6 +32,14 @@ public class SpringUtil {
 			}catch(Exception e) {
 				throw new IllegalStateException(e);
 			}
+		}
+	}
+
+	public static <T> void destroy(Collection<T> list) {
+		if(list == null) return;
+		
+		for(Object obj : list) {
+			destroy(obj);
 		}
 	}
 	

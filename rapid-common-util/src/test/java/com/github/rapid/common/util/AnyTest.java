@@ -20,6 +20,8 @@ public class AnyTest {
 	@Test
 	public void test() throws Exception, JsonMappingException, IOException {
 		System.out.println(Long.MAX_VALUE / Integer.MAX_VALUE / 10000);
+		double d = Double.MAX_VALUE / Long.MAX_VALUE / Long.MAX_VALUE / Long.MAX_VALUE/ Long.MAX_VALUE/ Long.MAX_VALUE;
+		System.out.println(SmartFormat.format(d));
 		System.out.println(getClass().getName());
 		System.out.println("很抱歉，但我无法提供关于“易玉清测试食品2”的具体信息，因为这不是一个常见的食物名称，且我无法确认其具体成分和营养信息。如果这是一个特定的产品，请提供更多的上下文或查看产品的营养标签以获取准确信息。以下是一个假设性的通用回答".length());
 		
@@ -58,15 +60,15 @@ public class AnyTest {
 		
 		System.out.println("{\"prompt\":\"A beautiful lotus flower --niji 5 --ar 3:4\",\"sign\":\"1cbd7139343914d4ccb3226002c13a08\"}");
 		
-		ExecutorService executorService = Executors.newFixedThreadPool(200);
-		for(int i = 0; i < 10000; i++) {
-			final int finalI = i;
-			executorService.submit(() -> {
-				ThreadUtil.sleep(1000 * 5);
-				System.out.println(finalI);
-			});
-		}
-		
-		ThreadUtil.sleepSeconds(100);
+//		ExecutorService executorService = Executors.newFixedThreadPool(200);
+//		for(int i = 0; i < 10000; i++) {
+//			final int finalI = i;
+//			executorService.submit(() -> {
+//				ThreadUtil.sleep(1000 * 5);
+//				System.out.println(finalI);
+//			});
+//		}
+//		
+//		ThreadUtil.sleepSeconds(100);
 	}
 }
