@@ -4,7 +4,12 @@ import java.io.Serializable;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
-
+/**
+ * key value对象，可以用于return时，返回两个值。
+ * 
+ * @param <K>
+ * @param <V>
+ */
 public class KeyValue<K, V> implements Entry<K, V>,Serializable{
 
 	private static final long serialVersionUID = -7863628178456494468L;
