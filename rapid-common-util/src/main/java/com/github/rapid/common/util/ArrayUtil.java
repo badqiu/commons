@@ -36,6 +36,13 @@ public class ArrayUtil {
 		return m;
 	}
 	
+	/**
+	 * 将一个map数据转成List
+	 * @param <T>
+	 * @param map
+	 * @param keys
+	 * @return
+	 */
 	public static <T> List<T> fromMap(Map<String,T> map,String...keys) {
 	    if (map == null || keys == null || keys.length == 0) {
 	        return new ArrayList<>();
