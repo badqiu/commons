@@ -20,6 +20,7 @@ public class KeyValueTest {
 		assertEquals("name=diy \nhibernate",KeyValue.parse(" name : diy \nhibernate",":").toString());
 		assertEquals(null,KeyValue.parse("  = "));
 		assertEquals("name=",KeyValue.parse("name= ").toString());
+		assertEquals("name=",KeyValue.parse("name=").toString());
 		assertEquals(null,KeyValue.parse("name"));
 		assertEquals(null,KeyValue.parse("="));
 		assertEquals(null,KeyValue.parse("= "));
