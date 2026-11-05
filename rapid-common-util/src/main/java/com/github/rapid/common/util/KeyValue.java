@@ -95,7 +95,7 @@ public class KeyValue<K, V> implements Entry<K, V>,Serializable{
 			String key = StringUtils.trim(text.substring(0,index));
 			if(StringUtils.isBlank(key)) return null;
 			
-			String value = StringUtils.trim(text.substring(index + 1, text.length()));
+			String value = StringUtils.trim(text.substring(index + seperator.length(), text.length()));
 			
 			return new KeyValue<String,String>(key,value);
 		}
