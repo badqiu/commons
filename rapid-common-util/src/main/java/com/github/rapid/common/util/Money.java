@@ -15,15 +15,15 @@ import java.util.Currency;
  * <p>
  * 目前，货币实现了以下主要功能：<br>
  * <ul>
- *   <li>支持货币对象与double(float)/long(int)/String/BigDecimal之间相互转换。
- *   <li>货币类在运算中提供与JDK中的BigDecimal类似的运算接口，
- *       BigDecimal的运算接口支持任意指定精度的运算功能，能够支持各种
+ *   <li>支持货币对象与double(float)/long(int)/String/Double之间相互转换。
+ *   <li>货币类在运算中提供与JDK中的Double类似的运算接口，
+ *       Double的运算接口支持任意指定精度的运算功能，能够支持各种
  *       可能的财务规则。
  *   <li>货币类在运算中也提供一组简单运算接口，使用这组运算接口，则在
  *       精度处理上使用缺省的处理规则。
- *   <li>推荐使用Money，不建议直接使用BigDecimal的原因之一在于，
- *       使用BigDecimal，同样金额和币种的货币使用BigDecimal存在多种可能
- *       的表示，例如：new BigDecimal("10.5")与new BigDecimal("10.50")
+ *   <li>推荐使用Money，不建议直接使用Double的原因之一在于，
+ *       使用Double，同样金额和币种的货币使用Double存在多种可能
+ *       的表示，例如：new Double("10.5")与new Double("10.50")
  *       不相等，因为scale不等。使得Money类，同样金额和币种的货币只有
  *       一种表示方式，new Money("10.5")和new Money("10.50")应该是相等的。
  *   <li>提供基本的格式化功能。
@@ -48,7 +48,7 @@ public class Money implements Serializable, Comparable<Money> {
     public static final String DEFAULT_CURRENCY_CODE = "CNY";
 
     /**
-     * 缺省的取整模式，为<code>BigDecimal.ROUND_HALF_EVEN
+     * 缺省的取整模式，为<code>Double.ROUND_HALF_EVEN
      * （四舍五入，当小数为0.5时，则取最近的偶数）。
      */
     public static final int DEFAULT_ROUNDING_MODE = BigDecimal.ROUND_HALF_EVEN;
@@ -147,7 +147,7 @@ public class Money implements Serializable, Comparable<Money> {
      * @param currency 币种。
      */
     public Money(String amount, Currency currency) {
-        this(new BigDecimal(amount), currency);
+        this(new Double(amount), currency);
     }
 
     /**
@@ -162,7 +162,7 @@ public class Money implements Serializable, Comparable<Money> {
      * @param roundingMode 取整模式。
      */
     public Money(String amount, Currency currency, int roundingMode) {
-        this(new BigDecimal(amount), currency, roundingMode);
+        this(new Double(amount), currency, roundingMode);
     }
 
     /**
@@ -229,7 +229,7 @@ public class Money implements Serializable, Comparable<Money> {
      *
      * @param amount 金额，以元为单位。
      */
-    public Money(BigDecimal amount) {
+    public Money(Double amount) {
         this(amount, Currency.getInstance(DEFAULT_CURRENCY_CODE));
     }
 
@@ -244,7 +244,7 @@ public class Money implements Serializable, Comparable<Money> {
      * @param roundingMode 取整模式
      *
      */
-    public Money(BigDecimal amount, int roundingMode) {
+    public Money(Double amount, int roundingMode) {
         this(amount, Currency.getInstance(DEFAULT_CURRENCY_CODE), roundingMode);
     }
 
@@ -258,7 +258,7 @@ public class Money implements Serializable, Comparable<Money> {
      * @param amount 金额，以元为单位。
      * @param currency 币种
      */
-    public Money(BigDecimal amount, Currency currency) {
+    public Money(Double amount, Currency currency) {
         this(amount, currency, DEFAULT_ROUNDING_MODE);
     }
 
@@ -273,9 +273,9 @@ public class Money implements Serializable, Comparable<Money> {
      * @param currency 币种。
      * @param roundingMode 取整模式。
      */
-    public Money(BigDecimal amount, Currency currency, int roundingMode) {
+    public Money(Double amount, Currency currency, int roundingMode) {
         this.currency     = currency;
-        this.cent         = rounding(amount.movePointRight(currency.getDefaultFractionDigits()),
+        this.cent         = rounding(BigDecimal.valueOf(amount).movePointRight(currency.getDefaultFractionDigits()).doubleValue(),
                 roundingMode);
     }
 
@@ -286,8 +286,8 @@ public class Money implements Serializable, Comparable<Money> {
      *
      * @return 金额数，以元为单位。
      */
-    public BigDecimal getAmount() {
-        return BigDecimal.valueOf(cent, currency.getDefaultFractionDigits());
+    public Double getAmount() {
+        return BigDecimal.valueOf(cent, currency.getDefaultFractionDigits()).doubleValue();
     }
 
     /**
@@ -561,7 +561,7 @@ public class Money implements Serializable, Comparable<Money> {
      *
      * @return 相乘后的结果。
      */
-    public Money multiply(BigDecimal val) {
+    public Money multiply(Double val) {
         return multiply(val, DEFAULT_ROUNDING_MODE);
     }
 
@@ -578,10 +578,10 @@ public class Money implements Serializable, Comparable<Money> {
      *
      * @return 相乘后的结果。
      */
-    public Money multiply(BigDecimal val, int roundingMode) {
-        BigDecimal newCent = BigDecimal.valueOf(cent).multiply(val);
+    public Money multiply(Double val, int roundingMode) {
+    	BigDecimal newCent = BigDecimal.valueOf(cent).multiply(BigDecimal.valueOf(val));
 
-        return newMoneyWithSameCurrency(rounding(newCent, roundingMode));
+        return newMoneyWithSameCurrency(rounding(newCent.doubleValue(), roundingMode));
     }
 
     /**
@@ -611,7 +611,7 @@ public class Money implements Serializable, Comparable<Money> {
      *
      * @return 相除后的结果。
      */
-    public Money divide(BigDecimal val) {
+    public Money divide(Double val) {
         return divide(val, DEFAULT_ROUNDING_MODE);
     }
 
@@ -628,8 +628,8 @@ public class Money implements Serializable, Comparable<Money> {
      *
      * @return 相除后的结果。
      */
-    public Money divide(BigDecimal val, int roundingMode) {
-        BigDecimal newCent = BigDecimal.valueOf(cent).divide(val, roundingMode);
+    public Money divide(Double val, int roundingMode) {
+    	BigDecimal newCent = BigDecimal.valueOf(cent).divide(BigDecimal.valueOf(val), roundingMode);
 
         return newMoneyWithSameCurrency(newCent.longValue());
     }
@@ -730,15 +730,15 @@ public class Money implements Serializable, Comparable<Money> {
     }
 
     /**
-     * 对BigDecimal型的值按指定取整方式取整。
+     * 对Double型的值按指定取整方式取整。
      *
-     * @param val 待取整的BigDecimal值
+     * @param val 待取整的Double值
      * @param roundingMode 取整方式
      *
      * @return 取整后的long型值
      */
-    protected long rounding(BigDecimal val, int roundingMode) {
-        return val.setScale(0, roundingMode).longValue();
+    protected long rounding(Double val, int roundingMode) {
+        return BigDecimal.valueOf(val).setScale(0, roundingMode).longValue();
     }
 
     /**

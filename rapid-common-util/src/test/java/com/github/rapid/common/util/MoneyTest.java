@@ -9,8 +9,6 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.github.rapid.common.util.Money;
-
 
 public class MoneyTest extends Assert{
 	@Test
@@ -18,8 +16,8 @@ public class MoneyTest extends Assert{
 		new Money();
 		System.out.println(new Money("19182182"));
 		System.out.println(new Money(Long.MAX_VALUE));
-		System.out.println(BeanUtils.describe(new Money(Long.MAX_VALUE)));
-		System.out.println(BeanUtils.describe(new Money(Long.MAX_VALUE,Currency.getInstance(Locale.JAPAN))));
+//		System.out.println(BeanUtils.describe(new Money(Long.MAX_VALUE)));
+//		System.out.println(BeanUtils.describe(new Money(Long.MAX_VALUE,Currency.getInstance(Locale.JAPAN))));
 	}
 	
 	@Test public void tets() {
@@ -35,6 +33,6 @@ public class MoneyTest extends Assert{
 	@Test public void allocate() {
 		Money m = new Money(10);
 		Money[] array = m.allocate(3);
-		assertEquals(StringUtils.join(array,","),"");
+		assertEquals(StringUtils.join(array,","),"3.34,3.33,3.33");
 	}
 }
