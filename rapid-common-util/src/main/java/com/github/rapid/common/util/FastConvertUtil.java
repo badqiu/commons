@@ -1,6 +1,5 @@
 package com.github.rapid.common.util;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.Date;
@@ -90,8 +89,8 @@ public class FastConvertUtil {
 		if(targetClass == boolean.class || targetClass == Boolean.class) {
 			return Boolean.parseBoolean(value);
 		}
-        if(targetClass == BigDecimal.class) {
-            return new BigDecimal(value);
+        if(targetClass == Double.class) {
+            return new Double(value);
         }
         if(targetClass == BigInteger.class) {
             return new BigInteger(value);

@@ -17,7 +17,6 @@
 package com.github.rapid.common.spring.jdbc;
 
 import java.beans.PropertyDescriptor;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -63,7 +62,7 @@ import com.github.rapid.common.util.StringUtil;
  *
  * <p>Mapping is provided for fields in the target class for many common types, e.g.:
  * String, boolean, Boolean, byte, Byte, short, Short, int, Integer, long, Long,
- * float, Float, double, Double, BigDecimal, <code>java.util.Date</code>, etc.
+ * float, Float, double, Double, Double, <code>java.util.Date</code>, etc.
  *
  * <p>To facilitate mapping between columns and fields that don't have matching names,
  * try using column aliases in the SQL statement like "select fname as first_name from customer".
@@ -303,7 +302,7 @@ public class BeanPropertyRowMapper<T> implements RowMapper<T> {
 		bw.registerCustomEditor(Float.class, new DefaultValueCustomNumberEditor(Float.class, true));
 		bw.registerCustomEditor(double.class, new DefaultValueCustomNumberEditor(Double.class, false));
 		bw.registerCustomEditor(Double.class, new DefaultValueCustomNumberEditor(Double.class, true));
-		bw.registerCustomEditor(BigDecimal.class, new DefaultValueCustomNumberEditor(BigDecimal.class, true));
+		bw.registerCustomEditor(Double.class, new DefaultValueCustomNumberEditor(Double.class, true));
 		bw.registerCustomEditor(BigInteger.class, new DefaultValueCustomNumberEditor(BigInteger.class, true));
 		
 		

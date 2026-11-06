@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.lang.ref.PhantomReference;
 import java.lang.ref.Reference;
 import java.lang.reflect.InvocationTargetException;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -15,7 +14,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.apache.commons.beanutils.ConvertUtilsBean;
-import org.apache.commons.beanutils.converters.BigDecimalConverter;
+import org.apache.commons.beanutils.converters.DoubleConverter;
 import org.apache.commons.beanutils.converters.BigIntegerConverter;
 import org.apache.commons.beanutils.converters.BooleanConverter;
 import org.apache.commons.beanutils.converters.DateConverter;
@@ -81,7 +80,7 @@ public class MiscTest extends TestCase {
 		convertUtils.register(new LongConverter(null), Long.class);
 		convertUtils.register(new FloatConverter(null), Float.class);
 		convertUtils.register(new DoubleConverter(null), Double.class);
-		convertUtils.register(new BigDecimalConverter(null), BigDecimal.class); 
+		convertUtils.register(new DoubleConverter(null), Double.class); 
 		convertUtils.register(new BigIntegerConverter(null), BigInteger.class);	
 	}
 	

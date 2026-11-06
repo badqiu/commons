@@ -4,7 +4,6 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -119,8 +118,8 @@ public class BeanDefaultValueUtils {
         if(targetType == Double.class || targetType == double.class) {
             return (double)defaultValue;
         }
-        if(targetType == BigDecimal.class) {
-            return new BigDecimal(defaultValue);
+        if(targetType == Double.class) {
+            return new Double(defaultValue);
         }
         if(targetType == BigInteger.class) {
             return BigInteger.valueOf(defaultValue);
